@@ -1,0 +1,21 @@
+<div ng-if="loggedIn && user.isEmailVerified" class="app-bar c-bg-primary container-fluid" style="text-align: right;">
+	<h3 ng-if="circleJoined"><a ui-sref="main">{{ circleName }}</a></h3>
+	<h3 ng-if="!circleJoined"><a ui-sref="main">Circle</a></h3>
+
+	<button class="app-bar-btn btn inner-btn c-accent-hover" ng-if="loggedIn && !emailNotVerified" ng-click="toggleMainMenu()" style="float: left;">
+		<svg viewBox="12 11.5 16 18"><use xlink:href="images/icons/hamburger.svg#1"></use></svg>
+		</button>
+	<button class="app-bar-btn btn inner-btn c-accent-hover" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" style="float: right;">Edit</button>
+	<button class="app-bar-btn btn inner-btn c-accent-hover" ng-if="circleJoined" ng-click="toggleDrawer('add')" style="float: right;">Add</button>
+	</div>
+
+	<div class="main-menu c-bg-primary" ng-if="loggedIn" aria-hidden="true">
+ 	<button class="inner-btn"><a ui-sref="editProfile">Profile/Account</a></button>
+  	<button class="inner-btn"><a ui-sref="follow">Follow People</a></button>
+  	<button ng-click="logOut()" class="inner-btn">Log out</button>
+  	<div class="submenu" style="float:left">
+  		<h5>Your circles</h5>
+  		<button ng-repeat="(code, circle) in circles" ng-click="switchCircles(circle.accessCode)" class="inner-btn">{{circle.name}}</button>
+  		<button class="btn btn-primary" ng-click="joinAnotherCircle()">Create or join a new circle</button>
+  	</div>
+</div>

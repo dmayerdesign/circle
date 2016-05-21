@@ -1,0 +1,19 @@
+<nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
+
+<section class="col-sm-8 col-sm-offset-2" id="post">
+	<div ng-if="user._id === post.userId">
+		<button class="btn btn-primary" ng-if="!deletePostClicked" ng-click="deletePostClick('try')">Delete</button>
+		<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePost(post._id)">Yes</button>
+		<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePostClick('cancel')">No</button>
+	</div>
+	<div class="author">
+		<span class="author-username">{{post.user}}</span>
+		<img data-user-id="{{post.userId}}" alt="{{post.user}}" class="avatar img-responsive" /> <!-- ng-src="{{post.avatar}}" -->
+	</div>
+	<div class="date">
+		{{post.date | date: 'MM/dd/yyyy hh:mm'}}
+	</div>
+	<article class="content">
+		{{post.content}}
+	</article>
+</section>

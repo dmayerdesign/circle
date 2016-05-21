@@ -1,0 +1,19 @@
+<nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
+
+<div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<div class="button" ngf-select="upload($file)">Select</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<input ng-model="user.username" ng-blur="editProfile()" type="text" class="form-control" />
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<textarea ng-model="user.bio" ng-blur="editProfile()" type="text" class="form-control"></textarea>
+	</div>
+</div>

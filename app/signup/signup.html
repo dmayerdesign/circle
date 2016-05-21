@@ -1,0 +1,58 @@
+<main id="signup">
+	<div class="signup-intro animate-med" ng-show="!emailVerificationSent" ng-click="introFinished = true" ng-class="{'shift-up': introFinished}">
+		<!-- <h2 ng-class="{'transparent': justTheCircle}" class="centered animate-med"><span ng-class="{'opaque': welcome}">Welcome </span><span ng-class="{'opaque': welcomeTo}">to </span></h2> -->
+		
+		<img ng-class="{'opaque': justTheCircle}" class="svg-img" src="images/circle.svg" width="188" height="180" style="padding-top:5px;">
+		<h2 class="animate-med centered welcome-text" ng-class="{'transparent': !welcomeText, 'opaque': welcomeText}">welcome.</h2>
+
+		<!-- <svg viewBox="12 11.5 16 18"><use xlink:href="images/circle.svg#Circle"></use></svg> -->
+
+	</div>
+	<div ng-if="welcomeText && !emailVerificationSent" class="setup-form-container signup-container container-fluid">
+		<form ng-submit="createUser()" class="setup-form signup-form" ng-class="{'intro-active': !introFinished}">
+
+			<div class="form-section-container animate-opacity-motion-rl" ng-show="!signupJoinCircle">
+				<section class="col-md-4 col-md-offset-4">
+					<h2>Sign up</h3>
+					<label for="email_input">Email</label>
+					<input id="email_input" placeholder="Your email" type="text" ng-model="$parent.newUser.email" class="form-control line-form">
+
+					<label for="password_input">Password</label>
+					<input id="password_input" placeholder="Choose a password" type="password" ng-keyup="confirmPassword(); validatePassword()" ng-model="$parent.newUser.password" ng-class="{'invalid': $parent.passwordTooShort, 'valid': $parent.newUser.password.length && !$parent.passwordTooShort}" class="form-control line-form">
+					<div class="tip-flyout" ng-if="$parent.passwordTooShort">Too short</div>
+
+					<label for="password_confirm">Confirm Password</label>
+					<input id="password_confirm" placeholder="Confirm your password" type="password" ng-model="$parent.passwordConf" ng-keyup="confirmPassword()" ng-class="{'invalid': $parent.passwordConf.length && !passwordsMatch, 'valid': passwordsMatch}" class="form-control line-form">
+
+					<button ng-disabled="!$parent.newUser.email || !$parent.passwordsMatch" type="button" class="floating-btn bg-primary" ng-click="signupJoinCircle = true">Next</button>
+				</section>
+			</div>
+
+			<div class="form-section-container animate-opacity-motion-rl" ng-show="signupJoinCircle">
+				<section class="col-md-4 col-md-offset-4">
+					<h2>Join a circle <span style="opacity:0.7">(optional)</span></h2>
+					<p>Enter the access answer and access code given to you by someone in the circle.</p>
+
+						<label for="access_answer">Access Answer</label>
+						<input id="access_answer" type="text" ng-model="$parent.newUser.accessAnswer" class="form-control line-form">
+
+						<label for="access_code">Access Code</label>
+						<input id="access_code" type="password" ng-model="$parent.newUser.accessCode" class="form-control line-form">
+
+						<button class="floating-btn bg-accent">Let's effin do this</button>
+
+					<div ng-if="userExists">Hey, looks like there's already an account with that email. Let's redirect you to the login page...</div>
+				</section>
+			</div>
+		</form>
+	</div>
+
+	<div class="signup-container container-fluid animate-opacity" ng-show="emailVerificationSent">
+		<h5>We sent a verification link to your email!</h5>
+	</div>
+
+	<a class="floating-nav-btn floating-nav-left" ng-if="signupJoinCircle" href="/#/login">Go back</a>
+	<a class="floating-nav-btn floating-nav-right" href="/#/login">Log in</a>
+</main>
+
+<div ng-show="!emailVerificationSent && loading" id="loading" class="animate-opacity"><ul class="loading"><li></li><li></li><li></li></ul></div>

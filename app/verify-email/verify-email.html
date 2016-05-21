@@ -1,0 +1,8 @@
+<nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
+
+<h4 ng-if="user.isEmailVerified">
+	Already verified your email!
+</h4>
+<h4 ng-if="!user.isEmailVerified">
+	Please check the verification link in your email and try again.
+</h4>

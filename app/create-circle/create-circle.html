@@ -1,0 +1,41 @@
+<main ng-if="!circleJoined && loggedIn && !emailNotVerified">
+	<div class="setup-form-container container-fluid">
+		<div class="animate-opacity-motion-du floating-animation" ng-show="!optJoin && !optCreate">
+			<button ng-click="optJoin = true" class="floating-btn bg-primary">Join a circle</button>
+			<br>
+			<button ng-click="optCreate = true" class="floating-btn bg-primary">Create a circle</button>
+		</div>
+
+		<form ng-show="optCreate" class="setup-form animate-opacity-motion-du" ng-submit="createCircle()">
+			<div ng-show="!nameChosen" class="form-section-container animate-opacity-motion-rl">
+				<section class="col-md-4 col-md-offset-4">
+					<input ng-model="$parent.circleName" ng-keyup="validateCircleName()" class="form-control" placeholder="The name of your new circle" />
+						<span ng-if="circleNameValidationStarted">
+							<span ng-if="!circleNameValid">Choose a name for your circle</span>
+						</span>
+					<button type="button" ng-disabled="!circleName || !circleNameValid" ng-click="nameChosen = true" class="floating-btn bg-primary next-btn">Next</button>
+				</section>
+			</div>
+			
+			<div ng-show="nameChosen" class="form-section-container animate-opacity-motion-rl">
+				<section class="col-md-4 col-md-offset-4">
+					<p>Now, think of a question or riddle. Below it, enter the answer. <strong>This is your circle's access code.</strong> Your circle members will use it to join your circle. (Of course, the easiest way is to just send them the code, but isn't making them solve a riddle just a little more fun?)</p>
+					<input ng-model="$parent.accessRiddle" class="form-control" placeholder="The riddle" />
+					<input ng-model="$parent.newAccessAnswer" ng-keyup="validateAccessAns()" class="form-control" placeholder="The access answer" />
+						<span ng-if="validationStarted">
+							<span ng-if="!accessAnswerValid && !accessAnswerTooShort" style="color: red">Taken - try another</span><span ng-if="accessAnswerValid" style="color: green">Available!</span><span ng-if="accessAnswerTooShort" style="color: red">Too short</span>
+						</span>
+					<button class="floating-btn bg-accent">Create</button>
+				</section>
+			</div>
+		</form>
+
+		<form ng-show="optJoin" class="setup-form animate-opacity-motion-du" ng-submit="joinCircle()">
+			<section class="col-md-4 col-md-offset-4">
+				<input ng-model="$parent.accessCode" class="form-control" placeholder="The access code" />
+				<input ng-model="$parent.accessAnswer" class="form-control" placeholder="The access answer" />
+				<button class="floating-btn bg-accent">Join</button>
+			</section>
+		</form>
+	</div>
+</main>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="Circle">
+<head>
+	<title>Circle</title>
+
+	<meta http-equiv="x-ua-compatible" content="ie=edge"><!-- for "svg for everyone" in IE <= 8 -->
+
+<!-- MODERNIZR -->
+	<script type="text/javascript" src="scripts/modernizr.min.js"></script>
+
+<!-- GREENSOCK JS -->
+	<script src="app/gs/TweenMax.min.js"></script>
+
+<!-- jQuery and jQuery UI -->
+	<script src="scripts/jquery/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet" href="scripts/jquery/jquery-ui-1.11.4/jquery-ui.css">
+	<script src="scripts/jquery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+<!-- IMAGES LOADED / IMAGE FILL -->
+	<script type="text/javascript" src="scripts/imagesloaded.pkgd.min.js"></script>
+	<script type="text/javascript" src="scripts/jquery-imagefill.js"></script>
+
+	<script type="text/javascript" src="scripts/scripts.js"></script>
+	<script type="text/javascript" src="scripts/svgforeverybody.js"></script>
+	<script type="text/javascript">svg4everybody();</script>
+
+<!-- INTERNAL SCROLL -->
+	<!-- styles needed by jScrollPane -->
+	<link type="text/css" href="styles/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+	<!-- the mousewheel plugin - optional to provide mousewheel support -->
+	<script type="text/javascript" src="scripts/jquery.mousewheel.js"></script>
+	<!-- the jScrollPane script -->
+	<script type="text/javascript" src="scripts/jquery.jscrollpane.min.js"></script>
+
+<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- CIRCLE styles -->
+	<link rel="stylesheet" type="text/css" href="app/css/main.css">
+	<link rel="stylesheet" type="text/css" href="app/css/loading.css">
+</head>
+<body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak>
+	<div id="background-container"><div id="background"></div></div>
+
+	<div ui-view></div>
+
+
+	<!-- ANGULAR -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<!-- <script src="app/angular/angular.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
+
+	<!-- ANGULAR UI ROUTER -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script> -->
+	<script src="app/angular/angular-ui-router.min.js"></script>
+
+
+	<!-- ANGULAR LIBRARIES -->
+<!-- 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script> -->
+
+	<!-- Angular Material Library -->
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script> -->
+
+	<!-- THE APP -->
+	<script src="app/app.js"></script>
+
+	<!-- CONTROLLERS -->
+	<script src="app/signup/signup-controller.js"></script>
+	<script src="app/app-bar/app-bar-controller.js"></script>
+	<script src="app/login/login-controller.js"></script>
+	<script src="app/profile/edit-profile-controller.js"></script>
+	<script src="app/main/main-controller.js"></script>
+	<script src="app/follow/follow-controller.js"></script>
+	<script src="app/single/single-controller.js"></script>
+	<script src="app/create-circle/create-circle-controller.js"></script>
+	<script src="app/edit-circle/edit-circle-controller.js"></script>
+	<script src="app/verify-email/verify-email-controller.js"></script>
+
+	<!-- NODE LIBRARIES -->
+	<script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
+	<script src="node_modules/ng-file-upload/dist/ng-file-upload-all.js"></script>
+	<script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.js"></script>
+
+	<!-- INFINITE SCROLL -->
+	<!-- <script type='text/javascript' src='scripts/ng-infinite-scroll.min.js'></script> -->
+
+</body>
+</html>
