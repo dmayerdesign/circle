@@ -1,7 +1,7 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('mainController', ['$scope', '$state', '$http', 'init', 'action', '$q', '$filter', 
-						   function($scope,   $state,   $http,   init,   action,   $q,   $filter) {
+	.controller('mainController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 
+						   					 function($scope,   $rootScope,   $state,   $location,   $http,   init,   customizer,   action,   $q,   $filter) {
 
 		/**/
 		/** INITIALIZE THE USER
@@ -18,8 +18,6 @@
 		} else {
 			$scope.loggedIn = true;
 		}
-		
-		function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 		/* END USER INIT */
 
 		/**/
@@ -35,8 +33,8 @@
 
 			if ( !$scope.user.isEmailVerified ) {
 				console.log("email is not verified");
-				if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
-					window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail") + "/#/verify-email";
+				if ( $location.search().email && $location.search().verifyEmail ) {
+					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
 				}
 				$scope.emailVerificationSent = true;
 				$state.go('signup');
@@ -49,11 +47,10 @@
 				});
 
 				$scope.circleJoined = true;
+				$rootScope.circleJoined = true;
 				$scope.circleName = circle.name;
 				$scope.circle = circle;
-
-				console.log( circle );
-				console.log( $scope.circleJoined );
+				customizer.getStyle($scope);
 
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
@@ -78,6 +75,7 @@
 			
 			} else {
 				$scope.circleJoined = false;
+				$rootScope.circleJoined = false;
 				$state.go('createCircle');
 			}
 		});
@@ -97,7 +95,6 @@
 		$scope.customSelect = function customSelect(element, event) {
 			var _element = _(element);
 			var str = this.newPost.tags;
-			//var str = _element.val();
 			var _target = _(event.target);
 			var tag = _target.data("option");
 			var _customSelector = _target.parents(".select");
@@ -123,7 +120,7 @@
 				}
 			} else {
 				_target.removeClass("selected");
-				if ( str.indexOf(appender) > -1 ) {
+				if ( str && str.indexOf(appender) > -1 ) {
 					str = str && str.replace(appender + tag, "");
 				} else {
 					str = str && str.replace(tag, "");
@@ -154,17 +151,29 @@
 			splitter = $tags.indexOf(", ") > -1 ? ", " : splitter;
 
 			var tagNames = $tags.split(splitter);
+			var postLink = {};
+			var linkPreview = that.linkPreview;
 
 			var request = {
-				user: $scope.user.username || $scope.user.email,
-				userId: $scope.user._id,
-				avatar: $scope.user.avatar,
-				circleId: $scope.circle._id,
-				content: that.newPost.content,
-				type: that.newPost.type,
-				tags: tagNames,
-				link: $scope.linkPreview
+				"user": $scope.user.username || $scope.user.email,
+				"userId": $scope.user._id,
+				"avatar": $scope.user.avatar,
+				"circleId": $scope.circle._id,
+				"content": that.newPost.content,
+				"type": that.newPost.type,
+				"tags": tagNames
 			};
+
+			if ( linkPreview ) {
+				postLink.url = linkPreview.url || linkPreview.thumbnail_url;
+				postLink.thumbnail_url = linkPreview.thumbnail_url;
+				postLink.title = linkPreview.title;
+				postLink.description = linkPreview.description;
+				postLink.provider_url = linkPreview.provider_url;
+				postLink.type = linkPreview.type;
+
+				request.linkEmbed = JSON.stringify(postLink);
+			}
 
 			if ( that.newPost.type === 'quest' && that.newPost.quest && that.newPost.quest.questers ) {
 				var questersObj = that.newPost.quest.questers;
@@ -177,13 +186,13 @@
 				};
 			}
 
-			that.linkPreview = null;
-
 			$http.post('api/post/post', request)
 			.success(function(response) {
+				console.log(request);
 				console.log(response);
-				$scope.posts = response;
+				that.posts = response;
 				that.newPost = {};
+				that.linkPreview = null;
 				_("#new-post-area > *").blur();
 			})
 			.error(function(err) {
@@ -288,6 +297,7 @@
 			circles[circle.accessCode] = circle;
 			localStorage.setItem('Circles', JSON.stringify(circles));
 			$scope.circleJoined = true;
+			$rootScope.circleJoined = true;
 			$scope.showPostsTagged();
 
 			$state.go('main');
@@ -366,11 +376,12 @@
 
 				_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
 					console.log(data);
-					if ( data.type === "photo" ) {
+					if ( data.type === "photo" || data.type === "video" ) {
 						data.src = data.url;
 					} else {
 						data.src = data.thumbnail_url;
 					}
+
 					that.linkPreview = data;
 				});
 			} else {
@@ -427,6 +438,7 @@
 				var _post = _(this);
 
 				var _article = _post.find("article");
+				var _postInner = _post.find(".post-inner");
 				var content = _article.html();
 				var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 				var urlMatch = new RegExp(urlPattern);
@@ -443,16 +455,26 @@
 
 					if ( _post.data("link-set") ) {
 						$scope.archiveLinkPreviews[_post.data("post-id")] = _post.data("link-set");
+						//console.log("LINK-SET SRC");
+						//console.log(JSON.parse(_post.data("link-set").src));
+						_postInner.css({
+							backgroundImage: _post.data("link-set").src
+						});
 						$scope.$apply();
 					} else {
 						_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
 							console.log(data);
-							if ( data.type === "photo" ) {
+							if ( data.type === "photo" || data.type === "video" ) {
 								data.src = data.url;
 							} else {
 								data.src = data.thumbnail_url;
 							}
 							$scope.archiveLinkPreviews[_post.data("post-id")] = data;
+							console.log("DATA SRC");
+							console.log(data.src);
+							_postInner.css({
+								backgroundImage: data.src
+							});
 							$scope.$apply();
 
 							// use $http.post to set the post link if it didn't get set during the posting process
@@ -470,7 +492,10 @@
 		setInterval(treatPostLink, 2000);
 
 		$scope.getPostImage = function(post) {
-			return this.archiveLinkPreviews[post._id] || post.images[0];
+			//post = JSON.parse(post);
+			console.log(post);
+			var response = this.archiveLinkPreviews[post._id].src || post.images[0];
+			return response;
 		};
 
 	}]);

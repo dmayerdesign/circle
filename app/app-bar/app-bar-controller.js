@@ -1,68 +1,74 @@
 (function() {
 	angular.module('Circle')
-	.controller('appBarController', ['$scope', '$state', '$http', 'init', 'customizer', function($scope, $state, $http, init, customizer) {
+	.controller('appBarController', ['$scope', '$state', '$http', 'init',
+							 						function( $scope,   $state,   $http,   init) {
 
 		/**/
 		/** INITIALIZE THE USER
 		/**/
-		if ( localStorage['User'] ) {
-			var localUser = JSON.parse(localStorage['User']);
-			if ( localUser.email ) {
-				$scope.user = localUser;
-				$scope.circles = $scope.user.circles && JSON.parse($scope.user.circles);
-			}
-		}
-		if ( !$scope.user || !$scope.user._id ) {
-			$state.go('login');
-			return;
-		} else {
-			$scope.loggedIn = true;
-		}
+		// if ( localStorage['User'] ) {
+		// 	var localUser = JSON.parse(localStorage['User']);
+		// 	if ( localUser.email ) {
+		// 		$scope.user = localUser;
+		// 	}
+		// }
+		// if ( !$scope.user || !$scope.user._id ) {
+		// 	$state.go('signup');
+		// 	return;
+		// } else {
+		// 	$scope.loggedIn = true;
+		// }
 
-		function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
+		// function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 		/* END USER INIT */
 
 		/**/
 		/** INITIALIZE THE CIRCLE
 		/**/
-		if ( localStorage['Current-Circle'] ) {
-			$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
-		} else {
-			$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
-		}
-		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-			$scope.user = user; // update $scope.user
+		// if ( localStorage['Current-Circle'] ) {
+		// 	$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
+		// } else {
+		// 	$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
+		// }
 
-			if ( !$scope.user.isEmailVerified ) {
-				console.log("email is not verified");
-				if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
-					window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail") + "/#/verify-email";
-				}
-				return;
-			}
+		// if ( $scope.currentCircle ) {
+		// 	customizer.getStyle($scope);
+		// }
 
-			if ( circle ) {
-				init.getMembers(circle.accessCode, function(members) {
-					$scope.users = members;
-				});
 
-				$scope.circleJoined = true;
-				$scope.circleName = circle.name;
-				$scope.circle = circle;
+		// init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
+		// 	$scope.user = user; // update $scope.user
 
-				console.log( circle );
-				console.log( $scope.circleJoined );
+		// 	if ( !$scope.user.isEmailVerified ) {
+		// 		console.log("email is not verified");
+		// 		if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
+		// 			window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail") + "/#/verify-email";
+		// 		}
+		// 		return;
+		// 	}
 
-				init.getPosts(circle._id, function(posts) {
-					$scope.posts = posts;
-				});
+			// if ( circle ) {
+			// 	init.getMembers(circle.accessCode, function(members) {
+			// 		$scope.users = members;
+			// 	});
 
-				customizer.getStyle($scope);
-			} else {
-				$scope.circleJoined = false;
-				$state.go('createCircle');
-			}
-		});
+			// 	$scope.circleJoined = true;
+			// 	$scope.circleName = circle.name;
+			// 	$scope.circle = circle;
+
+			// 	console.log( circle );
+			// 	console.log( $scope.circleJoined );
+
+			// 	init.getPosts(circle._id, function(posts) {
+			// 		$scope.posts = posts;
+			// 	});
+
+			// 	customizer.getStyle($scope);
+			// } else {
+			// 	$scope.circleJoined = false;
+			// 	$state.go('createCircle');
+			// }
+		// });
 		/* END CIRCLE INIT */
 
 		$scope.logOut = function() {

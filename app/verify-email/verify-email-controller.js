@@ -1,11 +1,13 @@
 (function() {
 	angular.module('Circle')
-	.controller('verifyEmailController', ['$scope', '$state', '$http', 'init', function($scope, $state, $http, init) {
+	.controller('verifyEmailController', ['$scope', '$location', '$state', '$http', 'init', function($scope, $location, $state, $http, init) {
+
+		console.log($location);
 
 	/** SPECIAL FOR THIS CONTROLLER: validate email **/
-		if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
-			var emailParam = getParameterByName("email");
-			var codeParam = getParameterByName("verifyEmail");
+		if ( $location.search().email && $location.search().verifyEmail ) {
+			var emailParam = $location.search().email;
+			var codeParam = $location.search().verifyEmail;
 
 			/**/
 			/** INITIALIZE THE USER
@@ -16,10 +18,10 @@
 					$scope.user = localUser;
 					$scope.loggedIn = true;
 
-					if ( $scope.user.emailVerification !== codeParam ) {
-						console.log( $scope.user.emailVerification + " should equal " + codeParam );
-						//localStorage.clear();
-						//window.location.href = '/?email=' + emailParam + "&verifyEmail=" + codeParam + "/#/login";
+					if ( $scope.user.emailVerification && $scope.user.emailVerification !== codeParam ) {
+						console.log( $scope.user.emailVerification + " should equal " + codeParam + ", but it doesn't!" );
+						localStorage.clear();
+						window.location.href = '/#/login?email=' + emailParam + "&verifyEmail=" + codeParam;
 					}
 
 					if ( $scope.user.isEmailVerified ) {
@@ -29,22 +31,24 @@
 					}
 				}
 			}
-			
+
 			if ( !$scope.user || !$scope.user._id ) {
-				window.location.href = '/?email=' + emailParam + "&verifyEmail=" + codeParam + "/#/login";
+				window.location.href = '/#/login?email=' + emailParam + "&verifyEmail=" + codeParam;
 				return;
 			}
 			/* END USER INIT */
 
 			$http.post('api/user/verifyEmail', {code: codeParam, userId: $scope.user._id}).then(function(response) {
+				console.log( response.data );
+
 				if ( response.data.isEmailVerified ) {
 					$scope.user.isEmailVerified = true;
+					
 					$state.go('main');
 				}
 			});
 		}
 
-		function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 		/** END email validation **/
 
 	}]);

@@ -1,8 +1,17 @@
 var Post = require('../datasets/posts');
 
 module.exports.postPost = function(req, res) {
+	console.log("POSTING: ");
+	console.log(req.body);
 	var post = new Post(req.body);
-	post.save();
+	post.save(function(error) {
+		if (error) {
+			console.log("ERROR:");
+			console.log(error);
+		} else {
+			console.log("SAVED POST");
+		}
+	});
 
 	Post.find({circleId: req.body.circleId})
 	.sort({date: -1})
@@ -26,7 +35,6 @@ module.exports.deletePost = function(req, res) {
 		if (err) {
 			res.error(err);
 		} else {
-			console.log( allPosts );
 			res.json(allPosts);
 		}
 	});

@@ -9,13 +9,13 @@ module.exports = mongoose.model('Post', {
 	content: String,
 	date: {type: Date, default: Date.now},
 	images: [String],
-	link: {
+	linkEmbed: {
 		url: String,
+		type: String,
 		thumbnail_url: String,
 		title: String,
 		description: String,
-		provider_url: String,
-		type: String
+		provider_url: String
 	},
 	eventDate: Date,
 	eventLocation: String,

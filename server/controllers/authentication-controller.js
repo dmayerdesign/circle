@@ -15,10 +15,7 @@ module.exports.signup = function(req, res) {
 			res.json({userExists: true});
 			return;
 		} else {
-			var newUser = new User({
-				email: req.body.email,
-				password: req.body.password
-			});
+			var newUser = new User(req.body);
 
 			newUser.save(function(err, user) {
 				res.json(user);
@@ -59,7 +56,7 @@ module.exports.verifyEmail = function(req, res) {
 				res.json({status: 500});
 			} else {
 				console.log("successfully updated the email verification!");
-				res.json({userData});
+				res.json(userData);
 			}
 		});
 	});

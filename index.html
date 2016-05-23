@@ -44,6 +44,107 @@
 
 	<div ui-view></div>
 
+	<section ng-if="circleJoined" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-primary" aria-hidden="true">
+		<div class="col-md-8 col-md-offset-2">
+
+			<!-- POST TYPE TABS -->
+			<div class="tabs radio-tabs">
+				<input ng-model="newPost.type" id="post_type_regular" name="postType" value="regular" type="radio" />
+				<label class="inner-btn new-post-type-regular post-type-radio" for="post_type_regular">Regular</label>
+
+				<input ng-model="newPost.type" id="post_type_event" name="postType" value="event" type="radio" />
+				<label class="inner-btn new-post-type-event post-type-radio" for="post_type_event">Event</label>
+
+				<input ng-model="newPost.type" id="post_type_quest" name="postType" value="quest" type="radio" />
+				<label class="inner-btn new-post-type-quest post-type-radio" for="post_type_quest">Quest</label>
+			</div>
+
+			<!-- POST INPUT MAIN -->
+			<div class="new-post-content">
+				<textarea ng-model="newPost.content" ng-keyup="generateLinkPreview()" id="new_post_content" class="form-control" placeholder="Type something, then press 'Enter' to post it"></textarea>
+				
+				<div ng-if="linkPreview" class="link-preview">
+					<div class="link-preview-thumbnail">
+						<img src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
+					</div>
+					<div class="link-preview-text">
+						<h3>{{linkPreview.title}}</h3>
+						<p>{{linkPreview.description}}</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- ASSIGN QUESTER -->
+			<div ng-if="newPost.type === 'quest'" class="tabs radio-tabs select-quester">
+				<div ng-repeat="user in users">
+					<input ng-model="newPost.quest.questers[user._id]" id="quester_{{user._id}}" name="quester" value="{{user._id}}" type="checkbox" />
+					<label class="inner-btn new-quest-quester quester-radio" for="quester_{{user._id}}">{{user.username || user.email}}</label>
+				</div>
+			</div>
+
+			<!-- TAGS -->
+			<div class="new-post-tags"><input ng-model="newPost.tags" ng-keypress="sendPost($event)" type="text" class="form-control" placeholder="tag this post"></input></div>
+
+			<div class="tags-search">
+				<div class="multiple-selector">
+					<ul class="select">
+						<li class="option" data-option="{{tag}}" ng-click="customSelect( '.new-post-tags > input', $event )" ng-repeat="tag in circle.tags">{{tag}}</li>
+					</ul>
+				</div>
+			</div>
+			<button ng-click="sendPost()" class="btn btn-primary">Post</button>
+		</div>
+	</section>
+
+	<section ng-if="circleJoined" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-primary" aria-hidden="true">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Change the theme</p>
+					<select ng-model="$parent.style.theme" ng-blur="editCircle('theme')" type="text" class="form-control">
+						<option ng-selected="circle.styles.theme == 'smooth'" value="smooth">Smooth</option>
+						<option ng-selected="circle.styles.theme == 'material'" value="material">Material</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Change the palette</p>
+					<select ng-model="$parent.style.palette" value="{{circle.styles.palette}}" ng-blur="editCircle('palette')" type="text" class="form-control">
+						<option ng-selected="circle.styles.palette == 'original'" value="original">Original</option>
+						<option ng-selected="circle.styles.palette == 'light'" value="light">Light</option>
+						<option ng-selected="circle.styles.palette == 'dark'" value="dark">Dark</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Change the font</p>
+					<select ng-model="$parent.style.font" value="{{circle.styles.font}}" ng-blur="editCircle('font')" type="text" class="form-control">
+						<option ng-selected="circle.styles.font == 'open-sans'" value="open-sans">Open Sans</option>
+						<option ng-selected="circle.styles.font == 'montserrat'" value="montserrat">Montserrat</option>
+					</select>
+				</div>
+			</div>
+
+	<!-- 		<div class="row">
+				<div class="col-sm-6 col-sm-offset-3">
+					<p>Insert some CSS (experts only)</p>
+					<textarea ng-model="$parent.style.css" placeholder="example: .tile { border: 2px solid pink; }" ng-blur="editCircle('css')" class="form-control"></textarea>
+				</div>
+			</div> -->
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Change the background</p>
+					<div class="button" ngf-select="upload($file)">Select</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 
 	<!-- ANGULAR -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>

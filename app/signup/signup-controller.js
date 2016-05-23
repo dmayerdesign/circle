@@ -63,7 +63,7 @@
 				}
 				
 				function finishSignup(user, code, circle) {
-					user.emailVerification = code;
+					user["emailVerification"] = code;
 
 					$http.post('api/user/signup', user)
 					.then(function(res) {
@@ -74,9 +74,11 @@
 							}, 3000);
 							return;
 						}
+
 						if ( circle ) {
 							init.joinCircle( res.data, circle, function(user, circle) {
 								$scope.loggedIn = true;
+								$scope.user = user;
 								$scope.circle = circle;
 								$scope.circleName = circle.name;
 								$scope.circleJoined = true;
@@ -95,15 +97,18 @@
 
 					// SEND VERIFICATION EMAIL
 					function sendVerificationEmail(email, code) {
-						jQuery.get("email/verify/" + email + "/" + code).done(function(data) {
+						jQuery.get("email/verify/" + email + "/" + code)
+						.done(function(data) {
 							console.log(email);
 							console.log(code);
 							console.log($scope.newUser);
 
 							$scope.emailVerificationSent = true;
+							$scope.loading = false;
 							$scope.$apply();
-						}).fail(function(err) {
-							console.error("Something went wrong while sending the verification email. Data:" + err)
+						})
+						.fail(function(err) {
+							console.error("Something went wrong while sending the verification email. Data:" + err);
 						});
 					}
 				}

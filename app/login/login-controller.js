@@ -1,6 +1,6 @@
 (function() {
 	angular.module('Circle')
-		.controller('loginController', ['$scope', '$state', '$http', function($scope, $state, $http) {
+		.controller('loginController', ['$scope', '$state', '$location', '$http', function($scope, $state, $location, $http) {
 
 			/**/
 			/** INITIALIZE THE USER
@@ -31,8 +31,8 @@
 					localStorage.setItem('User', JSON.stringify(res));
 					$scope.loggedIn = true;
 
-					if ( getParameterByName("verifyEmail") ) { // failsafe
-						window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail");
+					if ( $location.search().verifyEmail ) { // failsafe
+						window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
 					} else {
 						window.location.href = '/';
 					}
@@ -41,7 +41,6 @@
 					console.error(err);
 				});
 
-				function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 			};
 
 		}]);
