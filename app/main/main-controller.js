@@ -431,8 +431,8 @@
 
 		};
 
-		$scope.archiveLinkPreviews = {};
-		function treatPostLink() {
+		$rootScope.archiveLinkPreviews = {};
+		function treatPostLinks() {
 			var _posts = _(".post.not-treated");
 			_posts.each(function() {
 				var _post = _(this);
@@ -444,6 +444,7 @@
 				var urlMatch = new RegExp(urlPattern);
 				var match = urlPattern.exec(content);
 				var theLink;
+				var postLinkData;
 
 				if ( match ) {
 					theLink = match[0];
@@ -454,34 +455,27 @@
 					content = content.join("");
 
 					if ( _post.data("link-set") ) {
-						$scope.archiveLinkPreviews[_post.data("post-id")] = _post.data("link-set");
-						//console.log("LINK-SET SRC");
-						//console.log(JSON.parse(_post.data("link-set").src));
-						_postInner.css({
-							backgroundImage: _post.data("link-set").src
-						});
-						$scope.$apply();
+						setPostLinkData($scope, _post.data("link-set"));
 					} else {
 						_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
-							console.log(data);
-							if ( data.type === "photo" || data.type === "video" ) {
-								data.src = data.url;
-							} else {
-								data.src = data.thumbnail_url;
-							}
-							$scope.archiveLinkPreviews[_post.data("post-id")] = data;
-							console.log("DATA SRC");
-							console.log(data.src);
-							_postInner.css({
-								backgroundImage: data.src
-							});
-							$scope.$apply();
+							setPostLinkData($scope, data);
 
 							// use $http.post to set the post link if it didn't get set during the posting process
 						});
 					}
+
+					function setPostLinkData($scope, data) {
+						if ( data.type === "photo" || data.type === "video" ) {
+							data.src = data.url;
+						} else {
+							data.src = data.thumbnail_url;
+						}
+						$rootScope.archiveLinkPreviews[_post.data("post-id")] = data;
+						$scope.$apply();
+					}
+
 				} else {
-					$scope.archiveLinkPreviews[_post.data("post-id")] = null;
+					$rootScope.archiveLinkPreviews[_post.data("post-id")] = null;
 					$scope.$apply();
 				}
 
@@ -489,14 +483,7 @@
 				_article.html(content);
 			});
 		}
-		setInterval(treatPostLink, 2000);
-
-		$scope.getPostImage = function(post) {
-			//post = JSON.parse(post);
-			console.log(post);
-			var response = this.archiveLinkPreviews[post._id].src || post.images[0];
-			return response;
-		};
+		setInterval(treatPostLinks, 500);
 
 	}]);
 }(jQuery));

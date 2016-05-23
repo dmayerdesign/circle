@@ -1,74 +1,59 @@
-(function() {
+(function(_) {
 	angular.module('Circle')
-	.controller('appBarController', ['$scope', '$state', '$http', 'init',
-							 						function( $scope,   $state,   $http,   init) {
+	.controller('appBarController', ['$scope', '$rootScope', '$state', '$http', 'init', 'customizer',
+							 						function( $scope,   $rootScope,   $state,   $http,   init,   customizer) {
 
 		/**/
 		/** INITIALIZE THE USER
 		/**/
-		// if ( localStorage['User'] ) {
-		// 	var localUser = JSON.parse(localStorage['User']);
-		// 	if ( localUser.email ) {
-		// 		$scope.user = localUser;
-		// 	}
-		// }
-		// if ( !$scope.user || !$scope.user._id ) {
-		// 	$state.go('signup');
-		// 	return;
-		// } else {
-		// 	$scope.loggedIn = true;
-		// }
-
-		// function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
+		if ( localStorage['User'] ) {
+			var localUser = JSON.parse(localStorage['User']);
+			if ( localUser.email ) {
+				$scope.user = localUser;
+			}
+		}
+		if ( !$scope.user || !$scope.user._id ) {
+			$state.go('signup');
+			return;
+		} else {
+			$scope.loggedIn = true;
+		}
 		/* END USER INIT */
 
 		/**/
 		/** INITIALIZE THE CIRCLE
 		/**/
-		// if ( localStorage['Current-Circle'] ) {
-		// 	$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
-		// } else {
-		// 	$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
-		// }
+		if ( localStorage['Current-Circle'] ) {
+			$rootScope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
+		} else {
+			$rootScope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
+		}
 
-		// if ( $scope.currentCircle ) {
-		// 	customizer.getStyle($scope);
-		// }
+		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
+			$scope.user = user; // update $scope.user
 
+			if ( circle ) {
+				init.getMembers(circle.accessCode, function(members) {
+					$scope.users = members;
+				});
 
-		// init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-		// 	$scope.user = user; // update $scope.user
+				$scope.circleJoined = true;
+				$scope.circleName = circle.name;
+				$scope.circle = circle;
 
-		// 	if ( !$scope.user.isEmailVerified ) {
-		// 		console.log("email is not verified");
-		// 		if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
-		// 			window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail") + "/#/verify-email";
-		// 		}
-		// 		return;
-		// 	}
+				console.log( circle );
+				console.log( $scope.circleJoined );
 
-			// if ( circle ) {
-			// 	init.getMembers(circle.accessCode, function(members) {
-			// 		$scope.users = members;
-			// 	});
+				init.getPosts(circle._id, function(posts) {
+					$scope.posts = posts;
+				});
 
-			// 	$scope.circleJoined = true;
-			// 	$scope.circleName = circle.name;
-			// 	$scope.circle = circle;
-
-			// 	console.log( circle );
-			// 	console.log( $scope.circleJoined );
-
-			// 	init.getPosts(circle._id, function(posts) {
-			// 		$scope.posts = posts;
-			// 	});
-
-			// 	customizer.getStyle($scope);
-			// } else {
-			// 	$scope.circleJoined = false;
-			// 	$state.go('createCircle');
-			// }
-		// });
+				customizer.getStyle($scope);
+			} else {
+				$scope.circleJoined = false;
+				$state.go('createCircle');
+			}
+		});
 		/* END CIRCLE INIT */
 
 		$scope.logOut = function() {
@@ -141,6 +126,7 @@
 			}
 
 			$drawer.toggleClass("drawer-open");
+			_(".posts-archive").toggleClass("bottom-drawer-toggled");
 		};
 
 		$scope.switchCircles = function(accessCode) {
@@ -149,16 +135,19 @@
 			var circle = circles[accessCode];
 
 			localStorage.removeItem( "Current-Circle" );
-			$state.go('main');
-			window.location.reload();
+			localStorage["Current-Circle"] = JSON.stringify(circle);
+			$rootScope.currentCircle = circle;
+
+			window.location.href = "/";
 		};
 
 		$scope.joinAnotherCircle = function() {
 			this.circleJoined = false;
-			this.currentCircle = null;
+			$rootScope.circleJoined = false;
+			$rootScope.currentCircle = null;
 			localStorage.removeItem( "Current-Circle" );
 			window.location.href = '/#/create-circle';
 		};
 
 	}]);
-}());
+}(jQuery));

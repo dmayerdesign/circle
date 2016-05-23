@@ -1,6 +1,7 @@
 (function() {
 	angular.module('Circle')
-	.controller('createCircleController', ['$scope', '$state', '$http', '$interval', 'init', function($scope, $state, $http, $interval, init) {
+	.controller('createCircleController', ['$scope', '$state', '$location', '$http', '$interval', 'init', 
+																function( $scope,   $state,   $location,   $http,   $interval,   init) {
 
 		/**/
 		/** INITIALIZE THE USER
@@ -12,13 +13,11 @@
 			}
 		}
 		if ( !$scope.user || !$scope.user._id ) {
-			$state.go('login');
+			$state.go('signup');
 			return;
 		} else {
 			$scope.loggedIn = true;
 		}
-
-		function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 		/* END USER INIT */
 
 		/**/
@@ -34,18 +33,15 @@
 
 			if ( !$scope.user.isEmailVerified ) {
 				console.log("email is not verified");
-				if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
-					window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail") + "/#/verify-email";
+				if ( $location.search().email && $location.search().verifyEmail ) {
+					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
 				}
-				return;
-			}
-
-			if ( $scope.circleJoined ) {
-				$state.go('main');
+				$scope.emailVerificationSent = true;
+				$state.go('signup');
 				return;
 			}
 		});
-		/* END CIRCLE INIT */
+		/** END CIRCLE INIT **/
 
 		$scope.optJoin = false;
 		$scope.optCreate = false;
@@ -139,7 +135,7 @@
 					}
 					init.joinCircle($scope.user, circle, function(user, circle) {
 						initCircle(circle);
-						window.location.reload();
+						window.location.href = "/";
 					});
 				});
 			}

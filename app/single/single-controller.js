@@ -1,6 +1,6 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('singleController', ['$scope', '$state', '$stateParams', '$http', 'init', function($scope, $state, $stateParams, $http, init) {
+	.controller('singleController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'init', function($scope, $rootScope, $state, $stateParams, $http, init) {
 		console.log( $stateParams );
 
 		/**/
@@ -82,7 +82,7 @@
 			var that = this;
 			var request = {
 				postId: postId,
-				circleId: that.currentCircle._id
+				circleId: $rootScope.currentCircle._id
 			};
 			console.log(request);
 			$http.post('api/post/delete', request).then(function(response) {

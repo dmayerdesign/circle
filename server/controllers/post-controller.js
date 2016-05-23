@@ -27,6 +27,7 @@ module.exports.postPost = function(req, res) {
 module.exports.deletePost = function(req, res) {
 	Post.remove({circleId: req.body.circleId, _id: req.body.postId}, function(err, posts) {
 		console.log("post deleted: " + posts);
+		console.log("circleId: " + req.body.circleId + ", " + "postId: " + req.body.postId);
 	});
 
 	Post.find({circleId: req.body.circleId})

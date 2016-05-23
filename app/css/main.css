@@ -584,6 +584,10 @@ button:focus, button:active {
 	padding: 0 0 10em 0;
 }
 
+	.posts-archive.bottom-drawer-toggled {
+		padding-bottom: 32em;
+	}
+
 .post {
 	position: relative;
 	display: block;
@@ -595,8 +599,9 @@ button:focus, button:active {
 	display: block;
 	padding: 0 4em;
 	height: 31.5em;
-
 	overflow: hidden;
+	background-size: 100% auto !important;
+	background-size: cover !important;
 }
 
 .post-bg {

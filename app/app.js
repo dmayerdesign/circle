@@ -102,6 +102,7 @@
 
 						circles[accessCode] = circle;
 						localStorage.setItem('Circles', JSON.stringify(circles));
+						localStorage.setItem('Current-Circle', JSON.stringify(circle));
 
 						callback(user, circle);
 					});
@@ -123,6 +124,7 @@
 
 				circles[accessCode] = circle;
 				localStorage.setItem('Circles', JSON.stringify(circles));
+				localStorage.setItem('Current-Circle', JSON.stringify(circle));
 
 				if (callback) {
 					callback(circle);
