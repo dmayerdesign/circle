@@ -93,12 +93,12 @@
 
 			$scope.newAccessCode = makeAccessCode();
 			var request = {
-				creatorId: $scope.user._id,
+				creatorId: $rootScope.user._id,
 				name: $scope.circleName,
 				accessRiddle: $scope.accessRiddle,
 				accessAnswer: $scope.newAccessAnswer,
 				accessCode: $scope.newAccessCode,
-				members: [$scope.user.username]
+				members: [$rootScope.user.username]
 			};
 			function makeAccessCode() { var text = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; for ( var i=0; i < 12; i++ ) { text += possible.charAt(Math.floor(Math.random() * possible.length)); } return text; }
 

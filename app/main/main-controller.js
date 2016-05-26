@@ -239,7 +239,7 @@
 					circleId: $scope.circle._id
 				}).then(function(response) {
 					if ( response.data ) {
-						$http.get('api/tags/getTags?circleId=' + $scope.circle._id)
+						$http.get('api/tags/getTags?circleId=' + $rootScope.currentCircle._id)
 						.then(function(response) {
 							var tagsArr = [];
 							var tags = response.data;
