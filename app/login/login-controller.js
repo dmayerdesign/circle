@@ -1,6 +1,8 @@
 (function() {
 	angular.module('Circle')
-		.controller('loginController', ['$scope', '$state', '$location', '$http', function($scope, $state, $location, $http) {
+		.controller('loginController', ['$scope', '$rootScope', '$state', '$location', '$http', function($scope, $rootScope, $state, $location, $http) {
+
+			$rootScope.currentState = 'login';
 
 			/**/
 			/** INITIALIZE THE USER

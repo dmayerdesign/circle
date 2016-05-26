@@ -1,6 +1,9 @@
 (function() {
 	angular.module('Circle')
-		.controller('editProfileController', ['Upload', '$scope', '$state', '$http', 'init', function(Upload, $scope, $state, $http, init) {
+		.controller('editProfileController', ['Upload', '$scope', '$rootScope', '$state', '$http', 'init',
+																 function( Upload,   $scope,   $rootScope,   $state,   $http,   init) {
+
+			$rootScope.currentState = 'edit-profile';
 
 			/**/
 			/** INITIALIZE THE USER

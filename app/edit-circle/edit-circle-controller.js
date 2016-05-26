@@ -1,6 +1,7 @@
 (function() {
 	angular.module('Circle')
-	.controller('editCircleController', ['Upload', '$scope', '$state', '$http', 'init', 'customizer', function(Upload, $scope, $state, $http, init, customizer) {
+	.controller('editCircleController', ['Upload', '$scope', '$rootScope', '$state', '$http', 'init', 'customizer', 
+															function( Upload,   $scope,   $rootScope,   $state,   $http,   init,   customizer) {
 
 		/**/
 		/** INITIALIZE THE USER
@@ -8,7 +9,7 @@
 		if ( localStorage['User'] ) {
 			var localUser = JSON.parse(localStorage['User']);
 			if ( localUser.email ) {
-				$scope.user = localUser;
+				$rootScope.user = localUser;
 			}
 		}
 		if ( !$scope.user || !$scope.user._id ) {
@@ -23,9 +24,9 @@
 		/** INITIALIZE THE CIRCLE
 		/**/
 		if ( localStorage['Current-Circle'] ) {
-			$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
+			$rootScope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
 		} else {
-			$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
+			$rootScope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
 		}
 		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
 			$scope.user = user; // update $scope.user
@@ -40,18 +41,12 @@
 					$scope.users = members;
 				});
 
-				$scope.circleJoined = true;
-				$scope.circleName = circle.name;
-				$scope.circle = circle;
+				$rootScope.circleJoined = true;
+				$rootScope.circleName = circle.name;
+				$rootScope.currentCircle = circle;
 
-				console.log( circle );
-				console.log( $scope.circleJoined );
-
-				init.getPosts(circle._id, function(posts) {
-					$scope.posts = posts;
-				});
 			} else {
-				$scope.circleJoined = false;
+				$rootScope.circleJoined = false;
 				$state.go('createCircle');
 			}
 		});
@@ -63,14 +58,18 @@
 			$scope.upload($scope.file);
 		});
 
-		$scope.upload = function(file) {
-			if (file) {
+		$scope.upload = function(part, file) {
+			var endpoint;
+			if ( part === 'bg' ) { endpoint = 'api/circle/updateBackground'; }
+			if ( part === 'logo' ) { endpoint = 'api/circle/updateLogo'; }
+
+			if (file && part) {
 				Upload.upload({
-					url: 'api/circle/updateBackground',
+					url: endpoint,
 					method: 'POST',
 					data: {
 						userId: $scope.user._id,
-						circleId: $scope.circle._id
+						circleId: $rootScope.currentCircle._id
 					},
 					file: file
 				})
@@ -83,14 +82,20 @@
 						userId: $scope.user._id,
 						circleId: circle._id,
 						accessCode: circle.accessCode,
-						part: "bg",
-						style: circle.styles.bg
+						part: part,
+						style: circle.styles[part]
 					};
 
 					$http.post('api/circle/style', request).then(function(response) {
 						console.log("circle style updated");
-						$scope.circle.styles.bg = response.data.circle.styles.bg;
-						customizer.getStyle($scope);
+						$rootScope.currentCircle.styles[part] = response.data.circle.styles[part];
+
+						var currentCircle = localStorage['Current-Circle'] && JSON.parse(localStorage['Current-Circle']);
+						currentCircle.styles = $rootScope.currentCircle.styles;
+						localStorage.setItem("Current-Circle", JSON.stringify(currentCircle));
+
+						console.log( $rootScope.currentCircle.styles );
+						customizer.getStyle($rootScope);
 					});
 				})
 				.error(function(err) {
@@ -100,26 +105,28 @@
 		};
 
 		$scope.editCircle = function(part) {
-			if ( !$scope.style ) {
-				$scope.style = {};
+			var scope = this;
+			if ( !$rootScope.currentCircle.styles ) {
+				$rootScope.currentCircle.styles = {};
 			}
-			if ( !$scope.circle.styles ) {
-				$scope.circle.styles = {};
-			}
-			if ( !$scope.style[part] || $scope.style[part].length < 1 ) { return; }
+			if ( !$rootScope.currentCircle.styles[part] || $rootScope.currentCircle.styles[part].length < 1 ) { return; }
 
 			var request = {
 				userId: $scope.user._id,
-				circleId: $scope.circle._id,
-				accessCode: $scope.circle.accessCode,
+				circleId: $rootScope.currentCircle._id,
+				accessCode: $rootScope.currentCircle.accessCode,
 				part: part,
-				style: $scope.style[part]
+				style: scope.currentCircle.styles[part]
 			};
 
 			$http.post('api/circle/style', request).then(function(response) {
-				console.log("circle style updated");
-				$scope.circle.styles[part] = response.data.circle.styles[part];
-				customizer.getStyle($scope);
+				$rootScope.currentCircle.styles[part] = response.data.circle.styles[part];
+
+				var currentCircle = localStorage['Current-Circle'] && JSON.parse(localStorage['Current-Circle']);
+				currentCircle.styles = $rootScope.currentCircle.styles;
+				localStorage.setItem("Current-Circle", JSON.stringify(currentCircle));
+				
+				customizer.getStyle($rootScope);
 			});
 
 		};

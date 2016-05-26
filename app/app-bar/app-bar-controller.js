@@ -30,25 +30,23 @@
 		}
 
 		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-			$scope.user = user; // update $scope.user
+			$rootScope.user = user; // update $scope.user
 
 			if ( circle ) {
 				init.getMembers(circle.accessCode, function(members) {
 					$scope.users = members;
 				});
 
-				$scope.circleJoined = true;
-				$scope.circleName = circle.name;
-				$scope.circle = circle;
-
-				console.log( circle );
-				console.log( $scope.circleJoined );
+				$rootScope.circleJoined = true;
+				$rootScope.circleName = circle.name;
+				$rootScope.currentCircle = circle;
+				$rootScope.circles = JSON.parse($scope.user.circles);
 
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 				});
 
-				customizer.getStyle($scope);
+				customizer.getStyle($rootScope);
 			} else {
 				$scope.circleJoined = false;
 				$state.go('createCircle');
@@ -137,7 +135,6 @@
 			localStorage.removeItem( "Current-Circle" );
 			localStorage["Current-Circle"] = JSON.stringify(circle);
 			$rootScope.currentCircle = circle;
-
 			window.location.href = "/";
 		};
 
@@ -146,7 +143,7 @@
 			$rootScope.circleJoined = false;
 			$rootScope.currentCircle = null;
 			localStorage.removeItem( "Current-Circle" );
-			window.location.href = '/#/create-circle';
+			window.location.href = "/#/create-circle";
 		};
 
 	}]);

@@ -28,5 +28,6 @@ module.exports = mongoose.model('Post', {
 			achievement: String
 		}
 	},
-	tags: [String]
+	tags: [String],
+	usersTagged: [String]
 })

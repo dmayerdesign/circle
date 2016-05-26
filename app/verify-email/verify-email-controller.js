@@ -1,6 +1,9 @@
 (function() {
 	angular.module('Circle')
-	.controller('verifyEmailController', ['$scope', '$location', '$state', '$http', 'init', function($scope, $location, $state, $http, init) {
+	.controller('verifyEmailController', ['$scope', '$rootScope', '$location', '$state', '$http', 'init',
+															 function( $scope,   $rootScope,   $location,   $state,   $http,   init) {
+
+	$rootScope.currentState = 'verify-email';
 
 		console.log($location);
 

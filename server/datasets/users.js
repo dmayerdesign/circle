@@ -10,5 +10,11 @@ module.exports = mongoose.model('User', {
 	following: [{userId: String}],
 	followers: [{userId: String}],
 	emailVerification: String,
-	isEmailVerified: Boolean
+	isEmailVerified: Boolean,
+	notifications: [
+		{
+			creator: String,
+			postId: String
+		}
+	]
 });

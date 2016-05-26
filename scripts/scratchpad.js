@@ -118,3 +118,15 @@ server.listen(9999, '0.0.0.0');
 		// 	}, 1000);
 		// };
 		//$scope.infiniteScroll();
+
+
+
+			// var verticallyCenter = setInterval(function() {
+			// 	if ( _(".setup-form-container").length ) {
+			// 		_(".setup-form-container").css({
+			// 			top: (window.innerHeight / 3) + "px",
+			// 			opacity: 1
+			// 		});
+			// 		clearInterval(verticallyCenter);
+			// 	}
+			// }, 500);

@@ -38,7 +38,9 @@ app.get('/', function(req, res) {
 app.post('/api/circle/new', circleController.createCircle);
 app.get('/api/circle/get', circleController.getCircle);
 app.post('/api/circle/style', circleController.styleCircle);
+app.post('/api/circle/addMember', circleController.addMember);
 app.post('/api/circle/updateBackground', multipartMiddleware, circleController.updateBackground);
+app.post('/api/circle/updateLogo', multipartMiddleware, circleController.updateLogo);
 
 // Authentication
 app.post('/api/user/signup', authenticationController.signup);
@@ -59,6 +61,9 @@ app.post('/api/post/delete', postController.deletePost);
 app.get('/api/post/get', postController.getPosts);
 app.get('/api/post/getSingle', postController.getPost);
 app.post('/api/post/updatePostUser', postController.updatePostUser);
+app.post('/api/post/attachImage', postController.attachImage);
+
+// Tags
 app.post('/api/tags/addTag', tagController.addTag);
 app.get('/api/tags/getTags', tagController.getTags);
 

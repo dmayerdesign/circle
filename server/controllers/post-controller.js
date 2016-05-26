@@ -1,15 +1,52 @@
 var Post = require('../datasets/posts');
+var Users = require('../datasets/users');
+var fs = require('fs-extra');
+var path = require('path');
+var mkdirp = require('mkdirp');
 
 module.exports.postPost = function(req, res) {
 	console.log("POSTING: ");
 	console.log(req.body);
 	var post = new Post(req.body);
-	post.save(function(error) {
+	post.save(function(error, post) {
 		if (error) {
 			console.log("ERROR:");
 			console.log(error);
 		} else {
 			console.log("SAVED POST");
+			if (post.usersTagged && post.usersTagged.length) {
+				for (var i = 0; i < post.usersTagged.length; i++) {
+					var taggedUser = post.usersTagged[i];
+					Users.findOne({username: taggedUser}, function(err, user) {
+						if ( err ) {
+							console.log("couldn't find the user to notify them of the tag");
+							console.error(err);
+							res.json({status: 500});
+							return;
+						}
+						if ( user ) {
+							if ( !user.notifications ) {
+								user.notifications = [];
+							}
+							user.notifications.push({
+								"creator": post.user,
+								"postId": post._id
+							});
+							user.save(function(err) {
+								if (err) {
+									console.error(err);
+									res.json({status: 500});
+								} else {
+									console.log("user notified of tag!");
+									res.json({status: 200});
+								}
+							});
+						} else {
+							res.json({status: 500});
+						}
+					});
+				}
+			}
 		}
 	});
 
@@ -90,5 +127,38 @@ module.exports.updatePostUser = function(req, res) {
 			post.save();
 			res.json(post);
 		}
+	});
+};
+
+module.exports.attachImage = function(req, res) {
+	var file = req.files.file,
+		userId = req.body.userId,
+		circleId = req.body.circleId;
+
+	console.log("User " + userId + " is submitting " , file);
+
+	var uploadDate = new Date().getTime();
+
+	mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
+
+		if (err) {
+			console.log("couldn't create the circle directory in uploads");
+			return;
+		}
+		
+		var tempPath = file.path;
+		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
+		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
+
+		fs.rename(tempPath, targetPath, function(err) {
+			if (err) {
+				console.log(err);
+				res.json({status: 500});
+			} else {
+				res.json({
+					filePath: savePath
+				});
+			}
+		});
 	});
 };

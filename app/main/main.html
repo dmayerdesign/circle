@@ -27,12 +27,14 @@
 
 <!-- POSTS MAIN -->
 	<section class="posts-archive-container">
-		<button ng-click="setNewPosts(); showPostsTagged(); showPostsOfType();" class="btn btn-primary">All Posts<span ng-if="incomingPosts && difference">({{difference}} new)</span></button>
+		<button ng-click="setNewPosts(); showPostsTagged(); showPostsOfType();" class="btn btn-primary">All Posts
+			<!-- <span ng-if="incomingPosts && difference">({{difference}} new)</span> -->
+		</button>
 		<div class="col-md-8 col-md-offset-2 posts-archive archive">
 
 			<!-- post -->
-			<div ng-repeat="post in posts | orderBy: postOrder | limitTo:postsAllowed['allow']" class="post archive-post col-md-6 not-treated" data-post-id="{{post._id}}" data-creator-id="{{post.userId}}" data-link-set="{{post.linkEmbed}}" ng-click="$parent.goToPost(post._id)">
-				<div class="post-inner c-bg-content tile" ng-style="{backgroundImage: 'url(' + archiveLinkPreviews[post._id].src || post.images[0] + ')'}">
+			<div ng-repeat="post in posts | orderBy: 'date':true | limitTo:postsAllowed['allow']" class="post archive-post col-md-6 not-treated" data-post-id="{{post._id}}" data-creator-id="{{post.userId}}" data-link-set="{{post.linkEmbed}}" ng-click="$parent.goToPost(post._id)" data-images="{{post.images}}">
+				<div class="post-inner c-bg-content tile" ng-style="{backgroundImage: 'url(' + (archiveLinkPreviews[post._id].src || post.images[0]) + ')'}">
 					<!-- <div class="post-bg"></div>  -->
 					<div class="post-meta">
 						<div class="author">

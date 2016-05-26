@@ -1,6 +1,9 @@
 (function(_) {
 	angular.module('Circle')
-		.controller('signupController', ['$scope', '$state', '$http', 'init', function($scope, $state, $http, init) {
+		.controller('signupController', ['$scope', '$rootScope', '$state', '$http', 'init',
+														function( $scope,   $rootScope,   $state,   $http,   init) {
+
+			$rootScope.currentState = 'signup';
 
 			/**/
 			/** INITIALIZE THE USER
@@ -35,8 +38,34 @@
 				}
 			};
 
+			$scope.validateUsername = function() {
+				if ( $scope.newUser && $scope.newUser.username && $scope.newUser.username.length ) {
+					$scope.validationStarted = true;
+				}
+				$scope.usernameValid = false;
+
+				if ( !$scope.newUser.username ) {
+					$scope.validationStarted = false;
+					return;
+				}
+				$http.get('api/users/getUser?username=' + $scope.newUser.username)
+				.then(function(response) {
+					var user = response.data;
+					if ( user && user.username ) {
+						$scope.usernameValid = false;
+						console.log("found a user?");
+					} else {
+						$scope.usernameValid = true;
+					}
+				}, function(error) {
+					$scope.usernameValid = true;
+					console.log("there was an error");
+				});
+
+			};
+
 			$scope.createUser = function() {
-				if ( !$scope.passwordsMatch || $scope.passwordTooShort ) {
+				if ( !$scope.passwordsMatch || $scope.passwordTooShort || !$scope.newUser.email || !$scope.newUser.username ) {
 					return;
 				}
 
@@ -117,17 +146,6 @@
 			};
 
 			$scope.signupJoinCircle = false;
-
-			// var verticallyCenter = setInterval(function() {
-			// 	if ( _(".setup-form-container").length ) {
-			// 		_(".setup-form-container").css({
-			// 			top: (window.innerHeight / 3) + "px",
-			// 			opacity: 1
-			// 		});
-			// 		clearInterval(verticallyCenter);
-			// 	}
-			// }, 500);
-
 
 			/* intro animations */
 			$scope.introAnimation = function() {

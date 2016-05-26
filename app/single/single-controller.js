@@ -3,13 +3,15 @@
 	.controller('singleController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'init', function($scope, $rootScope, $state, $stateParams, $http, init) {
 		console.log( $stateParams );
 
+		$rootScope.currentState = 'single';
+
 		/**/
 		/** INITIALIZE THE USER
 		/**/
 		if ( localStorage['User'] ) {
 			var localUser = JSON.parse(localStorage['User']);
 			if ( localUser.email ) {
-				$scope.user = localUser;
+				$rootScope.user = localUser;
 			}
 		}
 		if ( !$scope.user || !$scope.user._id ) {

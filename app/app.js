@@ -66,6 +66,12 @@
 		var init = {};
 
 		init.getUserAndCircle = function getUserAndCircle(id, code, callback) {
+			if ( localStorage['Current-Circle'] && localStorage['User'] ) {
+				if ( JSON.parse(localStorage['Current-Circle']).id === id && JSON.parse(localStorage['User']).accessCodes.toString().indexOf(code) > -1 ) {
+					callback(JSON.parse(localStorage['User']), JSON.parse(localStorage['Current-Circle']));
+					return;
+				}
+			}
 			$http.get('api/users/getUser?userId=' + id).then(function(response) {
 				var user = response.data;
 				var circles = user.circles ? JSON.parse(user.circles) : null;
@@ -154,11 +160,21 @@
 
 				console.log(response.data);
 				localStorage.setItem('Circles', JSON.stringify(circles));
-				localStorage.setItem('Current-Circle', JSON.stringify(circle));
 				localStorage.setItem('User', JSON.stringify(user));
 
-				if (callback) {
-					callback(user, circle);
+				if ( circle.creatorId === user._id ) {
+					if (callback) {
+						callback(user, circle);
+					}
+				} else {
+					$http.post('api/circle/addMember', {circleId: circle._id, member: user.username}).then(function(response) {
+						circle = response.data;
+						localStorage.setItem('Current-Circle', JSON.stringify(response.data));
+
+						if (callback) {
+							callback(user, circle);
+						}
+					});
 				}
 			});
 		};
@@ -201,6 +217,22 @@
 				if (callback) {
 					callback(response.data);
 				}
+			}, function(error) {
+				console.error(error);
+			});
+		};
+
+		action.tagUser = function tagUser(username, callback) {
+			$http.get('api/users/getUser?username=' + username)
+			.then(function(response) {
+				var user = response.data;
+				if (user) {
+					if (callback) {
+						callback(user);
+					}
+				}
+			}, function(error) {
+				console.error(error);
 			});
 		};
 
@@ -212,24 +244,22 @@
 
 		customizer.getStyle = function getStyle($scope) {
 			document.querySelector("body")
-				.className =  "theme-" + $scope.circle.styles.theme
-							+ " palette-" + $scope.circle.styles.palette
-							+ " font-" + $scope.circle.styles.font;
+				.className =  "theme-" + $scope.currentCircle.styles.theme
+							+ " palette-" + $scope.currentCircle.styles.palette
+							+ " font-" + $scope.currentCircle.styles.font;
 			document.querySelector("#background")
-				.style.backgroundImage = "url(" + $scope.circle.styles.bg + ")";
+				.style.backgroundImage = "url(" + $scope.currentCircle.styles.bg + ")";
 			
 			// var _customCSS = _("<style></style>");
-			// _customCSS.html( $scope.circle.styles.css );
+			// _customCSS.html( $scope.currentCircle.styles.css );
 			// _("head").append(_customCSS);
 
-			console.log($scope.circle.styles.bg);
-
 			var fontLink;
-			if ( $scope.circle.styles.font === "open-sans" && !jQuery(".open-sans-link").length ) { fontLink = "<link class='font-link open-sans-link' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>"; }
-			if ( $scope.circle.styles.font === "montserrat" && !jQuery(".montserrat-link").length ) { fontLink = "<link class='font-link montserrat-link' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>"; }
+			if ( $scope.currentCircle.styles.font === "open-sans" && !jQuery(".open-sans-link").length ) { fontLink = "<link class='font-link open-sans-link' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>"; }
+			if ( $scope.currentCircle.styles.font === "montserrat" && !jQuery(".montserrat-link").length ) { fontLink = "<link class='font-link montserrat-link' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>"; }
 			
-			jQuery(".font-link").remove();
-			jQuery("head").append(fontLink);
+			_(".font-link").remove();
+			_("head").append(fontLink);
 
 			return $scope;
 		};
@@ -246,6 +276,16 @@
         });
       });
     };
+	});
+
+	app.filter('startFrom', function() {
+		return function(input, start) {
+	    if(input) {
+	      start = +start; //parse to int
+	      return input.slice(start);
+	    }
+	    return [];
+		}
 	});
 
 }(jQuery));

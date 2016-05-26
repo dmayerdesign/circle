@@ -1,7 +1,9 @@
 (function() {
 	angular.module('Circle')
-	.controller('createCircleController', ['$scope', '$state', '$location', '$http', '$interval', 'init', 
-																function( $scope,   $state,   $location,   $http,   $interval,   init) {
+	.controller('createCircleController', ['$scope', '$rootScope', '$state', '$location', '$http', '$interval', 'init', 
+																function( $scope,   $rootScope,   $state,   $location,   $http,   $interval,   init) {
+
+		$rootScope.currentState = 'create-circle';
 
 		/**/
 		/** INITIALIZE THE USER
@@ -96,7 +98,7 @@
 				accessRiddle: $scope.accessRiddle,
 				accessAnswer: $scope.newAccessAnswer,
 				accessCode: $scope.newAccessCode,
-				members: [$scope.user._id]
+				members: [$scope.user.username]
 			};
 			function makeAccessCode() { var text = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; for ( var i=0; i < 12; i++ ) { text += possible.charAt(Math.floor(Math.random() * possible.length)); } return text; }
 
@@ -142,10 +144,15 @@
 		};
 
 		function initCircle(circle) {
+			if ( localStorage["Circles"] ) {
+				var circles = JSON.parse(localStorage["Circles"]);
+			} else {
+				var circles = {};
+			}
+
 			$scope.loggedIn = true;
 			$scope.circle = circle;
 			$scope.circleName = circle.name;
-			var circles = {};
 			circles[circle.accessCode] = circle;
 			localStorage.setItem('Circles', JSON.stringify(circles));
 			$scope.circleJoined = true;

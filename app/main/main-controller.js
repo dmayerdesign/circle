@@ -1,7 +1,9 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('mainController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 
-						   					 function($scope,   $rootScope,   $state,   $location,   $http,   init,   customizer,   action,   $q,   $filter) {
+	.controller('mainController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 'Upload', 
+						   					 function($scope,   $rootScope,   $state,   $location,   $http,   init,   customizer,   action,   $q,   $filter,   Upload) {
+
+		$rootScope.currentState = 'main';
 
 		/**/
 		/** INITIALIZE THE USER
@@ -24,9 +26,9 @@
 		/** INITIALIZE THE CIRCLE
 		/**/
 		if ( localStorage['Current-Circle'] ) {
-			$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
+			$rootScope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
 		} else {
-			$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
+			$rootScope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
 		}
 		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
 			$scope.user = user; // update $scope.user
@@ -43,18 +45,21 @@
 
 			if ( circle ) {
 				init.getMembers(circle.accessCode, function(members) {
-					$scope.users = members;
+					$rootScope.users = members;
 				});
 
 				$scope.circleJoined = true;
 				$rootScope.circleJoined = true;
 				$scope.circleName = circle.name;
 				$scope.circle = circle;
-				customizer.getStyle($scope);
+				$rootScope.currentCircle = circle;
+				customizer.getStyle($rootScope);
 
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};
+
+					initUI();
 
 					// Check for new posts
 					setInterval(function() {
@@ -69,8 +74,6 @@
 							}
 						});
 					}, 3000);
-
-					initUI();
 				});
 			
 			} else {
@@ -89,7 +92,9 @@
 		$scope.newPost = {
 			content: "",
 			tags: "",
-			quest: {}
+			quest: {},
+			images: [],
+			usersTagged: []
 		};
 
 		$scope.customSelect = function customSelect(element, event) {
@@ -132,6 +137,36 @@
 			console.log(str);
 			return str;
 		};
+
+		$scope.upload = function(file) {
+			var endpoint;
+			var scope = this;
+
+			if (file) {
+				Upload.upload({
+					url: 'api/post/attachImage',
+					method: 'POST',
+					data: {
+						userId: $scope.user._id,
+						circleId: $rootScope.currentCircle._id
+					},
+					file: file
+				})
+				.progress(function(e) {
+					console.log("uploading");
+					scope.uploadInProgress = true;
+				})
+				.success(function(res) {
+					console.log(res.filePath);
+					scope.newPost.images.push(res.filePath);
+					scope.uploadInProgress = false;
+				})
+				.error(function(err) {
+					console.error(err);
+					scope.uploadInProgress = false;
+				});
+			}
+		};
 		
 		$scope.sendPost = function(event) {
 			if ( event && event.which !== 13 ) { return; }
@@ -160,6 +195,7 @@
 				"avatar": $scope.user.avatar,
 				"circleId": $scope.circle._id,
 				"content": that.newPost.content,
+				"images": that.newPost.images,
 				"type": that.newPost.type,
 				"tags": tagNames
 			};
@@ -175,15 +211,13 @@
 				request.linkEmbed = JSON.stringify(postLink);
 			}
 
-			if ( that.newPost.type === 'quest' && that.newPost.quest && that.newPost.quest.questers ) {
-				var questersObj = that.newPost.quest.questers;
-				var questersArr = [];
-				for ( var questerId in questersObj ) {
-					questersArr.push(questerId);
+			if ( that.newPost.usersTagged ) {
+				var usersObj = that.newPost.usersTagged;
+				var taggedUsersArr = [];
+				for ( var username in usersObj ) {
+					taggedUsersArr.push(username);
 				}
-				request.quest = {
-					questers: questersArr
-				};
+				request.usersTagged = taggedUsersArr;
 			}
 
 			$http.post('api/post/post', request)
@@ -216,11 +250,42 @@
 							}
 							
 							$scope.circle.tags = tagsArr;
-
+							$rootScope.currentCircle.tags = tagsArr;
 						});
 					}
 					
 				});
+			}
+		};
+
+		$scope.tagUsers = function() {
+			var scope = this;
+			var members = $rootScope.currentCircle.members;
+			var content = scope.newPost.content;
+			var tagPattern = /\@([^\s]*)/;
+			var tagMatch = new RegExp(tagPattern);
+			var match = tagPattern.exec(content);
+			var matchIndex = 0;
+
+			if ( !match || !match.length ) {
+				return;
+			}
+
+			if ( match[matchIndex].indexOf(" ") > -1 ) {
+				matchIndex++;
+			}
+
+			if ( match[matchIndex] && members ) {
+				scope.searchUsersToTag = true;
+				scope.attemptTag = match[matchIndex].replace("@", "");
+
+				for ( var i = 0; i < members.length; i++ ) {
+					if ( members[i].indexOf(scope.attemptTag) > -1 ) {
+						scope.newPost.usersTagged.push(members[i]);
+					}
+				}
+			} else {
+				scope.searchUsersToTag = false;
 			}
 		};
 
@@ -292,6 +357,7 @@
 		function initCircle(circle) {
 			$scope.loggedIn = true;
 			$scope.circle = circle;
+			$rootScope.currentCircle = circle;
 			$scope.circleName = circle.name;
 			var circles = {};
 			circles[circle.accessCode] = circle;
@@ -373,13 +439,17 @@
 
 			if ( match ) {
 				theLink = match[0];
+							console.log(theLink);
 
 				_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
+					console.log(data.url);
+					console.log(data.thumbnail_url);
 					console.log(data);
-					if ( data.type === "photo" || data.type === "video" ) {
-						data.src = data.url;
+
+					if ( data.type === "photo" ) {
+						data["src"] = data.url;
 					} else {
-						data.src = data.thumbnail_url;
+						data["src"] = data.thumbnail_url;
 					}
 
 					that.linkPreview = data;
@@ -428,7 +498,6 @@
 		$scope.goToPost = function(post_id) {
 			console.log(window.location.href);
 			$state.go("single", {id: post_id});
-
 		};
 
 		$rootScope.archiveLinkPreviews = {};
@@ -484,6 +553,8 @@
 			});
 		}
 		setInterval(treatPostLinks, 500);
+
+		$scope.tagsLimit = 5;
 
 	}]);
 }(jQuery));

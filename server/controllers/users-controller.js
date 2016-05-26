@@ -46,15 +46,32 @@ module.exports.getUsers = function(req, res) {
 };
 
 module.exports.getUser = function(req, res) {
-	//console.log( JSON.stringify(req.query.userId) );
-	Users.findById(req.query.userId, function(err, user) {
-		if ( err ) {
-			console.log("couldn't find user");
-			return;
-		}
-		if ( user ) { user.password = undefined; }
-		res.json(user);
-	});
+	if ( req.query.userId ) {
+		Users.findById(req.query.userId, function(err, user) {
+			if ( err ) {
+				console.log("couldn't find user");
+				return;
+			}
+			if ( user ) { user.password = undefined; }
+			res.json(user);
+		});
+	}
+
+	if ( req.query.username ) {
+		Users.findOne({username: req.query.username}, function(err, user) {
+			if ( err ) {
+				console.log("couldn't find user");
+				res.json({status: 500});
+				return;
+			}
+			if ( user ) { 
+				user.password = undefined;
+				res.json(user);
+			} else {
+				res.json({status: 500});
+			}
+		});
+	}
 };
 
 module.exports.followUser = function(req, res) {

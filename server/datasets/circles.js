@@ -13,6 +13,7 @@ module.exports = mongoose.model('Circle', {
 		palette: {type: String, default: "original"},
 		font: {type: String, default: "montserrat"},
 		bg: {type: String, default: "/images/default-bg.jpg"},
+		logo: String,
 		css: String
 	},
 	tags: [String]
