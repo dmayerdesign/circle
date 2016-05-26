@@ -95,6 +95,11 @@ p {
 	line-height: 1.5;
 }
 
+article {
+	font-size: 3em;
+	word-wrap: break-word;
+}
+
 
 /* styles */
 a, a:hover, a:focus {
@@ -116,6 +121,10 @@ p {
 
 p.dark {
 	color: #708085;
+}
+
+article {
+
 }
 
 
@@ -427,7 +436,7 @@ nav, .navbar {
 
 .app-bar .app-bar-btn {
 	top: -6em !important;
-	line-height: 1;
+	line-height: 1 !important;
 }
 
 .app-bar-btn svg {
@@ -503,18 +512,20 @@ button:focus, button:active {
 }
 
 .inner-btn {
+	display: block;
 	float: left;
 	position: relative;
 		z-index: 101;
 	height: 6em;
-    box-shadow: none;
-    outline: none;
-    border: none;
-    background: transparent;
-    line-height: 6em;
-    padding: 0 2em;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  background: transparent;
+  line-height: 7em !important;
+  padding: 0 2em;
 
-    text-align: center;
+  text-align: center;
+  color: #fff;
 }
 
 	.main-menu .inner-btn {
@@ -526,11 +537,11 @@ button:focus, button:active {
 		height: 7em;
 	}
 
-	.circle-sorting button {
+	.circle-sorting .inner-btn {
 		width: 50%;
 	}
 
-	.circle-views button {
+	.circle-views .inner-btn {
 		width: 25%;
 	}
 
@@ -547,7 +558,7 @@ button:focus, button:active {
 		top: -0.2em;
 	}
 
-.circle-nav button span {
+.circle-nav .inner-btn span {
 	display: inline-block;
     font-size: 1em;
     text-transform: uppercase;
@@ -623,8 +634,8 @@ button:focus, button:active {
 	padding: 0 4em;
 	height: 31.5em;
 	overflow: hidden;
-	background-repeat: no-repeat;
-	background-position: left top;
+	background-repeat: no-repeat !important;
+	background-position: left top !important;
 	background-size: auto 101% !important;
 	background-size: cover !important;
 }
@@ -641,9 +652,8 @@ button:focus, button:active {
 .post .content {
 	position: relative;
 		top: 30%;
-	font-size: 3em;
 	line-height: 1;
-	height: 3em;
+	height: 9em;
 	overflow: hidden;
 }
 
@@ -965,5 +975,18 @@ select {
 }
 
 
+/** CATEGORIES PAGE **/
+.category-tile {
+	height: 20em;
+	line-height: 20em;
+	text-align: center;
+}
+
+.category-tile span {
+	display: inline-block;
+	line-height: 1;
+	vertical-align: middle;
+	color: #fff;
+}
 
 

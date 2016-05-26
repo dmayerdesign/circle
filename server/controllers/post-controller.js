@@ -35,14 +35,10 @@ module.exports.postPost = function(req, res) {
 							user.save(function(err) {
 								if (err) {
 									console.error(err);
-									res.json({status: 500});
 								} else {
 									console.log("user notified of tag!");
-									res.json({status: 200});
 								}
 							});
-						} else {
-							res.json({status: 500});
 						}
 					});
 				}

@@ -1,6 +1,7 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
 <main ng-if="circleJoined && user.isEmailVerified" ng-class="applyFilterClasses()">
+
 	<nav class="col-md-8 col-md-offset-2 circle-nav">
 		<div class="circle-nav-inner circle-sorting">
 			<div class="c-bg-primary tile clearfix">
@@ -11,18 +12,13 @@
 
 		<div class="circle-nav-inner circle-views">
 			<div class="c-bg-primary tile clearfix">
-				<button class="inner-btn c-bg-accent-hover" ng-click="showTagsDropdown()"><span>Categories</span></button>
+				<a class="inner-btn c-bg-accent-hover" ui-sref="categories"><span>Categories</span></a>
 				<button class="inner-btn c-bg-accent-hover"><span>Friends</span></button>
 				<button ng-click="showPostsOfType('event')" class="inner-btn c-bg-accent-hover"><span>Calendar</span></button>
 				<button ng-click="showPostsOfType('quest')" class="inner-btn c-bg-accent-hover"><span>Quests</span></button>
 			</div>
 		</div>
 
-		<div ng-show="tagsDropdownVisible" class="tags-dropdown c-bg-primary">
-			<ul>
-				<li ng-repeat="tag in circle.tags"><button ng-click="showPostsTagged(tag)" class="inner-btn square-btn">{{tag}}</button></li>
-			</ul>
-		</div>
 	</nav>
 
 <!-- POSTS MAIN -->

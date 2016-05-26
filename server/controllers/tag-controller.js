@@ -15,19 +15,19 @@ module.exports.addTag = function(req, res) {
 				circleId: req.body.circleId
 			});
 
-			tag.save();
+			tag.save(function(error, tag) {
+				Circle.findById(req.body.circleId, function(err, circle) {
+					if ( err ) {
+						res.error(err);
+					}
+					if ( circle ) {
+						circle.tags.push(req.body.name);
+						circle.save();
+					}
+				});
 
-			Circle.findById(req.body.circleId, function(err, circle) {
-				if ( err ) {
-					res.error(err);
-				}
-				if ( circle ) {
-					circle.tags.push(req.body.name);
-					circle.save();
-				}
+				res.json(tag);
 			});
-
-			res.json(tag);
 		}
 	});
 };

@@ -1,7 +1,7 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('mainController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 'Upload', 
-						   					 function($scope,   $rootScope,   $state,   $location,   $http,   init,   customizer,   action,   $q,   $filter,   Upload) {
+	.controller('mainController', ['$scope', '$rootScope', '$state', '$stateParams', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 'Upload', 
+						   					 function($scope,   $rootScope,   $state,   $stateParams,   $location,   $http,   init,   customizer,   action,   $q,   $filter,   Upload) {
 
 		$rootScope.currentState = 'main';
 
@@ -197,7 +197,8 @@
 				"content": that.newPost.content,
 				"images": that.newPost.images,
 				"type": that.newPost.type,
-				"tags": tagNames
+				"tags": tagNames,
+				"usersTagged": that.newPost.usersTagged
 			};
 
 			if ( linkPreview ) {
@@ -233,15 +234,15 @@
 				console.error(err);
 			});
 
+			var tagsArr = [];
 			for ( var i = 0; i < tagNames.length; i++ ) {
 				$http.post('api/tags/addTag', {
 					name: tagNames[i],
-					circleId: $scope.circle._id
+					circleId: $rootScope.currentCircle._id
 				}).then(function(response) {
 					if ( response.data ) {
 						$http.get('api/tags/getTags?circleId=' + $rootScope.currentCircle._id)
 						.then(function(response) {
-							var tagsArr = [];
 							var tags = response.data;
 							for ( var i = 0; i < tags.length; i++ ) {
 								if ( tags[i].hasOwnProperty("name") ) {
@@ -249,41 +250,44 @@
 								}
 							}
 							
-							$scope.circle.tags = tagsArr;
-							$rootScope.currentCircle.tags = tagsArr;
+							if ( i === tagNames.length - 1 ) {
+								$scope.circle.tags = tagsArr;
+								$rootScope.currentCircle.tags = tagsArr;
+								console.log("tagged it");
+							}
 						});
 					}
 					
 				});
+				console.log("looped");
 			}
 		};
+
+		//$scope.attemptTag = "";
 
 		$scope.tagUsers = function() {
 			var scope = this;
 			var members = $rootScope.currentCircle.members;
 			var content = scope.newPost.content;
-			var tagPattern = /\@([^\s]*)/;
-			var tagMatch = new RegExp(tagPattern);
-			var match = tagPattern.exec(content);
-			var matchIndex = 0;
+			var tagPattern = /\@([^\s]*)/gi;
+			var match = content.match(tagPattern);
 
-			if ( !match || !match.length ) {
+			console.log(match);
+
+			if ( !match || !match.length || match[0].length < 2 ) {
 				return;
 			}
 
-			if ( match[matchIndex].indexOf(" ") > -1 ) {
-				matchIndex++;
-			}
-
-			if ( match[matchIndex] && members ) {
+			if ( members ) {
 				scope.searchUsersToTag = true;
-				scope.attemptTag = match[matchIndex].replace("@", "");
-
-				for ( var i = 0; i < members.length; i++ ) {
-					if ( members[i].indexOf(scope.attemptTag) > -1 ) {
-						scope.newPost.usersTagged.push(members[i]);
-					}
-				}
+				
+				scope.attemptTag = match[match.length - 1].replace("@", "");
+				console.log(scope.attemptTag);
+				
+				// if ( members.indexOf(scope.attemptTag) > -1 && scope.newPost.usersTagged.indexOf(scope.attemptTag) === -1 ) {
+				// 	scope.newPost.usersTagged.push(scope.attemptTag);
+				// }
+				// tag will be saved to scope.newPost.usersTagged in $scope.sendPost()
 			} else {
 				scope.searchUsersToTag = false;
 			}
@@ -317,6 +321,10 @@
 				}
 			});
 		};
+
+		if ( $stateParams.tag ) {
+			$scope.showPostsTagged( $stateParams.tag );
+		}
 
 		$scope.showPostsOfType = function(type) {
 			var that = this;

@@ -1,6 +1,7 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('singleController', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'init', function($scope, $rootScope, $state, $stateParams, $http, init) {
+	.controller('singleController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
+													function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
 		console.log( $stateParams );
 
 		$rootScope.currentState = 'single';
@@ -20,8 +21,6 @@
 		} else {
 			$scope.loggedIn = true;
 		}
-
-		function getParameterByName(name, url) { if (!url) url = window.location.href; name = name.replace(/[\[\]]/g, "\\$&"); var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url); if (!results) return null; if (!results[2]) return null; return decodeURIComponent(results[2].replace(/\+/g, " ")); }
 		/* END USER INIT */
 
 		/**/
@@ -37,8 +36,8 @@
 
 			if ( !$scope.user.isEmailVerified ) {
 				console.log("email is not verified");
-				if ( getParameterByName("email") && getParameterByName("verifyEmail") ) {
-					window.location.href = '/?email=' + getParameterByName("email") + "&verifyEmail=" + getParameterByName("verifyEmail") + "/#/verify-email";
+				if ( $location.search().email && $location.search().verifyEmail ) {
+					window.location.href = '/?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail + "/#/verify-email";
 				}
 				return;
 			}
@@ -69,15 +68,30 @@
 		var postId = $stateParams.id;
 		console.log( postId );
 
-		// INIT single post
+
+		/**									 **/
+		/** INIT single post **/
+		/**									 **/
+
 		getPost($scope, postId);
 
 		function getPost($scope, id) {
 			$http.get('api/post/getSingle?id=' + id)
 			.then(function(response) {
 				$scope.post = response.data;
+				$scope.post.image = $scope.post.images[0];
+				console.log("has images");
+				if ( $scope.post.linkEmbed ) {
+					console.log("has thumbnail");
+					$scope.post.image = JSON.parse($scope.post.linkEmbed).thumbnail_url;
+					if ( JSON.parse($scope.post.linkEmbed).type === "photo" ) {
+						console.log("has photo");
+						$scope.post.image = JSON.parse($scope.post.linkEmbed).url;
+					}
+				}
+				
 				console.log( $scope.post );
-			})
+			});
 		}
 
 		$scope.deletePost = function(postId) {

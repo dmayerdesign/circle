@@ -58,6 +58,8 @@
 			localStorage.clear();
 			document.querySelector("body").className = "";
 			$scope.loggedIn = false;
+			$rootScope.user = undefined;
+			$rootScope.currentCircle = undefined;
 			$state.go('login');
 		};
 

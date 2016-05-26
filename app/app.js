@@ -1,5 +1,5 @@
 (function(_) {
-	var app = angular.module('Circle', ['ui.router', 'ngFileUpload', 'ngAnimate']);
+	var app = angular.module('Circle', ['ui.router', 'ngFileUpload', 'ngAnimate', 'mentio']);
 	
 	// CONFIG
 	app.config(function($stateProvider, $urlRouterProvider) {
@@ -58,6 +58,11 @@
 			url: "/verify-email",
 			templateUrl: "app/verify-email/verify-email.html",
 			controller: "verifyEmailController"
+		})
+		.state('categories', {
+			url: "/categories",
+			templateUrl: "app/categories/categories.html",
+			controller: "categoriesController"
 		})
 	});
 

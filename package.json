@@ -8,6 +8,7 @@
     "express": "^4.13.4",
     "imagesloaded": "^4.1.0",
     "mailgun-js": "^0.7.10",
+    "ment.io": "^0.9.23",
     "mkdirp": "^0.5.1",
     "mongoose": "^4.4.12",
     "path": "^0.12.7",
