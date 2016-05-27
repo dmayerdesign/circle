@@ -74,7 +74,7 @@
 				
 				<textarea 
 					ng-model="newPost.content" 
-					ng-keyup="generateLinkPreview(); tagUsers()" 
+					ng-keyup="generateLinkPreview(); findUsersToTag()" 
 					id="new_post_content" 
 					class="form-control" 
 					placeholder="Type something"></textarea>
@@ -92,10 +92,10 @@
 
 			<!-- TAG USERS -->
 			<div ng-if="searchUsersToTag" class="tabs radio-tabs">
-				<div ng-repeat="username in $root.currentCircle.members | filter: attemptTag">
-					<input ng-model="newPost.usersTagged[username]" id="tag_{{username}}" name="user" value="{{username}}" type="checkbox" />
-					<label class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</label>
-				</div>
+				<ul class="select-list" ng-repeat="username in $root.currentCircle.members | filter: attemptTag">
+					<!-- <input ng-model="newPost.usersTagged[username]" id="tag_{{username}}" name="user" value="{{username}}" type="checkbox" /> -->
+					<li ng-click="tagUser(username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
+				</ul>
 			</div>
 
 			<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>

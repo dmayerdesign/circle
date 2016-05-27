@@ -30,6 +30,7 @@ module.exports.postPost = function(req, res) {
 							}
 							user.notifications.push({
 								"creator": post.user,
+								"action": "mentioned you in a post",
 								"postId": post._id
 							});
 							user.save(function(err) {

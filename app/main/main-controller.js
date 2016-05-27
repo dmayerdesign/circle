@@ -91,7 +91,7 @@
 
 		$scope.newPost = {
 			content: "",
-			tags: "",
+			tags: [],
 			quest: {},
 			images: [],
 			usersTagged: []
@@ -185,9 +185,30 @@
 			var splitter = $tags.indexOf(",") > -1 ? "," : " ";
 			splitter = $tags.indexOf(", ") > -1 ? ", " : splitter;
 
-			var tagNames = $tags.split(splitter);
+			that.newPost.tags = $tags.split(splitter);
+			var tagNames = that.newPost.tags;
 			var postLink = {};
 			var linkPreview = that.linkPreview;
+
+			var content = that.newPost.content;
+			var members = $rootScope.currentCircle.members;
+			var tagPattern = /\@([^\s]*)/gi;
+			var match = content.match(tagPattern);
+			var taggedUsername;
+
+			if (match) {
+				for ( var i = 0; i < match.length; i++ ) {
+					taggedUsername = match[i].replace("@", "");
+					for ( var index = 0; index < members.length; index++ ) {
+						if ( taggedUsername == members[index] ) {
+							that.newPost.usersTagged.push(taggedUsername);
+						}
+						console.log(that.newPost.usersTagged);
+					}
+				}
+			}
+
+			console.log(that.newPost.usersTagged);
 
 			var request = {
 				"user": $scope.user.username || $scope.user.email,
@@ -197,7 +218,7 @@
 				"content": that.newPost.content,
 				"images": that.newPost.images,
 				"type": that.newPost.type,
-				"tags": tagNames,
+				"tags": that.newPost.tags,
 				"usersTagged": that.newPost.usersTagged
 			};
 
@@ -212,15 +233,6 @@
 				request.linkEmbed = JSON.stringify(postLink);
 			}
 
-			if ( that.newPost.usersTagged ) {
-				var usersObj = that.newPost.usersTagged;
-				var taggedUsersArr = [];
-				for ( var username in usersObj ) {
-					taggedUsersArr.push(username);
-				}
-				request.usersTagged = taggedUsersArr;
-			}
-
 			$http.post('api/post/post', request)
 			.success(function(response) {
 				console.log(request);
@@ -229,6 +241,25 @@
 				that.newPost = {};
 				that.linkPreview = null;
 				_("#new-post-area > *").blur();
+
+				// if (request.usersTagged.length) {
+				// 	for ( var q = 0; q < request.usersTagged.length; q++ ) {
+				// 		var taggedUser = request.usersTagged[q];
+				// 		var notification = {
+				// 			user: taggedUser,
+				// 			creator: that.user.username,
+				// 			action: "mentioned you in a post",
+				// 			postId: response[0]._id
+				// 		};
+				// 		$http.post('api/user/notify', notification)
+				// 		.then(function(res) {
+				// 			console.log("notified " + taggedUser);
+				// 			console.log(res);
+				// 		}, function(err) {
+				// 			console.error(err);
+				// 		});
+				// 	}
+				// }
 			})
 			.error(function(err) {
 				console.error(err);
@@ -263,9 +294,7 @@
 			}
 		};
 
-		//$scope.attemptTag = "";
-
-		$scope.tagUsers = function() {
+		$scope.findUsersToTag = function() {
 			var scope = this;
 			var members = $rootScope.currentCircle.members;
 			var content = scope.newPost.content;
@@ -278,18 +307,35 @@
 				return;
 			}
 
+			console.log(scope.attemptTag);
+
 			if ( members ) {
 				scope.searchUsersToTag = true;
-				
 				scope.attemptTag = match[match.length - 1].replace("@", "");
-				console.log(scope.attemptTag);
-				
-				// if ( members.indexOf(scope.attemptTag) > -1 && scope.newPost.usersTagged.indexOf(scope.attemptTag) === -1 ) {
-				// 	scope.newPost.usersTagged.push(scope.attemptTag);
-				// }
-				// tag will be saved to scope.newPost.usersTagged in $scope.sendPost()
 			} else {
 				scope.searchUsersToTag = false;
+			}
+
+			for ( var i = 0; i < members.length; i++ ) {
+				if ( scope.attemptTag === members[i] ) {
+					scope.searchUsersToTag = false;
+				}
+			}
+		};
+
+		$scope.tagUser = function(username) {
+			var scope = this;
+			var content = scope.newPost.content;
+			var tagPattern = /\@([^\s]*)/gi;
+			var match = content.match(tagPattern);
+			var usernameFragment;
+			for ( var i = 0; i < match.length; i++ ) {
+				usernameFragment = match[i].replace("@", "");
+				if ( username.indexOf(usernameFragment) > -1 ) {
+					scope.newPost.content = content.replace(match[i], "@" + username + " ");
+					scope.searchUsersToTag = false;
+					_("#new_post_content").focus();
+				}
 			}
 		};
 
@@ -563,6 +609,14 @@
 		setInterval(treatPostLinks, 500);
 
 		$scope.tagsLimit = 5;
+
+		$scope.clearNotification = function(all, id) {
+			var scope = this;
+			action.clearNotification(scope.user._id, all, id, function(user) {
+				$rootScope.user.notifications = user.notifications;
+				console.log(user);
+			});
+		};
 
 	}]);
 }(jQuery));

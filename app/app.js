@@ -241,6 +241,20 @@
 			});
 		};
 
+		action.clearNotification = function clearNotification(userId, all, id, callback) {
+			$http.post('api/user/clearNotification', {
+				clearAll: all,
+				userId: userId,
+				notificationId: id
+			}).then(function(response) {
+				if (callback) {
+					callback(response.data);
+				}
+			}, function(error) {
+				console.error(error);
+			});
+		};
+
 		return action;
 	});
 

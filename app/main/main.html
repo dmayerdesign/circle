@@ -26,6 +26,16 @@
 		<button ng-click="setNewPosts(); showPostsTagged(); showPostsOfType();" class="btn btn-primary">All Posts
 			<!-- <span ng-if="incomingPosts && difference">({{difference}} new)</span> -->
 		</button>
+
+	<!-- notifications -->
+		<ul class="notifications" ng-if="$root.user.notifications.length">
+			<li ng-repeat="notification in $root.user.notifications" data-notif-id="{{notification._id}}">
+				{{notification.creator}} {{notification.action}}
+				<button ng-click="clearNotification(false, notification._id)" class="btn btn-default">remove</button>
+			</li>
+		</ul>
+
+	<!-- archive -->
 		<div class="col-md-8 col-md-offset-2 posts-archive archive">
 
 			<!-- post -->

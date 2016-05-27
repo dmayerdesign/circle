@@ -14,6 +14,7 @@ module.exports = mongoose.model('User', {
 	notifications: [
 		{
 			creator: String,
+			action: String,
 			postId: String
 		}
 	]

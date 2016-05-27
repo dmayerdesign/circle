@@ -72,6 +72,9 @@ app.get('/api/users/get', usersController.getUsers);
 app.get('/api/users/getUser', usersController.getUser);
 app.get('/api/users/getAvatar', usersController.getUserAvatar);
 app.post('/api/users/follow', usersController.followUser);
+// app.post('/api/user/notify', usersController.notifyUser);
+app.post('/api/user/clearNotification', usersController.clearNotification);
+
 
 app.listen('3000', function() {
 	console.log("Listening for localhost:3000");

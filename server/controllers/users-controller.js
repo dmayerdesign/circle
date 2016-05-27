@@ -106,3 +106,85 @@ module.exports.getUserAvatar = function(req, res) {
 		}
 	})
 };
+
+// module.exports.notifyUser = function(req, res) {
+// 	Users.findOne({username: req.body.username}, function(err, userData) {
+// 		if (err) {
+// 			console.error(err);
+// 			res.json({status: 500});
+// 			return;
+// 		} else {
+// 			var user = userData;
+// 			if (user) {
+// 				user.notifications.push({
+// 					"creator": req.body.creator,
+// 					"action": req.body.action,
+// 					"postId": req.body.postId
+// 				});
+
+// 				user.save(function(err, userData) {
+// 					if (err) {
+// 						console.log("failed to notify user");
+// 						res.json({status: 500});
+// 					} else {
+// 						console.log("successfully notified the user!");
+// 					}
+// 				});
+// 			} else {
+// 				res.json({status: 500});
+// 			}
+// 		}
+// 	});
+// };
+
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+module.exports.clearNotification = function(req, res) {
+	if ( req.body.clearAll === true ) {
+		Users.findById(req.body.userId, function(err, user) {
+			user.notifications = [];
+			user.save(function(err, userData) {
+				if (err) {
+					console.error(err);
+					res.json(userData);
+				} else {
+					res.json({status: 200});
+				}
+			});
+		});
+	}
+	else {
+		Users.findById(req.body.userId, function(err, user) {
+			if ( !user.notifications || !user.notifications.length ) {
+				res.json({status: 200});
+				return;
+			}
+
+			console.log(req.body);
+
+			for ( var i = 0; i < user.notifications.length; i++ ) {
+				var notification = user.notifications[i];
+				if ( notification._id == req.body.notificationId ) {
+					user.notifications.splice(i, 1);
+				}
+			}
+			user.save(function(err, userData) {
+				if (!err) {
+					console.log("notification removed!");
+					res.json(userData);
+				} else {
+					res.json(err);
+				}
+			});
+		});
+	}
+};
