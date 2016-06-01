@@ -49,11 +49,6 @@
 			templateUrl: "app/edit-circle/edit-circle.html",
 			controller: "editCircleController",
 		})
-		.state('follow', {
-			url: "/follow-users",
-			templateUrl: "app/follow/follow.html",
-			controller: "followController"
-		})
 		.state('verifyEmail', {
 			url: "/verify-email",
 			templateUrl: "app/verify-email/verify-email.html",

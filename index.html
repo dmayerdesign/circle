@@ -67,14 +67,14 @@
 					mentio-typed-text="attemptTag" 
 					mentio-items="$root.currentCircle.members | filter: attemptTag" 
 					ng-model="newPost.content" 
-					ng-keyup="generateLinkPreview(); tagUsers()" 
+					ng-keyup="generateLinkPreview(); mentionUsers()" 
 					id="new_post_content" 
 					class="form-control" 
 					placeholder="Type something"> -->
 				
 				<textarea 
 					ng-model="newPost.content" 
-					ng-keyup="generateLinkPreview(); findUsersToTag()" 
+					ng-keyup="generateLinkPreview(); findUsersToMention()" 
 					id="new_post_content" 
 					class="form-control" 
 					placeholder="Type something"></textarea>
@@ -90,11 +90,11 @@
 				</div>
 			</div>
 
-			<!-- TAG USERS -->
-			<div ng-if="searchUsersToTag" class="tabs radio-tabs">
+			<!-- MENTIONS -->
+			<div ng-if="searchUsersToMention" class="tabs radio-tabs">
 				<ul class="select-list" ng-repeat="username in $root.currentCircle.members | filter: attemptTag">
-					<!-- <input ng-model="newPost.usersTagged[username]" id="tag_{{username}}" name="user" value="{{username}}" type="checkbox" /> -->
-					<li ng-click="tagUser(username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
+					<!-- <input ng-model="newPost.usersMentioned[username]" id="tag_{{username}}" name="user" value="{{username}}" type="checkbox" /> -->
+					<li ng-click="mentionUser(username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
 				</ul>
 			</div>
 
@@ -150,7 +150,7 @@
 				</div>
 			</div>
 
-	<!-- 		<div class="row">
+	<!-- <div class="row">
 				<div class="col-sm-6 col-sm-offset-3">
 					<p>Insert some CSS (experts only)</p>
 					<textarea ng-model="$parent.style.css" placeholder="example: .tile { border: 2px solid pink; }" ng-blur="editCircle('css')" class="form-control"></textarea>
@@ -202,7 +202,6 @@
 	<script src="app/login/login-controller.js"></script>
 	<script src="app/profile/edit-profile-controller.js"></script>
 	<script src="app/main/main-controller.js"></script>
-	<script src="app/follow/follow-controller.js"></script>
 	<script src="app/single/single-controller.js"></script>
 	<script src="app/create-circle/create-circle-controller.js"></script>
 	<script src="app/edit-circle/edit-circle-controller.js"></script>

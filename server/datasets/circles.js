@@ -16,5 +16,10 @@ module.exports = mongoose.model('Circle', {
 		logo: String,
 		css: String
 	},
-	tags: [String]
+	tags: [String],
+	currency: {
+		singularName: String,
+		pluralName: String,
+		symbol: String
+	}
 })

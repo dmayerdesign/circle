@@ -63,6 +63,13 @@ app.get('/api/post/getSingle', postController.getPost);
 app.post('/api/post/updatePostUser', postController.updatePostUser);
 app.post('/api/post/attachImage', postController.attachImage);
 
+// Comments
+app.post('/api/comment/post', postController.postComment);
+
+//Quests
+app.post('/api/quest/updateQuestStatus', postController.updateQuestStatus);
+app.post('/api/quest/userCompletedQuest', postController.userCompletedQuest);
+
 // Tags
 app.post('/api/tags/addTag', tagController.addTag);
 app.get('/api/tags/getTags', tagController.getTags);
@@ -71,7 +78,6 @@ app.get('/api/tags/getTags', tagController.getTags);
 app.get('/api/users/get', usersController.getUsers);
 app.get('/api/users/getUser', usersController.getUser);
 app.get('/api/users/getAvatar', usersController.getUserAvatar);
-app.post('/api/users/follow', usersController.followUser);
 // app.post('/api/user/notify', usersController.notifyUser);
 app.post('/api/user/clearNotification', usersController.clearNotification);
 

@@ -57,6 +57,10 @@ module.exports.editProfile = function(req, res) {
 		fieldKey = 'bio';
 		fieldVal = req.body.bio;
 	}
+	if ( req.body.name ) {
+		fieldKey = 'name';
+		fieldVal = req.body.name;
+	}
 	if ( req.body.circles ) { 
 		fieldKey = 'circles';
 		fieldVal = req.body.circles;
@@ -67,6 +71,9 @@ module.exports.editProfile = function(req, res) {
 
 		if ( req.body.username ) {
 			user.username = req.body.username;
+		}
+		if ( req.body.name ) {
+			user.name = req.body.name;
 		}
 		if ( req.body.bio ) {
 			user.bio = req.body.bio;
@@ -85,11 +92,22 @@ module.exports.editProfile = function(req, res) {
 				Post.find({userId: userId}, function(err, posts) {
 					for ( var i = 0; i < posts.length; i++ ) {
 						posts[i].avatar = user.avatar;
-						posts[i].user = user.username || user.email;
+						posts[i].user = user.username;
+						posts[i].authorName = user.name || user.username;
 						posts[i].save();
 					}
-					res.json(userData);
 				});
+				Post.find({'comments.userId': userId}, function(err, posts) {
+					for ( var i = 0; i < posts.length; i++ ) {
+						for ( var index = 0; index < posts[i].comments.length; index++ ) {
+							posts[i].comments[index].avatar = user.avatar;
+							posts[i].comments[index].user = user.username;
+							posts[i].comments[index].authorName = user.name || user.username;
+							posts[i].save();
+						}
+					}
+				});
+				res.json(userData);
 			}
 		});
 	});

@@ -44,7 +44,7 @@
 
 			if ( circle ) {
 				init.getMembers(circle.accessCode, function(members) {
-					$scope.users = members;
+					$rootScope.users = members;
 				});
 
 				$scope.circleJoined = true;
@@ -72,20 +72,15 @@
 		/**									 **/
 		/** INIT single post **/
 		/**									 **/
-
 		getPost($scope, postId);
-
 		function getPost($scope, id) {
 			$http.get('api/post/getSingle?id=' + id)
 			.then(function(response) {
 				$scope.post = response.data;
 				$scope.post.image = $scope.post.images[0];
-				console.log("has images");
 				if ( $scope.post.linkEmbed ) {
-					console.log("has thumbnail");
 					$scope.post.image = JSON.parse($scope.post.linkEmbed).thumbnail_url;
 					if ( JSON.parse($scope.post.linkEmbed).type === "photo" ) {
-						console.log("has photo");
 						$scope.post.image = JSON.parse($scope.post.linkEmbed).url;
 					}
 				}
@@ -148,6 +143,123 @@
 
 			_post.removeClass("not-treated");
 			_article.html(content);
+		};
+
+		$scope.completedQuest = function(postId, username) {
+			var scope = this;
+			$http.post('api/quest/userCompletedQuest', {postId: postId, username: username}).then(function(response) {
+				console.log(response.data);
+			}, function(err) {
+				console.error(err);
+			});
+		};
+
+		$scope.allCompletedQuest = function(postId, usernames) {
+			for (var i = 0; i < usernames.length; i++) {
+				this.completedQuest(postId, usernames[i]);
+			}
+		};
+
+		$scope.newComment = {
+			content: "",
+			images: [],
+			usersMentioned: []
+		};
+
+		$scope.generateLinkPreview = function() {
+			var that = this;
+			var content = this.newComment.content;
+			var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+			var urlMatch = new RegExp(urlPattern);
+			var match = urlPattern.exec(content);
+			var theLink;
+
+			if ( match ) {
+				theLink = match[0];
+				console.log(theLink);
+
+				_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
+					console.log(data.url);
+					console.log(data.thumbnail_url);
+					console.log(data);
+
+					if ( data.type === "photo" ) {
+						data["src"] = data.url;
+					} else {
+						data["src"] = data.thumbnail_url;
+					}
+
+					that.linkPreview = data;
+				});
+			} else {
+				that.linkPreview = null;
+			}
+		};
+
+		$scope.postComment = function() {
+			var that = this;
+
+			if ( that.newComment.content.length <= 1 ) {
+				return;
+			}
+
+			var commentLink = {};
+			var linkPreview = that.linkPreview;
+
+			var content = that.newComment.content;
+			var members = $rootScope.currentCircle.members;
+			var tagPattern = /\@([^\s!?,.]*)/gi;
+			var match = content.match(tagPattern);
+			var mentionedUsername;
+
+			if (match) {
+				for ( var i = 0; i < match.length; i++ ) {
+					mentionedUsername = match[i].replace("@", "");
+					for ( var index = 0; index < members.length; index++ ) {
+						if ( mentionedUsername == members[index] ) {
+							that.newComment.usersMentioned.push(mentionedUsername);
+						}
+					}
+				}
+			}
+
+			var request = {
+				postId: that.post._id,
+				comment: {
+					"authorName": $rootScope.user.name,
+					"user": $rootScope.user.username || $scope.user.email,
+					"userId": $rootScope.user._id,
+					"avatar": $rootScope.user.avatar,
+					"content": that.newComment.content,
+					"images": that.newComment.images,
+					"usersMentioned": that.newComment.usersMentioned
+				}
+			};
+
+			if ( linkPreview ) {
+				commentLink.url = linkPreview.url || linkPreview.thumbnail_url;
+				commentLink.thumbnail_url = linkPreview.thumbnail_url;
+				commentLink.title = linkPreview.title;
+				commentLink.description = linkPreview.description;
+				commentLink.provider_url = linkPreview.provider_url;
+				commentLink.type = linkPreview.type;
+
+				request.comment.linkEmbed = JSON.stringify(commentLink);
+			}
+
+			$http.post('api/comment/post', request)
+			.success(function(response) {
+				that.post = response;
+				that.newComment = {
+					content: "",
+					images: [],
+					usersMentioned: []
+				};
+				that.linkPreview = null;
+			})
+			.error(function(err) {
+				console.error(err);
+			});
 		};
 
 	}]);

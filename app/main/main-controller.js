@@ -62,18 +62,23 @@
 					initUI();
 
 					// Check for new posts
-					setInterval(function() {
-						$scope.incomingPosts = false;
-						init.getPosts($scope.circle._id, function(posts) {
-							$scope.incomingPosts = posts;
-							if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
-								$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
-								if ( $scope.difference > 0 ) {
-									$scope.posts = posts;
-								}
-							}
-						});
-					}, 3000);
+					// setInterval(function() {
+					// 	$scope.incomingPosts = false;
+					// 	init.getPosts($scope.circle._id, function(posts) {
+					// 		$scope.incomingPosts = posts;
+					// 		if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
+					// 			$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
+					// 			if ( $scope.difference > 0 ) {
+					// 				$scope.posts = posts;
+					// 			}
+					// 		}
+					// 	});
+					// }, 3000);
+
+					// Search for filter in query string
+					if ( $location.search().tag ) {
+						$scope.showPostsTagged( $location.search().tag );
+					}
 				});
 			
 			} else {
@@ -94,7 +99,7 @@
 			tags: [],
 			quest: {},
 			images: [],
-			usersTagged: []
+			usersMentioned: []
 		};
 
 		$scope.customSelect = function customSelect(element, event) {
@@ -192,25 +197,26 @@
 
 			var content = that.newPost.content;
 			var members = $rootScope.currentCircle.members;
-			var tagPattern = /\@([^\s]*)/gi;
+			var tagPattern = /\@([^\s.,!?]*)/gi;
 			var match = content.match(tagPattern);
-			var taggedUsername;
+			var mentionedUsername;
 
 			if (match) {
 				for ( var i = 0; i < match.length; i++ ) {
-					taggedUsername = match[i].replace("@", "");
+					mentionedUsername = match[i].replace("@", "");
 					for ( var index = 0; index < members.length; index++ ) {
-						if ( taggedUsername == members[index] ) {
-							that.newPost.usersTagged.push(taggedUsername);
+						if ( mentionedUsername == members[index] ) {
+							that.newPost.usersMentioned.push(mentionedUsername);
 						}
-						console.log(that.newPost.usersTagged);
+						console.log(that.newPost.usersMentioned);
 					}
 				}
 			}
 
-			console.log(that.newPost.usersTagged);
+			console.log(that.newPost.usersMentioned);
 
 			var request = {
+				"authorName": $scope.user.name,
 				"user": $scope.user.username || $scope.user.email,
 				"userId": $scope.user._id,
 				"avatar": $scope.user.avatar,
@@ -219,7 +225,7 @@
 				"images": that.newPost.images,
 				"type": that.newPost.type,
 				"tags": that.newPost.tags,
-				"usersTagged": that.newPost.usersTagged
+				"usersMentioned": that.newPost.usersMentioned
 			};
 
 			if ( linkPreview ) {
@@ -238,22 +244,28 @@
 				console.log(request);
 				console.log(response);
 				that.posts = response;
-				that.newPost = {};
+				that.newPost = {
+					content: "",
+					tags: [],
+					quest: {},
+					images: [],
+					usersMentioned: []
+				};
 				that.linkPreview = null;
 				_("#new-post-area > *").blur();
 
-				// if (request.usersTagged.length) {
-				// 	for ( var q = 0; q < request.usersTagged.length; q++ ) {
-				// 		var taggedUser = request.usersTagged[q];
+				// if (request.usersMentioned.length) {
+				// 	for ( var q = 0; q < request.usersMentioned.length; q++ ) {
+				// 		var mentionedUser = request.usersMentioned[q];
 				// 		var notification = {
-				// 			user: taggedUser,
+				// 			user: mentionedUser,
 				// 			creator: that.user.username,
 				// 			action: "mentioned you in a post",
 				// 			postId: response[0]._id
 				// 		};
 				// 		$http.post('api/user/notify', notification)
 				// 		.then(function(res) {
-				// 			console.log("notified " + taggedUser);
+				// 			console.log("notified " + mentionedUser);
 				// 			console.log(res);
 				// 		}, function(err) {
 				// 			console.error(err);
@@ -294,11 +306,11 @@
 			}
 		};
 
-		$scope.findUsersToTag = function() {
+		$scope.findUsersToMention = function() {
 			var scope = this;
 			var members = $rootScope.currentCircle.members;
 			var content = scope.newPost.content;
-			var tagPattern = /\@([^\s]*)/gi;
+			var tagPattern = /\@([^\s.,!?]*)/gi;
 			var match = content.match(tagPattern);
 
 			console.log(match);
@@ -310,30 +322,30 @@
 			console.log(scope.attemptTag);
 
 			if ( members ) {
-				scope.searchUsersToTag = true;
+				scope.searchUsersToMention = true;
 				scope.attemptTag = match[match.length - 1].replace("@", "");
 			} else {
-				scope.searchUsersToTag = false;
+				scope.searchUsersToMention = false;
 			}
 
 			for ( var i = 0; i < members.length; i++ ) {
 				if ( scope.attemptTag === members[i] ) {
-					scope.searchUsersToTag = false;
+					scope.searchUsersToMention = false;
 				}
 			}
 		};
 
-		$scope.tagUser = function(username) {
+		$scope.mentionUser = function(username) {
 			var scope = this;
 			var content = scope.newPost.content;
-			var tagPattern = /\@([^\s]*)/gi;
+			var tagPattern = /\@([^\s.,!?]*)/gi;
 			var match = content.match(tagPattern);
 			var usernameFragment;
 			for ( var i = 0; i < match.length; i++ ) {
 				usernameFragment = match[i].replace("@", "");
 				if ( username.indexOf(usernameFragment) > -1 ) {
 					scope.newPost.content = content.replace(match[i], "@" + username + " ");
-					scope.searchUsersToTag = false;
+					scope.searchUsersToMention = false;
 					_("#new_post_content").focus();
 				}
 			}
@@ -359,7 +371,7 @@
 					$scope.postsAreFiltered = false;
 					return $scope.posts;
 				} else {
-					$scope.posts = $filter('filter')($scope.posts, tag);
+					$scope.posts = $filter('filter')($scope.posts, {tags: tag});
 					$scope.postsAreFiltered = {
 						filter: tag
 					};
@@ -367,10 +379,6 @@
 				}
 			});
 		};
-
-		if ( $stateParams.tag ) {
-			$scope.showPostsTagged( $stateParams.tag );
-		}
 
 		$scope.showPostsOfType = function(type) {
 			var that = this;
@@ -385,15 +393,31 @@
 
 				if ( !type || typeof type === 'undefined' ) {
 					$scope.postTypesAreFiltered = false;
+
+					// clear "tag" query parameter if it exists
+					if ( $location.search().tag ) {
+						window.location.href = "/#/";
+					}
+
 					return $scope.posts;
 				} else {
-					$scope.posts = $filter('filter')($scope.posts, type);
+					$scope.posts = $filter('filter')($scope.posts, {type: type});
 					$scope.postTypesAreFiltered = {
 						filter: type
 					};
 					return $scope.posts;
 				}
 			});
+		};
+
+		$scope.showPostsMentioningMe = function(me) {
+			if (me || typeof me === "undefined") {
+				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: $scope.user.username});
+			}
+			else if (me === false) {
+				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: undefined});
+			}
+			return $scope.posts;
 		};
 
 		$scope.applyFilterClasses = function() {
@@ -493,7 +517,7 @@
 
 			if ( match ) {
 				theLink = match[0];
-							console.log(theLink);
+				console.log(theLink);
 
 				_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
 					console.log(data.url);
@@ -617,6 +641,13 @@
 				console.log(user);
 			});
 		};
+
+		$rootScope.randomDismissal = function() {
+			var index = Math.floor(Math.random() * 4);
+			var dismissals = ["ok", "whatever", "fine", "cool"];
+			console.log(dismissals[index]);
+			return dismissals[index];
+		}();
 
 	}]);
 }(jQuery));

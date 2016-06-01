@@ -14,14 +14,27 @@ module.exports.postPost = function(req, res) {
 			console.log(error);
 		} else {
 			console.log("SAVED POST");
-			if (post.usersTagged && post.usersTagged.length) {
-				for (var i = 0; i < post.usersTagged.length; i++) {
-					var taggedUser = post.usersTagged[i];
-					Users.findOne({username: taggedUser}, function(err, user) {
+			if (post.usersMentioned && post.usersMentioned.length) {
+				for (var i = 0; i < post.usersMentioned.length; i++) {
+					var mentionedUser = post.usersMentioned[i];
+					var notificationCopy;
+
+					switch (post.type) {
+						case "normal":
+							notificationCopy = "mentioned you in a post";
+							break;
+						case "event":
+							notificationCopy = "invited you to an event";
+							break;
+						case "quest":
+							notificationCopy = "sent you on a quest!";
+							break;
+					};
+
+					Users.findOne({username: mentionedUser}, function(err, user) {
 						if ( err ) {
-							console.log("couldn't find the user to notify them of the tag");
+							console.log("couldn't find the user to notify them of the mention");
 							console.error(err);
-							res.json({status: 500});
 							return;
 						}
 						if ( user ) {
@@ -29,15 +42,15 @@ module.exports.postPost = function(req, res) {
 								user.notifications = [];
 							}
 							user.notifications.push({
-								"creator": post.user,
-								"action": "mentioned you in a post",
+								"creator": post.authorName || post.user,
+								"action": notificationCopy,
 								"postId": post._id
 							});
 							user.save(function(err) {
 								if (err) {
 									console.error(err);
 								} else {
-									console.log("user notified of tag!");
+									console.log("user notified of mention!");
 								}
 							});
 						}
@@ -54,6 +67,103 @@ module.exports.postPost = function(req, res) {
 			res.error(err);
 		} else {
 			res.json(allPosts);
+		}
+	});
+};
+
+module.exports.postComment = function(req, res) {
+	// comment, postId
+	console.log("COMMENTING: ");
+	console.log(req.body.comment);
+
+	var comment = req.body.comment;
+
+	Post.findOne({_id: req.body.postId}, function(err, post) {
+		if (err) {
+			console.error(err);
+			res.error(err);
+			return;
+		} else {
+			post.comments.push(comment);
+			post.save(function(err, post) {
+				var mentionedUser, notificationCopy;
+				if (err) {
+					console.error(err);
+					res.error(err);
+				} else {
+					console.log("SAVED COMMENT");
+					if (comment.usersMentioned && comment.usersMentioned.length) {
+						notificationCopy = "mentioned you in a comment";
+						for (var i = 0; i < comment.usersMentioned.length; i++) {
+							mentionedUser = comment.usersMentioned[i];
+
+							Users.findOne({username: mentionedUser}, function(err, user) {
+								if ( err ) {
+									console.log("couldn't find the user to notify them of the mention");
+									console.error(err);
+									return;
+								}
+								if ( user ) {
+									if ( !user.notifications ) {
+										user.notifications = [];
+									}
+									user.notifications.push({
+										"creator": comment.authorName || comment.user,
+										"action": notificationCopy,
+										"postId": post._id
+									});
+									user.save(function(err) {
+										if (err) {
+											console.error(err);
+										} else {
+											console.log("user notified of mention!");
+											commentedOnMention();
+										}
+									});
+								}
+							});
+						}
+					} else {
+						commentedOnMention();
+					}
+
+					function commentedOnMention() {
+						if (post.usersMentioned && post.usersMentioned.length) {
+							notificationCopy = "commented on a post you're mentioned in";
+							for (var j = 0; j < post.usersMentioned.length; j++) {
+								mentionedUser = post.usersMentioned[j];
+
+								Users.findOne({username: mentionedUser}, function(err, user) {
+									if ( err ) {
+										console.log("couldn't find the user to notify them of the comment");
+										console.error(err);
+										return;
+									}
+									if ( user ) {
+										if ( !user.notifications ) {
+											user.notifications = [];
+										}
+										user.notifications.push({
+											"creator": comment.authorName || comment.user,
+											"action": notificationCopy,
+											"postId": post._id
+										});
+										user.save(function(err) {
+											if (err) {
+												console.error(err);
+											} else {
+												console.log("user notified of comment!");
+											}
+										});
+									}
+								});
+							}
+						}
+					}
+
+					res.json(post);
+				}
+			});
 		}
 	});
 };
@@ -82,10 +192,85 @@ module.exports.getPosts = function(req, res) {
 		if (err) {
 			res.error(err);
 		} else {
-			//console.log( allPosts );
+			for (var i = 0; i < allPosts.length; i++) {
+				if (allPosts[i].type == "quest" && allPosts[i].quest.due < Date.now() && allPosts[i].quest.status === "in_progress") {
+					Post.findOne({_id: allPosts[i]._id}, function(err, quest) {
+						if (err) {
+							console.error(err);
+						} else {
+							quest.status = "failed";
+							quest.save();
+						}
+					});
+				}
+			}
+
 			res.json(allPosts);
 		}
 	});
+};
+
+module.exports.updateQuestStatus = function(req, res) {
+	Post.findOne({_id: req.body.postId}, function(err, post) {
+		if (err) {
+			res.error(err);
+		}
+		else if (req.body.status !== "in_progress" && req.body.status !== "completed" && req.body.status !== "failed") {
+			console.error("didn't recognize the new status");
+			res.json({status: 200});
+		}
+		else if (post) {
+			post.quest.status = req.body.status;
+			post.save();
+			res.json(post);
+		}
+	});
+};
+
+module.exports.userCompletedQuest = function(req, res) {
+	// username, postId
+	if ( req.body.postId && req.body.username ) {
+		Post.findOne({_id: req.body.postId}, function(err, post) {
+			if (!err && post.type === "quest") {
+				if (post.quest.completers.indexOf(req.body.username) === -1) {
+					post.quest.completers.push(req.body.username);
+				}
+				if ( post.quest.completers.length === post.usersMentioned.length ) {
+					post.quest.status = "completed";
+				}
+				post.save(function(err) {
+					if (err) {
+						console.error(err);
+						res.error(err);
+					} else {
+						Users.findOne({username: req.body.username}, function(err, user) {
+							if ( post.quest.worth.currency ) {
+								user.currency += post.quest.worth.currency;
+							}
+							if ( post.quest.worth.achievement ) {
+								user.achievements.push(post.quest.worth.achievement);
+							}
+							user.save(function(err) {
+								if (!err) {
+									res.json(post);
+								} else {
+									console.error(err);
+									res.error(err);
+								}
+							});
+						});
+					}
+				});
+			}
+			else {
+				console.error(err);
+				res.error(err);
+			}
+		});
+	} else {
+		console.error("you didn't provide enough data in the POST request");
+		res.json({status:500});
+	}
 };
 
 module.exports.getPostsByTag = function(req, res) {

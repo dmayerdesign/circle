@@ -49,7 +49,7 @@
 
 			if ( circle ) {
 				init.getMembers(circle.accessCode, function(members) {
-					$scope.users = members;
+					$rootScope.users = members;
 				});
 
 				$scope.circleJoined = true;
@@ -112,24 +112,24 @@
 			}
 		}
 
-		function randomBgClasses() {
-			var classArr = [
-				"c-bg-primary",
-				"c-bg-secondary",
-				"c-bg-accent"
-			];
-			var addClassesInt = setInterval(function() {
-				_(".category-tile.bg-not-applied").each(function() {
-					$(this)
-						.addClass(classArr[Math.floor(Math.random() * 3)])
-						.removeClass("bg-not-applied");
-				});
-				if ( !_(".category-tile.bg-not-applied").length ) {
-					clearInterval(addClassesInt);
-				}
-			}, 500);
-		}
-		randomBgClasses();
+		// function randomBgClasses() {
+		// 	var classArr = [
+		// 		"c-bg-primary",
+		// 		"c-bg-secondary",
+		// 		"c-bg-accent"
+		// 	];
+		// 	var addClassesInt = setInterval(function() {
+		// 		_(".category-tile.bg-not-applied").each(function() {
+		// 			$(this)
+		// 				.addClass(classArr[Math.floor(Math.random() * 3)])
+		// 				.removeClass("bg-not-applied");
+		// 		});
+		// 		if ( !_(".category-tile.bg-not-applied").length ) {
+		// 			clearInterval(addClassesInt);
+		// 		}
+		// 	}, 500);
+		// }
+		// randomBgClasses();
 
 
 	}]);

@@ -9,6 +9,16 @@
 		</li>
 		<li>Edit post (coming soon)</li>
 	</ul>
+
+	<ul ng-if="post.type == 'quest' && $root.user._id == post.userId && post.quest.status !== 'completed'">
+		<li>
+			<button ng-click="allCompletedQuest(post._id, post.usersMentioned)">Everyone completed the quest</button>
+		</li>
+		<li ng-repeat="user in post.usersMentioned">
+			<button ng-click="completedQuest(post._id, user)">{{user}} completed the quest</button>
+		</li>
+	</ul>
+
 	<div class="post-image" ng-if="post.image">
 		<img src="{{post.image}}" alt="{{post.content}}">
 	</div>
@@ -19,7 +29,27 @@
 	<div class="date">
 		{{post.date | date: 'MM/dd/yyyy hh:mm'}}
 	</div>
+
 	<article class="content">
 		{{post.content}}
 	</article>
+
+	<section class="comments">
+		<div ng-repeat="comment in post.comments" class="comment">{{comment.authorName}} said: {{comment.content}}</div>
+
+		<button ng-show="!allowAddComment" ng-click="allowAddComment = true">Add a comment</button>
+		<form ng-show="allowAddComment" ng-submit="postComment(); allowAddComment = false">
+			<input type="text" ng-keyup="generateLinkPreview()" ng-model="newComment.content" placeholder="Write a comment">
+			<div ng-if="linkPreview" class="link-preview">
+				<div class="link-preview-thumbnail">
+					<img src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
+				</div>
+				<div class="link-preview-text">
+					<h3>{{linkPreview.title}}</h3>
+					<p>{{linkPreview.description}}</p>
+				</div>
+			</div>
+			<button>Post comment</button>
+		</form>
+	</section>
 </section>

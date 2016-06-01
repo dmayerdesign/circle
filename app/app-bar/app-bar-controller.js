@@ -34,7 +34,7 @@
 
 			if ( circle ) {
 				init.getMembers(circle.accessCode, function(members) {
-					$scope.users = members;
+					$rootScope.users = members;
 				});
 
 				$rootScope.circleJoined = true;

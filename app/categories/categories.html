@@ -1,7 +1,7 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
 <section class="col-sm-8 col-sm-offset-2">
-	<a ui-sref="main({tag: category.name})" class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories" style="display:block; background-image: url({{category.image}});">
+	<a href="/#/?tag={{category.name}}" class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories" style="display:block; background-image: url({{category.image}});">
 		<span>{{category.name}}</span>
 	</a>
 </section>

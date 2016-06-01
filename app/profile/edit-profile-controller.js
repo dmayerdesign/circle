@@ -45,7 +45,7 @@
 
 				if ( circle ) {
 					init.getMembers(circle.accessCode, function(members) {
-						$scope.users = members;
+						$rootScope.users = members;
 					});
 
 					$scope.circleJoined = true;
@@ -91,18 +91,12 @@
 				}
 			};
 
-			$scope.editProfile = function() {
+			$scope.editProfile = function(part) {
 				var request = {
 					userId: $scope.user._id
 				};
 
-				if ( $scope.user.username ) {
-					request.username = $scope.user.username;
-				}
-
-				if ( $scope.user.bio ) {
-					request.bio = $scope.user.bio;
-				}
+				request[part] = $scope.user[part];
 
 				$http.post('api/profile/editProfile', request)
 				.success(function() {

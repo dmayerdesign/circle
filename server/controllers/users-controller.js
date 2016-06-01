@@ -74,28 +74,6 @@ module.exports.getUser = function(req, res) {
 	}
 };
 
-module.exports.followUser = function(req, res) {
-	var userId = req.body.userId,
-		otherId = req.body.otherId;
-
-	Users.findById(otherId, function(err, other) {
-		other.followers.push({userId: userId});
-		other.save();
-	});
-
-	Users.findById(userId, function(err, follower) {
-		follower.following.push({userId: otherId});
-		follower.save(function(err) {
-			if (err) {
-				console.error(err);
-				res.json({status: 500});
-			} else {
-				res.json({status: 200});
-			}
-		});
-	});
-};
-
 module.exports.getUserAvatar = function(req, res) {
 	Users.findById(req.query.userId, function(err, user) {
 		if (err) {

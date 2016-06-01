@@ -35,8 +35,6 @@ function resizeAvatar(avatar, _) {
 	_avatar.css(cssObj);
 }
 
-
-
 /**/
 /** SOCK JS MESSAGING
 /**/
@@ -130,3 +128,26 @@ server.listen(9999, '0.0.0.0');
 			// 		clearInterval(verticallyCenter);
 			// 	}
 			// }, 500);
+
+
+
+			
+
+			// Post.find({circleId: req.query.circleId, type: "quest"})
+			// .$where('this.quest.due < Date.now()')
+			// .exec(function(err, questsPastDue) {
+			// 	if (err) {
+			// 		console.error(err);
+			// 	} else {
+			// 		for (var i = 0; i < questsPastDue.length; i++) {
+			// 			Post.findOne({_id: questsPastDue[i]._id}, function(err, quest) {
+			// 				if (err) {
+			// 					console.error(err);
+			// 				} else {
+			// 					quest.status = "failed";
+			// 					quest.save();
+			// 				}
+			// 			});
+			// 		}
+			// 	}
+			// });
