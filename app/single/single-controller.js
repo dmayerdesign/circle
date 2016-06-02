@@ -145,10 +145,12 @@
 			_article.html(content);
 		};
 
-		$scope.completedQuest = function(postId, username) {
+		$scope.completedQuest = function(postId, username, status) {
 			var scope = this;
-			$http.post('api/quest/userCompletedQuest', {postId: postId, username: username}).then(function(response) {
-				console.log(response.data);
+			var request = status ? {postId: postId, username: username, undo: {status: status}} : {postId: postId, username: username};
+			$http.post('api/quest/userCompletedQuest', request).then(function(response) {
+				scope.post = response.data;
+				window.location.reload();
 			}, function(err) {
 				console.error(err);
 			});
@@ -157,6 +159,12 @@
 		$scope.allCompletedQuest = function(postId, usernames) {
 			for (var i = 0; i < usernames.length; i++) {
 				this.completedQuest(postId, usernames[i]);
+			}
+		};
+
+		$scope.undoCompletedQuest = function(postId, usernames, newStatus) {
+			for (var i = 0; i < usernames.length; i++) {
+				this.completedQuest(postId, usernames[i], newStatus);
 			}
 		};
 

@@ -232,11 +232,15 @@ module.exports.userCompletedQuest = function(req, res) {
 	if ( req.body.postId && req.body.username ) {
 		Post.findOne({_id: req.body.postId}, function(err, post) {
 			if (!err && post.type === "quest") {
-				if (post.quest.completers.indexOf(req.body.username) === -1) {
+				if (post.quest.completers.indexOf(req.body.username) === -1 && !req.body.undo) {
 					post.quest.completers.push(req.body.username);
 				}
 				if ( post.quest.completers.length === post.usersMentioned.length ) {
 					post.quest.status = "completed";
+				}
+				if ( req.body.undo && post.quest.completers.indexOf(req.body.username) > -1 ) {
+					post.quest.completers.splice(post.quest.completers.indexOf(req.body.username), 1);
+					post.quest.status = req.body.undo.status;
 				}
 				post.save(function(err) {
 					if (err) {
@@ -244,11 +248,17 @@ module.exports.userCompletedQuest = function(req, res) {
 						res.error(err);
 					} else {
 						Users.findOne({username: req.body.username}, function(err, user) {
-							if ( post.quest.worth.currency ) {
+							if ( post.quest.worth.currency && !req.body.undo ) {
 								user.currency += post.quest.worth.currency;
 							}
-							if ( post.quest.worth.achievement ) {
+							if ( post.quest.worth.achievement && !req.body.undo ) {
 								user.achievements.push(post.quest.worth.achievement);
+							}
+							if ( req.body.undo && post.quest.worth.currency ) {
+								user.currency -= post.quest.worth.currency;
+							}
+							if ( req.body.undo && post.quest.worth.achievement ) {
+								user.achievements.splice(user.achievements.indexOf(post.quest.worth.achievement), 1);
 							}
 							user.save(function(err) {
 								if (!err) {
