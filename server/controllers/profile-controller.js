@@ -45,9 +45,8 @@ module.exports.updatePhoto = function(req, res) {
 };
 
 module.exports.editProfile = function(req, res) {
-	var userId = req.body.userId,
-		fieldKey,
-		fieldVal;
+	var userId = req.body.userId;
+	var fieldKey, fieldVal;
 
 	if ( req.body.username ) {
 		fieldKey = 'username';
@@ -61,26 +60,14 @@ module.exports.editProfile = function(req, res) {
 		fieldKey = 'name';
 		fieldVal = req.body.name;
 	}
-	if ( req.body.circles ) { 
-		fieldKey = 'circles';
-		fieldVal = req.body.circles;
-	}
 
 	User.findById(userId, function(err, userData) {
 		var user = userData;
 
-		if ( req.body.username ) {
-			user.username = req.body.username;
-		}
-		if ( req.body.name ) {
-			user.name = req.body.name;
-		}
-		if ( req.body.bio ) {
-			user.bio = req.body.bio;
-		}
-		if ( req.body.circles && req.body.accessCode ) {
-			user.circles = req.body.circles;
+		if ( req.body.accessCode ) {
 			user.accessCodes.push( req.body.accessCode );
+		} else {
+			user[fieldKey] = fieldVal;
 		}
 
 		user.save(function(err, userData) {

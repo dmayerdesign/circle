@@ -61,121 +61,111 @@
 		})
 	});
 
+	/*
+
+	init in the controller should look like
+
+	$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+	$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+	init.app(false, function(user, circle) {
+		$rootScope.user = user;
+		$rootScope.currentCircle = circle;
+	});
+
+	*/
+
 	// FACTORY
 	app.factory('init', function($http, $state) {
 		var init = {};
 
-		init.getUserAndCircle = function getUserAndCircle(id, code, callback) {
-			if ( localStorage['Current-Circle'] && localStorage['User'] ) {
-				if ( JSON.parse(localStorage['Current-Circle']).id === id && JSON.parse(localStorage['User']).accessCodes.toString().indexOf(code) > -1 ) {
-					callback(JSON.parse(localStorage['User']), JSON.parse(localStorage['Current-Circle']));
-					return;
-				}
-			}
-			$http.get('api/users/getUser?userId=' + id).then(function(response) {
-				var user = response.data;
-				var circles = user.circles ? JSON.parse(user.circles) : null;
-				if (circles && circles.undefined) { // if they somehow got past the access code duplicate validation
-					localStorage.clear();
-					$state.go('login');
-					return;
-				}
-				localStorage.setItem('User', JSON.stringify(user));
-
-				if ( user.circles && user.circles.length ) {
-					console.log(user);
-
-					var circles = JSON.parse(user.circles);
-					var accessCode = code || user.accessCodes[0];
-					var accessAnswer = circles[accessCode].accessAnswer;
-
-					console.log(accessCode);
-
-					if ( !accessCode || !accessAnswer ) {
-						$state.go('createCircle');
-						return;
-					}
-
-					$http.get('api/circle/get?accessCode=' + accessCode + '&accessAnswer=' + accessAnswer).then(function(response) {
-						var circle = response.data;
-						console.log(circle);
-
-						if ( localStorage['Circles'] && !JSON.parse(localStorage['Circles']).accessCode ) {
-							var circles = JSON.parse(localStorage['Circles']);
-						} else {
-							var circles = {};
-						}
-
-						circles[accessCode] = circle;
-						localStorage.setItem('Circles', JSON.stringify(circles));
-						localStorage.setItem('Current-Circle', JSON.stringify(circle));
-
-						callback(user, circle);
-					});
-				} else {
-					callback(user);
-				}
+		init.user = function(userId, callback) {
+			$http.get('api/users/getUser?userId=' + userId).then(function(response) {
+				localStorage.setItem('User', JSON.stringify(response.data));
+				if (callback)
+					callback(response.data);
 			});
 		};
 
-		init.getCircle = function getCircle(accessAnswer, accessCode, callback) {
-			$http.get('api/circle/get?accessCode=' + accessCode + '&accessAnswer=' + accessAnswer).then(function(response) {
+		init.circle = function(accessCode, callback) {
+			$http.get('api/circle/get?accessCode=' + accessCode).then(function(response) {
 				var circle = response.data;
+				var localCircles = localStorage['Circles'];
+				var circles = {};
+				if ( localCircles && localCircles.length ) {
+					circles = JSON.parse(localCircles);
+				}
 
-				if ( localStorage['Circles'] && !JSON.parse(localStorage['Circles']).accessCode ) {
-					var circles = JSON.parse(localStorage['Circles']);
-				} else {
-					var circles = {};
+				if (!accessCode) {
+					$state.go('createCircle');
+					return;
 				}
 
 				circles[accessCode] = circle;
 				localStorage.setItem('Circles', JSON.stringify(circles));
 				localStorage.setItem('Current-Circle', JSON.stringify(circle));
 
-				if (callback) {
+				if (callback)
 					callback(circle);
-				}
 			});
 		};
 
-		init.joinCircle = function joinCircle( user, circle, callback ) {
-			if ( localStorage['Circles'] && !JSON.parse(localStorage['Circles']).accessCode ) {
-				var circles = JSON.parse(localStorage['Circles']);
-			} else {
-				var circles = {};
+		init.app = function(userId, accessCode, callback) {
+			var that = this;
+			var localCode = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']).accessCode;
+			var code;
+
+			that.user(userId, function(user) {
+				code = accessCode || localCode || user.accessCodes[0];
+				that.circle(code, function(circle) {
+					callback(user, circle);
+				});
+			});
+		};
+
+		init.joinCircle = function(user, credentials, callback) {
+			var localCircles = localStorage['Circles'];
+			var circles = {};
+			var circle, request, user;
+			if ( localCircles && localCircles.length ) {
+				circles = JSON.parse(localCircles);
 			}
 
-			var request = {
-				userId: user._id
-			};
+			if ( !credentials.accessCode || !credentials.accessAnswer ) {
+				console.error("Credentials don't exist, can't join the circle");
+				return;
+			}
 
-			circles[circle.accessCode] = circle;
+			$http.get('api/circle/get?joining=true&accessCode=' + credentials.accessCode + '&accessAnswer=' + credentials.accessAnswer).then(function(response) {
+				circle = response.data;
+				circles[credentials.accessCode] = circle;
 
-			request.circles = JSON.stringify(circles);
-			request.accessCode = circle.accessCode;
-
-			$http.post('api/profile/editProfile', request).then(function(response) {
-				var user = response.data;
-				var circles = response.data.circles;
-
-				console.log(response.data);
 				localStorage.setItem('Circles', JSON.stringify(circles));
-				localStorage.setItem('User', JSON.stringify(user));
 
-				if ( circle.creatorId === user._id ) {
-					if (callback) {
-						callback(user, circle);
-					}
-				} else {
-					$http.post('api/circle/addMember', {circleId: circle._id, member: user.username}).then(function(response) {
-						circle = response.data;
-						localStorage.setItem('Current-Circle', JSON.stringify(response.data));
+				request = {
+					userId: user._id,
+					accessCode: circle.accessCode
+				};
 
+				$http.post('api/profile/editProfile', request).then(function(response) {
+					user = response.data;
+					
+					localStorage.setItem('User', JSON.stringify(user));
+
+					if ( circle.creatorId === user._id ) {
+						localStorage.setItem('Current-Circle', JSON.stringify(circle));
 						if (callback) {
 							callback(user, circle);
 						}
-					});
-				}
+					} else {
+						$http.post('api/circle/addMember', {circleId: circle._id, member: user.username}).then(function(response) {
+							localStorage.setItem('Current-Circle', JSON.stringify(response.data));
+
+							if (callback) {
+								callback(user, circle);
+							}
+						});
+					}
+				});
 			});
 		};
 
@@ -203,6 +193,10 @@
 				ease: Power2.easeOut,
 				delay: 0.2
 			});
+		};
+
+		init.initFinal = function initFinal(obj) {
+			obj.removeClass("not-visible");
 		};
 
 		return init;
@@ -248,6 +242,119 @@
 			}, function(error) {
 				console.error(error);
 			});
+		};
+
+		action.treatPost = function treatPost(scope, rootScope, callback) {
+			var treatPostInt = setInterval(function() {
+				//if (_("#post.not-treated").length) {
+					treatLink(scope, rootScope, function(content) {
+						treatTags(scope, rootScope, content, function(content) {
+							treatMentions(scope, rootScope, content, function(post) {
+								if (callback)
+									callback(post);
+							});
+						});
+					});						
+				// } else {
+				// 	clearInterval(treatPostInt);
+				// }
+			}, 1000);
+
+			function treatLink(scope, rootScope, callback) {
+				var _post = _("#post");
+				var _article = _post.find("article.content");
+				var content = _article.text();
+				var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+				var match = urlPattern.exec(content);
+				var theLink;
+
+				if ( match ) {
+					theLink = match[0];
+					content = content.split(theLink);
+
+					content[0] += "<a href='" + theLink + "' target='_blank'>" + theLink + "</a>";
+					content = content.join("");
+
+					if ( !rootScope.post.linkEmbed ) {
+						_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
+							if ( data.type === "photo" ) {
+								data["src"] = data.url;
+							} else {
+								data["src"] = data.thumbnail_url;
+							}
+							console.log(data);
+							scope.linkPreview = data;
+						});
+					} else {
+						scope.linkPreview = rootScope.post.linkEmbed;
+					}
+				} else {
+					scope.linkPreview = null;
+				}
+
+				callback(content);
+
+				_post.removeClass("not-treated");
+			}
+
+			function treatTags(scope, rootScope, content, callback) {
+				var _post = _("#post");
+				var _article = _post.find("article.content");
+				//var content = _article.text();
+				var tagPattern = /\#([^\s.,!?\-:\(\)]*)/gi;
+				var tagMatch = content.match(tagPattern);
+				var theTag, i;
+
+				if ( tagMatch && tagMatch.length ) {
+					for (i = 0; i < tagMatch.length; i++) {
+						theTag = tagMatch[i];
+						content = content.split(theTag);
+						content[0] += "<a href='/#/?tag=" + theTag.replace("#", "") + "'>" + theTag + "</a>";
+						content = content.join("");
+					
+						if (i === tagMatch.length - 1) {
+							_post.removeClass("not-treated");
+						}
+					}
+				} else {
+					setTimeout(function() {
+						_post.removeClass("not-treated");
+					}, 5000);
+				}
+
+				// console.log(content);
+				// _article.html(content);
+
+				callback(content);
+			}
+
+			function treatMentions(scope, rootScope, content, callback) {
+				var _post = _("#post");
+				var _article = _post.find("article.content");
+				//var content = _article.text();
+				var mentionPattern = /\@([^\s.,!?\-:\(\)]*)/gi;
+				var mentionMatch = content.match(mentionPattern);
+				var theMention, i;
+
+				if ( mentionMatch && mentionMatch.length ) {
+					for (i = 0; i < mentionMatch.length; i++) {
+						theMention = mentionMatch[i];
+						content = content.split(theMention);
+						content[0] += "<span class='mention' style='background:#ddeff2'>" + theMention + "</span>";
+						content = content.join("");
+
+						if (i === mentionMatch.length - 1) {
+							_post.removeClass("not-treated");
+						}
+					}
+				} else {
+					setTimeout(function() {
+						_post.removeClass("not-treated");
+					}, 5000);
+				}
+				_article.html(content);
+				callback(rootScope.post);
+			}
 		};
 
 		return action;

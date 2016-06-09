@@ -28,6 +28,7 @@ app.use('/images', express.static(__dirname + "/images"));
 app.use('/scripts', express.static(__dirname + "/scripts"));
 app.use('/styles', express.static(__dirname + "/styles"));
 app.use('/app-bar', express.static(__dirname + "/app/app-bar"));
+app.use('/includes', express.static(__dirname + "/includes"));
 
 // Index
 app.get('/', function(req, res) {
@@ -39,8 +40,10 @@ app.post('/api/circle/new', circleController.createCircle);
 app.get('/api/circle/get', circleController.getCircle);
 app.post('/api/circle/style', circleController.styleCircle);
 app.post('/api/circle/addMember', circleController.addMember);
+app.post('/api/circle/removeMember', circleController.removeMember);
 app.post('/api/circle/updateBackground', multipartMiddleware, circleController.updateBackground);
 app.post('/api/circle/updateLogo', multipartMiddleware, circleController.updateLogo);
+app.post('/api/circle/updateCurrency', circleController.updateCurrency);
 
 // Authentication
 app.post('/api/user/signup', authenticationController.signup);
@@ -62,6 +65,7 @@ app.get('/api/post/get', postController.getPosts);
 app.get('/api/post/getSingle', postController.getPost);
 app.post('/api/post/updatePostUser', postController.updatePostUser);
 app.post('/api/post/attachImage', postController.attachImage);
+app.post('/api/post/removeImage', postController.removeImage);
 
 // Comments
 app.post('/api/comment/post', postController.postComment);
@@ -73,12 +77,12 @@ app.post('/api/quest/userCompletedQuest', postController.userCompletedQuest);
 // Tags
 app.post('/api/tags/addTag', tagController.addTag);
 app.get('/api/tags/getTags', tagController.getTags);
+app.post('/api/tags/deleteTag', tagController.deleteTag);
 
 // User
 app.get('/api/users/get', usersController.getUsers);
 app.get('/api/users/getUser', usersController.getUser);
 app.get('/api/users/getAvatar', usersController.getUserAvatar);
-// app.post('/api/user/notify', usersController.notifyUser);
 app.post('/api/user/clearNotification', usersController.clearNotification);
 
 

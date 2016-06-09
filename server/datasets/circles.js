@@ -14,12 +14,14 @@ module.exports = mongoose.model('Circle', {
 		font: {type: String, default: "montserrat"},
 		bg: {type: String, default: "/images/default-bg.jpg"},
 		logo: String,
-		css: String
+		css: String,
+		lastEditedBy: String
 	},
 	tags: [String],
 	currency: {
-		singularName: String,
-		pluralName: String,
-		symbol: String
+		singularName: {type: String, default: "shnoggle"},
+		pluralName: {type: String, default: "shnoggles"},
+		symbol: {type: String, default: "/images/default-currency-symbol.png"},
+		lastEditedBy: String
 	}
 })

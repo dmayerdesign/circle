@@ -5,35 +5,16 @@
 
 		$rootScope.currentState = 'main';
 
-		/**/
-		/** INITIALIZE THE USER
-		/**/
-		if ( localStorage['User'] ) {
-			var localUser = JSON.parse(localStorage['User']);
-			if ( localUser.email ) {
-				$scope.user = localUser;
-			}
-		}
-		if ( !$scope.user || !$scope.user._id ) {
+		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		if (!$rootScope.user) {
 			$state.go('signup');
 			return;
-		} else {
-			$scope.loggedIn = true;
 		}
-		/* END USER INIT */
-
-		/**/
-		/** INITIALIZE THE CIRCLE
-		/**/
-		if ( localStorage['Current-Circle'] ) {
-			$rootScope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
-		} else {
-			$rootScope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
-		}
-		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-			$scope.user = user; // update $scope.user
-
-			if ( !$scope.user.isEmailVerified ) {
+		$rootScope.loggedIn = true;
+		init.app($rootScope.user._id, false, function(user, circle) {
+			$rootScope.user = user;
+			if ( !$rootScope.user.isEmailVerified ) {
 				console.log("email is not verified");
 				if ( $location.search().email && $location.search().verifyEmail ) {
 					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
@@ -42,52 +23,57 @@
 				$state.go('signup');
 				return;
 			}
-
-			if ( circle ) {
+			if (circle) {
+				$rootScope.circleJoined = true;
+				$rootScope.currentCircle = circle;
+				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;
 				});
-
-				$scope.circleJoined = true;
-				$rootScope.circleJoined = true;
-				$scope.circleName = circle.name;
-				$scope.circle = circle;
-				$rootScope.currentCircle = circle;
-				customizer.getStyle($rootScope);
-
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};
-
-					initUI();
+					initUI(function() {
+						$rootScope.drawersReady = true;
+					});
+					init.initFinal(_("body"));
 
 					// Check for new posts
-					// setInterval(function() {
-					// 	$scope.incomingPosts = false;
-					// 	init.getPosts($scope.circle._id, function(posts) {
-					// 		$scope.incomingPosts = posts;
-					// 		if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
-					// 			$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
-					// 			if ( $scope.difference > 0 ) {
-					// 				$scope.posts = posts;
-					// 			}
-					// 		}
-					// 	});
-					// }, 3000);
+					setInterval(function() {
+						if ($scope.postsAreFiltered || $scope.postTypesAreFiltered || !$rootScope.currentCircle) // last one is if 'create or join a new circle' is clicked
+							return;
+						$scope.incomingPosts = false;
+						init.getPosts($rootScope.currentCircle._id, function(posts) {
+							$scope.incomingPosts = posts;
+							if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
+								$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
+								if ( $scope.difference > 0 ) {
+									$scope.posts = posts;
+								}
+							}
+						});
+					}, 1000);
 
 					// Search for filter in query string
 					if ( $location.search().tag ) {
 						$scope.showPostsTagged( $location.search().tag );
 					}
 				});
-			
+				customizer.getStyle($rootScope);
 			} else {
-				$scope.circleJoined = false;
 				$rootScope.circleJoined = false;
 				$state.go('createCircle');
 			}
 		});
-		/* END CIRCLE INIT */
+
+
+
+
+
+
+
+
+
 
 		$scope.postOrder = 'date';
 		$scope.orderPosts = function(postOrder) {
@@ -97,50 +83,13 @@
 		$scope.newPost = {
 			content: "",
 			tags: [],
-			quest: {},
+			quest: {
+				worth: {
+					achievement: {}
+				}
+			},
 			images: [],
 			usersMentioned: []
-		};
-
-		$scope.customSelect = function customSelect(element, event) {
-			var _element = _(element);
-			var str = this.newPost.tags;
-			var _target = _(event.target);
-			var tag = _target.data("option");
-			var _customSelector = _target.parents(".select");
-			var isSelected = _target.hasClass("selected");
-			var appender = ", ";
-			if ( str && str.indexOf(",") > -1 ) {
-				appender = ",";
-			}
-			if ( str && str.indexOf(" ") > -1 ) {
-				appender = " ";
-			}
-			if ( str && str.indexOf(", ") > -1 ) {
-				appender = ", ";
-			}
-			
-			if ( !isSelected ) {
-				_target.addClass("selected");
-				if ( str && str.length && str.indexOf(tag) === -1 ) {
-					str = str + appender + tag;
-				}
-				if ( !str || !str.length ) {
-					str = tag;
-				}
-			} else {
-				_target.removeClass("selected");
-				if ( str && str.indexOf(appender) > -1 ) {
-					str = str && str.replace(appender + tag, "");
-				} else {
-					str = str && str.replace(tag, "");
-				}
-			}
-
-			this.newPost.tags = str;
-
-			console.log(str);
-			return str;
 		};
 
 		$scope.upload = function(file) {
@@ -152,7 +101,7 @@
 					url: 'api/post/attachImage',
 					method: 'POST',
 					data: {
-						userId: $scope.user._id,
+						userId: $rootScope.user._id,
 						circleId: $rootScope.currentCircle._id
 					},
 					file: file
@@ -173,114 +122,130 @@
 			}
 		};
 		
-		$scope.sendPost = function(event) {
+		$scope.sendPost = function(edit, event) {
 			if ( event && event.which !== 13 ) { return; }
-			var that = this;
+			var that = edit ? $rootScope : this;
+			if (edit)
+				that.newPost = that.post;
+			var content = that.newPost.content;
+			var postLink = {};
+			var linkPreview = that.linkPreview;
+			var members = $rootScope.currentCircle.members;
+
+			var tagPattern, mentionPattern, tagMatch, mentionMatch;
+			var mentionsArr = [];
 
 			if ( that.newPost.content.length <= 1 ) {
 				return;
 			}
 
-			if ( !that.newPost.tags || that.newPost.tags.length <= 1 ) {
-				that.newPost.tags = "random";
-			}
+			that.newPost.tags = [];
 
-			$tags = that.newPost.tags;
-
-			var splitter = $tags.indexOf(",") > -1 ? "," : " ";
-			splitter = $tags.indexOf(", ") > -1 ? ", " : splitter;
-
-			that.newPost.tags = $tags.split(splitter);
-			var tagNames = that.newPost.tags;
-			var postLink = {};
-			var linkPreview = that.linkPreview;
-
-			var content = that.newPost.content;
-			var members = $rootScope.currentCircle.members;
-			var tagPattern = /\@([^\s.,!?]*)/gi;
-			var match = content.match(tagPattern);
-			var mentionedUsername;
-
-			if (match) {
-				for ( var i = 0; i < match.length; i++ ) {
-					mentionedUsername = match[i].replace("@", "");
-					for ( var index = 0; index < members.length; index++ ) {
-						if ( mentionedUsername == members[index] ) {
-							that.newPost.usersMentioned.push(mentionedUsername);
-						}
-						console.log(that.newPost.usersMentioned);
-					}
+			tagPattern = /\#([^\s.,!?\-:\(\)]*)/gi;
+			tagMatch = content.match(tagPattern);
+			if (tagMatch) {
+				for (var index = 0; index < tagMatch.length; index++) {
+					that.newPost.tags[index] = tagMatch[index].replace("#", "");
 				}
 			}
+			if (that.newPost.tags.length < 1)
+				that.newPost.tags = ["random"];
 
+			mentionPattern = /\@([^\s.,!?\-:\(\)]*)/gi;
+			mentionMatch = content.match(mentionPattern);
+			if (mentionMatch) {
+				for (var index = 0; index < mentionMatch.length; index++) {
+					mentionsArr[index] = mentionMatch[index].replace("@", "");
+				}
+			}
+			that.newPost.usersMentioned = mentionsArr; // Array
+
+			console.log(that.newPost.tags);
 			console.log(that.newPost.usersMentioned);
 
 			var request = {
-				"authorName": $scope.user.name,
-				"user": $scope.user.username || $scope.user.email,
-				"userId": $scope.user._id,
-				"avatar": $scope.user.avatar,
-				"circleId": $scope.circle._id,
+				"authorName": $rootScope.user.name,
+				"user": $rootScope.user.username || $rootScope.user.email,
+				"userId": $rootScope.user._id,
+				"avatar": $rootScope.user.avatar,
+				"circleId": $rootScope.currentCircle._id,
 				"content": that.newPost.content,
 				"images": that.newPost.images,
 				"type": that.newPost.type,
 				"tags": that.newPost.tags,
+				"quest": that.newPost.quest,
 				"usersMentioned": that.newPost.usersMentioned
 			};
 
+			if (edit) {
+				request = that.newPost;
+				$rootScope.post = request;
+				console.log(request);
+			}
+
 			if ( linkPreview ) {
-				postLink.url = linkPreview.url || linkPreview.thumbnail_url;
+				postLink.url = linkPreview.url;
 				postLink.thumbnail_url = linkPreview.thumbnail_url;
 				postLink.title = linkPreview.title;
 				postLink.description = linkPreview.description;
 				postLink.provider_url = linkPreview.provider_url;
 				postLink.type = linkPreview.type;
 
+				var postImage;
+				switch (postLink.type) {
+					case "link":
+						postImage = postLink.thumbnail_url;
+					case "video":
+						postImage = postLink.thumbnail_url;
+					case "photo":
+						postImage = postLink.url
+					default:
+						postImage = postLink.thumbnail_url;
+				}
+
+				if ( request.images.indexOf(postImage) === -1 ) {
+					request.images.push(postImage);
+				}
+
 				request.linkEmbed = JSON.stringify(postLink);
+			} else {
+				request.linkEmbed = null;
 			}
 
 			$http.post('api/post/post', request)
 			.success(function(response) {
-				console.log(request);
-				console.log(response);
 				that.posts = response;
+
+				if (edit) {
+					$rootScope.editPost = false;
+					action.treatPost($scope, $rootScope, function(post) {
+						$rootScope.post = post;
+					});
+				}
+
 				that.newPost = {
 					content: "",
 					tags: [],
-					quest: {},
+					quest: {
+						worth: {
+							achievement: {}
+						}
+					},
 					images: [],
 					usersMentioned: []
 				};
 				that.linkPreview = null;
+				that.symbolSearch = {};
 				_("#new-post-area > *").blur();
-
-				// if (request.usersMentioned.length) {
-				// 	for ( var q = 0; q < request.usersMentioned.length; q++ ) {
-				// 		var mentionedUser = request.usersMentioned[q];
-				// 		var notification = {
-				// 			user: mentionedUser,
-				// 			creator: that.user.username,
-				// 			action: "mentioned you in a post",
-				// 			postId: response[0]._id
-				// 		};
-				// 		$http.post('api/user/notify', notification)
-				// 		.then(function(res) {
-				// 			console.log("notified " + mentionedUser);
-				// 			console.log(res);
-				// 		}, function(err) {
-				// 			console.error(err);
-				// 		});
-				// 	}
-				// }
 			})
 			.error(function(err) {
 				console.error(err);
 			});
 
 			var tagsArr = [];
-			for ( var i = 0; i < tagNames.length; i++ ) {
+			for ( var i = 0; i < that.newPost.tags.length; i++ ) {
 				$http.post('api/tags/addTag', {
-					name: tagNames[i],
+					name: that.newPost.tags[i],
 					circleId: $rootScope.currentCircle._id
 				}).then(function(response) {
 					if ( response.data ) {
@@ -293,60 +258,88 @@
 								}
 							}
 							
-							if ( i === tagNames.length - 1 ) {
-								$scope.circle.tags = tagsArr;
+							if ( i === that.newPost.tags.length - 1 ) {
 								$rootScope.currentCircle.tags = tagsArr;
-								console.log("tagged it");
+								$rootScope.currentCircle.tags = tagsArr;
 							}
 						});
 					}
 					
 				});
-				console.log("looped");
+			}
+
+			if (edit) {
+				window.location.reload();
 			}
 		};
 
-		$scope.findUsersToMention = function() {
+		$scope.symbolSearch = {};
+
+		$scope.findWithPrefixSymbol = function(edit) {
 			var scope = this;
-			var members = $rootScope.currentCircle.members;
 			var content = scope.newPost.content;
-			var tagPattern = /\@([^\s.,!?]*)/gi;
-			var match = content.match(tagPattern);
+			var list, items, regex, match, symbol;
 
-			console.log(match);
+			if ( content.indexOf("@") > content.indexOf("#") ) {
+				list = "members";
+				symbol = "@";
+				match = content.match(/\@([^\s.,!?\-:\(\)]*)/gi);
+			}
+			if ( content.indexOf("#") > content.indexOf("@") ) {
+				list = "tags";
+				symbol = "#";
+				match = content.match(/\#([^\s.,!?\-:\(\)]*)/gi);
+			}
+			if ( content.indexOf("@") === -1 && content.indexOf("#") === -1 ) {
+				return;
+			}
+			
+			items = $rootScope.currentCircle[list];
 
-			if ( !match || !match.length || match[0].length < 2 ) {
+			if ( !match || !match.length || match[match.length - 1].length < 2 ) { // if there's no symbol or nothing after the symbol
+				scope.symbolSearch = {};
 				return;
 			}
 
-			console.log(scope.attemptTag);
-
-			if ( members ) {
-				scope.searchUsersToMention = true;
-				scope.attemptTag = match[match.length - 1].replace("@", "");
+			if ( items ) {
+				scope.symbolSearch[list] = true;
+				scope.attemptFind = match[match.length - 1].replace(symbol, "");
 			} else {
-				scope.searchUsersToMention = false;
+				scope.symbolSearch[list] = false;
 			}
 
-			for ( var i = 0; i < members.length; i++ ) {
-				if ( scope.attemptTag === members[i] ) {
-					scope.searchUsersToMention = false;
+			for ( var i = 0; i < items.length; i++ ) { // We found it - stop displaying the list
+				if ( scope.attemptFind === items[i] ) {
+					scope.symbolSearch[list] = false;
 				}
 			}
 		};
 
-		$scope.mentionUser = function(username) {
+		$scope.insertIntoPost = function(list, text) {
 			var scope = this;
 			var content = scope.newPost.content;
-			var tagPattern = /\@([^\s.,!?]*)/gi;
-			var match = content.match(tagPattern);
-			var usernameFragment;
-			for ( var i = 0; i < match.length; i++ ) {
-				usernameFragment = match[i].replace("@", "");
-				if ( username.indexOf(usernameFragment) > -1 ) {
-					scope.newPost.content = content.replace(match[i], "@" + username + " ");
-					scope.searchUsersToMention = false;
-					_("#new_post_content").focus();
+			var fragment, match, symbol;
+
+			if (list === "members") {
+					match = content.match(/\@([^\s.,!?\-:\(\)]*)/gi);
+					symbol = "@";
+			}
+			if (list === "tags") {
+					match = content.match(/\#([^\s.,!?\-:\(\)]*)/gi);
+					symbol = "#";
+			}
+
+			console.log(list);
+			console.log(symbol);
+
+			if (match) {
+				for ( var i = 0; i < match.length; i++ ) {
+					fragment = match[i].replace(symbol, "");
+					if ( text.indexOf(fragment) > -1 ) {
+						scope.newPost.content = content.replace(fragment, text + " ");
+						scope.symbolSearch[list] = false;
+						_("#new_post_content").focus();
+					}
 				}
 			}
 		};
@@ -358,7 +351,7 @@
 
 		$scope.showPostsTagged = function(tag) {
 			var that = this;
-			init.getPosts($scope.circle._id, function(posts) {
+			init.getPosts($rootScope.currentCircle._id, function(posts) {
 				console.log($scope.postsAreFiltered);
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
@@ -382,7 +375,7 @@
 
 		$scope.showPostsOfType = function(type) {
 			var that = this;
-			init.getPosts($scope.circle._id, function(posts) {
+			init.getPosts($rootScope.currentCircle._id, function(posts) {
 				console.log($scope.postTypesAreFiltered);
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
@@ -412,10 +405,12 @@
 
 		$scope.showPostsMentioningMe = function(me) {
 			if (me || typeof me === "undefined") {
-				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: $scope.user.username});
+				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: $rootScope.user.username});
+				$scope.postsAreFiltered = true;
 			}
 			else if (me === false) {
 				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: undefined});
+				$scope.postsAreFiltered = true;
 			}
 			return $scope.posts;
 		};
@@ -431,21 +426,6 @@
 				return $scope.postTypesAreFiltered.filter;
 			}
 		};
-
-		function initCircle(circle) {
-			$scope.loggedIn = true;
-			$scope.circle = circle;
-			$rootScope.currentCircle = circle;
-			$scope.circleName = circle.name;
-			var circles = {};
-			circles[circle.accessCode] = circle;
-			localStorage.setItem('Circles', JSON.stringify(circles));
-			$scope.circleJoined = true;
-			$rootScope.circleJoined = true;
-			$scope.showPostsTagged();
-
-			$state.go('main');
-		}
 
 		var initArchive = function() {
 			var $head = _("head");
@@ -507,9 +487,9 @@
 			console.log( this.postsAllowed );
 		};
 
-		$scope.generateLinkPreview = function() {
-			var that = this;
-			var content = this.newPost.content;
+		$scope.generateLinkPreview = function(edit) {
+			var that = edit ? $rootScope : this;
+			var content = edit ? that.post.content : that.newPost.content;
 			var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 			var urlMatch = new RegExp(urlPattern);
 			var match = urlPattern.exec(content);
@@ -520,7 +500,6 @@
 				console.log(theLink);
 
 				_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
-					console.log(data.url);
 					console.log(data.thumbnail_url);
 					console.log(data);
 
@@ -531,13 +510,15 @@
 					}
 
 					that.linkPreview = data;
+					console.log(that.linkPreview);
+					console.log(edit);
 				});
 			} else {
 				that.linkPreview = null;
 			}
 		};
 
-		function initUI() {
+		function initUI(callback) {
 			var initDrawers = function($drawers, $sidebars) {
 				$drawers.each(function() {
 					var height = _(this).outerHeight(true);
@@ -571,6 +552,9 @@
 				_("#post_type_regular").prop("checked", true);
 			};
 			initAddPost();
+
+			if (callback)
+				callback();
 		}
 
 		$scope.goToPost = function(post_id) {
@@ -597,9 +581,10 @@
 					theLink = match[0];
 					content = content.split(theLink);
 
+					/* SANS archiveLinkPreviews
 					content[0] += "<a href='" + theLink + "' target='_blank' title='" + "'>" + theLink + "</a>";
-					content[1] = "";
 					content = content.join("");
+					*/
 
 					if ( _post.data("link-set") ) {
 						setPostLinkData($scope, _post.data("link-set"));
@@ -635,6 +620,10 @@
 		$scope.tagsLimit = 5;
 
 		$scope.clearNotification = function(all, id) {
+			console.log(all);
+			console.log(id);
+			console.log(this.user._id);
+
 			var scope = this;
 			action.clearNotification(scope.user._id, all, id, function(user) {
 				$rootScope.user.notifications = user.notifications;
@@ -648,6 +637,10 @@
 			console.log(dismissals[index]);
 			return dismissals[index];
 		}();
+
+		$scope.checkQuest = function() {
+			console.log(this.newPost.quest);
+		};
 
 	}]);
 }(jQuery));

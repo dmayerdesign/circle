@@ -7,7 +7,6 @@ module.exports = mongoose.model('User', {
 	avatar: String,
 	bio: String,
 	accessCodes: [String],
-	circles: String,
 	following: [{userId: String}],
 	followers: [{userId: String}],
 	emailVerification: String,

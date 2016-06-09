@@ -2,77 +2,71 @@
 	angular.module('Circle')
 	.controller('categoriesController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
 													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
-		console.log( $stateParams );
 
-		$rootScope.currentState = 'single';
+		$rootScope.currentState = 'categories';
 
-		/**/
-		/** INITIALIZE THE USER
-		/**/
-		if ( localStorage['User'] ) {
-			var localUser = JSON.parse(localStorage['User']);
-			if ( localUser.email ) {
-				$rootScope.user = localUser;
-			}
-		}
-		if ( !$scope.user || !$scope.user._id ) {
-			$state.go('login');
+		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		if (!$rootScope.user) {
+			$state.go('signup');
 			return;
-		} else {
-			$scope.loggedIn = true;
 		}
-		/* END USER INIT */
-
-		/**/
-		/** INITIALIZE THE CIRCLE
-		/**/
-		if ( localStorage['Current-Circle'] ) {
-			$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
-		} else {
-			$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
-		}
-
-		if ( $rootScope.currentCircle ) {
-			$scope.currentCircle = $rootScope.currentCircle;
-		}
-
-		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-			$scope.user = user; // update $scope.user
-
-			if ( !$scope.user.isEmailVerified ) {
+		$rootScope.loggedIn = true;
+		init.app($rootScope.user._id, false, function(user, circle) {
+			$rootScope.user = user;
+			if ( !$rootScope.user.isEmailVerified ) {
 				console.log("email is not verified");
 				if ( $location.search().email && $location.search().verifyEmail ) {
-					window.location.href = '/?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail + "/#/verify-email";
+					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
 				}
+				$scope.emailVerificationSent = true;
+				$state.go('signup');
 				return;
 			}
-
-			if ( circle ) {
+			if (circle) {
+				$rootScope.circleJoined = true;
+				$rootScope.currentCircle = circle;
+				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;
 				});
-
-				$scope.circleJoined = true;
-				$scope.circleName = circle.name;
-				$rootScope.currentCircle = circle;
-
-				console.log( circle );
-				console.log( $scope.circleJoined );
-
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
-					$scope.categories = getTagImages(posts);
+					$scope.postsAllowed = {allow: 20};
+
+					init.initFinal(_("body"));
+					// Check for new posts
+					setInterval(function() {
+						if ($scope.postsAreFiltered || $scope.postTypesAreFiltered)
+							return;
+						$scope.incomingPosts = false;
+						init.getPosts($rootScope.currentCircle._id, function(posts) {
+							$scope.incomingPosts = posts;
+							if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
+								$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
+								if ( $scope.difference > 0 ) {
+									$scope.posts = posts;
+								}
+							}
+
+							getCategories($rootScope, posts);
+						});
+					}, 1000);
+					// Search for filter in query string
+					if ( $location.search().tag ) {
+						$scope.showPostsTagged( $location.search().tag );
+					}
 				});
+
 			} else {
-				$scope.circleJoined = false;
+				$rootScope.circleJoined = false;
 				$state.go('createCircle');
 			}
 		});
-		/* END CIRCLE INIT */
 
-		$scope.categories = [];
-		function getTagImages(posts) {
-			var scope = $scope;
+		function getCategories(scope, posts) {
+			var image;
+			scope.categories = [];
 			scope.tags = $rootScope.currentCircle.tags;
 
 			if ( scope.tags ) {
@@ -83,17 +77,16 @@
 					for ( var index = 0; index < posts.length; index++ ) {
 						if ( posts[index].tags.toString().indexOf(tag.name) > -1 ) {
 
-							if ( posts[index].linkEmbed && JSON.parse(posts[index].linkEmbed).thumbnail_url ) {
-								var image = JSON.parse(posts[index].linkEmbed).thumbnail_url;
+							if ( posts[index].images.length ) {
+								image = posts[index].images[0];
 							}
-							else if ( posts[index].images.length ) {
-								var image = posts[index].images[0];
+							else if ( posts[index].linkEmbed && JSON.parse(posts[index].linkEmbed).thumbnail_url ) {
+								image = JSON.parse(posts[index].linkEmbed).thumbnail_url;
 							}
-							else {
-								continue;
-							}
-
-							tag.image = image;
+							
+							if (image)
+								tag.image = image;
+							
 							scope.categories.push(tag);
 							
 							break;
@@ -105,12 +98,29 @@
 							break;
 						}
 					}
-					console.log(scope.categories);
 				}
 
 				return scope.categories;
 			}
 		}
+
+		var initArchive = function() {
+			var $head = _("head");
+			var winHeight = _(window).height();
+			var _archive = _(".category-archive");
+
+			_archive
+				.css({height: (winHeight + 30) + "px"}) //.jScrollPane()
+				.addClass("initiated");
+		};
+		var initArchiveInt = setInterval(function() {
+			if ( !_(".category-archive").hasClass("initiated") ) {
+				initArchive();
+				_(window).resize(initArchive);
+			} else {
+				clearInterval(initArchiveInt);
+			}
+		}, 200);
 
 		// function randomBgClasses() {
 		// 	var classArr = [
@@ -130,6 +140,19 @@
 		// 	}, 500);
 		// }
 		// randomBgClasses();
+
+		$scope.deleteCategory = function(name) {
+			var scope = this;
+			var request = {
+				circleId: $rootScope.currentCircle._id,
+				tagName: name
+			}
+			$http.post('api/tags/deleteTag', request).then(function(response) {
+				$rootScope.currentCircle.tags = response.data;
+				//localStorage.setItem('Current-Circle', JSON.stringify($rootScope.currentCircle));
+				window.location.reload();
+			});
+		};
 
 
 	}]);

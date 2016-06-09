@@ -3,54 +3,32 @@
 	.controller('editCircleController', ['Upload', '$scope', '$rootScope', '$state', '$http', 'init', 'customizer', 
 															function( Upload,   $scope,   $rootScope,   $state,   $http,   init,   customizer) {
 
-		/**/
-		/** INITIALIZE THE USER
-		/**/
-		if ( localStorage['User'] ) {
-			var localUser = JSON.parse(localStorage['User']);
-			if ( localUser.email ) {
-				$rootScope.user = localUser;
-			}
-		}
-		if ( !$scope.user || !$scope.user._id ) {
-			$state.go('login');
+		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		if (!$rootScope.user) {
+			$state.go('signup');
 			return;
-		} else {
-			$scope.loggedIn = true;
 		}
-		/* END USER INIT */
-
-		/**/
-		/** INITIALIZE THE CIRCLE
-		/**/
-		if ( localStorage['Current-Circle'] ) {
-			$rootScope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
-		} else {
-			$rootScope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
-		}
-		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-			$scope.user = user; // update $scope.user
-
-			if ( !$scope.user.isEmailVerified ) {
-				console.log("email is not verified");
-				return;
-			}
-
-			if ( circle ) {
-				init.getMembers(circle.accessCode, function(members) {
-					$scope.users = members;
-				});
-
+		$rootScope.loggedIn = true;
+		init.app($rootScope.user._id, false, function(user, circle) {
+			$rootScope.user = user;
+			if (circle) {
 				$rootScope.circleJoined = true;
-				$rootScope.circleName = circle.name;
 				$rootScope.currentCircle = circle;
-
+				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
+				init.getPosts(circle._id, function(posts) {
+					$scope.posts = posts;
+				});
+				customizer.getStyle($rootScope);
 			} else {
 				$rootScope.circleJoined = false;
 				$state.go('createCircle');
 			}
 		});
-		/* END CIRCLE INIT */
+
+
+
+		
 
 		$scope.$watch(function() {
 			return $scope.file
@@ -104,7 +82,7 @@
 			}
 		};
 
-		$scope.editCircle = function(part) {
+		$scope.styleCircle = function(part) {
 			var scope = this;
 			if ( !$rootScope.currentCircle.styles ) {
 				$rootScope.currentCircle.styles = {};
@@ -128,7 +106,21 @@
 				
 				customizer.getStyle($rootScope);
 			});
+		};
 
+		$scope.editCurrency = function() {
+			var scope = this;
+			var request;
+			if ( !scope.currentCircle.currency ) { return; }
+			request = {
+				circleId: $rootScope.currentCircle._id,
+				currency: scope.currentCircle.currency,
+				lastEditedBy: $rootScope.user._id
+			};
+			$http.post('api/circle/updateCurrency', request).then(function(response) {
+				$rootScope.currentCircle = response.data;
+				console.log(response.data);
+			});
 		};
 
 

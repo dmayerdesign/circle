@@ -1,13 +1,15 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<section class="col-sm-8 col-sm-offset-2 {{post.type}}" id="post">
+<section class="not-treated col-sm-8 col-sm-offset-2 {{post.type}}" id="post">
 	<ul ng-if="$root.user._id === post.userId" class="single-post-menu">
 		<li id="delete_post_sequence">
 			<button class="btn btn-primary" ng-if="!deletePostClicked" ng-click="deletePostClick('try')">Delete</button>
 			<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePost(post._id)">Yes</button>
 			<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePostClick('cancel')">No</button>
 		</li>
-		<li>Edit post (coming soon)</li>
+		<li>
+			<button ng-controller="mainController" ng-click="$root.editPost = true">Edit post (coming soon)</button>
+		</li>
 	</ul>
 
 	<div ng-if="post.type == 'quest' && $root.user._id == post.userId">
@@ -46,20 +48,83 @@
 		</div>
 	</div>
 
-	<div class="post-image" ng-if="post.image">
-		<img src="{{post.image}}" alt="{{post.content}}">
+	<div class="post-images" ng-if="$root.post.images.length">
+		<div ng-repeat="image in $root.post.images">
+			<img width="200" src="{{image}}" alt="{{$root.post.content}}">
+		</div>
 	</div>
 	<div class="author">
-		<span class="author-username">{{post.user}}</span>
-		<img data-user-id="{{post.userId}}" alt="{{post.user}}" class="avatar img-responsive" /> <!-- ng-src="{{post.avatar}}" -->
+		<span class="author-username">{{$root.post.user}}</span>
+		<img src="{{$root.post.avatar}}" data-user-id="{{$root.post.userId}}" alt="{{$root.post.user}}" class="avatar img-responsive" /> <!-- ng-src="{{post.avatar}}" -->
 	</div>
 	<div class="date">
-		{{post.date | date: 'MM/dd/yyyy hh:mm'}}
+		{{$root.post.date | date: 'MM/dd/yyyy hh:mm'}}
 	</div>
 
-	<article class="content">
-		{{post.content}}
+	<article ng-hide="$root.editPost" class="content">
+		{{$root.post.content}}
 	</article>
+
+	<section id="edit-post-area" ng-controller="mainController" ng-show="$root.editPost">
+		<div class="col-md-8 col-md-offset-2">
+
+			<!-- POST INPUT MAIN -->
+			<div class="new-post-content">
+				<textarea 
+					ng-model="$root.post.content" 
+					ng-keyup="generateLinkPreview(true); findWithPrefixSymbol(true)" 
+					id="new_post_content" 
+					class="form-control" 
+					placeholder="Type something"></textarea>
+
+				<div ng-if="$root.linkPreview" class="link-preview">
+					<div class="link-preview-thumbnail">
+						<img src="{{$root.linkPreview.src}}" alt="{{$root.linkPreview.title}}">
+					</div>
+					<div class="link-preview-text">
+						<h3>{{$root.linkPreview.title}}</h3>
+						<p>{{$root.linkPreview.description}}</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- ALL SYMBOL MENTION THINGS -->
+			<div ng-show="symbolSearch.members" class="tabs radio-tabs">
+				<ul class="select-list" ng-repeat="username in $root.currentCircle.members | filter: attemptFind">
+					<li ng-click="insertIntoPost('@', username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
+				</ul>
+			</div>
+			<div ng-show="symbolSearch.tags" class="tabs radio-tabs">
+				<ul class="select-list" ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind">
+					<li ng-click="insertIntoPost('#', tag)" class="inner-btn new-quest-quester quester-radio" for="tag_{{tag}}">{{tag}}</li>
+				</ul>
+			</div>
+
+			<!-- QUEST -->
+			<div ng-if="newPost.type === 'quest'">
+				<h5>What does someone get when they complete the quest?</h5>
+				<input type="number" ng-model="newPost.quest.worth.currency"> {{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
+				<br>or an achievement<br>
+				<input ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
+			</div>
+
+			<!-- IMAGES -->
+			<div class="post-images" ng-if="$root.post.images.length">
+				<div ng-repeat="image in $root.post.images">
+					<img width="200" src="{{image}}" alt="{{post.content}}">
+					<button ng-click="removeImage($root.post._id, image)">Remove</button>
+				</div>
+			</div>
+
+			<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>
+
+			<button ng-click="sendPost(true)" class="btn btn-primary">Post</button>
+		</div>
+	</section>
+
+	<div class="tags" ng-if="!editPost">
+		<a href="/#/?tag={{tag}}" ng-repeat="tag in post.tags">#{{tag}}  </a>
+	</div>
 
 	<section class="comments">
 		<div ng-repeat="comment in post.comments" class="comment">{{comment.authorName}} said: {{comment.content}}</div>

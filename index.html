@@ -33,17 +33,19 @@
 	<script type="text/javascript" src="scripts/jquery.jscrollpane.min.js"></script>
 
 <!-- BOOTSTRAP -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
 <!-- CIRCLE styles -->
 	<link rel="stylesheet" type="text/css" href="app/css/main.css">
 	<link rel="stylesheet" type="text/css" href="app/css/loading.css">
 </head>
-<body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak>
+<body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible">
 	<div id="background-container"><div id="background"></div></div>
 
 	<div class="{{currentState}}" ui-view></div>
 
+<!-- ADD POST -->
 	<section ng-if="$root.currentCircle" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-primary" aria-hidden="true">
 		<div class="col-md-8 col-md-offset-2">
 
@@ -61,20 +63,10 @@
 
 			<!-- POST INPUT MAIN -->
 			<div class="new-post-content">
-				<!-- <input 
-					type="text" 
-					mentio 
-					mentio-typed-text="attemptTag" 
-					mentio-items="$root.currentCircle.members | filter: attemptTag" 
-					ng-model="newPost.content" 
-					ng-keyup="generateLinkPreview(); mentionUsers()" 
-					id="new_post_content" 
-					class="form-control" 
-					placeholder="Type something"> -->
-				
+
 				<textarea 
 					ng-model="newPost.content" 
-					ng-keyup="generateLinkPreview(); findUsersToMention()" 
+					ng-keyup="generateLinkPreview(); findWithPrefixSymbol()" 
 					id="new_post_content" 
 					class="form-control" 
 					placeholder="Type something"></textarea>
@@ -90,72 +82,71 @@
 				</div>
 			</div>
 
-			<!-- MENTIONS -->
-			<div ng-if="searchUsersToMention" class="tabs radio-tabs">
-				<ul class="select-list" ng-repeat="username in $root.currentCircle.members | filter: attemptTag">
-					<!-- <input ng-model="newPost.usersMentioned[username]" id="tag_{{username}}" name="user" value="{{username}}" type="checkbox" /> -->
-					<li ng-click="mentionUser(username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
+			<!-- ALL SYMBOL MENTION THINGS -->
+			<div ng-show="symbolSearch.members" class="post-search-dd">
+				<ul ng-repeat="username in $root.currentCircle.members | filter: attemptFind">
+					<li ng-click="insertIntoPost('members', username)" class="post-search-dd-select" for="tag_{{username}}">{{username}}</li>
 				</ul>
+			</div>
+			<div ng-show="symbolSearch.tags" class="post-search-dd">
+				<ul ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind">
+					<li ng-click="insertIntoPost('tags', tag)" class="post-search-dd-select" for="tag_{{tag}}">{{tag}}</li>
+				</ul>
+			</div>
+
+			<!-- QUEST -->
+			<div ng-if="newPost.type === 'quest'">
+				<h5>What does someone get when they complete the quest?</h5>
+				<input type="number" ng-model="newPost.quest.worth.currency"> {{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
+				<br>or an achievement<br>
+				<input ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
 			</div>
 
 			<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>
 
-			<!-- TAGS -->
-			<div class="new-post-tags">
-			<input ng-model="newPost.tags" ng-keypress="sendPost($event)" type="text" class="form-control" placeholder="tag this post">
-			</div>
-
-			<div class="tags-search">
-				<div class="multiple-selector">
-					<ul class="select">
-						<li class="option" data-option="{{tag}}" ng-click="customSelect( '.new-post-tags > input', $event )" ng-repeat="tag in circle.tags | limitTo: tagsLimit">{{tag}}</li>
-						<button ng-click="tagsLimit = -1" ng-if="tagsLimit === 5" class="btn btn-primary">See all</button>
-					</ul>
-				</div>
-			</div>
 			<button ng-click="sendPost()" class="btn btn-primary">Post</button>
 		</div>
 	</section>
 
+<!-- EDIT CIRCLE -->
 	<section ng-if="$root.currentCircle" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-primary" aria-hidden="true">
 		<div class="col-md-8 col-md-offset-2">
+
+			<h3>Styles</h3>
+
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<p>Change the theme</p>
-					<select ng-model="currentCircle.styles.theme" ng-blur="editCircle('theme')" value="{{$root.currentCircle.styles.theme}}" type="text" class="form-control">
+					<select ng-model="currentCircle.styles.theme" value="{{$root.currentCircle.styles.theme}}" type="text" class="form-control">
 						<option ng-selected="currentCircle.styles.theme == 'smooth'" value="smooth">Smooth</option>
 						<option ng-selected="currentCircle.styles.theme == 'material'" value="material">Material</option>
 					</select>
+					<button ng-click="styleCircle('theme')" class="btn btn-default">Save</button>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<p>Change the palette</p>
-					<select ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" ng-blur="editCircle('palette')" type="text" class="form-control">
+					<select ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="form-control">
 						<option ng-selected="currentCircle.styles.palette == 'original'" value="original">Original</option>
 						<option ng-selected="currentCircle.styles.palette == 'light'" value="light">Light</option>
 						<option ng-selected="currentCircle.styles.palette == 'dark'" value="dark">Dark</option>
 					</select>
+					<button ng-click="styleCircle('palette')" class="btn btn-default">Save</button>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<p>Change the font</p>
-					<select ng-model="currentCircle.styles.font" value="{{$root.currentCircle.styles.font}}" ng-blur="editCircle('font')" type="text" class="form-control">
+					<select ng-model="currentCircle.styles.font" value="{{$root.currentCircle.styles.font}}" type="text" class="form-control">
 						<option ng-selected="currentCircle.styles.font == 'open-sans'" value="open-sans">Open Sans</option>
 						<option ng-selected="currentCircle.styles.font == 'montserrat'" value="montserrat">Montserrat</option>
 					</select>
+					<button ng-click="styleCircle('font')" class="btn btn-default">Save</button>
 				</div>
 			</div>
-
-	<!-- <div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
-					<p>Insert some CSS (experts only)</p>
-					<textarea ng-model="$parent.style.css" placeholder="example: .tile { border: 2px solid pink; }" ng-blur="editCircle('css')" class="form-control"></textarea>
-				</div>
-			</div> -->
 
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
@@ -171,14 +162,26 @@
 				</div>
 			</div>
 
+			<h3>Settings</h3>
+
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Name your currency</p>
+					<input ng-model="currentCircle.currency.singularName" name="currency_name_singular" placeholder="singular name (e.g. 'dollar')">
+					<input ng-model="currentCircle.currency.pluralName" name="currency_name_plural" placeholder="singular name (e.g. 'dollar')">
+					<button ng-click="editCurrency()" class="btn btn-default">Save</button>
+				</div>
+			</div>
+
 		</div>
 	</section>
 
 
 	<!-- ANGULAR -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-	<!-- <script src="app/angular/angular.min.js"></script> -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->
+	<script src="app/angular/angular.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script> -->
+	<script src="node_modules/angular-animate/angular-animate.min.js"></script>
 
 	<!-- ANGULAR UI ROUTER -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script> -->

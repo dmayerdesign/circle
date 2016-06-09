@@ -18,6 +18,8 @@
 			}
 			/* END USER INIT */
 
+			init.initFinal(_("body"));
+
 			$scope.confirmPassword = function() {
 				if ( !$scope.newUser || !$scope.newUser.password || !$scope.passwordConf || $scope.newUser.password !== $scope.passwordConf || !$scope.newUser.password.length ) {
 					$scope.passwordsMatch = false;
@@ -65,82 +67,79 @@
 			};
 
 			$scope.createUser = function() {
-				if ( !$scope.passwordsMatch || $scope.passwordTooShort || !$scope.newUser.email || !$scope.newUser.username ) {
-					return;
-				}
-
-				if ( !$scope.signupJoinCircle ) {
-					$scope.signupJoinCircle = true;
-					return;
-				}
-
-				var user = $scope.newUser;
-				var accessCode = $scope.newUser.accessCode;
-				var accessAnswer = $scope.newUser.accessAnswer;
+				var scope = this;
+				var user = scope.newUser;
+				var accessCode = scope.newUser.accessCode;
+				var accessAnswer = scope.newUser.accessAnswer;
 				var emailVerCode = makeVerCode();
+				var circleCredentials;
+				user.emailVerification = emailVerCode;
 
-				$scope.loading = true;
+				scope.loading = true;
 
-				if ( accessCode && accessAnswer ) {
-					init.getCircle(accessAnswer, accessCode, function(circle) {
-						console.log("circle:");
-						console.log(circle);
-						finishSignup(user, emailVerCode, circle);
-					});
-				} else {
-					finishSignup(user, emailVerCode);
+				if ( !scope.passwordsMatch || scope.passwordTooShort || !scope.newUser.email || !scope.newUser.username ) {
+					return;
 				}
-				
-				function finishSignup(user, code, circle) {
-					user["emailVerification"] = code;
 
-					$http.post('api/user/signup', user)
-					.then(function(res) {
-						if ( res.data.userExists ) {
-							$scope.userExists = true;
-							setTimeout(function() {
-								$state.go('login');
-							}, 3000);
-							return;
-						}
+				if ( !scope.signupJoinCircle ) {
+					scope.signupJoinCircle = true;
+					return;
+				}
 
-						if ( circle ) {
-							init.joinCircle( res.data, circle, function(user, circle) {
-								$scope.loggedIn = true;
-								$scope.user = user;
-								$scope.circle = circle;
-								$scope.circleName = circle.name;
-								$scope.circleJoined = true;
+				$http.post('api/user/signup', user)
+				.then(function(res) {
+					if ( res.data.userExists ) {
+						scope.userExists = true;
 
-								var circles = {};
-								circles[circle.accessCode] = circle;
-								localStorage.setItem('Circles', JSON.stringify(circles));
+						setTimeout(function() {
+							$state.go('login');
+							scope.loading = false;
+						}, 3000);
 
-								sendVerificationEmail(user.email, code);
-							});
-						} else {
-							localStorage.setItem('User', JSON.stringify(res.data));
-							sendVerificationEmail(user.email, code);
-						}
-					});
-
-					// SEND VERIFICATION EMAIL
-					function sendVerificationEmail(email, code) {
-						jQuery.get("email/verify/" + email + "/" + code)
-						.done(function(data) {
-							console.log(email);
-							console.log(code);
-							console.log($scope.newUser);
-
-							$scope.emailVerificationSent = true;
-							$scope.loading = false;
-							$scope.$apply();
-						})
-						.fail(function(err) {
-							console.error("Something went wrong while sending the verification email. Data:" + err);
-						});
+						return;
 					}
+
+					if ( accessCode && accessAnswer ) {
+						circleCredentials = {
+							accessCode: accessCode,
+							accessAnswer: accessAnswer
+						};
+
+						init.joinCircle( res.data, circleCredentials, function(user, circle) {
+							scope.loggedIn = true;
+							$rootScope.user = user;
+							$rootScope.currentCircle = circle;
+							$rootScope.circleJoined = true;
+
+							var circles = {};
+							circles[circle.accessCode] = circle;
+							localStorage.setItem('Circles', JSON.stringify(circles));
+
+							sendVerificationEmail(user.email, emailVerCode);
+						});
+					} else {
+						localStorage.setItem('User', JSON.stringify(res.data));
+						sendVerificationEmail(user.email, emailVerCode);
+					}
+				});
+
+				// SEND VERIFICATION EMAIL
+				function sendVerificationEmail(email, code) {
+					jQuery.get("email/verify/" + email + "/" + code)
+					.done(function(data) {
+						console.log(email);
+						console.log(code);
+						console.log($scope.newUser);
+
+						$scope.emailVerificationSent = true;
+						$scope.loading = false;
+						$scope.$apply();
+					})
+					.fail(function(err) {
+						console.error("Something went wrong while sending the verification email. Data:" + err);
+					});
 				}
+				// }
 
 				function makeVerCode() { var text = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; for ( var i=0; i < 18; i++ ) { text += possible.charAt(Math.floor(Math.random() * possible.length)); } return text; }
 			};

@@ -1,49 +1,34 @@
-(function() {
+(function(_) {
 	angular.module('Circle')
 	.controller('createCircleController', ['$scope', '$rootScope', '$state', '$location', '$http', '$interval', 'init', 
 																function( $scope,   $rootScope,   $state,   $location,   $http,   $interval,   init) {
 
 		$rootScope.currentState = 'create-circle';
 
-		/**/
-		/** INITIALIZE THE USER
-		/**/
-		if ( localStorage['User'] ) {
-			var localUser = JSON.parse(localStorage['User']);
-			if ( localUser.email ) {
-				$scope.user = localUser;
-			}
-		}
-		if ( !$scope.user || !$scope.user._id ) {
+		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+		//$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		if (!$rootScope.user) {
 			$state.go('signup');
 			return;
-		} else {
-			$scope.loggedIn = true;
 		}
-		/* END USER INIT */
+		$rootScope.loggedIn = true;
+		// init.app($rootScope.user._id, false, function(user, circle) {
+		// 	$rootScope.user = user;
+		// 	if (circle) {
+		// 		$rootScope.circleJoined = true;
+		// 		$rootScope.currentCircle = circle;
+		// 		$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
+		// 		init.getPosts(circle._id, function(posts) {
+		// 			$scope.posts = posts;
+		// 		});
+		// 		customizer.getStyle($rootScope);
+		// 	} else {
+		// 		$rootScope.circleJoined = false;
+		// 		$state.go('createCircle');
+		// 	}
+		// });
 
-		/**/
-		/** INITIALIZE THE CIRCLE
-		/**/
-		if ( localStorage['Current-Circle'] ) {
-			$scope.currentCircle = JSON.parse(localStorage['Current-Circle']) || {};
-		} else {
-			$scope.currentCircle = $scope.user.circles && $scope.user.circles[0] || {};
-		}
-		init.getUserAndCircle($scope.user._id, $scope.currentCircle.accessCode, function(user, circle) {
-			$scope.user = user; // update $scope.user
-
-			if ( !$scope.user.isEmailVerified ) {
-				console.log("email is not verified");
-				if ( $location.search().email && $location.search().verifyEmail ) {
-					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
-				}
-				$scope.emailVerificationSent = true;
-				$state.go('signup');
-				return;
-			}
-		});
-		/** END CIRCLE INIT **/
+		init.initFinal(_("body"));
 
 		$scope.optJoin = false;
 		$scope.optCreate = false;
@@ -92,13 +77,20 @@
 			}
 
 			$scope.newAccessCode = makeAccessCode();
+
+			if ( $rootScope.user ) {
+				var creator = $rootScope.user;
+			} else {
+				var creator = $scope.user;
+			}
+
 			var request = {
-				creatorId: $rootScope.user._id,
+				creatorId: creator._id,
 				name: $scope.circleName,
 				accessRiddle: $scope.accessRiddle,
 				accessAnswer: $scope.newAccessAnswer,
 				accessCode: $scope.newAccessCode,
-				members: [$rootScope.user.username]
+				members: [creator.username]
 			};
 			function makeAccessCode() { var text = "", possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; for ( var i=0; i < 12; i++ ) { text += possible.charAt(Math.floor(Math.random() * possible.length)); } return text; }
 
@@ -113,7 +105,7 @@
 				});
 
 				init.joinCircle( $scope.user, circle, function(user, circle) {
-					initCircle(circle);
+					init.circle(circle.accessCode);
 					$http.post("email/newCircle", {email: user.email, circleData: circle})
 					.success(function(response) {
 						console.log(response);
@@ -136,27 +128,12 @@
 						return;
 					}
 					init.joinCircle($scope.user, circle, function(user, circle) {
-						initCircle(circle);
+						init.circle(circle.accessCode);
 						window.location.href = "/";
 					});
 				});
 			}
 		};
 
-		function initCircle(circle) {
-			if ( localStorage["Circles"] ) {
-				var circles = JSON.parse(localStorage["Circles"]);
-			} else {
-				var circles = {};
-			}
-
-			$scope.loggedIn = true;
-			$scope.circle = circle;
-			$scope.circleName = circle.name;
-			circles[circle.accessCode] = circle;
-			localStorage.setItem('Circles', JSON.stringify(circles));
-			$scope.circleJoined = true;
-		}
-
 	}]);
-}());
+}(jQuery));

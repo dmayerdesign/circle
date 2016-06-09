@@ -7,12 +7,36 @@ var mkdirp = require('mkdirp');
 module.exports.postPost = function(req, res) {
 	console.log("POSTING: ");
 	console.log(req.body);
-	var post = new Post(req.body);
-	post.save(function(error, post) {
+	var post;
+	if (req.body._id) {
+		console.log("post exists!");
+		Post.findById({_id: req.body._id}, function(err, post) {
+			if (post)
+				post.content = req.body.content;
+				post.eventDate = req.body.eventDate;
+				post.eventLocation = req.body.eventLocation,
+				post.tags = req.body.tags;
+				post.usersMentioned = req.body.usersMentioned;
+				post.images = req.body.images;
+				post.quest = req.body.quest;
+				post.linkEmbed = req.body.linkEmbed;
+
+				post.save(savePost);
+				res.json(post);
+			if (err)
+				console.error(err);
+		});
+	} else {
+		post = new Post(req.body);
+		post.save(savePost);
+	}
+
+	function savePost(error, post) {
 		if (error) {
 			console.log("ERROR:");
 			console.log(error);
-		} else {
+		}
+		else {
 			console.log("SAVED POST");
 			if (post.usersMentioned && post.usersMentioned.length) {
 				for (var i = 0; i < post.usersMentioned.length; i++) {
@@ -58,17 +82,19 @@ module.exports.postPost = function(req, res) {
 				}
 			}
 		}
-	});
+	}
 
-	Post.find({circleId: req.body.circleId})
-	.sort({date: -1})
-	.exec(function(err, allPosts) {
-		if (err) {
-			res.error(err);
-		} else {
-			res.json(allPosts);
-		}
-	});
+	if (!req.body._id) {
+		Post.find({circleId: req.body.circleId})
+		.sort({date: -1})
+		.exec(function(err, allPosts) {
+			if (err) {
+				res.error(err);
+			} else {
+				res.json(allPosts);
+			}
+		});
+	}
 };
 
 module.exports.postComment = function(req, res) {
@@ -169,19 +195,19 @@ module.exports.postComment = function(req, res) {
 };
 
 module.exports.deletePost = function(req, res) {
-	Post.remove({circleId: req.body.circleId, _id: req.body.postId}, function(err, posts) {
-		console.log("post deleted: " + posts);
-		console.log("circleId: " + req.body.circleId + ", " + "postId: " + req.body.postId);
-	});
-
-	Post.find({circleId: req.body.circleId})
-	.sort({date: -1})
-	.exec(function(err, allPosts) {
+	Post.remove({circleId: req.body.circleId, _id: req.body.postId}, function(err, result) {
 		if (err) {
-			res.error(err);
-		} else {
-			res.json(allPosts);
+			console.error(err);
 		}
+		Post.find({circleId: req.body.circleId})
+		.sort({date: -1})
+		.exec(function(err, allPosts) {
+			if (err) {
+				res.error(err);
+			} else {
+				res.json(allPosts);
+			}
+		});
 	});
 };
 
@@ -352,5 +378,28 @@ module.exports.attachImage = function(req, res) {
 				});
 			}
 		});
+	});
+};
+
+module.exports.removeImage = function(req, res) {
+	var postId = req.body.postId;
+	var imgPath = req.body.path;
+
+	Post.findById(postId, function(err, post) {
+		if (err) {
+			console.error(err);
+			res.json({status: 500});
+		} else {
+			post.images.splice(post.images.indexOf(imgPath), 1);
+			post.save(function(error) {
+				if (error) {
+					console.error(error);
+					res.json({status: 500});
+				} else {
+					console.log("deleted image " + imgPath);
+					res.json(post.images);
+				}
+			});
+		}
 	});
 };

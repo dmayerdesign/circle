@@ -1,5 +1,6 @@
 var Tag = require('../datasets/tags');
 var Circle = require('../datasets/circles');
+var Post = require('../datasets/posts');
 
 module.exports.addTag = function(req, res) {
 	Tag.find(req.body, function(err, tags) {
@@ -29,6 +30,42 @@ module.exports.addTag = function(req, res) {
 				res.json(tag);
 			});
 		}
+	});
+};
+
+module.exports.deleteTag = function(req, res) {
+	Tag.remove({circleId: req.body.circleId, name: req.body.tagName}, function(err, result) {
+		if (err) {
+			console.error(err);
+		} else {
+			Circle.findById(req.body.circleId, function(err, circle) {
+				if (err) {
+					console.error(err);
+				} else {
+					circle.tags.splice(circle.tags.indexOf(req.body.tagName), 1);
+					circle.save(function(err) {
+						if (err) {
+							console.error(err);
+							res.json({status: 500});
+						} else {
+							Post.find({tags: req.body.tagName}, function(err, posts) {
+								for ( var i = 0; i < posts.length; i++ ) {
+									posts[i].tags.splice(posts[i].tags.indexOf(req.body.tagName), 1);
+									posts[i].save(function(err) {
+										if (err) {
+											console.error(err);
+										}
+									});
+								}
+							});
+
+							res.json(circle.tags);
+						}
+					});
+				}
+			});
+		}
+		
 	});
 };
 

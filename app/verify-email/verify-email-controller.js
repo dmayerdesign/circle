@@ -5,8 +5,6 @@
 
 	$rootScope.currentState = 'verify-email';
 
-		console.log($location);
-
 	/** SPECIAL FOR THIS CONTROLLER: validate email **/
 		if ( $location.search().email && $location.search().verifyEmail ) {
 			var emailParam = $location.search().email;

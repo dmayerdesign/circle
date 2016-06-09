@@ -1,20 +1,17 @@
-(function() {
+(function(_) {
 	angular.module('Circle')
-		.controller('loginController', ['$scope', '$rootScope', '$state', '$location', '$http', function($scope, $rootScope, $state, $location, $http) {
+		.controller('loginController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init',
+													 function( $scope,   $rootScope,   $state,   $location,   $http,   init) {
 
 			$rootScope.currentState = 'login';
 
-			/**/
-			/** INITIALIZE THE USER
-			/**/
-			if ( localStorage['User'] ) {
-				var localUser = JSON.parse(localStorage['User']);
-				if ( localUser && localUser.email ) {
-					$state.go('main');
-					return;
-				}
+			$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+			if ($rootScope.user) {
+				$state.go('main');
+				return;
 			}
-			/* END USER INIT */
+			
+			init.initFinal(_("body"));
 
 			$scope.logIn = function(alreadyLoggedIn) {
 				$scope.login = alreadyLoggedIn ? JSON.parse(localStorage['User']) : $scope.login;
@@ -46,4 +43,4 @@
 			};
 
 		}]);
-}());
+}(jQuery));

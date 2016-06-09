@@ -24,9 +24,11 @@ module.exports.verifyEmail = function(req,res) {
           console.error(err);
       }
       else {
-      	console.log("data: " + data);
-          console.log("body: " + body);
-         	res.json(body);
+      	console.log("data: ");
+        console.log(data);
+        console.log("body: ");
+        console.log(body);
+        res.json(body);
       }
   });
 };
