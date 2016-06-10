@@ -29,6 +29,19 @@
 
 
 
+		$scope.refresh = function() {
+			console.log($rootScope.currentState);
+			if ( $rootScope.currentState !== 'main' ) {
+				$state.go('main');
+			}
+			else {
+				window.location.href = "/#/";
+				window.location.reload();
+			}
+		};
+
+
+
 		$scope.logOut = function() {
 			localStorage.clear();
 			document.querySelector("body").className = "";

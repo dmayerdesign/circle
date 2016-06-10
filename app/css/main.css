@@ -1,6 +1,7 @@
 html {
 	background-color: #fff;
-	background: radial-gradient(#accedf, #8aacce);
+	background-image: radial-gradient(#accedf, #8aacce);
+	height: 100%;
 }
 
 body {
@@ -407,7 +408,7 @@ article {
 	opacity: 0.9;
 }
 
-#background {
+.background {
 	position: absolute;
 	top: -2.5%;
 	left: -2.5%;
@@ -425,6 +426,14 @@ article {
 
 	-webkit-filter: blur(4px);
 	filter: blur(4px);
+}
+
+.category-bg {
+	opacity: 0;
+}
+
+.category-bg.visible {
+	opacity: 1;
 }
 
 /* app bar */

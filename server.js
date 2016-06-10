@@ -75,8 +75,10 @@ app.post('/api/quest/updateQuestStatus', postController.updateQuestStatus);
 app.post('/api/quest/userCompletedQuest', postController.userCompletedQuest);
 
 // Tags
+app.get('/api/tags/get', tagController.getTags);
+app.get('/api/tags/getTag', tagController.getTag);
 app.post('/api/tags/addTag', tagController.addTag);
-app.get('/api/tags/getTags', tagController.getTags);
+app.post('/api/tags/updateImage', tagController.updateImage);
 app.post('/api/tags/deleteTag', tagController.deleteTag);
 
 // User

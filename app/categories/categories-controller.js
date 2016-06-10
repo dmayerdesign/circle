@@ -4,6 +4,7 @@
 													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
 
 		$rootScope.currentState = 'categories';
+		$rootScope.archiveTag = null;
 
 		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
@@ -35,27 +36,10 @@
 					$scope.postsAllowed = {allow: 20};
 
 					init.initFinal(_("body"));
-					// Check for new posts
-					setInterval(function() {
-						if ($scope.postsAreFiltered || $scope.postTypesAreFiltered)
-							return;
-						$scope.incomingPosts = false;
-						init.getPosts($rootScope.currentCircle._id, function(posts) {
-							$scope.incomingPosts = posts;
-							if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
-								$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
-								if ( $scope.difference > 0 ) {
-									$scope.posts = posts;
-								}
-							}
 
-							getCategories($rootScope, posts);
-						});
-					}, 1000);
-					// Search for filter in query string
-					if ( $location.search().tag ) {
-						$scope.showPostsTagged( $location.search().tag );
-					}
+					init.getTags(circle._id, function(tags) {
+						$rootScope.categories = tags;
+					});
 				});
 
 			} else {
@@ -63,46 +47,6 @@
 				$state.go('createCircle');
 			}
 		});
-
-		function getCategories(scope, posts) {
-			var image;
-			scope.categories = [];
-			scope.tags = $rootScope.currentCircle.tags;
-
-			if ( scope.tags ) {
-				for ( var i = 0; i < scope.tags.length; i++ ) {
-					var tag = {};
-					tag.name = scope.tags[i];
-
-					for ( var index = 0; index < posts.length; index++ ) {
-						if ( posts[index].tags.toString().indexOf(tag.name) > -1 ) {
-
-							if ( posts[index].images.length ) {
-								image = posts[index].images[0];
-							}
-							else if ( posts[index].linkEmbed && JSON.parse(posts[index].linkEmbed).thumbnail_url ) {
-								image = JSON.parse(posts[index].linkEmbed).thumbnail_url;
-							}
-							
-							if (image)
-								tag.image = image;
-							
-							scope.categories.push(tag);
-							
-							break;
-						}
-						else {
-							tag.image = undefined;
-							scope.categories.push(tag);
-
-							break;
-						}
-					}
-				}
-
-				return scope.categories;
-			}
-		}
 
 		var initArchive = function() {
 			var $head = _("head");

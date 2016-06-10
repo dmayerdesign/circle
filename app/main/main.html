@@ -13,20 +13,25 @@
 			<div class="c-bg-primary tile clearfix">
 				<a class="inner-btn c-bg-accent-hover" ui-sref="categories"><span>Categories</span></a>
 				<button class="inner-btn c-bg-accent-hover"><span>Friends</span></button>
-				<button ng-click="showPostsOfType('event'); showPostsMentioningMe(false);" class="inner-btn c-bg-accent-hover"><span>Calendar</span></button>
-				<button ng-click="showPostsOfType('quest'); showPostsMentioningMe(false);" class="inner-btn c-bg-accent-hover"><span>Quests</span></button>
+				<button ng-click="showPostsOfType('event');" class="inner-btn c-bg-accent-hover"><span>Calendar</span></button>
+				<button ng-click="showPostsOfType('quest');" class="inner-btn c-bg-accent-hover"><span>Quests</span></button>
 			</div>
 		</div>
 	</nav>
 
+	<nav ng-if="postsAreFiltered.filter === 'users'" class="col-md-8 col-md-offset-2" style="position:relative; z-index:99999;">
+		<button ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">things by <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</button>
+		<button ng-click="filterByCreator = false; showPostsFiltered( 'users', postsAreFiltered.term )">things mentioning <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</button>
+	</nav>
+
 <!-- POSTS MAIN -->
 	<section class="posts-archive-container">
-		<button ng-click="setNewPosts(); showPostsOfType();" class="btn btn-primary">All Posts
+		<button ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered()" id="all_posts" class="btn btn-primary">All Posts
 			<!-- <span ng-if="incomingPosts && difference">({{difference}} new)</span> -->
 		</button>
-		<button ng-click="showPostsMentioningMe()">
-			<span ng-if="postTypesAreFiltered.filter == 'quest'">My quests</span>
-			<span ng-if="postTypesAreFiltered.filter !== 'quest'">@me</span>
+		<button ng-click="showPostsFiltered('users', $root.user.username)">
+			<span ng-if="postTypesAreFiltered.term == 'quest'">My quests</span>
+			<span ng-if="postTypesAreFiltered.term !== 'quest'">@me</span>
 		</button>
 
 	<!-- notifications -->

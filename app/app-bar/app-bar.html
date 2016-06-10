@@ -1,7 +1,7 @@
 <div ng-if="loggedIn && user.isEmailVerified" class="app-bar c-bg-primary container-fluid">
-	<a class="logo" ui-sref="main" ng-style="{backgroundImage: 'url(' + $root.currentCircle.styles.logo + ')'}"]></a>
+	<a class="logo" ui-sref="main" ng-click="refresh()" ng-style="{backgroundImage: 'url(' + $root.currentCircle.styles.logo + ')'}"]></a>
 	<h3 ng-if="circleJoined" ng-class="{'has-logo': $root.currentCircle.styles.logo}">
-		<a ui-sref="main" ng-click="setNewPosts(); showPostsTagged(); showPostsOfType();">{{ $root.currentCircle.name }}</a>
+		<a ui-sref="main" ng-click="refresh()">{{ $root.currentCircle.name }}</a>
 	</h3>
 	<h3 ng-if="!circleJoined"><a ui-sref="main">Circle</a></h3>
 

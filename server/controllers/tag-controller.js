@@ -1,6 +1,9 @@
 var Tag = require('../datasets/tags');
 var Circle = require('../datasets/circles');
 var Post = require('../datasets/posts');
+var fs = require('fs-extra');
+var path = require('path');
+var mkdirp = require('mkdirp');
 
 module.exports.addTag = function(req, res) {
 	Tag.find(req.body, function(err, tags) {
@@ -78,5 +81,58 @@ module.exports.getTags = function(req, res) {
 		} else {
 			res.json(allTags);
 		}
+	});
+};
+
+module.exports.getTag = function(req, res) {
+	Tag.findOne({name: req.query.tagName, circleId: req.query.circleId}, function(err, tag) {
+		if (err) {
+			res.error(err);
+		} else {
+			res.json(tag);
+		}
+	});
+};
+
+module.exports.updateImage = function(req, res) {
+	var file = req.files.file,
+		userId = req.body.userId,
+		circleId = req.body.circleId;
+		tagName = req.body.tagName;
+
+	console.log("User " + userId + " is submitting " , file);
+
+	var uploadDate = new Date().getTime();
+
+	mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
+
+		if (err) {
+			console.log("couldn't create the circle directory in uploads");
+			return;
+		}
+		
+		var tempPath = file.path;
+		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
+		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
+
+		fs.rename(tempPath, targetPath, function(err) {
+			if (err) {
+				console.log(err);
+			} else {
+				Tag.findOne({name: tagName, circleId: circleId}, function(err, tag) {
+					tag.image = savePath;
+					tag.save(function(err) {
+						if (err) {
+							console.log("Save failed :(");
+							res.json({status: 500});
+						} else {
+							console.log("Logo save successful! ^_^");
+							console.log(tag);
+							res.json(tag);
+						}
+					})
+				});
+			}
+		});
 	});
 };

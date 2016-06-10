@@ -3,7 +3,7 @@
 <section class="category-archive">
 	<div class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories" style="position:relative;">
 		<a href="/#/?tag={{category.name}}" style="display:block; background-image: url({{category.image}});">
-			<span>{{category.name}}</span>
+			<span>#{{category.name}}</span>
 		</a>
 		<button style="position:absolute; z-index:999; top:0; right:0;" ng-click="deleteCategory(category.name)">remove</button>
 	</div>

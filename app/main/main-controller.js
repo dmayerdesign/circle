@@ -26,6 +26,7 @@
 			if (circle) {
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
+
 				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;
@@ -38,26 +39,44 @@
 					});
 					init.initFinal(_("body"));
 
-					// Check for new posts
-					setInterval(function() {
-						if ($scope.postsAreFiltered || $scope.postTypesAreFiltered || !$rootScope.currentCircle) // last one is if 'create or join a new circle' is clicked
-							return;
-						$scope.incomingPosts = false;
-						init.getPosts($rootScope.currentCircle._id, function(posts) {
-							$scope.incomingPosts = posts;
-							if ( $scope.incomingPosts && !$scope.postsAreFiltered && !$scope.postTypesAreFiltered ) {
-								$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
-								if ( $scope.difference > 0 ) {
-									$scope.posts = posts;
-								}
-							}
-						});
-					}, 1000);
-
 					// Search for filter in query string
 					if ( $location.search().tag ) {
-						$scope.showPostsTagged( $location.search().tag );
+						$scope.showPostsFiltered( 'tags', $location.search().tag );
+						$http.get('api/tags/getTag?circleId=' + $rootScope.currentCircle._id + '&tagName=' + $location.search().tag).then(function(response) {
+							$rootScope.archiveTag = response.data;
+						});
+						console.log($scope.postsAreFiltered);
+					} else {
+						$rootScope.archiveTag = null;
 					}
+
+					if ( $location.search().user ) {
+						$scope.showPostsFiltered( 'users', $location.search().user );
+					}
+
+					if ( !$location.search() ) {
+						$scope.showPostsFiltered();
+						console.log($scope.postsAreFiltered);
+					}
+
+					// Check for new posts
+					// setInterval(function() {
+					// 	console.log($scope.postsAreFiltered.filter);
+					// 	console.log($scope.postTypesAreFiltered.filter);
+
+					// 	if ($scope.postsAreFiltered.filter || $scope.postTypesAreFiltered.filter || !$rootScope.currentCircle) // last one is if 'create or join a new circle' is clicked
+					// 		return;
+					// 	$scope.incomingPosts = false;
+					// 	init.getPosts($rootScope.currentCircle._id, function(posts) {
+					// 		$scope.incomingPosts = posts;
+					// 		if ( $scope.incomingPosts && !$scope.postsAreFiltered.filter && !$scope.postTypesAreFiltered.filter ) {
+					// 			$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
+					// 			if ( $scope.difference > 0 ) {
+					// 				$scope.posts = posts;
+					// 			}
+					// 		}
+					// 	});
+					// }, 1000);
 				});
 				customizer.getStyle($rootScope);
 			} else {
@@ -73,7 +92,8 @@
 
 
 
-
+		$scope.postsAreFiltered = {};
+		$scope.postTypesAreFiltered = {};
 
 		$scope.postOrder = 'date';
 		$scope.orderPosts = function(postOrder) {
@@ -214,13 +234,10 @@
 
 			$http.post('api/post/post', request)
 			.success(function(response) {
-				that.posts = response;
+				$scope.posts = response;
 
 				if (edit) {
 					$rootScope.editPost = false;
-					action.treatPost($scope, $rootScope, function(post) {
-						$rootScope.post = post;
-					});
 				}
 
 				that.newPost = {
@@ -249,7 +266,7 @@
 					circleId: $rootScope.currentCircle._id
 				}).then(function(response) {
 					if ( response.data ) {
-						$http.get('api/tags/getTags?circleId=' + $rootScope.currentCircle._id)
+						$http.get('api/tags/get?circleId=' + $rootScope.currentCircle._id)
 						.then(function(response) {
 							var tags = response.data;
 							for ( var i = 0; i < tags.length; i++ ) {
@@ -349,25 +366,42 @@
 			$scope.incomingPosts = undefined;
 		};
 
-		$scope.showPostsTagged = function(tag) {
+		// $scope.search = function(item){
+	 //    if (!$scope.query || (item.brand.toLowerCase().indexOf($scope.query) != -1) || (item.model.toLowerCase().indexOf($scope.query.toLowerCase()) != -1) ){
+	 //      return true;
+	 //    }
+	 //  	return false;
+	 // 	};
+
+		$scope.showPostsFiltered = function(list, item) {
 			var that = this;
+
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
-				console.log($scope.postsAreFiltered);
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
 
-				if ( !$scope.postsAreFiltered || typeof $scope.postsAreFiltered === 'undefined' ) {
-					$scope.postsAreFiltered = false;
-				}
-
-				if ( !tag || typeof tag === 'undefined' ) {
-					$scope.postsAreFiltered = false;
+				if ( !list || typeof list === 'undefined' ) {
+					that.postsAreFiltered = {};
+					$rootScope.archiveTag = null;
 					return $scope.posts;
 				} else {
-					$scope.posts = $filter('filter')($scope.posts, {tags: tag});
-					$scope.postsAreFiltered = {
-						filter: tag
+					that.postsAreFiltered = {
+						filter: list,
+						term: item
 					};
+
+					console.log(that.postsAreFiltered);
+					$scope.posts = function() {
+						if (list === 'tags') {
+							return $filter('filter')(that.posts, {tags: item});
+						}
+						if (list === 'users' && !that.filterByCreator) {
+							return $filter('filter')(that.posts, {usersMentioned: item});
+						}
+						if (list === 'users' && that.filterByCreator) {
+							return $filter('filter')(that.posts, {user: item});
+						}
+					}();
 					return $scope.posts;
 				}
 			});
@@ -375,55 +409,62 @@
 
 		$scope.showPostsOfType = function(type) {
 			var that = this;
+
+			if ( $location.search() ) {
+				window.location.href = "/#/";
+				$rootScope.archiveTag = null;
+			}
+
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
-				console.log($scope.postTypesAreFiltered);
+				console.log(that.postTypesAreFiltered);
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
 
-				if ( !$scope.postTypesAreFiltered || typeof $scope.postTypesAreFiltered === 'undefined' ) {
-					$scope.postTypesAreFiltered = false;
+				if ( !that.postTypesAreFiltered || typeof that.postTypesAreFiltered === 'undefined' ) {
+					that.postTypesAreFiltered = {};
 				}
 
 				if ( !type || typeof type === 'undefined' ) {
-					$scope.postTypesAreFiltered = false;
+					that.postTypesAreFiltered = {};
 
-					// clear "tag" query parameter if it exists
-					if ( $location.search().tag ) {
+					// clear query parameter if it exists
+					if ( $location.search().tag || $location.search().user ) {
 						window.location.href = "/#/";
 					}
 
 					return $scope.posts;
 				} else {
 					$scope.posts = $filter('filter')($scope.posts, {type: type});
-					$scope.postTypesAreFiltered = {
-						filter: type
+					that.postTypesAreFiltered = {
+						filter: "types",
+						term: type
 					};
 					return $scope.posts;
 				}
 			});
 		};
 
-		$scope.showPostsMentioningMe = function(me) {
-			if (me || typeof me === "undefined") {
-				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: $rootScope.user.username});
-				$scope.postsAreFiltered = true;
-			}
-			else if (me === false) {
-				$scope.posts = $filter('filter')($scope.posts, {usersMentioned: undefined});
-				$scope.postsAreFiltered = true;
-			}
-			return $scope.posts;
-		};
+		// $scope.showPostsMentioningMe = function(me) {
+		// 	if (me || typeof me === "undefined") {
+		// 		$scope.posts = $filter('filter')($scope.posts, {usersMentioned: $rootScope.user.username});
+		// 		this.postsAreFiltered = {filter: 'users', term: $rootScope.user.username};
+		// 	}
+		// 	else if (me === false) {
+		// 		$scope.posts = $filter('filter')($scope.posts, {usersMentioned: undefined});
+		// 		this.postsAreFiltered = {};
+		// 	}
+		// 	return this.posts;
+		// };
 
 		$scope.applyFilterClasses = function() {
-			if ( $scope.postTypesAreFiltered && $scope.postsAreFiltered ) {
-				return $scope.postTypesAreFiltered.filter + " " + $scope.postsAreFiltered.filter;
+			if ( this.postTypesAreFiltered.filter && this.postsAreFiltered.filter ) {
+				return this.postTypesAreFiltered.term + " " + this.postsAreFiltered.term;
 			}
-			if ( $scope.postsAreFiltered ) {
-				return $scope.postsAreFiltered.filter;
+			if ( this.postsAreFiltered.filter ) {
+				return this.postsAreFiltered.term;
 			}
-			if ( $scope.postTypesAreFiltered ) {
-				return $scope.postTypesAreFiltered.filter;
+			if ( this.postTypesAreFiltered.filter ) {
+				return this.postTypesAreFiltered.term;
 			}
 		};
 

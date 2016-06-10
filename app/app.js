@@ -178,6 +178,15 @@
 			});
 		};
 
+		init.getTags = function getTags(circleId, callback) {
+			$http.get('api/tags/get?circleId=' + circleId)
+			.then(function(response) {
+				if (callback) {
+					callback(response.data);
+				}
+			});
+		};
+
 		init.getMembers = function getMembers(accessCode, callback) {
 			$http.get('api/users/get?accessCode=' + accessCode)
 			.then(function(response) {
@@ -340,7 +349,7 @@
 					for (i = 0; i < mentionMatch.length; i++) {
 						theMention = mentionMatch[i];
 						content = content.split(theMention);
-						content[0] += "<span class='mention' style='background:#ddeff2'>" + theMention + "</span>";
+						content[0] += "<a href='/#/?user=" + theMention.replace("@", "") + "' class='mention' style='background:#ddeff2'>" + theMention + "</a>";
 						content = content.join("");
 
 						if (i === mentionMatch.length - 1) {
@@ -368,8 +377,6 @@
 				.className =  "theme-" + $scope.currentCircle.styles.theme
 							+ " palette-" + $scope.currentCircle.styles.palette
 							+ " font-" + $scope.currentCircle.styles.font;
-			document.querySelector("#background")
-				.style.backgroundImage = "url(" + $scope.currentCircle.styles.bg + ")";
 			
 			// var _customCSS = _("<style></style>");
 			// _customCSS.html( $scope.currentCircle.styles.css );

@@ -441,3 +441,44 @@ server.listen(9999, '0.0.0.0');
 
 			$state.go('main');
 		}
+
+		function getCategories(scope, posts, callback) {
+			var image, postToCheck;
+			scope.categories = [];
+			scope.tags = scope.currentCircle.tags;
+
+			if ( scope.tags ) {
+				for ( var i = 0; i < scope.tags.length; i++ ) {
+					var tag = {};
+					tag.name = scope.tags[i];
+
+
+					for ( var j = 0; j < posts.length; j++ ) {
+						postToCheck = posts[j];
+						console.log(j);
+						if ( postToCheck.tags.indexOf(tag.name) > -1 ) {
+
+							if ( postToCheck.images.length ) {
+								image = postToCheck.images[0];
+							}
+							else if ( postToCheck.linkEmbed && JSON.parse(postToCheck.linkEmbed).thumbnail_url ) {
+								image = JSON.parse(postToCheck.linkEmbed).thumbnail_url;
+							}
+							
+							if (image)
+								tag.image = image;
+							
+							break;
+						}
+						else {
+							tag.image = undefined;
+							break;
+						}
+					}
+					scope.categories.push(tag);
+				}
+
+				if (callback)
+					callback(scope.categories);
+			}
+		}

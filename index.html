@@ -33,7 +33,6 @@
 	<script type="text/javascript" src="scripts/jquery.jscrollpane.min.js"></script>
 
 <!-- BOOTSTRAP -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
 	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
 <!-- CIRCLE styles -->
@@ -41,7 +40,10 @@
 	<link rel="stylesheet" type="text/css" href="app/css/loading.css">
 </head>
 <body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible">
-	<div id="background-container"><div id="background"></div></div>
+	<div id="background-container">
+		<div class="background main-bg" style="background-image:url({{$root.currentCircle.styles.bg}})"></div>
+		<div ng-class="{'visible': $root.archiveTag}" class="background category-bg animate-opacity" style="background-image:url({{$root.archiveTag.image}})"></div>
+	</div>
 
 	<div class="{{currentState}}" ui-view></div>
 
@@ -82,10 +84,12 @@
 				</div>
 			</div>
 
-			<!-- ALL SYMBOL MENTION THINGS -->
+			<!-- TAG AND MENTION LISTS -->
 			<div ng-show="symbolSearch.members" class="post-search-dd">
-				<ul ng-repeat="username in $root.currentCircle.members | filter: attemptFind">
-					<li ng-click="insertIntoPost('members', username)" class="post-search-dd-select" for="tag_{{username}}">{{username}}</li>
+				<ul ng-repeat="user in $root.users | filter: attemptFind">
+					<li ng-click="insertIntoPost('members', user.username)" class="post-search-dd-select" for="tag_{{username}}">
+						{{user.avatar}} {{user.name}} {{user.username}}
+					</li>
 				</ul>
 			</div>
 			<div ng-show="symbolSearch.tags" class="post-search-dd">
@@ -159,6 +163,13 @@
 				<div class="col-md-6 col-md-offset-3">
 					<p>Change the logo</p>
 					<button class="btn c-bg-primary" ngf-select="upload('logo', $file)">Select</button>
+				</div>
+			</div>
+
+			<div class="row" ng-if="$root.archiveTag">
+				<div class="col-md-6 col-md-offset-3">
+					<p>Select a featured image for this tag</p>
+					<button class="btn c-bg-primary" ngf-select="upload('tagImage', $file)">Select</button>
 				</div>
 			</div>
 
