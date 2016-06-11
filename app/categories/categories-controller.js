@@ -3,7 +3,22 @@
 	.controller('categoriesController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
 													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
 
-		$rootScope.currentState = 'categories';
+		$rootScope.currentState = "categories";
+		setInterval(function() {
+			if ( $location.url().indexOf("single") > -1 ) {
+				$rootScope.currentState = "single";
+			}
+			if ( $location.url().indexOf("categories") > -1 ) {
+				$rootScope.currentState = "categories";
+			}
+			if ( $location.url().indexOf("members") > -1 ) {
+				$rootScope.currentState = "members";
+			}
+			if ( $location.url().indexOf("edit-profile") > -1 ) {
+				$rootScope.currentState = "editProfile";
+			}
+			console.log($rootScope.currentState);
+		}, 1000);
 		$rootScope.archiveTag = null;
 
 		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);

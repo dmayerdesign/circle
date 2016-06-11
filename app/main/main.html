@@ -2,22 +2,7 @@
 
 <main ng-if="circleJoined && user.isEmailVerified" ng-class="applyFilterClasses()">
 
-	<nav class="col-md-8 col-md-offset-2 circle-nav">
-		<div class="circle-nav-inner circle-sorting">
-			<div class="c-bg-primary tile clearfix">
-				<button class="inner-btn c-bg-accent-hover" ng-click="orderPosts('date')"><span>Recent</span></button>
-				<button class="inner-btn c-bg-accent-hover" ng-click="orderPosts('votes')"><span>Best</span></button>
-			</div>
-		</div>
-		<div class="circle-nav-inner circle-views">
-			<div class="c-bg-primary tile clearfix">
-				<a class="inner-btn c-bg-accent-hover" ui-sref="categories"><span>Categories</span></a>
-				<button class="inner-btn c-bg-accent-hover"><span>Friends</span></button>
-				<button ng-click="showPostsOfType('event');" class="inner-btn c-bg-accent-hover"><span>Calendar</span></button>
-				<button ng-click="showPostsOfType('quest');" class="inner-btn c-bg-accent-hover"><span>Quests</span></button>
-			</div>
-		</div>
-	</nav>
+	<nav ng-include src="'app/circle-nav.html'" class="col-md-8 col-md-offset-2 circle-nav"></nav>
 
 	<nav ng-if="postsAreFiltered.filter === 'users'" class="col-md-8 col-md-offset-2" style="position:relative; z-index:99999;">
 		<button ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">things by <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</button>
@@ -37,7 +22,7 @@
 	<!-- notifications -->
 		<ul class="notifications" ng-if="$root.user.notifications.length">
 			<li ng-repeat="notification in $root.user.notifications" data-notif-id="{{notification._id}}">
-				<span ng-click="goToPost(notification.postId)">{{notification.creator}} {{notification.action}}</span>
+				<span ng-click="clearNotification(false, notification._id); goToPost(notification.postId)">{{notification.creator}} {{notification.action}}</span>
 				<button ng-click="clearNotification(false, notification._id)" class="btn btn-default">{{$root.randomDismissal}}</button>
 			</li>
 		</ul>

@@ -274,6 +274,20 @@ module.exports.userCompletedQuest = function(req, res) {
 						res.error(err);
 					} else {
 						Users.findOne({username: req.body.username}, function(err, user) {
+							if ( !req.body.undo ) {
+								user.notifications.push({
+									"creator": post.authorName || post.user,
+									"action": "said you completed this quest!",
+									"postId": post._id
+								});
+							}
+							if ( req.body.undo ) {
+								user.notifications.push({
+									"creator": post.authorName || post.user,
+									"action": post.authorName + " said you haven't completed this quest :(",
+									"postId": post._id
+								});
+							}
 							if ( post.quest.worth.currency && !req.body.undo ) {
 								user.currency += post.quest.worth.currency;
 							}

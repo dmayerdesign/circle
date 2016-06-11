@@ -1,6 +1,6 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<section class="not-treated col-sm-8 col-sm-offset-2 {{post.type}}" id="post">
+<section class="col-sm-8 col-sm-offset-2 {{post.type}}" id="post">
 	<ul ng-if="$root.user._id === post.userId" class="single-post-menu">
 		<li id="delete_post_sequence">
 			<button class="btn btn-primary" ng-if="!deletePostClicked" ng-click="deletePostClick('try')">Delete</button>
@@ -61,7 +61,7 @@
 		{{$root.post.date | date: 'MM/dd/yyyy hh:mm'}}
 	</div>
 
-	<article ng-hide="$root.editPost" class="content">
+	<article ng-hide="$root.editPost" class="content not-treated">
 		{{$root.post.content}}
 	</article>
 
@@ -126,21 +126,13 @@
 		<a href="/#/?tag={{tag}}" ng-repeat="tag in post.tags">#{{tag}}  </a>
 	</div>
 
+	<!-- COMMENTS -->
 	<section class="comments">
-		<div ng-repeat="comment in post.comments" class="comment">{{comment.authorName}} said: {{comment.content}}</div>
+		<div ng-repeat="comment in post.comments" class="comment not-treated">{{comment.authorName}} said: {{comment.content}}</div>
 
 		<button ng-show="!allowAddComment" ng-click="allowAddComment = true">Add a comment</button>
 		<form ng-show="allowAddComment" ng-submit="postComment(); allowAddComment = false">
-			<input type="text" ng-keyup="generateLinkPreview()" ng-model="newComment.content" placeholder="Write a comment">
-			<div ng-if="linkPreview" class="link-preview">
-				<div class="link-preview-thumbnail">
-					<img src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
-				</div>
-				<div class="link-preview-text">
-					<h3>{{linkPreview.title}}</h3>
-					<p>{{linkPreview.description}}</p>
-				</div>
-			</div>
+			<input type="text" ng-model="newComment.content" placeholder="Write a comment">
 			<button>Post comment</button>
 		</form>
 	</section>

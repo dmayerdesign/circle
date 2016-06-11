@@ -59,6 +59,11 @@
 			templateUrl: "app/categories/categories.html",
 			controller: "categoriesController"
 		})
+		.state('members', {
+			url: "/members",
+			templateUrl: "app/members/members.html",
+			controller: "membersController"
+		})
 	});
 
 	/*
@@ -254,25 +259,28 @@
 		};
 
 		action.treatPost = function treatPost(scope, rootScope, callback) {
+			var i = 0;
 			var treatPostInt = setInterval(function() {
-				//if (_("#post.not-treated").length) {
-					treatLink(scope, rootScope, function(content) {
-						treatTags(scope, rootScope, content, function(content) {
-							treatMentions(scope, rootScope, content, function(post) {
+				_(".not-treated").each(function(i) {
+					var _element = _(".not-treated");
+					treatLink(_element.eq(i), scope, rootScope, function(content) {
+						treatTags(_element.eq(i), scope, rootScope, content, function(content) {
+							treatMentions(_element.eq(i), scope, rootScope, content, function(post) {
+								console.log(_element.eq(i));
 								if (callback)
 									callback(post);
 							});
 						});
-					});						
-				// } else {
-				// 	clearInterval(treatPostInt);
-				// }
-			}, 1000);
+					});
+				});
+				if ( i >= 100 ) {
+					clearInterval(treatPostInt);
+				}
+				i++;
+			}, 100);
 
-			function treatLink(scope, rootScope, callback) {
-				var _post = _("#post");
-				var _article = _post.find("article.content");
-				var content = _article.text();
+			function treatLink(_element, scope, rootScope, callback) {
+				var content = _element.text();
 				var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 				var match = urlPattern.exec(content);
 				var theLink;
@@ -284,7 +292,7 @@
 					content[0] += "<a href='" + theLink + "' target='_blank'>" + theLink + "</a>";
 					content = content.join("");
 
-					if ( !rootScope.post.linkEmbed ) {
+					if ( !rootScope.post.linkEmbed && _element.is("article") ) {
 						_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
 							if ( data.type === "photo" ) {
 								data["src"] = data.url;
@@ -303,13 +311,10 @@
 
 				callback(content);
 
-				_post.removeClass("not-treated");
+				_element.removeClass("not-treated");
 			}
 
-			function treatTags(scope, rootScope, content, callback) {
-				var _post = _("#post");
-				var _article = _post.find("article.content");
-				//var content = _article.text();
+			function treatTags(_element, scope, rootScope, content, callback) {
 				var tagPattern = /\#([^\s.,!?\-:\(\)]*)/gi;
 				var tagMatch = content.match(tagPattern);
 				var theTag, i;
@@ -322,25 +327,19 @@
 						content = content.join("");
 					
 						if (i === tagMatch.length - 1) {
-							_post.removeClass("not-treated");
+							_element.removeClass("not-treated");
 						}
 					}
 				} else {
 					setTimeout(function() {
-						_post.removeClass("not-treated");
+						_element.removeClass("not-treated");
 					}, 5000);
 				}
-
-				// console.log(content);
-				// _article.html(content);
 
 				callback(content);
 			}
 
-			function treatMentions(scope, rootScope, content, callback) {
-				var _post = _("#post");
-				var _article = _post.find("article.content");
-				//var content = _article.text();
+			function treatMentions(_element, scope, rootScope, content, callback) {
 				var mentionPattern = /\@([^\s.,!?\-:\(\)]*)/gi;
 				var mentionMatch = content.match(mentionPattern);
 				var theMention, i;
@@ -353,15 +352,15 @@
 						content = content.join("");
 
 						if (i === mentionMatch.length - 1) {
-							_post.removeClass("not-treated");
+							_element.removeClass("not-treated");
 						}
 					}
 				} else {
 					setTimeout(function() {
-						_post.removeClass("not-treated");
+						_element.removeClass("not-treated");
 					}, 5000);
 				}
-				_article.html(content);
+				_element.html(content);
 				callback(rootScope.post);
 			}
 		};

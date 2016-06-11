@@ -1,0 +1,15 @@
+		<div class="circle-nav-inner circle-sorting">
+			<div ng-show="$root.currentState === 'main'" class="c-bg-primary tile clearfix">
+				<button class="inner-btn c-bg-accent-hover" ng-click="orderPosts('date')"><span>Recent</span></button>
+				<button class="inner-btn c-bg-accent-hover" ng-click="orderPosts('votes')"><span>Best</span></button>
+			</div>
+			<div ng-show="$root.currentState !== 'main'"><a ui-sref="main">< Back to posts</a></div>
+		</div>
+		<div class="circle-nav-inner circle-views">
+			<div class="c-bg-primary tile clearfix">
+				<a class="inner-btn c-bg-accent-hover" ui-sref="categories"><span>Categories</span></a>
+				<a class="inner-btn c-bg-accent-hover" ui-sref="members"><span>Friends</span></a>
+				<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('event');" class="inner-btn c-bg-accent-hover"><span>Calendar</span></button>
+				<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('quest');" class="inner-btn c-bg-accent-hover"><span>Quests</span></button>
+			</div>
+		</div>

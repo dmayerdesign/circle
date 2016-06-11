@@ -45,7 +45,7 @@
 		<div ng-class="{'visible': $root.archiveTag}" class="background category-bg animate-opacity" style="background-image:url({{$root.archiveTag.image}})"></div>
 	</div>
 
-	<div class="{{currentState}}" ui-view></div>
+	<div class="{{$root.currentState}}" ui-view></div>
 
 <!-- ADD POST -->
 	<section ng-if="$root.currentCircle" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-primary" aria-hidden="true">
@@ -221,6 +221,7 @@
 	<script src="app/edit-circle/edit-circle-controller.js"></script>
 	<script src="app/verify-email/verify-email-controller.js"></script>
 	<script src="app/categories/categories-controller.js"></script>
+	<script src="app/members/members-controller.js"></script>
 
 	<!-- NODE LIBRARIES -->
 	<script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>

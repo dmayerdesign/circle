@@ -1,6 +1,6 @@
 html {
 	background-color: #fff;
-	background-image: radial-gradient(#accedf, #8aacce);
+	background-image: radial-gradient(#ffffff, #eaeef4);
 	height: 100%;
 }
 
@@ -664,7 +664,8 @@ button:focus, button:active {
 /* posts */
 
 .posts-archive-container,
-.category-archive {
+.category-archive,
+.members-list {
 	position: relative;
 		top: -19em;
 	height: 1000px;

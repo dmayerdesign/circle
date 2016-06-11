@@ -4,7 +4,21 @@
 													function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init,   action) {
 		console.log( $stateParams );
 
-		$rootScope.currentState = 'single';
+		$rootScope.currentState = "single";
+		setInterval(function() {
+			if ( $location.url().indexOf("single") > -1 ) {
+				$rootScope.currentState = "single";
+			}
+			if ( $location.url().indexOf("categories") > -1 ) {
+				$rootScope.currentState = "categories";
+			}
+			if ( $location.url().indexOf("members") > -1 ) {
+				$rootScope.currentState = "members";
+			}
+			if ( $location.url().indexOf("edit-profile") > -1 ) {
+				$rootScope.currentState = "editProfile";
+			}
+		}, 1000);
 
 		var postId = $stateParams.id;
 		console.log( postId );
