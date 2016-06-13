@@ -7,6 +7,8 @@ var express = require('express'),
 
 var app = express();
 
+var port = process.env.PORT || 3000;
+
 
 // Server Controllers
 var authenticationController = require('./server/controllers/authentication-controller');
@@ -93,6 +95,6 @@ app.get('/api/users/getAvatar', usersController.getUserAvatar);
 app.post('/api/user/clearNotification', usersController.clearNotification);
 
 
-app.listen('3000', function() {
-	console.log("Listening for localhost:3000");
+app.listen(port, function() {
+	console.log("Listening on port " + port);
 });
