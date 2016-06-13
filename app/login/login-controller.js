@@ -5,7 +5,7 @@
 
 			$rootScope.currentState = 'login';
 
-			$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
+			$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 			if ($rootScope.user) {
 				$state.go('main');
 				return;

@@ -1,7 +1,12 @@
 		<div class="circle-nav-inner circle-sorting">
 			<div ng-show="$root.currentState === 'main'" class="c-bg-primary tile clearfix">
+				<button class="inner-btn c-bg-accent-hover" ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered()"><span>All</span></button>
 				<button class="inner-btn c-bg-accent-hover" ng-click="orderPosts('date')"><span>Recent</span></button>
 				<button class="inner-btn c-bg-accent-hover" ng-click="orderPosts('votes')"><span>Best</span></button>
+				<div class="inner-btn c-bg-accent-hover" ng-click="showPostsFiltered('users', $root.user.username)">
+					<span ng-if="postTypesAreFiltered.term == 'quest'">My quests</span>
+					<span ng-if="postTypesAreFiltered.term !== 'quest'">@me</span>
+				</div>
 			</div>
 			<div ng-show="$root.currentState !== 'main'"><a ui-sref="main">< Back to posts</a></div>
 		</div>
@@ -10,6 +15,16 @@
 				<a class="inner-btn c-bg-accent-hover" ui-sref="categories"><span>Categories</span></a>
 				<a class="inner-btn c-bg-accent-hover" ui-sref="members"><span>Friends</span></a>
 				<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('event');" class="inner-btn c-bg-accent-hover"><span>Calendar</span></button>
+				<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('poll');" class="inner-btn c-bg-accent-hover"><span>Polls</span></button>
 				<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('quest');" class="inner-btn c-bg-accent-hover"><span>Quests</span></button>
 			</div>
 		</div>
+		<ul ng-if="postsAreFiltered.filter === 'users'" class="refine-filter" style="position:relative; z-index:99999;">
+			<li class="inner-btn c-bg-accent-hover c-bg-content" ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">
+				<span class="text">things by <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
+			</li>
+			<li class="inner-btn c-bg-accent-hover c-bg-content" ng-click="filterByCreator = false; showPostsFiltered( 'users', postsAreFiltered.term )">
+				<span class="text">things mentioning <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
+			</li>
+		</ul>
+		

@@ -1,10 +1,29 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('appBarController', ['$scope', '$rootScope', '$state', '$http', 'init', 'customizer',
-							 						function( $scope,   $rootScope,   $state,   $http,   init,   customizer) {
+	.controller('appBarController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'customizer',
+							 						function( $scope,   $rootScope,   $state,   $location,   $http,   init,   customizer) {
 
-		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
-		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		setInterval(function() {
+			if ( $location.url().indexOf("single") > -1 ) {
+				$rootScope.currentState = "single";
+			}
+			else if ( $location.url().indexOf("categories") > -1 ) {
+				$rootScope.currentState = "categories";
+			}
+			else if ( $location.url().indexOf("members") > -1 ) {
+				$rootScope.currentState = "members";
+			}
+			else if ( $location.url().indexOf("edit-profile") > -1 ) {
+				$rootScope.currentState = "editProfile";
+			}
+			else {
+				$rootScope.currentState = "main";
+			}
+			$scope.$apply();
+		}, 1000);
+
+		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
 		if (!$rootScope.user) {
 			$state.go('signup');
 			return;
@@ -123,7 +142,7 @@
 			var circles = $rootScope.circles;
 			var circle = circles[accessCode];
 
-			localStorage.removeItem( "Current-Circle" );
+			localStorage.removeItem("Current-Circle");
 			localStorage["Current-Circle"] = JSON.stringify(circle);
 			$rootScope.currentCircle = circle;
 			window.location.href = "/";

@@ -5,8 +5,8 @@
 
 		$rootScope.currentState = 'create-circle';
 
-		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
-		//$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
+		//$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
 		if (!$rootScope.user) {
 			$state.go('signup');
 			return;

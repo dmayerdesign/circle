@@ -25,6 +25,11 @@ module.exports = mongoose.model('Post', {
 			}
 		}
 	},
+	poll: [{
+		choice: String,
+		votes: {type: Number, default: 0},
+		voters: [String]
+	}],
 	linkEmbed: {
 		url: String,
 		type: String,
@@ -51,6 +56,26 @@ module.exports = mongoose.model('Post', {
 				description: String,
 				provider_url: String
 			},
+			reactions: {
+				like: {
+					amount: {type: Number, default: 0},
+					users: [{}]
+				},
+				love: {
+					amount: {type: Number, default: 0},
+					users: [{}]
+				}
+			}
 		}
-	]
+	],
+	reactions: {
+		like: {
+			amount: {type: Number, default: 0},
+			users: [{}]
+		},
+		love: {
+			amount: {type: Number, default: 0},
+			users: [{}]
+		}
+	}
 })

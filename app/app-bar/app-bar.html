@@ -14,11 +14,12 @@
 
 	<div class="main-menu c-bg-primary" ng-if="loggedIn" aria-hidden="true">
  	<button class="inner-btn"><a ui-sref="editProfile">Profile/Account</a></button>
-  	<button class="inner-btn"><a ui-sref="follow">Follow People</a></button>
   	<button ng-click="logOut()" class="inner-btn">Log out</button>
   	<div class="submenu" style="float:left">
   		<h5>Your circles</h5>
-  		<button ng-repeat="(code, circle) in circles" ng-click="switchCircles(circle.accessCode)" class="inner-btn">{{circle.name}}</button>
+  		<button ng-repeat="(code, circle) in $root.circles" ng-click="switchCircles(code)" class="inner-btn">
+  			<img width="40" src="{{circle.styles.logo}}"> {{circle.name}}
+  		</button>
   		<button class="btn btn-primary" ng-click="joinAnotherCircle()">Create or join a new circle</button>
   	</div>
 </div>

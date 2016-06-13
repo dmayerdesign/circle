@@ -67,6 +67,16 @@ module.exports.getCircle = function(req, res) {
 	}
 };
 
+module.exports.getCircles = function(req, res) {
+	Circle.find({members: req.query.username}, function(err, circles) {
+		if (err) {
+			res.error(err);
+		} else {
+			res.json(circles);
+		}
+	});
+};
+
 module.exports.styleCircle = function(req, res) {
 	Circle.findById(req.body.circleId, function(err, circle) {
 		if (err) {

@@ -3,26 +3,8 @@
 	.controller('mainController', ['$scope', '$rootScope', '$state', '$stateParams', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 'Upload', 
 						   					 function($scope,   $rootScope,   $state,   $stateParams,   $location,   $http,   init,   customizer,   action,   $q,   $filter,   Upload) {
 
-		setInterval(function() {
-			if ( $location.url().indexOf("single") > -1 ) {
-				$rootScope.currentState = "single";
-			}
-			else if ( $location.url().indexOf("categories") > -1 ) {
-				$rootScope.currentState = "categories";
-			}
-			else if ( $location.url().indexOf("members") > -1 ) {
-				$rootScope.currentState = "members";
-			}
-			else if ( $location.url().indexOf("edit-profile") > -1 ) {
-				$rootScope.currentState = "editProfile";
-			}
-			else {
-				$rootScope.currentState = "main";
-			}
-		}, 1000);
-
-		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
-		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
 		if (!$rootScope.user) {
 			$state.go('signup');
 			return;
@@ -43,7 +25,9 @@
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
 
-				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
+				init.getCircles(user.username, function(circles) {
+					$rootScope.circles = circles;
+				});
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;
 				});
@@ -103,10 +87,7 @@
 
 
 
-
-
-
-
+		$rootScope.editPost = false;
 
 		$scope.postsAreFiltered = {};
 		$scope.postTypesAreFiltered = {};
@@ -124,6 +105,7 @@
 					achievement: {}
 				}
 			},
+			poll: [],
 			images: [],
 			usersMentioned: []
 		};
@@ -161,8 +143,9 @@
 		$scope.sendPost = function(edit, event) {
 			if ( event && event.which !== 13 ) { return; }
 			var that = edit ? $rootScope : this;
-			if (edit)
+			if (edit) {
 				that.newPost = that.post;
+			}
 			var content = that.newPost.content;
 			var postLink = {};
 			var linkPreview = that.linkPreview;
@@ -210,6 +193,7 @@
 				"type": that.newPost.type,
 				"tags": that.newPost.tags,
 				"quest": that.newPost.quest,
+				"poll": that.newPost.poll,
 				"usersMentioned": that.newPost.usersMentioned
 			};
 
@@ -264,6 +248,7 @@
 							achievement: {}
 						}
 					},
+					poll: [],
 					images: [],
 					usersMentioned: []
 				};
@@ -302,7 +287,7 @@
 			}
 
 			if (edit) {
-				window.location.reload();
+				window.location.reload(); // couldn't figure out how to get $rootScope to apply the changes, so a reload is the quick fix for now
 			}
 		};
 
@@ -366,13 +351,11 @@
 			console.log(symbol);
 
 			if (match) {
-				for ( var i = 0; i < match.length; i++ ) {
-					fragment = match[i].replace(symbol, "");
-					if ( text.indexOf(fragment) > -1 ) {
-						scope.newPost.content = content.replace(fragment, text + " ");
-						scope.symbolSearch[list] = false;
-						_("#new_post_content").focus();
-					}
+				fragment = match[match.length - 1].replace(symbol, "");
+				if ( text.indexOf(fragment) > -1 ) {
+					scope.newPost.content = content.replace(new RegExp(fragment + "$"), text + " ");
+					scope.symbolSearch[list] = false;
+					_("#new_post_content").focus();
 				}
 			}
 		};
@@ -399,6 +382,7 @@
 				if ( !list || typeof list === 'undefined' ) {
 					that.postsAreFiltered = {};
 					$rootScope.archiveTag = null;
+					$scope.postsAllowed = {allow: 20};
 					return $scope.posts;
 				} else {
 					that.postsAreFiltered = {
@@ -409,12 +393,15 @@
 					console.log(that.postsAreFiltered);
 					$scope.posts = function() {
 						if (list === 'tags') {
+							$location.search("tag", item);
 							return $filter('filter')(that.posts, {tags: item});
 						}
 						if (list === 'users' && !that.filterByCreator) {
+							$location.search("user", item);
 							return $filter('filter')(that.posts, {usersMentioned: item});
 						}
 						if (list === 'users' && that.filterByCreator) {
+							$location.search("user", item);
 							return $filter('filter')(that.posts, {user: item});
 						}
 					}();
@@ -459,18 +446,6 @@
 				}
 			});
 		};
-
-		// $scope.showPostsMentioningMe = function(me) {
-		// 	if (me || typeof me === "undefined") {
-		// 		$scope.posts = $filter('filter')($scope.posts, {usersMentioned: $rootScope.user.username});
-		// 		this.postsAreFiltered = {filter: 'users', term: $rootScope.user.username};
-		// 	}
-		// 	else if (me === false) {
-		// 		$scope.posts = $filter('filter')($scope.posts, {usersMentioned: undefined});
-		// 		this.postsAreFiltered = {};
-		// 	}
-		// 	return this.posts;
-		// };
 
 		$scope.applyFilterClasses = function() {
 			if ( this.postTypesAreFiltered.filter && this.postsAreFiltered.filter ) {
@@ -620,28 +595,27 @@
 		};
 
 		$rootScope.archiveLinkPreviews = {};
+		var treatPostLinksInt = setInterval(treatPostLinks, 200);
+		setTimeout(function() {
+			if (_(".post.not-treated").length < 1) {
+				clearInterval(treatPostLinksInt);
+			}
+		}, 2000);
 		function treatPostLinks() {
 			var _posts = _(".post.not-treated");
 			_posts.each(function() {
 				var _post = _(this);
-
 				var _article = _post.find("article");
-				var _postInner = _post.find(".post-inner");
 				var content = _article.html();
 				var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-				var urlMatch = new RegExp(urlPattern);
-				var match = urlPattern.exec(content);
+				var match = content.match(urlPattern);
 				var theLink;
 				var postLinkData;
 
 				if ( match ) {
 					theLink = match[0];
-					content = content.split(theLink);
-
-					/* SANS archiveLinkPreviews
-					content[0] += "<a href='" + theLink + "' target='_blank' title='" + "'>" + theLink + "</a>";
+					content = content.split(theLink); // get rid of the link
 					content = content.join("");
-					*/
 
 					if ( _post.data("link-set") ) {
 						setPostLinkData($scope, _post.data("link-set"));
@@ -663,16 +637,15 @@
 						$scope.$apply();
 					}
 
+					_article.html(content);
 				} else {
 					$rootScope.archiveLinkPreviews[_post.data("post-id")] = null;
 					$scope.$apply();
 				}
 
 				_post.removeClass("not-treated");
-				_article.html(content);
 			});
 		}
-		setInterval(treatPostLinks, 500);
 
 		$scope.tagsLimit = 5;
 

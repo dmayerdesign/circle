@@ -2,11 +2,11 @@
 
 <nav ng-include src="'app/circle-nav.html'" ng-controller="mainController" class="col-md-8 col-md-offset-2 circle-nav"></nav>
 
-<section class="category-archive">
+<main class="main category-archive">
 	<div class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories" style="position:relative;">
 		<a href="/#/?tag={{category.name}}" style="display:block; background-image: url({{category.image}});">
 			<span>#{{category.name}}</span>
 		</a>
-		<button style="position:absolute; z-index:999; top:0; right:0;" ng-click="deleteCategory(category.name)">remove</button>
+		<button ng-disabled="category.name === 'random'" style="position:absolute; z-index:999; top:0; right:0;" ng-click="deleteCategory(category.name)">remove</button>
 	</div>
-</section>
+</main>

@@ -3,26 +3,10 @@
 	.controller('categoriesController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
 													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
 
-		$rootScope.currentState = "categories";
-		setInterval(function() {
-			if ( $location.url().indexOf("single") > -1 ) {
-				$rootScope.currentState = "single";
-			}
-			if ( $location.url().indexOf("categories") > -1 ) {
-				$rootScope.currentState = "categories";
-			}
-			if ( $location.url().indexOf("members") > -1 ) {
-				$rootScope.currentState = "members";
-			}
-			if ( $location.url().indexOf("edit-profile") > -1 ) {
-				$rootScope.currentState = "editProfile";
-			}
-			console.log($rootScope.currentState);
-		}, 1000);
 		$rootScope.archiveTag = null;
 
-		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
-		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
 		if (!$rootScope.user) {
 			$state.go('signup');
 			return;

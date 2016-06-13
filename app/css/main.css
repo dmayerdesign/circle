@@ -81,6 +81,14 @@ main#signup {
 	overflow-y: scroll;
 }
 
+* {
+	cursor: default !important;
+}
+
+a {
+	cursor: pointer !important;
+}
+
 /* feature detects */
 .placeholder label:not(.inner-btn) { display: none; }
 
@@ -106,7 +114,7 @@ body {
 	font-size: 1em;
 }
 
-span, input, textarea {
+input, textarea {
 	font-size: 1.4em;
 }
 
@@ -441,6 +449,11 @@ nav, .navbar {
 	background: transparent;
 }
 
+nav {
+	position: relative;
+	z-index: 100;
+}
+
 .main-nav {
 	overflow: visible;
 	height: 6em;
@@ -506,6 +519,7 @@ nav, .navbar {
 	position: absolute;
 		left: 0;
 		top: 6em;
+		z-index: 110;
 	width: 30em;
     height: auto;
     padding: 4em;
@@ -524,23 +538,26 @@ nav, .navbar {
 }
 
 .circle-nav-inner {
+	position: relative;
+	z-index: 100;
 	float: left;
+	width: 100%;
 }
 
 	.circle-sorting {
-		width: 32%;
-		padding-right: 2em;
+		width: 40%;
+		padding-right: 1em;
 	}
 
 	.circle-views {
-		width: 68%;
+		width: 60%;
+		padding-left: 1em;
 	}
 
 .circle-nav-inner .tile {
 	height: 7em;
 	line-height: 1;
 	margin: 0 0 2em;
-	overflow: hidden;
 }
 
 	.theme-smooth .circle-sorting .tile {
@@ -562,6 +579,15 @@ nav, .navbar {
 		border-top-left-radius: 0.2em;
 		border-bottom-left-radius: 0.2em;
 	}
+
+.refine-filter {
+	position: relative;
+		z-index: 99;
+		top: -2.1em;
+	float: left;
+	width: 40%;
+	padding: 0 1em 0 0;
+}
 
 button:focus, button:active {
 	outline: none !important;
@@ -591,16 +617,16 @@ button:focus, button:active {
 		text-align: left;
 	}
 
-	.circle-nav .inner-btn {
+	.circle-nav-inner .inner-btn {
 		height: 7em;
 	}
 
 	.circle-sorting .inner-btn {
-		width: 50%;
+		width: 25%;
 	}
 
 	.circle-views .inner-btn {
-		width: 25%;
+		width: 20%;
 	}
 
 	.tags-dropdown .inner-btn {
@@ -616,13 +642,13 @@ button:focus, button:active {
 		top: -0.2em;
 	}
 
-.circle-nav .inner-btn span {
+.circle-nav-inner .inner-btn span {
 	display: inline-block;
-    font-size: 1em;
-    text-transform: uppercase;
-    line-height: 3;
-    position: relative;
-    bottom: -1em;
+  font-size: 1em;
+  text-transform: uppercase;
+  line-height: 3;
+  position: relative;
+  bottom: -1em;
 }
 
 .tags-dropdown {
@@ -648,30 +674,24 @@ button:focus, button:active {
 	height: 10em !important;
 }
 
-.tags-dropdown li:nth-child(1) .square-btn,
-.tags-dropdown li:nth-child(4) .square-btn,
-.tags-dropdown li:nth-child(5) .square-btn,
-.tags-dropdown li:nth-child(8) .square-btn,
-.tags-dropdown li:nth-child(9) .square-btn,
-.tags-dropdown li:nth-child(12) .square-btn,
-.tags-dropdown li:nth-child(13) .square-btn,
-.tags-dropdown li:nth-child(16) .square-btn,
-.tags-dropdown li:nth-child(17) .square-btn {
-	background: rgba(0,0,0,0.1);
-}
-
 
 /* posts */
 
-.posts-archive-container,
-.category-archive,
-.members-list {
+.main {
 	position: relative;
 		top: -19em;
 	height: 1000px;
     overflow: auto;
     width: 100%;
     padding-top: 19em;
+}
+
+/*.posts-archive-container { */
+	/*width: 101.18%;*/ /* hack - hides the scrollbar and corrects the width */
+/*}*/
+
+::-webkit-scrollbar {
+	display: none;
 }
 
 .posts-archive {
@@ -702,11 +722,6 @@ button:focus, button:active {
 
 .post-bg {
 	display: none;
-/*  -webkit-filter: blur(20px);
-	filter: blur(20px);
-	background-color: #66ddff;
-	background-size: 250% auto;
-	opacity: 0.6;*/
 }
 
 .post .content {
@@ -1069,4 +1084,14 @@ select {
 	color: #fff;
 }
 
+
+/** SINGLE POST **/
+
+/* edit */
+#edit-post-area {
+	position: absolute;
+		top: 30em;
+		z-index: 101;
+	width: 100%;
+}
 

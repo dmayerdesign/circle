@@ -4,20 +4,8 @@
 
 	<nav ng-include src="'app/circle-nav.html'" class="col-md-8 col-md-offset-2 circle-nav"></nav>
 
-	<nav ng-if="postsAreFiltered.filter === 'users'" class="col-md-8 col-md-offset-2" style="position:relative; z-index:99999;">
-		<button ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">things by <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</button>
-		<button ng-click="filterByCreator = false; showPostsFiltered( 'users', postsAreFiltered.term )">things mentioning <span ng-if="postsAreFiltered.filter === 'users' && postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</button>
-	</nav>
-
 <!-- POSTS MAIN -->
-	<section class="posts-archive-container">
-		<button ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered()" id="all_posts" class="btn btn-primary">All Posts
-			<!-- <span ng-if="incomingPosts && difference">({{difference}} new)</span> -->
-		</button>
-		<button ng-click="showPostsFiltered('users', $root.user.username)">
-			<span ng-if="postTypesAreFiltered.term == 'quest'">My quests</span>
-			<span ng-if="postTypesAreFiltered.term !== 'quest'">@me</span>
-		</button>
+	<section class="main posts-archive-container">
 
 	<!-- notifications -->
 		<ul class="notifications" ng-if="$root.user.notifications.length">
@@ -45,7 +33,6 @@
 					</div>
 					<div class="content">
 						<article>{{post.content}}</article>
-						<!-- <blockquote ng-if="archiveLinkPreviews[post._id]" class="posted-link-preview">{{archiveLinkPreviews[post._id].title}}</blockquote> -->
 					</div>
 					<!-- <div class="comments" ng-repeat="comment in post.comments">
 						<div class="avatar-container"><img data-user-id="{{comment.userId}}" alt="{{comment.user}}" class="avatar img-responsive" /></div>
@@ -57,12 +44,6 @@
 			<button class="btn btn-primary" ng-click="loadMore()">Load more</button>
 		</div>
 	</section>
-
-	<aside id="users" class="col-md-8 col-md-offset-2">
-		<div ng-repeat="user in users" class="row">
-			{{user.email}}
-		</div>
-	</aside>
 
 </main>
 

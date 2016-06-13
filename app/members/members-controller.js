@@ -3,21 +3,8 @@
 	.controller('membersController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
 													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
 
-		$rootScope.currentState = "members";
-		setInterval(function() {
-			if ( $location.url().indexOf("single") > -1 ) {
-				$rootScope.currentState = "single";
-			}
-			if ( $location.url().indexOf("categories") > -1 ) {
-				$rootScope.currentState = "categories";
-			}
-			if ( $location.url().indexOf("members") > -1 ) {
-				$rootScope.currentState = "members";
-			}
-		}, 1000);
-
-		$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
-		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
+		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
+		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
 		if (!$rootScope.user) {
 			$state.go('signup');
 			return;

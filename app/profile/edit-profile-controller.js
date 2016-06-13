@@ -1,24 +1,7 @@
-(function() {
+(function(_) {
 	angular.module('Circle')
 		.controller('editProfileController', ['Upload', '$scope', '$rootScope', '$location', '$state', '$http', 'init',
 																 function( Upload,   $scope,   $rootScope,   $location,   $state,   $http,   init) {
-
-			$rootScope.currentState = "edit-profile";
-			setInterval(function() {
-				if ( $location.url().indexOf("single") > -1 ) {
-					$rootScope.currentState = "single";
-				}
-				if ( $location.url().indexOf("categories") > -1 ) {
-					$rootScope.currentState = "categories";
-				}
-				if ( $location.url().indexOf("members") > -1 ) {
-					$rootScope.currentState = "members";
-				}
-				if ( $location.url().indexOf("edit-profile") > -1 ) {
-					$rootScope.currentState = "editProfile";
-				}
-			}, 1000);
-			
 
 			$scope.$watch(function() {
 				return $scope.file
@@ -63,6 +46,10 @@
 				});
 			};
 
+			$scope.goToSection = function(section) {
+				_("#" + section).show().siblings("section").hide();
+			};
+
 
 		}]);
-}());
+}(jQuery));

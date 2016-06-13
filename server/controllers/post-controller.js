@@ -89,7 +89,7 @@ module.exports.postPost = function(req, res) {
 		.sort({date: -1})
 		.exec(function(err, allPosts) {
 			if (err) {
-				res.error(err);
+				res.json(err);
 			} else {
 				res.json(allPosts);
 			}
@@ -107,7 +107,7 @@ module.exports.postComment = function(req, res) {
 	Post.findOne({_id: req.body.postId}, function(err, post) {
 		if (err) {
 			console.error(err);
-			res.error(err);
+			res.json(err);
 			return;
 		} else {
 			post.comments.push(comment);
@@ -115,7 +115,7 @@ module.exports.postComment = function(req, res) {
 				var mentionedUser, notificationCopy;
 				if (err) {
 					console.error(err);
-					res.error(err);
+					res.json(err);
 				} else {
 					console.log("SAVED COMMENT");
 					if (comment.usersMentioned && comment.usersMentioned.length) {
@@ -203,7 +203,7 @@ module.exports.deletePost = function(req, res) {
 		.sort({date: -1})
 		.exec(function(err, allPosts) {
 			if (err) {
-				res.error(err);
+				res.json(err);
 			} else {
 				res.json(allPosts);
 			}
@@ -216,7 +216,7 @@ module.exports.getPosts = function(req, res) {
 	.sort({date: -1})
 	.exec(function(err, allPosts) {
 		if (err) {
-			res.error(err);
+			res.json(err);
 		} else {
 			for (var i = 0; i < allPosts.length; i++) {
 				if (allPosts[i].type == "quest" && allPosts[i].quest.due < Date.now() && allPosts[i].quest.status === "in_progress") {
@@ -239,7 +239,7 @@ module.exports.getPosts = function(req, res) {
 module.exports.updateQuestStatus = function(req, res) {
 	Post.findOne({_id: req.body.postId}, function(err, post) {
 		if (err) {
-			res.error(err);
+			res.json(err);
 		}
 		else if (req.body.status !== "in_progress" && req.body.status !== "completed" && req.body.status !== "failed") {
 			console.error("didn't recognize the new status");
@@ -271,7 +271,7 @@ module.exports.userCompletedQuest = function(req, res) {
 				post.save(function(err) {
 					if (err) {
 						console.error(err);
-						res.error(err);
+						res.json(err);
 					} else {
 						Users.findOne({username: req.body.username}, function(err, user) {
 							if ( !req.body.undo ) {
@@ -305,7 +305,7 @@ module.exports.userCompletedQuest = function(req, res) {
 									res.json(post);
 								} else {
 									console.error(err);
-									res.error(err);
+									res.json(err);
 								}
 							});
 						});
@@ -314,7 +314,7 @@ module.exports.userCompletedQuest = function(req, res) {
 			}
 			else {
 				console.error(err);
-				res.error(err);
+				res.json(err);
 			}
 		});
 	} else {
@@ -328,7 +328,7 @@ module.exports.getPostsByTag = function(req, res) {
 	.sort({date: -1})
 	.exec(function(err, allPosts) {
 		if (err) {
-			res.error(err);
+			res.json(err);
 		} else {
 			console.log( allPosts );
 			res.json(allPosts);
@@ -340,7 +340,7 @@ module.exports.getPost = function(req, res) {
 	if ( !req.query.id ) { return; }
 	Post.findOne({_id: req.query.id}, function(err, post) {
 		if (err) {
-			res.error(err);
+			res.json(err);
 		} else {
 			console.log( post );
 			res.json(post);
@@ -351,7 +351,7 @@ module.exports.getPost = function(req, res) {
 module.exports.updatePostUser = function(req, res) {
 	Post.findOne({_id: req.body.postId}, function(err, post) {
 		if (err) {
-			res.error(err);
+			res.json(err);
 		} else if (post) {
 			console.log("post: " + post);
 			post.user = req.body.username;
@@ -405,13 +405,102 @@ module.exports.removeImage = function(req, res) {
 			res.json({status: 500});
 		} else {
 			post.images.splice(post.images.indexOf(imgPath), 1);
-			post.save(function(error) {
+			post.save(function(error, post) {
 				if (error) {
 					console.error(error);
 					res.json({status: 500});
 				} else {
 					console.log("deleted image " + imgPath);
 					res.json(post.images);
+				}
+			});
+		}
+	});
+};
+
+module.exports.castPollVote = function(req, res) {
+	var postId = req.body.postId;
+	var pollChoice = req.body.choice;
+	var voter = req.body.voter;
+	var poll;
+
+	Post.findById(postId, function(err, post) {
+		if (err) {
+			console.error(err);
+			res.json({status: 500});
+		} else {
+			for (var i = 0; i < post.poll.length; i++) {
+				poll = post.poll[i];
+
+				if (poll.choice === pollChoice) {
+					if (poll.voters.indexOf(voter) > -1) {
+						poll.voters.splice(poll.voters.indexOf(voter), 1);
+						poll.votes -= 1;
+					} else {
+						poll.votes += 1;
+						poll.voters.push(voter);
+					}
+				}
+			}
+			post.save(function(error, post) {
+				if (error) {
+					console.error(error);
+					res.json(error);
+				} else {
+					console.log("Poll vote cast by " + voter + "!");
+					res.json(post.poll);
+				}
+			});
+		}
+	});
+};
+
+module.exports.react = function(req, res) {
+	var postId = req.body.postId;
+	var username = req.body.username;
+	var commentId = req.body.commentId;
+	var reaction = req.body.reaction;
+	var isPost = !commentId ? true : false;
+	var isComment = commentId ? true: false;
+	var undo = false;
+	var theComment;
+
+	Post.findById(postId, function(err, post) {
+		if (err) {
+			console.error(err);
+			res.json({status: 500});
+		} else {
+			if (isPost) {
+				if (post.reactions[reaction].users.indexOf(username) > -1) {
+					post.reactions[reaction].users.splice(post.reactions[reaction].users.indexOf(username), 1);
+					undo = true;
+				}
+				if (!undo) {
+					post.reactions[reaction].amount += 1;
+					post.reactions[reaction].users.push(username);
+				} else {
+					post.reactions[reaction].amount -= 1;
+				}
+			}
+			if (isComment) {
+				theComment = post.comments.id(commentId);
+				if (theComment.reactions[reaction].users.indexOf(username) > -1) {
+					theComment.reactions[reaction].users.splice(theComment.reactions[reaction].users.indexOf(username), 1);
+					undo = true;
+				}
+				if (!undo) {
+					theComment.reactions[reaction].amount += 1;
+					theComment.reactions[reaction].users.push(username);
+				} else {
+					theComment.reactions[reaction].amount -= 1;
+				}
+			}
+			post.save(function(err, post) {
+				if (err) {
+					console.error(err);
+					res.json(err);
+				} else {
+					res.json(post);
 				}
 			});
 		}

@@ -1,6 +1,6 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<section class="col-sm-8 col-sm-offset-2 {{post.type}}" id="post">
+<section class="main col-sm-8 col-sm-offset-2 {{post.type}}" id="post single-post">
 	<ul ng-if="$root.user._id === post.userId" class="single-post-menu">
 		<li id="delete_post_sequence">
 			<button class="btn btn-primary" ng-if="!deletePostClicked" ng-click="deletePostClick('try')">Delete</button>
@@ -8,9 +8,12 @@
 			<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePostClick('cancel')">No</button>
 		</li>
 		<li>
-			<button ng-controller="mainController" ng-click="$root.editPost = true">Edit post (coming soon)</button>
+			<button ng-controller="mainController" ng-click="$root.editPost = true">Edit post</button>
 		</li>
 	</ul>
+
+	<button class="btn" ng-class="{'btn-default': post.reactions.like.users.indexOf($root.user.username) == -1, 'btn-primary': post.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react('like', 'comment', post._id)">Like ({{post.reactions.like.amount}})</button>
+	<button class="btn" ng-class="{'btn-default': post.reactions.love.users.indexOf($root.user.username) == -1, 'btn-primary': post.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react('love', 'comment', post._id)">Love ({{post.reactions.love.amount}})</button>
 
 	<div ng-if="post.type == 'quest' && $root.user._id == post.userId">
 		<ul ng-if="post.quest.status !== 'completed'">
@@ -48,6 +51,15 @@
 		</div>
 	</div>
 
+	<div ng-if="post.type == 'poll'">
+		<div ng-repeat="option in post.poll">
+			<h4 ng-click="castPollVote(post._id, option.choice, $root.user.username)">{{option.choice}}</h4>
+			<p>{{option.votes}} vote<span ng-show="option.votes !== 1">s</span> <span ng-show="option.votes">from</span> 
+				<span ng-repeat="voter in option.voters track by $index">{{getMemberByUsername(voter).name}}<span ng-show="$index > 0">,</span></span>
+			</p>
+		</div>
+	</div>
+
 	<div class="post-images" ng-if="$root.post.images.length">
 		<div ng-repeat="image in $root.post.images">
 			<img width="200" src="{{image}}" alt="{{$root.post.content}}">
@@ -55,7 +67,7 @@
 	</div>
 	<div class="author">
 		<span class="author-username">{{$root.post.user}}</span>
-		<img src="{{$root.post.avatar}}" data-user-id="{{$root.post.userId}}" alt="{{$root.post.user}}" class="avatar img-responsive" /> <!-- ng-src="{{post.avatar}}" -->
+		<img width="80" src="{{$root.post.avatar}}" data-user-id="{{$root.post.userId}}" alt="{{$root.post.user}}" class="avatar img-responsive" /> <!-- ng-src="{{post.avatar}}" -->
 	</div>
 	<div class="date">
 		{{$root.post.date | date: 'MM/dd/yyyy hh:mm'}}
@@ -65,70 +77,18 @@
 		{{$root.post.content}}
 	</article>
 
-	<section id="edit-post-area" ng-controller="mainController" ng-show="$root.editPost">
-		<div class="col-md-8 col-md-offset-2">
-
-			<!-- POST INPUT MAIN -->
-			<div class="new-post-content">
-				<textarea 
-					ng-model="$root.post.content" 
-					ng-keyup="generateLinkPreview(true); findWithPrefixSymbol(true)" 
-					id="new_post_content" 
-					class="form-control" 
-					placeholder="Type something"></textarea>
-
-				<div ng-if="$root.linkPreview" class="link-preview">
-					<div class="link-preview-thumbnail">
-						<img src="{{$root.linkPreview.src}}" alt="{{$root.linkPreview.title}}">
-					</div>
-					<div class="link-preview-text">
-						<h3>{{$root.linkPreview.title}}</h3>
-						<p>{{$root.linkPreview.description}}</p>
-					</div>
-				</div>
-			</div>
-
-			<!-- ALL SYMBOL MENTION THINGS -->
-			<div ng-show="symbolSearch.members" class="tabs radio-tabs">
-				<ul class="select-list" ng-repeat="username in $root.currentCircle.members | filter: attemptFind">
-					<li ng-click="insertIntoPost('@', username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
-				</ul>
-			</div>
-			<div ng-show="symbolSearch.tags" class="tabs radio-tabs">
-				<ul class="select-list" ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind">
-					<li ng-click="insertIntoPost('#', tag)" class="inner-btn new-quest-quester quester-radio" for="tag_{{tag}}">{{tag}}</li>
-				</ul>
-			</div>
-
-			<!-- QUEST -->
-			<div ng-if="newPost.type === 'quest'">
-				<h5>What does someone get when they complete the quest?</h5>
-				<input type="number" ng-model="newPost.quest.worth.currency"> {{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
-				<br>or an achievement<br>
-				<input ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
-			</div>
-
-			<!-- IMAGES -->
-			<div class="post-images" ng-if="$root.post.images.length">
-				<div ng-repeat="image in $root.post.images">
-					<img width="200" src="{{image}}" alt="{{post.content}}">
-					<button ng-click="removeImage($root.post._id, image)">Remove</button>
-				</div>
-			</div>
-
-			<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>
-
-			<button ng-click="sendPost(true)" class="btn btn-primary">Post</button>
-		</div>
-	</section>
-
 	<div class="tags" ng-if="!editPost">
 		<a href="/#/?tag={{tag}}" ng-repeat="tag in post.tags">#{{tag}}  </a>
 	</div>
 
 	<!-- COMMENTS -->
 	<section class="comments">
-		<div ng-repeat="comment in post.comments" class="comment not-treated">{{comment.authorName}} said: {{comment.content}}</div>
+		<div ng-repeat="comment in post.comments" class="comment">
+			<p class="not-treated">{{comment.authorName}} said: {{comment.content}}</p>
+			<button class="btn" ng-class="{'btn-default': comment.reactions.like.users.indexOf($root.user.username) == -1, 'btn-primary': comment.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react('like', 'comment', post._id, comment._id)">Like ({{comment.reactions.like.amount}})</button>
+			<button class="btn" ng-class="{'btn-default': comment.reactions.love.users.indexOf($root.user.username) == -1, 'btn-primary': comment.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react('love', 'comment', post._id, comment._id)">Love ({{comment.reactions.love.amount}})</button>
+		</div>
+
 
 		<button ng-show="!allowAddComment" ng-click="allowAddComment = true">Add a comment</button>
 		<form ng-show="allowAddComment" ng-submit="postComment(); allowAddComment = false">
@@ -136,4 +96,71 @@
 			<button>Post comment</button>
 		</form>
 	</section>
+</section>
+
+
+<section id="edit-post-area" ng-controller="mainController" ng-show="$root.editPost">
+	<div class="col-md-8 col-md-offset-2">
+
+		<!-- POST INPUT MAIN -->
+		<div class="new-post-content">
+			<textarea 
+				ng-model="$root.post.content" 
+				ng-keyup="generateLinkPreview(true); findWithPrefixSymbol(true)" 
+				id="new_post_content" 
+				class="form-control" 
+				placeholder="Type something"></textarea>
+
+			<div ng-if="$root.linkPreview" class="link-preview">
+				<div class="link-preview-thumbnail">
+					<img src="{{$root.linkPreview.src}}" alt="{{$root.linkPreview.title}}">
+				</div>
+				<div class="link-preview-text">
+					<h3>{{$root.linkPreview.title}}</h3>
+					<p>{{$root.linkPreview.description}}</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- ALL SYMBOL MENTION THINGS -->
+		<div ng-show="symbolSearch.members" class="tabs radio-tabs">
+			<ul class="select-list" ng-repeat="username in $root.currentCircle.members | filter: attemptFind">
+				<li ng-click="insertIntoPost('@', username)" class="inner-btn new-quest-quester quester-radio" for="tag_{{username}}">{{username}}</li>
+			</ul>
+		</div>
+		<div ng-show="symbolSearch.tags" class="tabs radio-tabs">
+			<ul class="select-list" ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind">
+				<li ng-click="insertIntoPost('#', tag)" class="inner-btn new-quest-quester quester-radio" for="tag_{{tag}}">{{tag}}</li>
+			</ul>
+		</div>
+
+		<!-- QUEST -->
+		<div ng-if="$root.post.type === 'quest'">
+			<h5>What does someone get when they complete the quest?</h5>
+			<input type="number" ng-model="$root.post.quest.worth.currency"> {{($root.post.quest.worth.currency == 1 || $root.post.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
+			<br>or an achievement<br>
+			<input ng-model="$root.post.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
+		</div>
+
+		<!-- POLL -->
+		<div ng-if="$root.post.type === 'poll'">
+			<h5>Add some options</h5>
+			<button class="btn" ng-click="$root.post.poll.push({})">add option</button>
+			<button class="btn" ng-click="$root.post.poll.splice(($root.post.poll.length - 1), 1)">remove option</button>
+			<input type="text" ng-repeat="options in $root.post.poll track by $index" ng-model="$root.post.poll[$index].choice">
+		</div>
+
+		<!-- IMAGES -->
+		<div class="post-images" ng-if="$root.post.images.length">
+			<div ng-repeat="image in $root.post.images">
+				<img width="200" src="{{image}}" alt="{{post.content}}">
+				<button ng-click="removeImage($root.post._id, image)">Remove</button>
+			</div>
+		</div>
+
+		<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>
+
+		<button ng-click="sendPost(true)" class="btn btn-primary">Post</button>
+		<button ng-click="$root.editPost = false" class="btn btn-default">Cancel</button>
+	</div>
 </section>

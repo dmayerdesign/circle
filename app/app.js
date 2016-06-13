@@ -66,18 +66,6 @@
 		})
 	});
 
-	/*
-
-	init in the controller should look like
-
-	$rootScope.user = localStorage['User'] && localStorage['User'].length && JSON.parse(localStorage['User']);
-	$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']);
-	init.app(false, function(user, circle) {
-		$rootScope.user = user;
-		$rootScope.currentCircle = circle;
-	});
-
-	*/
 
 	// FACTORY
 	app.factory('init', function($http, $state) {
@@ -116,7 +104,7 @@
 
 		init.app = function(userId, accessCode, callback) {
 			var that = this;
-			var localCode = localStorage['Current-Circle'] && localStorage['Current-Circle'].length && JSON.parse(localStorage['Current-Circle']).accessCode;
+			var localCode = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']).accessCode;
 			var code;
 
 			that.user(userId, function(user) {
@@ -201,6 +189,15 @@
 			});
 		};
 
+		init.getCircles = function(username, callback) {
+			$http.get('api/circles/get?username=' + username)
+			.then(function(response) {
+				if (callback) {
+					callback(response.data);
+				}
+			});
+		};
+
 		init.fadeCircleIn = function fadeCircleIn() {
 			TweenMax.to(document.querySelector("body"), 0.4, {
 				opacity: 1,
@@ -261,8 +258,8 @@
 		action.treatPost = function treatPost(scope, rootScope, callback) {
 			var i = 0;
 			var treatPostInt = setInterval(function() {
-				_(".not-treated").each(function(i) {
-					var _element = _(".not-treated");
+				_(".state-single .not-treated").each(function(i) {
+					var _element = _(".state-single .not-treated");
 					treatLink(_element.eq(i), scope, rootScope, function(content) {
 						treatTags(_element.eq(i), scope, rootScope, content, function(content) {
 							treatMentions(_element.eq(i), scope, rootScope, content, function(post) {

@@ -1,29 +1,54 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<div class="row">
-	<div class="col-sm-6 col-sm-offset-3">
-		<div class="button" ngf-select="upload($file)">Select</div>
-		<img src="{{$root.user.avatar}}" width="40">
+<nav class="edit-profile-nav col-md-8 col-md-offset-2">
+	<div class="circle-nav-inner">
+		<div class="c-bg-primary tile clearfix">
+			<button class="inner-btn c-bg-accent-hover" ng-click="goToSection('profile-account')"><span>Profile/Account</span></button>
+			<button class="inner-btn c-bg-accent-hover" ng-click="goToSection('currency')"><span>{{$root.currentCircle.currency.pluralName}}</span></button>
+			<button class="inner-btn c-bg-accent-hover" ng-click="goToSection('achievements')"><span>Achievements</span></button>
+		</div>
 	</div>
-</div>
+</nav>
 
-<form class="row" ng-submit="editProfile('name'); showSaveNameBtn = false">
-	<div class="col-sm-6 col-sm-offset-3">
-		<input ng-model="user.name" ng-focus="showSaveNameBtn = true" type="text" class="form-control line-form" placeholder="name" />
-		<button ng-show="showSaveNameBtn" ng-click="showSaveNameBtn = false">Save</button>
+<section class="main" id="profile-account">
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-3">
+			<div class="button" ngf-select="upload($file)">Select</div>
+			<img src="{{$root.user.avatar}}" width="80">
+		</div>
 	</div>
-</form>
 
-<form class="row" ng-submit="editProfile('username'); showSaveUsernameBtn = false">
-	<div class="col-sm-6 col-sm-offset-3">
-		<input ng-model="user.username" ng-focus="showSaveUsernameBtn = true" type="text" class="form-control line-form" placeholder="username" />
-		<button ng-show="showSaveUsernameBtn" ng-click="showSaveUsernameBtn = false">Save</button>
-	</div>
-</form>
+	<form class="row" ng-submit="editProfile('name'); showSaveNameBtn = false">
+		<div class="col-sm-6 col-sm-offset-3">
+			<input ng-model="user.name" ng-focus="showSaveNameBtn = true" ng-blur="showSaveNameBtn = false" type="text" class="form-control line-form" placeholder="name" />
+			<button ng-show="showSaveNameBtn" ng-click="showSaveNameBtn = false">Save</button>
+		</div>
+	</form>
 
-<form class="row" ng-submit="editProfile('bio'); showSaveBioBtn = false">
-	<div class="col-sm-6 col-sm-offset-3">
-		<textarea ng-model="user.bio" ng-focus="showSaveBioBtn = true" type="text" class="form-control line-form" placeholder="bio"></textarea>
-		<button ng-show="showSaveBioBtn" ng-click="showSaveBioBtn = false">Save</button>
-	</div>
-</form>
+	<form class="row" ng-submit="editProfile('username'); showSaveUsernameBtn = false">
+		<div class="col-sm-6 col-sm-offset-3">
+			<input ng-model="user.username" ng-focus="showSaveUsernameBtn = true" ng-blur="showSaveUsernameBtn = false" type="text" class="form-control line-form" placeholder="username" />
+			<button ng-show="showSaveUsernameBtn" ng-click="showSaveUsernameBtn = false">Save</button>
+		</div>
+	</form>
+
+	<form class="row" ng-submit="editProfile('bio'); showSaveBioBtn = false">
+		<div class="col-sm-6 col-sm-offset-3">
+			<textarea ng-model="user.bio" ng-focus="showSaveBioBtn = true" ng-blur="showSaveBioBtn = false" type="text" class="form-control line-form" placeholder="bio"></textarea>
+			<button ng-show="showSaveBioBtn" ng-click="showSaveBioBtn = false">Save</button>
+		</div>
+	</form>
+</section>
+
+<section class="main" id="currency">
+	<h3>You have {{$root.user.currency}} {{Math.abs($root.user.currency) === 1 ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}</h3>
+</section>
+
+<section class="main" id="achievements">
+	<h3>Your achievements</h3>
+	<ul>
+		<li ng-repeat="achievement in $root.user.achievements">
+			{{achievement.title}}
+		</li>
+	</ul>
+</section>

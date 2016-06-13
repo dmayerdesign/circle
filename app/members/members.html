@@ -1,6 +1,6 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<section class="members-list">
+<section class="main members-list">
 	<div ng-repeat="user in $root.users">
 		<img width="80" src="{{user.avatar}}" alt="{{user.name}}">
 		<span>{{user.name}} | @{{user.username}}</span>

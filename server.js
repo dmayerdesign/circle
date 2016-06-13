@@ -38,6 +38,7 @@ app.get('/', function(req, res) {
 // Circle
 app.post('/api/circle/new', circleController.createCircle);
 app.get('/api/circle/get', circleController.getCircle);
+app.get('/api/circles/get', circleController.getCircles);
 app.post('/api/circle/style', circleController.styleCircle);
 app.post('/api/circle/addMember', circleController.addMember);
 app.post('/api/circle/removeMember', circleController.removeMember);
@@ -66,13 +67,17 @@ app.get('/api/post/getSingle', postController.getPost);
 app.post('/api/post/updatePostUser', postController.updatePostUser);
 app.post('/api/post/attachImage', postController.attachImage);
 app.post('/api/post/removeImage', postController.removeImage);
+app.post('/api/post/react', postController.react);
 
 // Comments
 app.post('/api/comment/post', postController.postComment);
 
-//Quests
+// Quests
 app.post('/api/quest/updateQuestStatus', postController.updateQuestStatus);
 app.post('/api/quest/userCompletedQuest', postController.userCompletedQuest);
+
+// Polls
+app.post('/api/poll/castVote', postController.castPollVote);
 
 // Tags
 app.get('/api/tags/get', tagController.getTags);
