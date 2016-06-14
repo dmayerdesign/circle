@@ -12,7 +12,7 @@
 		$rootScope.loggedIn = true;
 		init.app($rootScope.user._id, false, function(user, circle) {
 			$rootScope.user = user;
-			if ( !$rootScope.user.isEmailVerified ) {
+			if ( !$rootScope.user || !$rootScope.user.isEmailVerified ) {
 				console.log("email is not verified");
 				if ( $location.search().email && $location.search().verifyEmail ) {
 					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;

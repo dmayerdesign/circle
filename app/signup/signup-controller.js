@@ -8,7 +8,7 @@
 			/**/
 			/** INITIALIZE THE USER
 			/**/
-			if ( localStorage['User'] ) {
+			if ( localStorage['User'] && JSON.parse(localStorage['User']) ) {
 				var localUser = JSON.parse(localStorage['User']);
 				if ( localUser.isEmailVerified ) {
 					$state.go('main');
