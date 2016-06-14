@@ -1,6 +1,6 @@
 var User = require('../datasets/users');
 var Post = require('../datasets/posts');
-var fs = require('fs-extra');
+var mv = require('mv');
 var path = require('path');
 
 module.exports.updatePhoto = function(req, res) {
@@ -15,8 +15,7 @@ module.exports.updatePhoto = function(req, res) {
 	var targetPath = path.join(__dirname, "../../uploads/" + userId + "_" + uploadDate + "_" + file.name);
 	var savePath = "/uploads/" + userId + "_" + uploadDate + "_" + file.name;
 
-	fs.rename(tempPath, targetPath, function(err) {
-		console.log(fs.rename);
+	mv(tempPath, targetPath, function(err) {
 		if (err) {
 			console.log(err);
 		} else {

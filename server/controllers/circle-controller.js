@@ -1,6 +1,5 @@
 var Circle = require('../datasets/circles');
 var User = require('../datasets/users');
-var fs = require('fs-extra');
 var mv = require('mv');
 var path = require('path');
 var mkdirp = require('mkdirp');
@@ -190,7 +189,7 @@ module.exports.updateBackground = function(req, res) {
 		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
 		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
 
-		fs.rename(tempPath, targetPath, function(err) {
+		mv(tempPath, targetPath, function(err) {
 			if (err) {
 				console.log(err);
 			} else {
@@ -234,7 +233,6 @@ module.exports.updateLogo = function(req, res) {
 		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
 
 		mv(tempPath, targetPath, function(err) {
-		//fs.rename(tempPath, targetPath, function(err) {
 			if (err) {
 				console.log(err);
 			} else {
