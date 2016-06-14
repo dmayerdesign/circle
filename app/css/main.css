@@ -10,7 +10,7 @@ body {
 	color: #fff;
 }
 
-div[ui-view] {
+.state-login {
 	position: relative;
 }
 
