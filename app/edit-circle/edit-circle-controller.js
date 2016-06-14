@@ -58,23 +58,12 @@
 				.success(function(circle) {
 					console.log(circle);
 
-					// var request = {
-					// 	userId: $scope.user._id,
-					// 	circleId: circle._id,
-					// 	accessCode: circle.accessCode,
-					// 	part: part,
-					// 	style: circle.styles[part]
-					// };
-
-					// $http.post('api/circle/style', request).then(function(response) {
 					console.log("circle style updated");
-					// $rootScope.currentCircle.styles[part] = response.data.circle.styles[part];
 					$rootScope.currentCircle = circle;
 					localStorage.setItem("Current-Circle", JSON.stringify(circle));
 
 					console.log( $rootScope.currentCircle.styles );
 					customizer.getStyle($rootScope);
-					// });
 				})
 				.error(function(err) {
 					console.error(err);

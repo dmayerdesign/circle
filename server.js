@@ -7,6 +7,8 @@ var express = require('express'),
 
 var app = express();
 
+process.env.TMPDIR = './tmp';
+
 // Server Controllers
 var authenticationController = require('./server/controllers/authentication-controller');
 var profileController = require('./server/controllers/profile-controller');
@@ -19,12 +21,12 @@ var mailgunController = require('./server/controllers/mailgun-controller');
 var port = process.env.PORT || 3000;
 var db = (port === 3000) ? 'mongodb://localhost:27017/circle' : 'mongodb://dannymayer:Kounice372@ds019063.mlab.com:19063/circle';
 
-//mongoose.connect('mongodb://localhost:27017/circle');
 mongoose.connect(db);
 
 app.use(bodyParser.json());
 app.use(multipartMiddleware);
 app.use('/app', express.static(__dirname + "/app"));
+app.use('/tmp', express.static(__dirname + "/tmp"));
 app.use('/node_modules', express.static(__dirname + "/node_modules"));
 app.use('/uploads', express.static(__dirname + "/uploads"));
 app.use('/images', express.static(__dirname + "/images"));

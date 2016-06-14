@@ -14,7 +14,7 @@ module.exports.verifyEmail = function(req,res) {
     to: req.params.email,
   //Subject and text data  
     subject: "Verify your Circle account",
-    html: "Hey! Thanks for joining this thing. All you need to do now is click on the link below, and you can start circle-in' it up big time.<br><br><a href='http://localhost:3000/#/verify-email?email=" + req.params.email + "&verifyEmail=" + req.params.vcode + "' target='_blank' style='display:block; width:200px; text-align:center; padding:20px 0; font-family:Helvetica, Arial, sans-serif; font-size:10px; color:white; text-transform:uppercase; text-decoration:none; letter-spacing:0.5px; background-color:#90def0; background-color:linear-gradient(45deg, #44ddf0, #44f0dd); border-radius:10px;'>Verify my account</a>"
+    html: "Hey! Thanks for joining this thing. All you need to do now is click on the link below, and you can start circle-in' it up big time.<br><br><a href='" + req.protocol + '://' + req.get('host') + "/#/verify-email?email=" + req.params.email + "&verifyEmail=" + req.params.vcode + "' target='_blank' style='display:block; width:200px; text-align:center; padding:20px 0; font-family:Helvetica, Arial, sans-serif; font-size:10px; color:white; text-transform:uppercase; text-decoration:none; letter-spacing:0.5px; background-color:#90def0; background-color:linear-gradient(45deg, #44ddf0, #44f0dd); border-radius:10px;'>Verify my account</a>"
   };
 
   //Invokes the method to send emails given the above data with the helper library
