@@ -7,7 +7,7 @@ var express = require('express'),
 
 var app = express();
 
-process.env.TMPDIR = './tmp';
+//process.env.TMPDIR = './tmp';
 
 // Server Controllers
 var authenticationController = require('./server/controllers/authentication-controller');
