@@ -9,7 +9,6 @@ var app = express();
 
 var port = process.env.PORT || 3000;
 
-
 // Server Controllers
 var authenticationController = require('./server/controllers/authentication-controller');
 var profileController = require('./server/controllers/profile-controller');
@@ -19,7 +18,8 @@ var circleController = require('./server/controllers/circle-controller');
 var tagController = require('./server/controllers/tag-controller');
 var mailgunController = require('./server/controllers/mailgun-controller');
 
-mongoose.connect('mongodb://localhost:27017/circle');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/circle');
+//mongoose.connect('mongodb://heroku_b8zkrq0n:Kounice372@ds057244.mlab.com:57244/heroku_b8zkrq0n');
 
 app.use(bodyParser.json());
 app.use(multipartMiddleware);
