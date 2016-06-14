@@ -17,7 +17,7 @@ var tagController = require('./server/controllers/tag-controller');
 var mailgunController = require('./server/controllers/mailgun-controller');
 
 var port = process.env.PORT || 3000;
-var db = (port === 3000) ? 'mongodb://localhost:27017/circle' ? 'mongodb://dannymayer:Kounice372@ds019063.mlab.com:19063/circle';
+var db = (port === 3000) ? 'mongodb://localhost:27017/circle' : 'mongodb://dannymayer:Kounice372@ds019063.mlab.com:19063/circle';
 
 //mongoose.connect('mongodb://localhost:27017/circle');
 mongoose.connect(db);
