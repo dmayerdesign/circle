@@ -93,6 +93,10 @@ a {
 	cursor: pointer !important;
 }
 
+a, span {
+	word-wrap: break-word;
+}
+
 /* feature detects */
 .placeholder label:not(.inner-btn) { display: none; }
 
@@ -760,6 +764,11 @@ button:focus, button:active {
 		border-radius: 2em;
 	}
 
+/* DRAWERS */
+
+.drawer-bar {
+	margin-bottom: 1em;
+}
 
 /* BOTTOM DRAWER */
 .bottom-drawer {
@@ -788,52 +797,52 @@ button:focus, button:active {
 
 /* FORMS */
 
-input::-webkit-input-placeholder {
+input.line-form::-webkit-input-placeholder {
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-input:-moz-placeholder { /* Firefox 18- */
+input.line-form:-moz-placeholder { /* Firefox 18- */
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-input::-moz-placeholder {  /* Firefox 19+ */
+input.line-form::-moz-placeholder {  /* Firefox 19+ */
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-input:-ms-input-placeholder {  
+input.line-form:-ms-input-placeholder {  
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-textarea::-webkit-input-placeholder {
+textarea.line-form::-webkit-input-placeholder {
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-textarea:-moz-placeholder { /* Firefox 18- */
+textarea.line-form:-moz-placeholder { /* Firefox 18- */
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-textarea::-moz-placeholder {  /* Firefox 19+ */
+textarea.line-form::-moz-placeholder {  /* Firefox 19+ */
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-textarea:-ms-input-placeholder {  
+textarea.line-form:-ms-input-placeholder {  
    color: #fff !important;
    opacity: 0.8;
    font-weight: bold;
 }
-input:placeholder-shown {
+input.line-form:placeholder-shown {
 	color: #fff !important;
 	opacity: 0.8;
 	font-weight: bold;
 }
-textarea:placeholder-shown {
+textarea.line-form:placeholder-shown {
 	color: #fff !important;
 	opacity: 0.8;
 	font-weight: bold;
@@ -896,6 +905,13 @@ select {
 
 }
 
+
+/* ADD POST */
+
+.add-post-inner {
+	min-height: 20em;
+}
+
 .radio-tabs input {
 	visibility: hidden;
 	float: left;
@@ -933,24 +949,42 @@ select {
 	opacity: 0.5;
 }
 
+.ui-datepicker {
+	background: #8bd;
+  border: 2px solid #7ac;
+}
+
 /* post search dropdown */
-.post-search-dd {
-	width: 100%;
+.post-search-list {
+	float: left;
 	position: absolute;
-	top: 0;
-	overflow: visible;
+		z-index: 110;
+		top: 11em;
+	overflow: scroll;
+	width: 100%;
+	max-height: 12em;
+	background: transparent;
+	box-shadow: 1px 3px 8px rgba(0,0,0,0.1);
 }
 
-.post-search-dd ul {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 300px;
+.post-search-list ul {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	background: #fff;
 }
 
-.post-search-dd ul li {
+.post-search-list ul li {
 	width: 100%;
-	padding: 20px 0;
+	padding: 2em;
+	border-bottom: 2px solid rgba(120,120,120,0.1);
+	opacity: 0.8;
+}
+
+.post-search-list ul li:hover,
+.post-search-list ul li.selected {
+	opacity: 1;
 }
 
 

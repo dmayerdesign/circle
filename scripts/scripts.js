@@ -15,6 +15,13 @@
 			backgroundImage: "url(images/intro-bg.jpg)"
 		});
 
+		var datepickerInt = setInterval(function() {
+			if ($("#event_date").length) {
+				$("#event_date").datepicker();
+				clearInterval(datepickerInt);
+			}
+		}, 300);
+
 	};
 
 	$.fn.extend({
@@ -31,4 +38,5 @@
 			this.attr("aria-hidden", "false");
 		}
 	});
+
 }(jQuery));

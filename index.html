@@ -49,83 +49,10 @@
 	<div class="state-{{$root.currentState}}" ui-view></div>
 
 <!-- ADD POST -->
-	<section ng-if="$root.currentCircle" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-primary" aria-hidden="true">
-		<div class="col-md-8 col-md-offset-2">
-
-			<!-- POST TYPE TABS -->
-			<div class="tabs radio-tabs">
-				<input ng-model="newPost.type" id="post_type_regular" name="postType" value="regular" type="radio" />
-				<label class="inner-btn new-post-type-regular post-type-radio" for="post_type_regular">Regular</label>
-
-				<input ng-model="newPost.type" id="post_type_event" name="postType" value="event" type="radio" />
-				<label class="inner-btn new-post-type-event post-type-radio" for="post_type_event">Event</label>
-
-				<input ng-model="newPost.type" id="post_type_quest" name="postType" value="quest" type="radio" />
-				<label class="inner-btn new-post-type-quest post-type-radio" for="post_type_quest">Quest</label>
-
-				<input ng-model="newPost.type" id="post_type_poll" name="postType" value="poll" type="radio" />
-				<label class="inner-btn new-post-type-poll post-type-radio" for="post_type_poll">Poll</label>
-			</div>
-
-			<!-- POST INPUT MAIN -->
-			<div class="new-post-content">
-
-				<textarea 
-					ng-model="newPost.content" 
-					ng-keyup="generateLinkPreview(); findWithPrefixSymbol()" 
-					id="new_post_content" 
-					class="form-control" 
-					placeholder="Type something"></textarea>
-
-				<div ng-if="linkPreview" class="link-preview">
-					<div class="link-preview-thumbnail">
-						<img src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
-					</div>
-					<div class="link-preview-text">
-						<h3>{{linkPreview.title}}</h3>
-						<p>{{linkPreview.description}}</p>
-					</div>
-				</div>
-			</div>
-
-			<!-- TAG AND MENTION LISTS -->
-			<div ng-show="symbolSearch.members" class="post-search-dd">
-				<ul>
-					<li ng-repeat="user in $root.users | filter: attemptFind" ng-click="insertIntoPost('members', user.username)" class="post-search-dd-select" for="tag_{{username}}">
-						<img width="40" src="{{user.avatar}}"> {{user.name}} {{user.username}}
-					</li>
-				</ul>
-			</div>
-			<div ng-show="symbolSearch.tags" class="post-search-dd">
-				<ul>
-					<li ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind" ng-click="insertIntoPost('tags', tag)" class="post-search-dd-select" for="tag_{{tag}}">{{tag}}</li>
-				</ul>
-			</div>
-
-			<!-- QUEST -->
-			<div ng-if="newPost.type === 'quest'">
-				<h5>What does someone get when they complete the quest?</h5>
-				<input type="number" ng-model="newPost.quest.worth.currency"> {{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
-				<br>or an achievement<br>
-				<input ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
-			</div>
-
-			<!-- POLL -->
-			<div ng-if="newPost.type === 'poll'">
-				<h5>Add some options</h5>
-				<button class="btn" ng-click="newPost.poll.push({})">add option</button>
-				<button class="btn" ng-click="newPost.poll.splice((newPost.poll.length - 1), 1)">remove option</button>
-				<input type="text" ng-repeat="options in newPost.poll track by $index" ng-model="newPost.poll[$index].choice">
-			</div>
-
-			<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>
-
-			<button ng-click="sendPost()" class="btn btn-primary">Post</button>
-		</div>
-	</section>
+	<section ng-if="$root.currentCircle" ng-include src="'app/add-post.html'" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-content" aria-hidden="true"></section>
 
 <!-- EDIT CIRCLE -->
-	<section ng-if="$root.currentCircle" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-primary" aria-hidden="true">
+	<section ng-if="$root.currentCircle" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-content" aria-hidden="true">
 		<div class="col-md-8 col-md-offset-2">
 
 			<h3>Styles</h3>

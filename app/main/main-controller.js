@@ -141,7 +141,7 @@
 		};
 		
 		$scope.sendPost = function(edit, event) {
-			if ( event && event.which !== 13 ) { return; }
+			if ( event && event.keyCode !== 13 ) { return; }
 			var that = edit ? $rootScope : this;
 			if (edit) {
 				that.newPost = that.post;
@@ -194,7 +194,9 @@
 				"tags": that.newPost.tags,
 				"quest": that.newPost.quest,
 				"poll": that.newPost.poll,
-				"usersMentioned": that.newPost.usersMentioned
+				"usersMentioned": that.newPost.usersMentioned,
+				"eventDate": that.newPost.eventDate,
+				"eventLocation": that.newPost.eventLocation
 			};
 
 			if (edit) {
@@ -295,8 +297,19 @@
 
 		$scope.findWithPrefixSymbol = function(edit) {
 			var scope = this;
-			var content = scope.newPost.content;
+			var content = edit ? $rootScope.post.content : scope.newPost.content;
 			var list, items, regex, match, symbol;
+
+			// setTimeout(function() {
+			// 	_(".post-search-list").each(function() {
+			// 		var _this = _(this);
+			// 		if ( !_this.find("li").length ) {
+			// 			_this.hide().removeClass("list-active");
+			// 		} else {
+			// 			_this.show().addClass("list-active");
+			// 		}
+			// 	});
+			// }, 300);
 
 			if ( content.indexOf("@") > content.indexOf("#") ) {
 				list = "members";
@@ -309,6 +322,7 @@
 				match = content.match(/\#([^\s.,!?\-:\(\)]*)/gi);
 			}
 			if ( content.indexOf("@") === -1 && content.indexOf("#") === -1 ) {
+				match = false;
 				return;
 			}
 			
@@ -333,44 +347,83 @@
 			}
 		};
 
-		$scope.insertIntoPost = function(list, text) {
+		$scope.insertIntoPost = function(event, list, text, edit) {
 			var scope = this;
-			var content = scope.newPost.content;
+			var content = edit ? $rootScope.post.content : scope.newPost.content;
 			var fragment, match, symbol;
 
-			if (list === "members") {
+			if ( event.keyCode === 13 || event.target.className.indexOf("post-search-list-select") > -1 ) {
+
+				if (list === "members") {
 					match = content.match(/\@([^\s.,!?\-:\(\)]*)/gi);
 					symbol = "@";
-			}
-			if (list === "tags") {
+				}
+				if (list === "tags") {
 					match = content.match(/\#([^\s.,!?\-:\(\)]*)/gi);
 					symbol = "#";
+				}
+
+				console.log(list);
+				console.log(symbol);
+
+				if (match) {
+					fragment = match[match.length - 1].replace(symbol, "");
+					if ( text.indexOf(fragment) > -1 ) {
+						scope.newPost.content = content.replace(new RegExp(fragment + "$"), text + " ");
+						scope.symbolSearch[list] = false;
+						_("#new_post_content").focus();
+					}
+				}
+
+				$rootScope.selectedFromList = null;
+			}
+		};
+
+		$scope.selectFromList = function(event) {
+			var scope = this;
+			var selectObj = $rootScope.selectedFromList;
+			var _firstInList = _(".list-active li").first();
+			var _selected = _(".list-active li.selected");
+
+			if (event.keyCode !== 40 && event.keyCode !== 38) {
+				return false;
 			}
 
-			console.log(list);
-			console.log(symbol);
-
-			if (match) {
-				fragment = match[match.length - 1].replace(symbol, "");
-				if ( text.indexOf(fragment) > -1 ) {
-					scope.newPost.content = content.replace(new RegExp(fragment + "$"), text + " ");
-					scope.symbolSearch[list] = false;
-					_("#new_post_content").focus();
+			if (!selectObj) {
+				selectObj = {};
+				_firstInList.addClass("selected").siblings().removeClass("selected");
+			} else {
+				if (event.keyCode === 40) {
+					_selected.removeClass("selected").next("li").addClass("selected");
+					if ( !_selected.next("li").length ) {
+						_firstInList.addClass("selected");
+					}
+				}
+				if (event.keyCode === 38) {
+					_selected.removeClass("selected").prev("li").addClass("selected");
+					if ( !_selected.prev("li").length ) {
+						selectObj = null;
+						return;
+					}
 				}
 			}
+
+			if ( _(".list-active.post-search-list-members").length ) {
+				selectObj.list = "members";
+			}
+			if ( _(".list-active.post-search-list-tags").length ) {
+				selectObj.list = "tags";
+			}
+			selectObj.value = _(".list-active .selected").data("value");
+
+			$rootScope.selectedFromList = selectObj;
+			console.log(selectObj);
 		};
 
 		$scope.setNewPosts = function() {
 			$scope.posts = angular.copy($scope.incomingPosts);
 			$scope.incomingPosts = undefined;
 		};
-
-		// $scope.search = function(item){
-	 //    if (!$scope.query || (item.brand.toLowerCase().indexOf($scope.query) != -1) || (item.model.toLowerCase().indexOf($scope.query.toLowerCase()) != -1) ){
-	 //      return true;
-	 //    }
-	 //  	return false;
-	 // 	};
 
 		$scope.showPostsFiltered = function(list, item) {
 			var that = this;
@@ -419,7 +472,6 @@
 			}
 
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
-				console.log(that.postTypesAreFiltered);
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
 

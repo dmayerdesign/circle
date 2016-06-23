@@ -21,7 +21,6 @@
 			<!-- post -->
 			<div ng-repeat="post in posts | orderBy: 'date':true | limitTo:postsAllowed['allow']" class="post archive-post col-md-6 not-treated" data-post-id="{{post._id}}" data-creator-id="{{post.userId}}" data-link-set="{{post.linkEmbed}}" ng-click="$parent.goToPost(post._id)" data-images="{{post.images}}" data-post-type="{{post.type}}">
 				<div class="post-inner c-bg-content tile" ng-style="{backgroundImage: 'url(' + (archiveLinkPreviews[post._id].src || post.images[0]) + ')'}">
-					<!-- <div class="post-bg"></div>  -->
 					<div class="post-meta">
 						<div class="author">
 							<div class="avatar-container"><img ng-src="{{post.avatar}}" data-user-id="{{post.userId}}" alt="{{post.user}}" class="avatar img-responsive" /></div>
