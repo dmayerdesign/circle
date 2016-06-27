@@ -168,6 +168,7 @@
 				if (callback) {
 					callback(response.data);
 				}
+				_(".checked-for-tag").removeClass("checked-for-tag");
 			});
 		};
 

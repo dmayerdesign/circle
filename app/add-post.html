@@ -5,7 +5,7 @@
 				<label class="inner-btn new-post-type-regular post-type-radio" for="post_type_regular">Regular</label>
 
 				<input ng-model="newPost.type" id="post_type_event" name="postType" value="event" type="radio" />
-				<label class="inner-btn new-post-type-event post-type-radio" for="post_type_event">Event</label>
+				<label class="inner-btn new-post-type-event post-type-radio" ng-click="initDatePicker()" for="post_type_event">Event</label>
 
 				<input ng-model="newPost.type" id="post_type_quest" name="postType" value="quest" type="radio" />
 				<label class="inner-btn new-post-type-quest post-type-radio" for="post_type_quest">Quest</label>

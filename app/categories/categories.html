@@ -7,6 +7,6 @@
 		<a href="/#/?tag={{category.name}}" style="display:block; background-image: url({{category.image}});">
 			<span>#{{category.name}}</span>
 		</a>
-		<button ng-disabled="category.name === 'random'" style="position:absolute; z-index:999; top:0; right:0;" ng-click="deleteCategory(category.name)">remove</button>
+		<button class="trash-btn" ng-disabled="category.name === 'random'" ng-click="deleteCategory(category.name)"><i class="fa fa-trash"></i></button>
 	</div>
 </main>

@@ -28,8 +28,6 @@
 
 
 
-		
-
 		$scope.$watch(function() {
 			return $scope.file
 		}, function() {
@@ -89,6 +87,26 @@
 					$rootScope.archiveTag = tag;
 				})
 				.error(function(err) {
+					console.error(err);
+				});
+			}
+		};
+
+		$scope.updateImageFromLink = function(part, link) {
+			var endpoint;
+			if ( part === 'tagImage' ) { endpoint = 'api/tags/updateImage'; }
+
+			if (part == 'tagImage' && $location.search().tag) {
+				$http.post(endpoint, {
+					userId: $rootScope.user._id,
+					circleId: $rootScope.currentCircle._id,
+					tagName: $location.search().tag,
+					linkedImageURI: link
+				}).then(function(tag) {
+					console.log(tag);
+					console.log("tag image updated");
+					$rootScope.archiveTag = tag;
+				}, function(err) {
 					console.error(err);
 				});
 			}

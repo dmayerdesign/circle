@@ -40,24 +40,27 @@
 					init.initFinal(_("body"));
 
 					// Search for filter in query string
-					if ( $location.search().tag ) {
-						$scope.showPostsFiltered( 'tags', $location.search().tag );
-						$http.get('api/tags/getTag?circleId=' + $rootScope.currentCircle._id + '&tagName=' + $location.search().tag).then(function(response) {
-							$rootScope.archiveTag = response.data;
-						});
-						console.log($scope.postsAreFiltered);
-					} else {
-						$rootScope.archiveTag = null;
-					}
+					var searchQueryString = setInterval(function() {
+						if ( $location.search().tag ) {
+							$scope.showPostsFiltered( 'tags', $location.search().tag );
 
-					if ( $location.search().user ) {
-						$scope.showPostsFiltered( 'users', $location.search().user );
-					}
+							$http.get('api/tags/getTag?circleId=' + $rootScope.currentCircle._id + '&tagName=' + $location.search().tag).then(function(response) {
+								$rootScope.archiveTag = response.data;
+								clearInterval(searchQueryString);
+							});
+						} else {
+							$rootScope.archiveTag = null;
+						}
 
-					if ( !$location.search() ) {
-						$scope.showPostsFiltered();
-						console.log($scope.postsAreFiltered);
-					}
+						if ( $location.search().user ) {
+							$scope.showPostsFiltered( 'users', $location.search().user );
+							clearInterval(searchQueryString);
+						}
+
+						if ( !$location.search() ) {
+							$scope.showPostsFiltered();
+						}
+					}, 100);
 
 					// Check for new posts
 					// setInterval(function() {
@@ -92,9 +95,10 @@
 		$scope.postsAreFiltered = {};
 		$scope.postTypesAreFiltered = {};
 
-		$scope.postOrder = 'date';
+		$scope.postOrder = '-date';
 		$scope.orderPosts = function(postOrder) {
 			$scope.postOrder = postOrder;
+			$scope.orderPostsAscending = (postOrder === '-date') ? 'false' : 'true';
 		};
 
 		$scope.newPost = {
@@ -201,6 +205,7 @@
 
 			if (edit) {
 				request = that.newPost;
+				request.edit = true;
 				$rootScope.post = request;
 				console.log(request);
 			}
@@ -428,6 +433,14 @@
 		$scope.showPostsFiltered = function(list, item) {
 			var that = this;
 
+			if ($location.search().tag && list === "users") {
+				$location.search("tag", null);
+				$rootScope.archiveTag = null;
+			}
+			if ($location.search().user && list === "tags") {
+				$location.search("user", null);
+			}
+
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
@@ -466,11 +479,15 @@
 		$scope.showPostsOfType = function(type) {
 			var that = this;
 
-			if ( $location.search() ) {
-				window.location.href = "/#/";
+			if ($location.search().tag) {
+				$location.search("tag", null);
 				$rootScope.archiveTag = null;
 			}
-
+			if ($location.search().user) {
+				$location.search("user", null);
+				$rootScope.archiveTag = null;
+			}
+			
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
@@ -648,11 +665,11 @@
 
 		$rootScope.archiveLinkPreviews = {};
 		var treatPostLinksInt = setInterval(treatPostLinks, 200);
-		setTimeout(function() {
-			if (_(".post.not-treated").length < 1) {
-				clearInterval(treatPostLinksInt);
-			}
-		}, 2000);
+		// setTimeout(function() {
+		// 	if (_(".post.not-treated").length < 1) {
+		// 		clearInterval(treatPostLinksInt);
+		// 	}
+		// }, 2000);
 		function treatPostLinks() {
 			var _posts = _(".post.not-treated");
 			_posts.each(function() {
@@ -668,6 +685,10 @@
 					theLink = match[0];
 					content = content.split(theLink); // get rid of the link
 					content = content.join("");
+
+					if ( content.length < 1 ) {
+						_post.addClass("post-preview-is-empty");
+					}
 
 					if ( _post.data("link-set") ) {
 						setPostLinkData($scope, _post.data("link-set"));
@@ -722,6 +743,29 @@
 
 		$scope.checkQuest = function() {
 			console.log(this.newPost.quest);
+		};
+
+		$scope.initDatePicker = function() {
+			setTimeout(function() {
+				_("#event_date").datepicker();
+			}, 300);
+		};
+
+		$scope.commenter = {};
+		$scope.getCommenters = function(comments) {
+			var scope = this;
+			var commenters = [];
+
+			comments.forEach(function(comment) {
+				scope.commenter.authorName = comment.authorName;
+				scope.commenter.user = comment.user;
+				scope.commenter.avatar = comment.avatar;
+
+				if (commenters.indexOf(scope.commenter) === -1) {
+					commenters.push(scope.commenter);
+				}
+			});
+			return commenters;
 		};
 
 	}]);

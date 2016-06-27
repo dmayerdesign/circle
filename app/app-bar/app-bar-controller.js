@@ -132,6 +132,20 @@
 				});
 			}
 
+			if (whichDrawer === "edit-circle" && !$drawer.hasClass("checked-for-tag")) {
+				// Search for filter in query string
+				$drawer.addClass("checked-for-tag");
+				if ( $location.search().tag ) {
+					$http.get('api/tags/getTag?circleId=' + $rootScope.currentCircle._id + '&tagName=' + $location.search().tag).then(function(response) {
+						$rootScope.archiveTag = response.data;
+						console.log(response.data);
+					});
+					console.log($scope.postsAreFiltered);
+				} else {
+					$rootScope.archiveTag = null;
+				}
+			}
+
 			$drawer.toggleClass("drawer-open");
 			_(".posts-archive").toggleClass("bottom-drawer-toggled");
 		};

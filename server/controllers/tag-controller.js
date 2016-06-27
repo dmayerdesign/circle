@@ -95,44 +95,52 @@ module.exports.getTag = function(req, res) {
 };
 
 module.exports.updateImage = function(req, res) {
-	var file = req.files.file,
+	var file = req.files && req.files.file,
 		userId = req.body.userId,
 		circleId = req.body.circleId;
 		tagName = req.body.tagName;
 
-	console.log("User " + userId + " is submitting " , file);
+	if (req.body.linkedImageURI && !req.files) {
+		saveUpdatedImage(req.body.linkedImageURI);
+	}
+	else {
+		console.log("User " + userId + " is submitting " , file);
 
-	var uploadDate = new Date().getTime();
+		var uploadDate = new Date().getTime();
 
-	mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
-
-		if (err) {
-			console.log("couldn't create the circle directory in uploads");
-			return;
-		}
-		
-		var tempPath = file.path;
-		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
-		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
-
-		mv(tempPath, targetPath, function(err) {
+		mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
 			if (err) {
-				console.log(err);
-			} else {
-				Tag.findOne({name: tagName, circleId: circleId}, function(err, tag) {
-					tag.image = savePath;
-					tag.save(function(err) {
-						if (err) {
-							console.log("Save failed :(");
-							res.json({status: 500});
-						} else {
-							console.log("Logo save successful! ^_^");
-							console.log(tag);
-							res.json(tag);
-						}
-					})
-				});
+				console.log("couldn't create the circle directory in uploads");
+				return;
 			}
+			
+			var tempPath = file.path;
+			var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
+			var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
+
+			mv(tempPath, targetPath, function(err) {
+				if (err) {
+					console.log(err);
+				} else {
+					saveUpdatedImage(savePath);
+				}
+			});
 		});
-	});
+	}
+
+	function saveUpdatedImage(thePath) {
+		Tag.findOne({name: tagName, circleId: circleId}, function(err, tag) {
+			tag.image = thePath;
+			tag.save(function(err) {
+				if (err) {
+					console.log("Save failed :(");
+					res.json({status: 500});
+				} else {
+					console.log("Logo save successful! ^_^");
+					console.log(tag);
+					res.json(tag);
+				}
+			})
+		});
+	}
 };

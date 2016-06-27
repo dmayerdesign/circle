@@ -15,12 +15,14 @@
 			backgroundImage: "url(images/intro-bg.jpg)"
 		});
 
-		var datepickerInt = setInterval(function() {
-			if ($("#event_date").length) {
-				$("#event_date").datepicker();
-				clearInterval(datepickerInt);
-			}
-		}, 300);
+		// var datepickerInt = setInterval(function() {
+		// 	console.log($("#event_date").parent().html());
+		// 	if ($("#event_date").length) {
+		// 		$("#event_date").datepicker();
+		// 		console.log("date picker found");
+		// 		clearInterval(datepickerInt);
+		// 	}
+		// }, 300);
 
 	};
 
@@ -38,5 +40,17 @@
 			this.attr("aria-hidden", "false");
 		}
 	});
+
+	// SERIOUSLY DIRTY WORKAROUND for weird bug where all HTML except for inner text is stripped out of .post (the one that's ng-repeating in main.html)
+	setTimeout(function() {
+		setInterval(function() {
+			var $archivePost = $(".archive-post");
+			$archivePost.each(function() {
+				if ($(this).length && $(this).find("*").length < 2) {
+					window.location.reload();
+				}
+			});
+		}, 1000);
+	}, 5000);
 
 }(jQuery));

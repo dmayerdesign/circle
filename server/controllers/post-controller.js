@@ -38,7 +38,7 @@ module.exports.postPost = function(req, res) {
 		}
 		else {
 			console.log("SAVED POST");
-			if (post.usersMentioned && post.usersMentioned.length) {
+			if (post.usersMentioned && post.usersMentioned.length && !req.body.edit) {
 				for (var i = 0; i < post.usersMentioned.length; i++) {
 					var mentionedUser = post.usersMentioned[i];
 					var notificationCopy;
@@ -213,7 +213,7 @@ module.exports.deletePost = function(req, res) {
 
 module.exports.getPosts = function(req, res) {
 	Post.find({circleId: req.query.circleId})
-	.sort({date: -1})
+	.sort('-date')
 	.exec(function(err, allPosts) {
 		if (err) {
 			res.json(err);
@@ -232,6 +232,7 @@ module.exports.getPosts = function(req, res) {
 			}
 
 			res.json(allPosts);
+			console.log("got posts");
 		}
 	});
 };
