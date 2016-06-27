@@ -656,6 +656,44 @@ nav {
 		border-bottom-left-radius: 0.2em;
 	}
 
+@media screen and (max-width: 96em) {
+	.circle-sorting,
+	.circle-views {
+		width: 100%;
+		padding: 0;
+	}
+	.circle-sorting .tile {
+		margin-bottom: 1em;
+	}
+	.circle-views .tile {
+		margin-bottom: 2em;
+	}
+	.theme-smooth .circle-sorting .tile,
+	.theme-smooth .circle-views .tile {
+		border-radius: 2.2em;
+	}
+	.theme-smooth .circle-sorting .tile {
+		border-bottom-left-radius: 0.4em;
+		border-bottom-right-radius: 0.4em;
+	}
+	.theme-smooth .circle-views .tile {
+		border-top-left-radius: 0.4em;
+		border-top-right-radius: 0.4em;
+	}
+	.theme-material .circle-sorting .tile,
+	.theme-material .circle-views .tile {
+		border-radius: 0.4em !important;
+	}
+	.theme-material .circle-sorting .tile {
+		border-bottom-left-radius: 0.2em;
+		border-bottom-right-radius: 0.2em;
+	}
+	.theme-material .circle-views .tile {
+		border-top-left-radius: 0.2em;
+		border-top-right-radius: 0.2em;
+	}
+}
+
 .refine-filter {
 	position: relative;
 		z-index: 99;
@@ -734,9 +772,13 @@ button:focus, button:active {
 	letter-spacing: 0.1em;
 }
 
+	.inner-btn > span {
+	  font-size: 0.9em;
+	}
+
 	.inner-btn.has-icon > span {
 		display: inline-block;
-	  font-size: 0.8em;
+		font-size: 0.8em;
 	  text-transform: uppercase;
 	  line-height: 3.6em;
 	  position: relative;
