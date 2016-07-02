@@ -64,23 +64,25 @@
 		$scope.logOut = function() {
 			localStorage.clear();
 			document.querySelector("body").className = "";
-			$scope.loggedIn = false;
+			$rootScope.loggedIn = false;
 			$rootScope.user = undefined;
 			$rootScope.currentCircle = undefined;
 			$state.go('login');
 		};
 
 		$scope.toggleMainMenu = function() {
-			var $menu = jQuery(".main-menu");
-			var open = $menu.hasClass("menu-open");
+			var scope = this;
+			var $menu = _(".main-menu");
+			var $btn = _("#main-menu-toggle");
 			var width = $menu.outerWidth(true);
-			if ( !open ) {
+			if ( !scope.mainMenuIsOpen ) {
 				$menu.ariaShow();
 				TweenMax.to($menu, 0.5, {
 					x: 0,
 					opacity: 1,
 					ease: Expo.easeOut
 				});
+				scope.mainMenuIsOpen = true;
 			} else {
 				TweenMax.to($menu, 0.5, {
 					x: -width + "px",
@@ -90,16 +92,15 @@
 						$menu.ariaHide();
 					}
 				});
+				scope.mainMenuIsOpen = false;
 			}
-
-			$menu.toggleClass("menu-open");
 		};
 
 		$scope.toggleDrawer = function(whichDrawer) {
-			var $drawer = jQuery(".bottom-drawer-" + whichDrawer);
+			var $drawer = _(".bottom-drawer-" + whichDrawer);
 			var open = $drawer.hasClass("drawer-open");
 			var height = $drawer.outerHeight(true);
-			if ( !open && jQuery(".drawer-open").length ) {
+			if ( !open && _(".drawer-open").length ) {
 				var drawers = ["add", "edit-circle"];
 
 				for (var i=0; i<drawers.length; i++) {

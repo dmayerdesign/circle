@@ -11,6 +11,7 @@ module.exports = mongoose.model('User', {
 	followers: [{userId: String}],
 	emailVerification: String,
 	isEmailVerified: Boolean,
+	primaryColor: String,
 	currency: {type: Number, default: 0},
 	achievements: [
 		{

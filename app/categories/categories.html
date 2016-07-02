@@ -2,11 +2,13 @@
 
 <nav ng-include src="'app/circle-nav.html'" ng-controller="mainController" class="col-md-8 col-md-offset-2 circle-nav"></nav>
 
-<main class="main category-archive">
-	<div class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories" style="position:relative;">
-		<a href="/#/?tag={{category.name}}" style="display:block; background-image: url({{category.image}});">
-			<span>#{{category.name}}</span>
-		</a>
-		<button class="trash-btn" ng-disabled="category.name === 'random'" ng-click="deleteCategory(category.name)"><i class="fa fa-trash"></i></button>
+<main class="main">
+	<div class="category-archive col-md-8 col-md-offset-2">
+		<div class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories" style="position:relative;">
+			<a href="/#/?tag={{category.name}}" style="display:block; background-image: url({{category.image}});">
+				<span>#{{category.name}}</span>
+			</a>
+			<button class="trash-btn" ng-disabled="category.name === 'random'" ng-click="deleteCategory(category.name)"><i class="fa fa-trash"></i></button>
+		</div>
 	</div>
 </main>

@@ -1,0 +1,89 @@
+$palettesMap: (
+	original-blue: (
+		primary: #4ea1d3,
+		secondary: #55a8da,
+		content: #d8e9ef,
+		accent: #e85a71,
+		text: #d8e9ef,
+		text-dark: #7a7c7e
+	),
+	troll-hollow: (
+		primary: #55967e,
+		secondary: #8F2D56,
+		content: #EFE6E9,
+		accent: #8F2D56,
+		text: #fafafa,
+		text-dark: #3F4B3B
+	),
+	sunlit-sail: (
+		primary: #004e66,
+		secondary: #fcbe32,
+		content: #e1eef6,
+		accent: #ffad08,
+		text: #e1eef6,
+		text-dark: #7a7c7e
+	)
+);
+
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+@mixin paletteBG( $palette: sunlit-sail, $color: primary ) {
+	$palette: map-get($palettesMap, $palette);
+	$bgColor: map-get($palette, $color);
+	background-color: $bgColor !important;
+}
+
+@mixin paletteColor( $palette: sunlit-sail, $color: primary ) {
+	$palette: map-get($palettesMap, $palette);
+	$color: map-get($palette, $color);
+	color: $color !important;
+}
+
+@mixin borderColor( $palette: sunlit-sail, $color: primary ) {
+	$palette: map-get($palettesMap, $palette);
+	$color: map-get($palette, $color);
+	border-color: $color !important;
+}
+
+$palettes: original-blue troll-hollow sunlit-sail;
+$colors: primary secondary content accent text text-dark;
+
+@each $palette in $palettes {
+	.palette-#{$palette} {
+		//@include paletteColor( $palette, text );
+
+		@each $color in $colors {
+			.c-bg-#{$color},
+			.c-bg-#{$color}:focus,
+			.c-bg-#{$color}-hover:hover,
+			.c-bg-#{$color}-hover:active {
+				@include paletteBG( $palette, $color );
+			}
+
+			.c-#{$color},
+			.c-#{$color}:focus,
+			.c-#{$color}-hover:hover,
+			.c-#{$color}-hover:active {
+				@include paletteColor( $palette, $color );
+			}
+
+			.c-#{$color}::-webkit-input-placeholder,
+			.c-#{$color}:-moz-input-placeholder,
+			.c-#{$color}::-moz-input-placeholder,
+			.c-#{$color}:-ms-input-placeholder {
+				@include paletteColor( $palette, $color );
+			}
+
+			.reg-form {
+				@include borderColor( $palette, primary );
+				@include paletteColor( $palette, text-dark );
+			}
+		}
+	}
+}
+

@@ -19,24 +19,32 @@
 		<div class="col-md-8 col-md-offset-2 posts-archive archive">
 
 			<!-- post -->
-			<div ng-repeat="post in posts | orderBy: postOrder:orderPostsAscending | limitTo:postsAllowed['allow']" class="post archive-post col-md-6 not-treated" data-post-id="{{post._id}}" data-creator-id="{{post.userId}}" data-link-set="{{post.linkEmbed}}" ng-click="$parent.goToPost(post._id)" data-images="{{post.images}}" data-post-type="{{post.type}}" ng-class="{'has-image': (archiveLinkPreviews[post._id].src || post.images[0])}">
-				<div class="post-inner c-bg-content tile" ng-style="{backgroundImage: 'url(' + (archiveLinkPreviews[post._id].src || post.images[0]) + ')'}">
-					<div class="post-content-main">
-						<div class="post-meta">
-							<div class="author">
-								<div ng-show="post.avatar.length" class="avatar-container" style="background-image: url({{post.avatar}})" data-user-id="{{post.userId}}"></div>
-								<div ng-hide="post.avatar.length" class="avatar-container no-avatar c-bg-aux-dark" data-user-id="{{post.userId}}"><span>{{post.user.split("")[0].toUpperCase()}}</span></div>
-								<span data-user-id="{{post.userId}}" class="author-name">{{post.authorName || post.user}}</span>
-							</div>
+			<div ng-repeat="post in posts | orderBy: postOrder:orderPostsAscending | limitTo:postsAllowed['allow']" class="post archive-post {{post.type}} col-md-6 not-treated" data-post-id="{{post._id}}" data-creator-id="{{post.userId}}" data-link-set="{{post.linkEmbed}}" ng-click="$parent.goToPost(post._id)" data-images="{{post.images}}" data-post-type="{{post.type}}" ng-class="{'has-image': (archiveLinkPreviews[post._id].src || post.images[0])}">
+				<div class="post-inner c-bg-content c-text-dark tile" ng-style="{backgroundImage: 'url(' + (archiveLinkPreviews[post._id].src || post.images[0]) + ')'}">
+					<div class="post-before c-bg-primary">
+						<h3 class="c-text">
+							<span ng-if="post.type == 'normal'"><i class="fa fa-pencil"></i></span>
+							<span ng-if="post.type == 'event'"><i class="fa fa-calendar"></i></span>
+							<span ng-if="post.type == 'quest'"><i class="fa fa-shield"></i></span>
+						</h3>
+						<div class="commenter" ng-repeat="commenter in getCommenters(post.comments)">
+							<div ng-show="commenter.avatar.length" class="avatar-container" style="background-image: url({{commenter.avatar}})"></div>
+							<div ng-hide="commenter.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[commenter.user].primaryColor}}"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
 						</div>
+					</div>
+					<div class="post-main">
 						<div class="content">
 							<article>{{post.content}}</article>
 						</div>
+						<div class="post-after">
+							<div class="author">
+								<div ng-show="post.avatar.length" class="avatar-container" style="background-image: url({{post.avatar}})" data-user-id="{{post.userId}}"></div>
+								<div ng-hide="post.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[post.userId].primaryColor}}"><span>{{post.user.split("")[0].toUpperCase()}}</span></div>
+								<span data-user-id="{{post.userId}}" class="author-name">{{post.authorName || post.user}}</span>
+							</div>
+						</div>
 					</div>
-					<div class="commenters" ng-repeat="commenter in getCommenters(post.comments)">
-						<div ng-show="commenter.avatar.length" class="avatar-container" style="background-image: url({{commenter.avatar}})"></div>
-						<div ng-hide="commenter.avatar.length" class="avatar-container no-avatar c-bg-aux-dark"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
-					</div>
+					
 				</div>
 			</div>
 			<!-- /post -->

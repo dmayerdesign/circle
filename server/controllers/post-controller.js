@@ -232,7 +232,6 @@ module.exports.getPosts = function(req, res) {
 			}
 
 			res.json(allPosts);
-			console.log("got posts");
 		}
 	});
 };

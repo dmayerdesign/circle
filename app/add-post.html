@@ -1,17 +1,18 @@
 		<!-- POST TYPE TABS -->
-		<div class="drawer-bar c-bg-primary tabs radio-tabs clearfix">
+		<div class="drawer-bar c-bg-primary tabs radio-tabs clearfix" ng-if="!$root.editPost">
 			<div class="drawer-bar-inner col-md-8 col-md-offset-2">
-				<input ng-model="newPost.type" id="post_type_regular" name="postType" value="regular" type="radio" />
-				<label class="inner-btn new-post-type-regular post-type-radio" for="post_type_regular">Regular</label>
+				<h3>Add a<span ng-if="newPost.type == 'event'">n</span> <span ng-if="newPost.type !== 'normal'">{{newPost.type}}</span><span ng-if="newPost.type == 'normal'">thing</span></h3>
+				<input ng-model="newPost.type" id="post_type_normal" name="postType" value="normal" type="radio" />
+				<label ng-show="newPost.type !== 'normal'" class="inner-btn new-post-type-normal post-type-radio" for="post_type_normal">Thing</label>
 
 				<input ng-model="newPost.type" id="post_type_event" name="postType" value="event" type="radio" />
-				<label class="inner-btn new-post-type-event post-type-radio" ng-click="initDatePicker()" for="post_type_event">Event</label>
+				<label ng-show="newPost.type !== 'event'" class="inner-btn new-post-type-event post-type-radio" ng-click="initDatePicker()" for="post_type_event">Event</label>
 
 				<input ng-model="newPost.type" id="post_type_quest" name="postType" value="quest" type="radio" />
-				<label class="inner-btn new-post-type-quest post-type-radio" for="post_type_quest">Quest</label>
+				<label ng-show="newPost.type !== 'quest'" class="inner-btn new-post-type-quest post-type-radio" for="post_type_quest">Quest</label>
 
 				<input ng-model="newPost.type" id="post_type_poll" name="postType" value="poll" type="radio" />
-				<label class="inner-btn new-post-type-poll post-type-radio" for="post_type_poll">Poll</label>
+				<label ng-show="newPost.type !== 'poll'" class="inner-btn new-post-type-poll post-type-radio" for="post_type_poll">Poll</label>
 			</div>
 		</div>
 
@@ -26,8 +27,8 @@
 					ng-keydown="selectFromList($event)" 
 					ng-keyup="generateLinkPreview(); findWithPrefixSymbol(); insertIntoPost($event, $root.selectedFromList.list, $root.selectedFromList.value)" 
 					id="new_post_content" 
-					class="form-control" 
-					placeholder="Type something"></textarea>
+					class="reg-form" 
+					placeholder="Give this thing some words"></textarea>
 
 				<div ng-if="linkPreview" class="link-preview">
 					<div class="link-preview-thumbnail">
@@ -57,8 +58,8 @@
 			<!-- EVENT -->
 			<div ng-if="newPost.type === 'event'">
 				<h5>Set the date and location</h5>
-				<input ng-model="newPost.eventDate" id="event_date" placeholder="Pick a date">
-				<input ng-model="newPost.eventLocation" id="event_location" placeholder="Where's it at?">
+				<input class="reg-form" ng-model="newPost.eventDate" id="event_date" placeholder="Pick a date">
+				<input class="reg-form" ng-model="newPost.eventLocation" id="event_location" placeholder="Where's it at?">
 			</div>
 
 			<!-- QUEST -->
@@ -66,7 +67,7 @@
 				<h5>What does someone get when they complete the quest?</h5>
 				<input type="number" ng-model="newPost.quest.worth.currency"> {{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
 				<br>or an achievement<br>
-				<input ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
+				<input class="reg-form" ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
 			</div>
 
 			<!-- POLL -->
@@ -74,7 +75,7 @@
 				<h5>Add some options</h5>
 				<button class="btn" ng-click="newPost.poll.push({})">add option</button>
 				<button class="btn" ng-click="newPost.poll.splice((newPost.poll.length - 1), 1)">remove option</button>
-				<input type="text" ng-repeat="options in newPost.poll track by $index" ng-model="newPost.poll[$index].choice">
+				<input class="reg-form" type="text" ng-repeat="options in newPost.poll track by $index" ng-model="newPost.poll[$index].choice">
 			</div>
 
 			<button class="btn c-bg-primary" ngf-select="upload($file)">Attach an image</button>

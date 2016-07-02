@@ -170,91 +170,64 @@ module.exports.removeMember = function(req, res) {
 };
 
 module.exports.updateBackground = function(req, res) {
-	var file = req.files.file,
-		userId = req.body.userId,
-		circleId = req.body.circleId;
-
-	console.log("User " + userId + " is submitting " , file);
-
-	var uploadDate = new Date().getTime();
-
-	mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
-
-		if (err) {
-			console.log("couldn't create the circle directory in uploads");
-			return;
-		}
-		
-		var tempPath = file.path;
-		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
-		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
-
-		mv(tempPath, targetPath, function(err) {
-			if (err) {
-				console.log(err);
-			} else {
-				Circle.findById(circleId, function(err, circleData) {
-					var circle = circleData;
-					circle.styles.bg = savePath;
-					circle.styles.lastEditedBy = userId;
-					circle.save(function(err) {
-						if (err) {
-							console.log("Save failed :(");
-							res.json({status: 500});
-						} else {
-							console.log("Save successful! ^_^");
-							res.json(circle);
-						}
-					})
-				});
-			}
-		});
-	});
+	updateImage(req, res, 'bg');
 };
 
 module.exports.updateLogo = function(req, res) {
-	var file = req.files.file,
+	updateImage(req, res, 'logo');
+};
+
+function updateImage(req, res, whichImage) {
+	var file = req.files && req.files.file,
 		userId = req.body.userId,
 		circleId = req.body.circleId;
 
-	console.log("User " + userId + " is submitting " , file);
+	if (req.body.linkedImageURI && !req.files) {
+		saveUpdatedImage(req.body.linkedImageURI);
+	}
+	else {
+		console.log("User " + userId + " is submitting " , file);
 
-	var uploadDate = new Date().getTime();
+		var uploadDate = new Date().getTime();
 
-	mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
+		mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
 
-		if (err) {
-			console.log("couldn't create the circle directory in uploads");
-			return;
-		}
-		
-		var tempPath = file.path;
-		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
-		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
-
-		mv(tempPath, targetPath, function(err) {
 			if (err) {
-				console.log(err);
-			} else {
-				Circle.findById(circleId, function(err, circleData) {
-					var circle = circleData;
-					circle.styles.logo = savePath;
-					circle.styles.lastEditedBy = userId;
-					circle.save(function(err) {
-						if (err) {
-							console.log("Save failed :(");
-							res.json({status: 500});
-						} else {
-							console.log("Logo save successful! ^_^");
-							console.log(circle);
-							res.json(circle);
-						}
-					})
-				});
+				console.log("couldn't create the circle directory in uploads");
+				return;
 			}
+			
+			var tempPath = file.path;
+			var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
+			var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
+
+			mv(tempPath, targetPath, function(err) {
+				if (err) {
+					console.log(err);
+				} else {
+					saveUpdatedImage(savePath);
+				}
+			});
 		});
-	});
-};
+	}
+
+	function saveUpdatedImage(savePath) {
+		Circle.findById(circleId, function(err, circleData) {
+			var circle = circleData;
+			circle.styles[whichImage] = savePath;
+			circle.styles.lastEditedBy = userId;
+			circle.save(function(err) {
+				if (err) {
+					console.log("Save failed :(");
+					res.json({status: 500});
+				} else {
+					console.log("Save successful! ^_^");
+					res.json(circle);
+				}
+			})
+		});
+	}
+}
 
 module.exports.updateCurrency = function(req, res) {
 	Circle.findById(req.body.circleId, function(err, circle) {

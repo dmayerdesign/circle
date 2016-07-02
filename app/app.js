@@ -33,7 +33,7 @@
 		})
 		.state('single', {
 			name: "single",
-			url: "/single/:id",
+			url: "/single/?id&tag",
 			templateUrl: "app/single/single.html",
 			controller: "singleController",
 		})
@@ -217,6 +217,13 @@
 	app.factory('action', function($http, $state) {
 		var action = {};
 
+		action.getUser = function(userId, callback) {
+			$http.get('api/users/getUser?userId=' + userId).then(function(response) {
+				if (callback)
+					callback(response.data);
+			});
+		};
+
 		action.loadMore = function loadMore(circleId, callback) {
 			$http.get('api/post/get?circleId=' + circleId)
 			.then(function(response) {
@@ -374,10 +381,6 @@
 				.className =  "theme-" + $scope.currentCircle.styles.theme
 							+ " palette-" + $scope.currentCircle.styles.palette
 							+ " font-" + $scope.currentCircle.styles.font;
-			
-			// var _customCSS = _("<style></style>");
-			// _customCSS.html( $scope.currentCircle.styles.css );
-			// _("head").append(_customCSS);
 
 			var fontLink;
 			if ( $scope.currentCircle.styles.font === "open-sans" && !jQuery(".open-sans-link").length ) { fontLink = "<link class='font-link open-sans-link' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>"; }

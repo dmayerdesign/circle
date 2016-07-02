@@ -30,6 +30,15 @@
 				});
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;
+
+					$rootScope.usersById = {};
+					$rootScope.users.forEach(function(user) {
+						$rootScope.usersById[user._id] = user;
+					});
+					$rootScope.usersByUsername = {};
+					$rootScope.users.forEach(function(user) {
+						$rootScope.usersByUsername[user.username] = user;
+					});
 				});
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
@@ -90,18 +99,34 @@
 
 
 
+		// Listen for state change
+		$rootScope.$on('$stateChangeStart', 
+		function(event, toState, toParams, fromState, fromParams){ 
+			console.log(toState);
+			if (toState.name === 'main' || toState.name === 'categories') {
+	  		_(".drawer-open").removeClass("drawer-open");
+			}
+		});
+
 		$rootScope.editPost = false;
 
 		$scope.postsAreFiltered = {};
-		$scope.postTypesAreFiltered = {};
+		$rootScope.postTypesAreFiltered = {};
 
 		$scope.postOrder = '-date';
 		$scope.orderPosts = function(postOrder) {
-			$scope.postOrder = postOrder;
-			$scope.orderPostsAscending = (postOrder === '-date') ? 'false' : 'true';
+			var scope = this;
+			if (!postOrder) {
+				scope.postOrder = "-date";
+				scope.orderPostsAscending = 'true';
+				return;
+			}
+			scope.postOrder = postOrder;
+			scope.orderPostsAscending = (postOrder === '-date') ? 'false' : 'true';
 		};
 
 		$scope.newPost = {
+			type: "normal",
 			content: "",
 			tags: [],
 			quest: {
@@ -157,6 +182,7 @@
 
 			var tagPattern, mentionPattern, tagMatch, mentionMatch;
 			var mentionsArr = [];
+			var request;
 
 			if ( that.newPost.content.length <= 1 ) {
 				return;
@@ -186,28 +212,28 @@
 			console.log(that.newPost.tags);
 			console.log(that.newPost.usersMentioned);
 
-			var request = {
-				"authorName": $rootScope.user.name,
-				"user": $rootScope.user.username || $rootScope.user.email,
-				"userId": $rootScope.user._id,
-				"avatar": $rootScope.user.avatar,
-				"circleId": $rootScope.currentCircle._id,
-				"content": that.newPost.content,
-				"images": that.newPost.images,
-				"type": that.newPost.type,
-				"tags": that.newPost.tags,
-				"quest": that.newPost.quest,
-				"poll": that.newPost.poll,
-				"usersMentioned": that.newPost.usersMentioned,
-				"eventDate": that.newPost.eventDate,
-				"eventLocation": that.newPost.eventLocation
-			};
-
 			if (edit) {
 				request = that.newPost;
 				request.edit = true;
 				$rootScope.post = request;
 				console.log(request);
+			} else {
+				request = {
+					"authorName": $rootScope.user.name,
+					"user": $rootScope.user.username || $rootScope.user.email,
+					"userId": $rootScope.user._id,
+					"avatar": $rootScope.user.avatar,
+					"circleId": $rootScope.currentCircle._id,
+					"content": that.newPost.content,
+					"images": that.newPost.images,
+					"type": that.newPost.type,
+					"tags": that.newPost.tags,
+					"quest": that.newPost.quest,
+					"poll": that.newPost.poll,
+					"usersMentioned": that.newPost.usersMentioned,
+					"eventDate": that.newPost.eventDate,
+					"eventLocation": that.newPost.eventLocation
+				};
 			}
 
 			if ( linkPreview ) {
@@ -248,6 +274,7 @@
 				}
 
 				that.newPost = {
+					type: "normal",
 					content: "",
 					tags: [],
 					quest: {
@@ -430,6 +457,51 @@
 			$scope.incomingPosts = undefined;
 		};
 
+		$scope.showPostsOfType = function(type) {
+			var that = this;
+
+			if ($location.search().tag) {
+				$location.search("tag", null);
+				$rootScope.archiveTag = null;
+			}
+			if ($location.search().user) {
+				$location.search("user", null);
+				$rootScope.archiveTag = null;
+			}
+			
+			init.getPosts($rootScope.currentCircle._id, function(posts) {
+				$scope.posts = posts;
+				that.postsAllowed = {allow: 20};
+
+				// if ( typeof that.postTypesAreFiltered === 'undefined' ) {
+				// 	that.postTypesAreFiltered = {};
+				// }
+
+				if ( !type || typeof type === 'undefined' ) {
+					$rootScope.postTypesAreFiltered = {};
+
+					// clear query parameter if it exists
+					if ( $location.search().tag || $location.search().user ) {
+						window.location.href = "/#/";
+					}
+
+					return $scope.posts;
+				} else {
+					$scope.posts = $filter('filter')($scope.posts, {type: type});
+					$rootScope.postTypesAreFiltered = {
+						filter: "types",
+						term: type
+					};
+					if (type === "event") {
+						that.orderPosts('-eventDate');
+					}
+
+					console.log($rootScope.postTypesAreFiltered);
+					return $scope.posts;
+				}
+			});
+		};
+
 		$scope.showPostsFiltered = function(list, item) {
 			var that = this;
 
@@ -437,9 +509,9 @@
 				$location.search("tag", null);
 				$rootScope.archiveTag = null;
 			}
-			if ($location.search().user && list === "tags") {
-				$location.search("user", null);
-			}
+			// if ($location.search().user && list === "tags") {
+			// 	$location.search("user", null);
+			// }
 
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
 				$scope.posts = posts;
@@ -456,8 +528,11 @@
 						term: item
 					};
 
-					console.log(that.postsAreFiltered);
 					$scope.posts = function() {
+						console.log($rootScope.postTypesAreFiltered);
+						if ($rootScope.postTypesAreFiltered.term) {
+							that.posts = $filter('filter')(that.posts, {type: $rootScope.postTypesAreFiltered.term});
+						}
 						if (list === 'tags') {
 							$location.search("tag", item);
 							return $filter('filter')(that.posts, {tags: item});
@@ -476,55 +551,15 @@
 			});
 		};
 
-		$scope.showPostsOfType = function(type) {
-			var that = this;
-
-			if ($location.search().tag) {
-				$location.search("tag", null);
-				$rootScope.archiveTag = null;
-			}
-			if ($location.search().user) {
-				$location.search("user", null);
-				$rootScope.archiveTag = null;
-			}
-			
-			init.getPosts($rootScope.currentCircle._id, function(posts) {
-				$scope.posts = posts;
-				that.postsAllowed = {allow: 20};
-
-				if ( !that.postTypesAreFiltered || typeof that.postTypesAreFiltered === 'undefined' ) {
-					that.postTypesAreFiltered = {};
-				}
-
-				if ( !type || typeof type === 'undefined' ) {
-					that.postTypesAreFiltered = {};
-
-					// clear query parameter if it exists
-					if ( $location.search().tag || $location.search().user ) {
-						window.location.href = "/#/";
-					}
-
-					return $scope.posts;
-				} else {
-					$scope.posts = $filter('filter')($scope.posts, {type: type});
-					that.postTypesAreFiltered = {
-						filter: "types",
-						term: type
-					};
-					return $scope.posts;
-				}
-			});
-		};
-
 		$scope.applyFilterClasses = function() {
-			if ( this.postTypesAreFiltered.filter && this.postsAreFiltered.filter ) {
-				return this.postTypesAreFiltered.term + " " + this.postsAreFiltered.term;
+			if ( $rootScope.postTypesAreFiltered.filter && this.postsAreFiltered.filter ) {
+				return $rootScope.postTypesAreFiltered.term + " " + this.postsAreFiltered.term;
 			}
 			if ( this.postsAreFiltered.filter ) {
 				return this.postsAreFiltered.term;
 			}
-			if ( this.postTypesAreFiltered.filter ) {
-				return this.postTypesAreFiltered.term;
+			if ( $rootScope.postTypesAreFiltered.filter ) {
+				return $rootScope.postTypesAreFiltered.term;
 			}
 		};
 
@@ -660,7 +695,7 @@
 
 		$scope.goToPost = function(post_id) {
 			console.log(window.location.href);
-			$state.go("single", {id: post_id});
+			$state.go("single", {id: post_id, tag: $location.search() && $location.search().tag});
 		};
 
 		$rootScope.archiveLinkPreviews = {};
@@ -685,19 +720,23 @@
 					theLink = match[0];
 					content = content.split(theLink); // get rid of the link
 					content = content.join("");
-
-					if ( content.length < 1 ) {
-						_post.addClass("post-preview-is-empty");
-					}
+					contentIsEmpty = content.length ? true : false;
 
 					if ( _post.data("link-set") ) {
 						setPostLinkData($scope, _post.data("link-set"));
 					} else {
 						_.get('http://api.embed.ly/1/oembed?key=be2a929b1b694e8d8156be52cca95192&url=' + theLink, function(data) {
 							setPostLinkData($scope, data);
-
 							// use $http.post to set the post link if it didn't get set during the posting process
 						});
+					}
+
+					if ( content.length < 1 ) {
+						//console.log($rootScope.archiveLinkPreviews[_post.data("post-id")]);
+						_post.addClass("post-preview-is-empty");
+						if ($rootScope.archiveLinkPreviews[_post.data("post-id")]) {
+							content = $rootScope.archiveLinkPreviews[_post.data("post-id")].title;
+						}
 					}
 
 					function setPostLinkData($scope, data) {

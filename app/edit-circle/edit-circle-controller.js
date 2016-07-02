@@ -94,22 +94,33 @@
 
 		$scope.updateImageFromLink = function(part, link) {
 			var endpoint;
+			var request;
 			if ( part === 'tagImage' ) { endpoint = 'api/tags/updateImage'; }
+			if ( part === 'background' ) { endpoint = 'api/circle/updateBackground'; }
+			if ( part === 'logo' ) { endpoint = 'api/circle/updateLogo'; }
 
-			if (part == 'tagImage' && $location.search().tag) {
-				$http.post(endpoint, {
-					userId: $rootScope.user._id,
-					circleId: $rootScope.currentCircle._id,
-					tagName: $location.search().tag,
-					linkedImageURI: link
-				}).then(function(tag) {
-					console.log(tag);
-					console.log("tag image updated");
-					$rootScope.archiveTag = tag;
-				}, function(err) {
-					console.error(err);
-				});
+			request = {
+				userId: $rootScope.user._id,
+				circleId: $rootScope.currentCircle._id,
+				linkedImageURI: link
+			};
+
+			if ( part === 'tagImage' ) {
+				request.tagName = $location.search().tag;
 			}
+
+			$http.post(endpoint, request).then(function(response) {
+				console.log(response.data);
+				console.log("image updated");
+				
+				if ( part === 'tagImage' ) {
+					$rootScope.archiveTag = response.data;
+				} else {
+					$rootScope.currentCircle = response.data;
+				}
+			}, function(err) {
+				console.error(err);
+			});
 		};
 
 		$scope.styleCircle = function(part) {

@@ -238,5 +238,11 @@
 			});
 		};
 
+		$scope.initDatePicker = function() {
+			setTimeout(function() {
+				_("#event_date").datepicker();
+			}, 300);
+		};
+
 	}]);
 }(jQuery));
