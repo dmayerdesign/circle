@@ -363,36 +363,46 @@ module.exports.updatePostUser = function(req, res) {
 };
 
 module.exports.attachImage = function(req, res) {
-	var file = req.files.file,
+	console.log(req.files);
+	console.log(req.body);
+	var file = req.files && req.files.file,
 		userId = req.body.userId,
 		circleId = req.body.circleId;
 
-	console.log("User " + userId + " is submitting " , file);
-
-	var uploadDate = new Date().getTime();
-
-	mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
-
-		if (err) {
-			console.log("couldn't create the circle directory in uploads");
-			return;
-		}
-		
-		var tempPath = file.path;
-		var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
-		var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
-
-		mv(tempPath, targetPath, function(err) {
-			if (err) {
-				console.log(err);
-				res.json({status: 500});
-			} else {
-				res.json({
-					filePath: savePath
-				});
-			}
+	if (req.body.linkedImageURI && !file) {
+		res.json({
+			filePath: req.body.linkedImageURI
 		});
-	});
+		return;
+	}
+	else {
+		console.log("User " + userId + " is submitting " , file);
+
+		var uploadDate = new Date().getTime();
+
+		mkdirp( path.join(__dirname, "../../uploads/" + circleId), function(err) {
+
+			if (err) {
+				console.log("couldn't create the circle directory in uploads");
+				return;
+			}
+			
+			var tempPath = file.path;
+			var targetPath = path.join(__dirname, "../../uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name);
+			var savePath = "/uploads/" + circleId + "/" + userId + "_" + uploadDate + "_" + file.name;
+
+			mv(tempPath, targetPath, function(err) {
+				if (err) {
+					console.log(err);
+					res.json({status: 500});
+				} else {
+					res.json({
+						filePath: savePath
+					});
+				}
+			});
+		});
+	}
 };
 
 module.exports.removeImage = function(req, res) {

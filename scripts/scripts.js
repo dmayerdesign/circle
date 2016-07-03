@@ -41,7 +41,9 @@
 		}
 	});
 
-	// SERIOUSLY DIRTY WORKAROUND for weird bug where all HTML except for inner text is stripped out of .post (the one that's ng-repeating in main.html)
+	// SERIOUSLY DIRTY WORKAROUND for weird bug where sometimes
+	// all HTML except for inner text is stripped out of .post
+	// (the one that's ng-repeating in main.html)
 	setTimeout(function() {
 		setInterval(function() {
 			var $archivePost = $(".archive-post");

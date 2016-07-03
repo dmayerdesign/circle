@@ -61,14 +61,16 @@ $colors: primary secondary content accent text text-dark;
 			.c-bg-#{$color},
 			.c-bg-#{$color}:focus,
 			.c-bg-#{$color}-hover:hover,
-			.c-bg-#{$color}-hover:active {
+			.c-bg-#{$color}-hover:active,
+			.c-bg-#{$color}-hover.active {
 				@include paletteBG( $palette, $color );
 			}
 
 			.c-#{$color},
 			.c-#{$color}:focus,
 			.c-#{$color}-hover:hover,
-			.c-#{$color}-hover:active {
+			.c-#{$color}-hover:active,
+			.c-#{$color}-hover.active {
 				@include paletteColor( $palette, $color );
 			}
 
@@ -77,6 +79,14 @@ $colors: primary secondary content accent text text-dark;
 			.c-#{$color}::-moz-input-placeholder,
 			.c-#{$color}:-ms-input-placeholder {
 				@include paletteColor( $palette, $color );
+			}
+
+			.c-bg-content {
+				@include paletteColor( $palette, text-dark );
+			}
+
+			.c-bg-primary {
+				@include paletteColor( $palette, text );
 			}
 
 			.reg-form {

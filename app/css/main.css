@@ -5,7 +5,7 @@ html {
 }
 
 body {
-	padding-top: 8em;
+	padding-top: 9em;
 	background: #000;
 	color: #fff;
 }
@@ -137,7 +137,7 @@ h1 *, h2 *, h3 *, h4 *, h5 *, p *, span * {
 }
 
 p {
-	font-size: 1.4em;
+	font-size: 1.1em;
 	line-height: 1.5;
 }
 
@@ -163,17 +163,19 @@ a, a:hover, a:focus {
 	opacity: 0 !important;
 }
 
-p {
-	color: #eefaff;
-}
-
-p.dark {
-	color: #708085;
-}
-
 
 
 /** THEMES **/
+.theme-smooth .app-bar,
+.theme-smooth .main-menu {
+	border-radius: 0.6em;
+}
+
+.theme-smooth .main-menu {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
 .theme-smooth .tile,
 .theme-smooth .post-main {
 	border-radius: 2.2em;
@@ -199,6 +201,17 @@ p.dark {
 }
 
 
+.theme-material .app-bar,
+.theme-material .main-menu {
+	border-radius: 0.2em;
+	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+
+.theme-material .main-menu {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
 .theme-material .tile,
 .theme-material .reg-form,
 .theme-material .bottom-drawer {
@@ -206,8 +219,8 @@ p.dark {
 	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
 }
 
-.theme-material .app-bar {
-	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+.theme-material .reg-form {
+	border-radius: 0.1em;
 }
 
 
@@ -370,6 +383,7 @@ nav {
 	position: relative;
 	height: 6em;
 	padding: 0;
+	margin-top: 1.6em;
 /*	
 	background-repeat: no-repeat !important;
   background-size: auto 4em !important;
@@ -451,14 +465,19 @@ nav {
 .main-menu {
 	position: absolute;
 		left: 0;
-		top: 6em;
+		top: 9em;
 		z-index: 110;
 	width: 30em;
     height: auto;
     padding: 4em;
 }
 
-
+@media screen and (max-width: 991px) {
+	.app-bar {
+		margin-top: 0;
+		border-radius: 0 !important;
+	}
+}
 
 
 
@@ -491,7 +510,7 @@ nav {
 	overflow: hidden;
 	height: 7em;
 	line-height: 1;
-	margin: 0 0 2em;
+	margin: 0 0 1.6em;
 }
 
 	.theme-smooth .circle-sorting .tile {
@@ -660,6 +679,7 @@ button:focus, button:active {
 
 	.inner-btn:hover span span,
 	.inner-btn:active span span,
+	.inner-btn.active span span,
 	.inner-btn:focus span span {
 		opacity: 1;
 	}
@@ -877,6 +897,7 @@ button:focus, button:active {
 
 		.theme-smooth .post .commenter .avatar-container {
 			width: 2.9em;
+			border-radius: 0.8em;
 		}
 
 .avatar-container.no-avatar span {
@@ -896,21 +917,29 @@ button:focus, button:active {
 	float: left;
 	font-size: 2.2em;
 	font-weight: normal;
-	margin: 1.1em 0.6em 0 0;
+	margin: 0.9em 0.6em 0 0;
 }
 
 .bottom-drawer {
 	position: absolute;
-	z-index: 100;
-	bottom: 0;
-	left: 5%;
-	padding-bottom: 8em;
-	width: 90%;
+		z-index: 100;
+		bottom: 0;
+	padding: 0 0 5em 0;
 	overflow: hidden;
+
+	box-shadow: 0.1em -0.3em 0.5em rgba(0,0,0,0.1);
 }
 
-.bottom-drawer {
-	box-shadow: 0.1em -0.3em 0.5em rgba(0,0,0,0.1);
+	.bottom-drawer .col-md-12 {
+		padding: 0 4em;
+	}
+
+.bottom-drawer p {
+	opacity: 0.8;
+}
+
+.bottom-drawer h4 {
+	margin-top: 1.8em;
 }
 
 .radio-tabs input {
@@ -922,11 +951,13 @@ button:focus, button:active {
 }
 
 .radio-tabs label {
-	font-size: 1.4em;
-	height: 5em;
-	padding: 0 0.6em;
-	line-height: 5.4em !important;
+	font-size: 2.2em;
+	height: 3em;
+	padding: 0 0.4em;
+	margin: 0;
+	line-height: 2.95em !important;
 	font-weight: normal;
+	opacity: 0.6;
 }
 
 .radio-tabs input:checked + label {
@@ -1033,8 +1064,8 @@ input, textarea {
 	-webkit-box-shadow: none;
 	outline: none !important;
 	border-bottom: 3px solid;
-	margin: 1em 0;
-	padding: 2em;
+	margin: 1em 0 0.4em;
+	padding: 1em;
 	font-size: 1.2em;
 
 	-webkit-transition: all 0.4s !important;
@@ -1042,6 +1073,10 @@ input, textarea {
 	-ms-transition: all 0.4s !important;
 	-o-transition: all 0.4s !important;
 	transition: all 0.4s !important;
+}
+
+textarea {
+	padding: 2em;
 }
 
 .reg-form {
@@ -1093,7 +1128,7 @@ input, textarea {
 /* ADD POST */
 
 .add-post-inner {
-	min-height: 20em;
+	min-height: 36em;
 }
 
 .floating-btn {
@@ -1121,6 +1156,32 @@ input, textarea {
 	background: #8bd;
   border: 2px solid #7ac;
 }
+
+.attach-image-btn,
+.attached-image {
+	float: left;
+	width: 10em;
+	height: 10em;
+	line-height: 9em;
+	margin-right: 1em;
+	border: 0;
+	text-align: center;
+	box-shadow: none;
+	outline: 0;
+	border-radius: 0.2em;
+	background-color: rgba(255,255,255,0.6);
+	background-size: 100% auto;
+	background-size: cover;
+}
+
+.attach-image-btn > * {
+	font-size: 5em;
+	opacity: 0.4;
+}
+
+	.attach-image-btn:hover > * {
+		opacity: 0.6;
+	}
 
 /* post search dropdown */
 .post-search-list {

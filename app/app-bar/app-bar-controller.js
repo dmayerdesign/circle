@@ -82,7 +82,7 @@
 					opacity: 1,
 					ease: Expo.easeOut
 				});
-				scope.mainMenuIsOpen = true;
+				$scope.mainMenuIsOpen = true;
 			} else {
 				TweenMax.to($menu, 0.5, {
 					x: -width + "px",
@@ -92,7 +92,7 @@
 						$menu.ariaHide();
 					}
 				});
-				scope.mainMenuIsOpen = false;
+				$scope.mainMenuIsOpen = false;
 			}
 		};
 

@@ -1,53 +1,71 @@
 .palette-original-blue .c-bg-primary,
 .palette-original-blue .c-bg-primary:focus,
 .palette-original-blue .c-bg-primary-hover:hover,
-.palette-original-blue .c-bg-primary-hover:active {
+.palette-original-blue .c-bg-primary-hover:active,
+.palette-original-blue .c-bg-primary-hover.active {
   background-color: #4ea1d3 !important; }
 .palette-original-blue .c-primary,
 .palette-original-blue .c-primary:focus,
 .palette-original-blue .c-primary-hover:hover,
-.palette-original-blue .c-primary-hover:active {
+.palette-original-blue .c-primary-hover:active,
+.palette-original-blue .c-primary-hover.active {
   color: #4ea1d3 !important; }
 .palette-original-blue .c-primary::-webkit-input-placeholder,
 .palette-original-blue .c-primary:-moz-input-placeholder,
 .palette-original-blue .c-primary::-moz-input-placeholder,
 .palette-original-blue .c-primary:-ms-input-placeholder {
   color: #4ea1d3 !important; }
+.palette-original-blue .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-original-blue .c-bg-primary {
+  color: #d8e9ef !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important;
   color: #7a7c7e !important; }
 .palette-original-blue .c-bg-secondary,
 .palette-original-blue .c-bg-secondary:focus,
 .palette-original-blue .c-bg-secondary-hover:hover,
-.palette-original-blue .c-bg-secondary-hover:active {
+.palette-original-blue .c-bg-secondary-hover:active,
+.palette-original-blue .c-bg-secondary-hover.active {
   background-color: #55a8da !important; }
 .palette-original-blue .c-secondary,
 .palette-original-blue .c-secondary:focus,
 .palette-original-blue .c-secondary-hover:hover,
-.palette-original-blue .c-secondary-hover:active {
+.palette-original-blue .c-secondary-hover:active,
+.palette-original-blue .c-secondary-hover.active {
   color: #55a8da !important; }
 .palette-original-blue .c-secondary::-webkit-input-placeholder,
 .palette-original-blue .c-secondary:-moz-input-placeholder,
 .palette-original-blue .c-secondary::-moz-input-placeholder,
 .palette-original-blue .c-secondary:-ms-input-placeholder {
   color: #55a8da !important; }
+.palette-original-blue .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-original-blue .c-bg-primary {
+  color: #d8e9ef !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important;
   color: #7a7c7e !important; }
 .palette-original-blue .c-bg-content,
 .palette-original-blue .c-bg-content:focus,
 .palette-original-blue .c-bg-content-hover:hover,
-.palette-original-blue .c-bg-content-hover:active {
+.palette-original-blue .c-bg-content-hover:active,
+.palette-original-blue .c-bg-content-hover.active {
   background-color: #d8e9ef !important; }
 .palette-original-blue .c-content,
 .palette-original-blue .c-content:focus,
 .palette-original-blue .c-content-hover:hover,
-.palette-original-blue .c-content-hover:active {
+.palette-original-blue .c-content-hover:active,
+.palette-original-blue .c-content-hover.active {
   color: #d8e9ef !important; }
 .palette-original-blue .c-content::-webkit-input-placeholder,
 .palette-original-blue .c-content:-moz-input-placeholder,
 .palette-original-blue .c-content::-moz-input-placeholder,
 .palette-original-blue .c-content:-ms-input-placeholder {
+  color: #d8e9ef !important; }
+.palette-original-blue .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-original-blue .c-bg-primary {
   color: #d8e9ef !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important;
@@ -55,35 +73,47 @@
 .palette-original-blue .c-bg-accent,
 .palette-original-blue .c-bg-accent:focus,
 .palette-original-blue .c-bg-accent-hover:hover,
-.palette-original-blue .c-bg-accent-hover:active {
+.palette-original-blue .c-bg-accent-hover:active,
+.palette-original-blue .c-bg-accent-hover.active {
   background-color: #e85a71 !important; }
 .palette-original-blue .c-accent,
 .palette-original-blue .c-accent:focus,
 .palette-original-blue .c-accent-hover:hover,
-.palette-original-blue .c-accent-hover:active {
+.palette-original-blue .c-accent-hover:active,
+.palette-original-blue .c-accent-hover.active {
   color: #e85a71 !important; }
 .palette-original-blue .c-accent::-webkit-input-placeholder,
 .palette-original-blue .c-accent:-moz-input-placeholder,
 .palette-original-blue .c-accent::-moz-input-placeholder,
 .palette-original-blue .c-accent:-ms-input-placeholder {
   color: #e85a71 !important; }
+.palette-original-blue .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-original-blue .c-bg-primary {
+  color: #d8e9ef !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important;
   color: #7a7c7e !important; }
 .palette-original-blue .c-bg-text,
 .palette-original-blue .c-bg-text:focus,
 .palette-original-blue .c-bg-text-hover:hover,
-.palette-original-blue .c-bg-text-hover:active {
+.palette-original-blue .c-bg-text-hover:active,
+.palette-original-blue .c-bg-text-hover.active {
   background-color: #d8e9ef !important; }
 .palette-original-blue .c-text,
 .palette-original-blue .c-text:focus,
 .palette-original-blue .c-text-hover:hover,
-.palette-original-blue .c-text-hover:active {
+.palette-original-blue .c-text-hover:active,
+.palette-original-blue .c-text-hover.active {
   color: #d8e9ef !important; }
 .palette-original-blue .c-text::-webkit-input-placeholder,
 .palette-original-blue .c-text:-moz-input-placeholder,
 .palette-original-blue .c-text::-moz-input-placeholder,
 .palette-original-blue .c-text:-ms-input-placeholder {
+  color: #d8e9ef !important; }
+.palette-original-blue .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-original-blue .c-bg-primary {
   color: #d8e9ef !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important;
@@ -91,18 +121,24 @@
 .palette-original-blue .c-bg-text-dark,
 .palette-original-blue .c-bg-text-dark:focus,
 .palette-original-blue .c-bg-text-dark-hover:hover,
-.palette-original-blue .c-bg-text-dark-hover:active {
+.palette-original-blue .c-bg-text-dark-hover:active,
+.palette-original-blue .c-bg-text-dark-hover.active {
   background-color: #7a7c7e !important; }
 .palette-original-blue .c-text-dark,
 .palette-original-blue .c-text-dark:focus,
 .palette-original-blue .c-text-dark-hover:hover,
-.palette-original-blue .c-text-dark-hover:active {
+.palette-original-blue .c-text-dark-hover:active,
+.palette-original-blue .c-text-dark-hover.active {
   color: #7a7c7e !important; }
 .palette-original-blue .c-text-dark::-webkit-input-placeholder,
 .palette-original-blue .c-text-dark:-moz-input-placeholder,
 .palette-original-blue .c-text-dark::-moz-input-placeholder,
 .palette-original-blue .c-text-dark:-ms-input-placeholder {
   color: #7a7c7e !important; }
+.palette-original-blue .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-original-blue .c-bg-primary {
+  color: #d8e9ef !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important;
   color: #7a7c7e !important; }
@@ -110,89 +146,119 @@
 .palette-troll-hollow .c-bg-primary,
 .palette-troll-hollow .c-bg-primary:focus,
 .palette-troll-hollow .c-bg-primary-hover:hover,
-.palette-troll-hollow .c-bg-primary-hover:active {
+.palette-troll-hollow .c-bg-primary-hover:active,
+.palette-troll-hollow .c-bg-primary-hover.active {
   background-color: #55967e !important; }
 .palette-troll-hollow .c-primary,
 .palette-troll-hollow .c-primary:focus,
 .palette-troll-hollow .c-primary-hover:hover,
-.palette-troll-hollow .c-primary-hover:active {
+.palette-troll-hollow .c-primary-hover:active,
+.palette-troll-hollow .c-primary-hover.active {
   color: #55967e !important; }
 .palette-troll-hollow .c-primary::-webkit-input-placeholder,
 .palette-troll-hollow .c-primary:-moz-input-placeholder,
 .palette-troll-hollow .c-primary::-moz-input-placeholder,
 .palette-troll-hollow .c-primary:-ms-input-placeholder {
   color: #55967e !important; }
+.palette-troll-hollow .c-bg-content {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-primary {
+  color: #fafafa !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important;
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-bg-secondary,
 .palette-troll-hollow .c-bg-secondary:focus,
 .palette-troll-hollow .c-bg-secondary-hover:hover,
-.palette-troll-hollow .c-bg-secondary-hover:active {
+.palette-troll-hollow .c-bg-secondary-hover:active,
+.palette-troll-hollow .c-bg-secondary-hover.active {
   background-color: #8F2D56 !important; }
 .palette-troll-hollow .c-secondary,
 .palette-troll-hollow .c-secondary:focus,
 .palette-troll-hollow .c-secondary-hover:hover,
-.palette-troll-hollow .c-secondary-hover:active {
+.palette-troll-hollow .c-secondary-hover:active,
+.palette-troll-hollow .c-secondary-hover.active {
   color: #8F2D56 !important; }
 .palette-troll-hollow .c-secondary::-webkit-input-placeholder,
 .palette-troll-hollow .c-secondary:-moz-input-placeholder,
 .palette-troll-hollow .c-secondary::-moz-input-placeholder,
 .palette-troll-hollow .c-secondary:-ms-input-placeholder {
   color: #8F2D56 !important; }
+.palette-troll-hollow .c-bg-content {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-primary {
+  color: #fafafa !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important;
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-bg-content,
 .palette-troll-hollow .c-bg-content:focus,
 .palette-troll-hollow .c-bg-content-hover:hover,
-.palette-troll-hollow .c-bg-content-hover:active {
+.palette-troll-hollow .c-bg-content-hover:active,
+.palette-troll-hollow .c-bg-content-hover.active {
   background-color: #EFE6E9 !important; }
 .palette-troll-hollow .c-content,
 .palette-troll-hollow .c-content:focus,
 .palette-troll-hollow .c-content-hover:hover,
-.palette-troll-hollow .c-content-hover:active {
+.palette-troll-hollow .c-content-hover:active,
+.palette-troll-hollow .c-content-hover.active {
   color: #EFE6E9 !important; }
 .palette-troll-hollow .c-content::-webkit-input-placeholder,
 .palette-troll-hollow .c-content:-moz-input-placeholder,
 .palette-troll-hollow .c-content::-moz-input-placeholder,
 .palette-troll-hollow .c-content:-ms-input-placeholder {
   color: #EFE6E9 !important; }
+.palette-troll-hollow .c-bg-content {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-primary {
+  color: #fafafa !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important;
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-bg-accent,
 .palette-troll-hollow .c-bg-accent:focus,
 .palette-troll-hollow .c-bg-accent-hover:hover,
-.palette-troll-hollow .c-bg-accent-hover:active {
+.palette-troll-hollow .c-bg-accent-hover:active,
+.palette-troll-hollow .c-bg-accent-hover.active {
   background-color: #8F2D56 !important; }
 .palette-troll-hollow .c-accent,
 .palette-troll-hollow .c-accent:focus,
 .palette-troll-hollow .c-accent-hover:hover,
-.palette-troll-hollow .c-accent-hover:active {
+.palette-troll-hollow .c-accent-hover:active,
+.palette-troll-hollow .c-accent-hover.active {
   color: #8F2D56 !important; }
 .palette-troll-hollow .c-accent::-webkit-input-placeholder,
 .palette-troll-hollow .c-accent:-moz-input-placeholder,
 .palette-troll-hollow .c-accent::-moz-input-placeholder,
 .palette-troll-hollow .c-accent:-ms-input-placeholder {
   color: #8F2D56 !important; }
+.palette-troll-hollow .c-bg-content {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-primary {
+  color: #fafafa !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important;
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-bg-text,
 .palette-troll-hollow .c-bg-text:focus,
 .palette-troll-hollow .c-bg-text-hover:hover,
-.palette-troll-hollow .c-bg-text-hover:active {
+.palette-troll-hollow .c-bg-text-hover:active,
+.palette-troll-hollow .c-bg-text-hover.active {
   background-color: #fafafa !important; }
 .palette-troll-hollow .c-text,
 .palette-troll-hollow .c-text:focus,
 .palette-troll-hollow .c-text-hover:hover,
-.palette-troll-hollow .c-text-hover:active {
+.palette-troll-hollow .c-text-hover:active,
+.palette-troll-hollow .c-text-hover.active {
   color: #fafafa !important; }
 .palette-troll-hollow .c-text::-webkit-input-placeholder,
 .palette-troll-hollow .c-text:-moz-input-placeholder,
 .palette-troll-hollow .c-text::-moz-input-placeholder,
 .palette-troll-hollow .c-text:-ms-input-placeholder {
+  color: #fafafa !important; }
+.palette-troll-hollow .c-bg-content {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-primary {
   color: #fafafa !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important;
@@ -200,18 +266,24 @@
 .palette-troll-hollow .c-bg-text-dark,
 .palette-troll-hollow .c-bg-text-dark:focus,
 .palette-troll-hollow .c-bg-text-dark-hover:hover,
-.palette-troll-hollow .c-bg-text-dark-hover:active {
+.palette-troll-hollow .c-bg-text-dark-hover:active,
+.palette-troll-hollow .c-bg-text-dark-hover.active {
   background-color: #3F4B3B !important; }
 .palette-troll-hollow .c-text-dark,
 .palette-troll-hollow .c-text-dark:focus,
 .palette-troll-hollow .c-text-dark-hover:hover,
-.palette-troll-hollow .c-text-dark-hover:active {
+.palette-troll-hollow .c-text-dark-hover:active,
+.palette-troll-hollow .c-text-dark-hover.active {
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-text-dark::-webkit-input-placeholder,
 .palette-troll-hollow .c-text-dark:-moz-input-placeholder,
 .palette-troll-hollow .c-text-dark::-moz-input-placeholder,
 .palette-troll-hollow .c-text-dark:-ms-input-placeholder {
   color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-content {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-primary {
+  color: #fafafa !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important;
   color: #3F4B3B !important; }
@@ -219,53 +291,71 @@
 .palette-sunlit-sail .c-bg-primary,
 .palette-sunlit-sail .c-bg-primary:focus,
 .palette-sunlit-sail .c-bg-primary-hover:hover,
-.palette-sunlit-sail .c-bg-primary-hover:active {
+.palette-sunlit-sail .c-bg-primary-hover:active,
+.palette-sunlit-sail .c-bg-primary-hover.active {
   background-color: #004e66 !important; }
 .palette-sunlit-sail .c-primary,
 .palette-sunlit-sail .c-primary:focus,
 .palette-sunlit-sail .c-primary-hover:hover,
-.palette-sunlit-sail .c-primary-hover:active {
+.palette-sunlit-sail .c-primary-hover:active,
+.palette-sunlit-sail .c-primary-hover.active {
   color: #004e66 !important; }
 .palette-sunlit-sail .c-primary::-webkit-input-placeholder,
 .palette-sunlit-sail .c-primary:-moz-input-placeholder,
 .palette-sunlit-sail .c-primary::-moz-input-placeholder,
 .palette-sunlit-sail .c-primary:-ms-input-placeholder {
   color: #004e66 !important; }
+.palette-sunlit-sail .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-primary {
+  color: #e1eef6 !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important;
   color: #7a7c7e !important; }
 .palette-sunlit-sail .c-bg-secondary,
 .palette-sunlit-sail .c-bg-secondary:focus,
 .palette-sunlit-sail .c-bg-secondary-hover:hover,
-.palette-sunlit-sail .c-bg-secondary-hover:active {
+.palette-sunlit-sail .c-bg-secondary-hover:active,
+.palette-sunlit-sail .c-bg-secondary-hover.active {
   background-color: #fcbe32 !important; }
 .palette-sunlit-sail .c-secondary,
 .palette-sunlit-sail .c-secondary:focus,
 .palette-sunlit-sail .c-secondary-hover:hover,
-.palette-sunlit-sail .c-secondary-hover:active {
+.palette-sunlit-sail .c-secondary-hover:active,
+.palette-sunlit-sail .c-secondary-hover.active {
   color: #fcbe32 !important; }
 .palette-sunlit-sail .c-secondary::-webkit-input-placeholder,
 .palette-sunlit-sail .c-secondary:-moz-input-placeholder,
 .palette-sunlit-sail .c-secondary::-moz-input-placeholder,
 .palette-sunlit-sail .c-secondary:-ms-input-placeholder {
   color: #fcbe32 !important; }
+.palette-sunlit-sail .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-primary {
+  color: #e1eef6 !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important;
   color: #7a7c7e !important; }
 .palette-sunlit-sail .c-bg-content,
 .palette-sunlit-sail .c-bg-content:focus,
 .palette-sunlit-sail .c-bg-content-hover:hover,
-.palette-sunlit-sail .c-bg-content-hover:active {
+.palette-sunlit-sail .c-bg-content-hover:active,
+.palette-sunlit-sail .c-bg-content-hover.active {
   background-color: #e1eef6 !important; }
 .palette-sunlit-sail .c-content,
 .palette-sunlit-sail .c-content:focus,
 .palette-sunlit-sail .c-content-hover:hover,
-.palette-sunlit-sail .c-content-hover:active {
+.palette-sunlit-sail .c-content-hover:active,
+.palette-sunlit-sail .c-content-hover.active {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .c-content::-webkit-input-placeholder,
 .palette-sunlit-sail .c-content:-moz-input-placeholder,
 .palette-sunlit-sail .c-content::-moz-input-placeholder,
 .palette-sunlit-sail .c-content:-ms-input-placeholder {
+  color: #e1eef6 !important; }
+.palette-sunlit-sail .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-primary {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important;
@@ -273,35 +363,47 @@
 .palette-sunlit-sail .c-bg-accent,
 .palette-sunlit-sail .c-bg-accent:focus,
 .palette-sunlit-sail .c-bg-accent-hover:hover,
-.palette-sunlit-sail .c-bg-accent-hover:active {
+.palette-sunlit-sail .c-bg-accent-hover:active,
+.palette-sunlit-sail .c-bg-accent-hover.active {
   background-color: #ffad08 !important; }
 .palette-sunlit-sail .c-accent,
 .palette-sunlit-sail .c-accent:focus,
 .palette-sunlit-sail .c-accent-hover:hover,
-.palette-sunlit-sail .c-accent-hover:active {
+.palette-sunlit-sail .c-accent-hover:active,
+.palette-sunlit-sail .c-accent-hover.active {
   color: #ffad08 !important; }
 .palette-sunlit-sail .c-accent::-webkit-input-placeholder,
 .palette-sunlit-sail .c-accent:-moz-input-placeholder,
 .palette-sunlit-sail .c-accent::-moz-input-placeholder,
 .palette-sunlit-sail .c-accent:-ms-input-placeholder {
   color: #ffad08 !important; }
+.palette-sunlit-sail .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-primary {
+  color: #e1eef6 !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important;
   color: #7a7c7e !important; }
 .palette-sunlit-sail .c-bg-text,
 .palette-sunlit-sail .c-bg-text:focus,
 .palette-sunlit-sail .c-bg-text-hover:hover,
-.palette-sunlit-sail .c-bg-text-hover:active {
+.palette-sunlit-sail .c-bg-text-hover:active,
+.palette-sunlit-sail .c-bg-text-hover.active {
   background-color: #e1eef6 !important; }
 .palette-sunlit-sail .c-text,
 .palette-sunlit-sail .c-text:focus,
 .palette-sunlit-sail .c-text-hover:hover,
-.palette-sunlit-sail .c-text-hover:active {
+.palette-sunlit-sail .c-text-hover:active,
+.palette-sunlit-sail .c-text-hover.active {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .c-text::-webkit-input-placeholder,
 .palette-sunlit-sail .c-text:-moz-input-placeholder,
 .palette-sunlit-sail .c-text::-moz-input-placeholder,
 .palette-sunlit-sail .c-text:-ms-input-placeholder {
+  color: #e1eef6 !important; }
+.palette-sunlit-sail .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-primary {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important;
@@ -309,18 +411,24 @@
 .palette-sunlit-sail .c-bg-text-dark,
 .palette-sunlit-sail .c-bg-text-dark:focus,
 .palette-sunlit-sail .c-bg-text-dark-hover:hover,
-.palette-sunlit-sail .c-bg-text-dark-hover:active {
+.palette-sunlit-sail .c-bg-text-dark-hover:active,
+.palette-sunlit-sail .c-bg-text-dark-hover.active {
   background-color: #7a7c7e !important; }
 .palette-sunlit-sail .c-text-dark,
 .palette-sunlit-sail .c-text-dark:focus,
 .palette-sunlit-sail .c-text-dark-hover:hover,
-.palette-sunlit-sail .c-text-dark-hover:active {
+.palette-sunlit-sail .c-text-dark-hover:active,
+.palette-sunlit-sail .c-text-dark-hover.active {
   color: #7a7c7e !important; }
 .palette-sunlit-sail .c-text-dark::-webkit-input-placeholder,
 .palette-sunlit-sail .c-text-dark:-moz-input-placeholder,
 .palette-sunlit-sail .c-text-dark::-moz-input-placeholder,
 .palette-sunlit-sail .c-text-dark:-ms-input-placeholder {
   color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-content {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-primary {
+  color: #e1eef6 !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important;
   color: #7a7c7e !important; }

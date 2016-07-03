@@ -115,14 +115,15 @@
 
 		$scope.postOrder = '-date';
 		$scope.orderPosts = function(postOrder) {
-			var scope = this;
 			if (!postOrder) {
-				scope.postOrder = "-date";
-				scope.orderPostsAscending = 'true';
+				$scope.postOrder = "date";
+				$scope.orderPostsAscending = 'true';
+				console.log( $scope.postOrder );
 				return;
 			}
-			scope.postOrder = postOrder;
-			scope.orderPostsAscending = (postOrder === '-date') ? 'false' : 'true';
+			$scope.postOrder = postOrder;
+			$scope.orderPostsAscending = (postOrder === '-date') ? 'false' : 'true';
+			console.log($scope.postOrder);
 		};
 
 		$scope.newPost = {
@@ -159,8 +160,11 @@
 				})
 				.success(function(res) {
 					console.log(res.filePath);
-					scope.newPost.images.push(res.filePath);
-					scope.uploadInProgress = false;
+					if (scope.newPost.images.indexOf(res.filePath) === -1) {
+						scope.newPost.images.push(res.filePath);
+						scope.uploadInProgress = false;
+						scope.showAttachmentOptions = false;
+					}
 				})
 				.error(function(err) {
 					console.error(err);
@@ -805,6 +809,44 @@
 				}
 			});
 			return commenters;
+		};
+
+		$scope.toggleActiveButtons = setInterval(function() {
+			var scope = this;
+			_(".inner-btn").click(function() {
+				_(".inner-btn.active").removeClass("active");
+				_(this).toggleClass("active");
+				if (_(this).length) {
+					clearInterval(scope.toggleActiveButtons);
+				}
+			});
+		}, 500);
+
+		$scope.attachImageFromLink = function(link) {
+			var scope = this;
+			console.log(link);
+			var request = {
+				userId: $rootScope.user._id,
+				circleId: $rootScope.currentCircle._id,
+				linkedImageURI: link
+			};
+
+			$http.post('api/post/attachImage', request).then(function(response) {
+				console.log(response.data);
+				console.log("image attached");
+				
+				if ( !$scope.newPost.images.length ) {
+					$scope.newPost.images = [];
+				}
+				if (scope.newPost.images.indexOf(response.data.filePath) === -1) {
+					$scope.newPost.images.push(response.data.filePath);
+				}
+				scope.imgLink = null;
+				scope.showAttachmentOptions = false;
+
+			}, function(err) {
+				console.error(err);
+			});
 		};
 
 	}]);
