@@ -415,10 +415,15 @@
 			}
 		};
 
+		$scope.listIsActive = function() {
+			return _(".list-active li").length;
+		};
+
 		$scope.selectFromList = function(event) {
 			var scope = this;
 			var selectObj = $rootScope.selectedFromList;
-			var _firstInList = _(".list-active li").first();
+			var _activeList = _(".list-active");
+			var _firstInList = _activeList.find("li").first();
 			var _selected = _(".list-active li.selected");
 
 			if (event.keyCode !== 40 && event.keyCode !== 38) {
@@ -431,26 +436,33 @@
 			} else {
 				if (event.keyCode === 40) {
 					_selected.removeClass("selected").next("li").addClass("selected");
+
 					if ( !_selected.next("li").length ) {
 						_firstInList.addClass("selected");
+						_activeList.scrollTop(0);
+					} else {
+						_activeList.scrollTop(_selected.next("li").offset().top);
 					}
 				}
 				if (event.keyCode === 38) {
 					_selected.removeClass("selected").prev("li").addClass("selected");
+
 					if ( !_selected.prev("li").length ) {
 						selectObj = null;
 						return;
+					} else {
+						_activeList.scrollTop(_selected.prev("li").offset().top);
 					}
 				}
-			}
 
-			if ( _(".list-active.post-search-list-members").length ) {
-				selectObj.list = "members";
+				if ( _(".list-active.post-search-list-members").length ) {
+					selectObj.list = "members";
+				}
+				if ( _(".list-active.post-search-list-tags").length ) {
+					selectObj.list = "tags";
+				}
+				selectObj.value = _(".list-active .selected").data("value");
 			}
-			if ( _(".list-active.post-search-list-tags").length ) {
-				selectObj.list = "tags";
-			}
-			selectObj.value = _(".list-active .selected").data("value");
 
 			$rootScope.selectedFromList = selectObj;
 			console.log(selectObj);

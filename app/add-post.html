@@ -44,14 +44,14 @@
 			</div>
 
 			<!-- TAG AND MENTION LISTS -->
-			<div ng-show="symbolSearch.members" ng-class="{'list-active': symbolSearch.members}" class="post-search-list post-search-list-members">
+			<div ng-show="symbolSearch.members && listIsActive()" ng-class="{'list-active': symbolSearch.members}" class="post-search-list post-search-list-members">
 				<ul>
 					<li ng-repeat="user in $root.users | filter: attemptFind" ng-click="insertIntoPost($event, 'members', user.username)" class="post-search-list-select c-bg-content" data-value="{{user.username}}">
 						<img width="40" src="{{user.avatar}}"> {{user.name}} <span class="username"><span class="symbol">#</span>{{user.username}}</span>
 					</li>
 				</ul>
 			</div>
-			<div ng-show="symbolSearch.tags" ng-class="{'list-active': symbolSearch.tags}" class="post-search-list post-search-list-tags">
+			<div ng-show="symbolSearch.tags && listIsActive()" ng-class="{'list-active': symbolSearch.tags}" class="post-search-list post-search-list-tags">
 				<ul>
 					<li ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind" ng-click="insertIntoPost($event, 'tags', tag)" class="post-search-list-select c-bg-content" data-value="{{tag}}"><span class="symbol">#</span>{{tag}}</li>
 				</ul>
@@ -59,17 +59,22 @@
 
 			<!-- EVENT -->
 			<div ng-if="newPost.type === 'event'">
-				<h5>Set the date and location</h5>
+				<h4>Set the date and location</h4>
 				<input class="reg-form" ng-model="newPost.eventDate" id="event_date" placeholder="Pick a date">
 				<input class="reg-form" ng-model="newPost.eventLocation" id="event_location" placeholder="Where's it at?">
 			</div>
 
 			<!-- QUEST -->
-			<div ng-if="newPost.type === 'quest'">
-				<h5>What does someone get when they complete the quest?</h5>
-				<input type="number" ng-model="newPost.quest.worth.currency"> {{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}
-				<br>or an achievement<br>
-				<input class="reg-form" ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="What's the name of this achievement?">
+			<div class="clearfix" ng-if="newPost.type === 'quest'">
+				<h4>What does someone get when they complete the quest?</h4>
+				<div class="quest-form quest-form-left">
+					<input class="reg-form compact" type="number" ng-model="newPost.quest.worth.currency">
+					<p>{{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}</p>
+				</div>
+				<div class="quest-form quest-form-right">
+					<input class="reg-form compact" ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="Name the achievement">
+					<p>and/or an achievement</p>
+				</div>
 			</div>
 
 			<!-- POLL -->
@@ -81,12 +86,14 @@
 			</div>
 
 			<h4>Give this thing an image (or a few)</h4>
-			<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
-			<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>
-			
-			<input ng-show="showAttachmentOptions" class="" ng-model="imgLink" placeholder="paste image URL">
-			<button ng-show="showAttachmentOptions" class="btn c-bg-primary" ng-click="attachImageFromLink(imgLink)">Attach image from URL</button>
-			<button ng-show="showAttachmentOptions" class="btn c-bg-primary" ngf-select="upload($file)">Upload from your computer</button>
+			<div class="attach-images clearfix">
+				<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
+				<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>
+				
+				<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" placeholder="paste image URL">
+				<button ng-show="showAttachmentOptions" class="btn c-bg-primary" ng-click="attachImageFromLink(imgLink)">Attach image from URL</button>
+				<button ng-show="showAttachmentOptions" class="btn c-bg-primary" ngf-select="upload($file)">Upload from your computer</button>
+			</div>
 
-			<button ng-click="sendPost()" class="btn btn-primary">Post</button>
+			<button ng-click="sendPost()" class="btn floating-btn send-btn c-bg-primary c-bg-accent-hover tile">Post</button>
 		</div>

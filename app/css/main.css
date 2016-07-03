@@ -69,6 +69,10 @@ body.font-open-sans {
 	font-family: 'Open Sans';
 }
 
+body.font-pridi {
+	font-family: 'Pridi';
+}
+
 *[aria-hidden="true"] {
 	display: none;
 }
@@ -936,10 +940,12 @@ button:focus, button:active {
 
 .bottom-drawer p {
 	opacity: 0.8;
+	margin-bottom: 0;
 }
 
 .bottom-drawer h4 {
-	margin-top: 1.8em;
+	margin-top: 1.6em;
+	margin-bottom: 0.8em;
 }
 
 .radio-tabs input {
@@ -1081,11 +1087,21 @@ textarea {
 
 .reg-form {
 	padding: 1.4em 1.5em;
+	margin-top: 0;
 	border-bottom-width: 0.6em;
 	background: rgba(255,255,255,0.5);
 
 	font-size: 1.6em;
 }
+
+	.reg-form.compact {
+		padding: 0.6em 1.5em;
+	}
+
+	.reg-form[type="number"] {
+		width: 4em;
+		padding-right: 0.2em;
+	}
 
 .line-form {
 	background: none;
@@ -1129,6 +1145,7 @@ textarea {
 
 .add-post-inner {
 	min-height: 36em;
+	padding-top: 2em !important;
 }
 
 .floating-btn {
@@ -1148,13 +1165,33 @@ textarea {
 	box-shadow: none;
 }
 
-.floating-btn[disabled] {
-	opacity: 0.5;
+	.floating-btn[disabled] {
+		opacity: 0.5;
+	}
+
+.send-btn {
+	float: left;
+	clear: both;
+	margin-top: 2em;
 }
 
 .ui-datepicker {
 	background: #8bd;
   border: 2px solid #7ac;
+}
+
+.attach-images {
+	margin-bottom: 1em;
+}
+
+.attach-images button {
+	float: left;
+	margin-right: 1em;
+}
+
+.attach-images .reg-form {
+	float: left;
+	margin-top: 1em;
 }
 
 .attach-image-btn,
@@ -1174,6 +1211,10 @@ textarea {
 	background-size: cover;
 }
 
+	.theme-material .attached-image {
+		box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+	}
+
 .attach-image-btn > * {
 	font-size: 5em;
 	opacity: 0.4;
@@ -1189,14 +1230,15 @@ textarea {
 	position: absolute;
 		z-index: 110;
 		top: 11em;
-	overflow: scroll;
+	overflow: auto;
 	width: 100%;
-	max-height: 12em;
+	height: 12em;
 	background: transparent;
 	box-shadow: 1px 3px 8px rgba(0,0,0,0.1);
 }
 
 .post-search-list ul {
+	position: relative;
 	width: 100%;
 	padding: 0;
 	margin: 0;
@@ -1215,6 +1257,16 @@ textarea {
 .post-search-list ul li.selected {
 	opacity: 1;
 }
+
+/* QUEST */
+
+.quest-form {
+	float: left;
+}
+
+	.quest-form-left {
+		margin-right: 1em;
+	}
 
 
 /* SETUP FORMS (signup and create/join circle) */

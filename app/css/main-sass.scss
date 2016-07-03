@@ -93,6 +93,11 @@ $colors: primary secondary content accent text text-dark;
 				@include borderColor( $palette, primary );
 				@include paletteColor( $palette, text-dark );
 			}
+
+			.selected {
+				@include paletteBG( $palette, primary );
+				@include paletteColor( $palette, text );
+			}
 		}
 	}
 }
