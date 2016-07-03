@@ -811,16 +811,24 @@
 			return commenters;
 		};
 
-		$scope.toggleActiveButtons = setInterval(function() {
-			var scope = this;
-			_(".inner-btn").click(function() {
-				_(".inner-btn.active").removeClass("active");
-				_(this).toggleClass("active");
-				if (_(this).length) {
-					clearInterval(scope.toggleActiveButtons);
-				}
-			});
-		}, 500);
+		// $scope.toggleActiveButtons = function() {
+		// 	var scope = this;
+		// 	_(".inner-btn").click(function() {
+		// 		var _this = _(this);
+		// 		console.log(_this.hasClass("active"));
+		// 		_(".inner-btn.active").not(_this).removeClass("active");
+		// 		if (_this.hasClass("active")) {
+		// 			if (_this.hasClass("app-bar-btn")) {
+		// 				_this.removeClass("active");
+		// 			}
+		// 		} else {
+		// 			_this.addClass("active");
+		// 		}
+		// 	});
+		// 	// if (_(".inner-btn").length) {
+		// 	// 	clearInterval(scope.toggleActiveButtons);
+		// 	// }
+		// }();
 
 		$scope.attachImageFromLink = function(link) {
 			var scope = this;

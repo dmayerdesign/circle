@@ -406,6 +406,31 @@
     };
 	});
 
+	app.directive('toggleClass', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        element.bind('click', function() {
+          element.toggleClass(attrs.toggleClass);
+        });
+      }
+    };
+	});
+
+	app.directive('stickyToggleClass', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        element.bind('click', function() {
+        	if (!element.hasClass(attrs.stickyToggleClass)) {
+        		_(".circle-nav .inner-btn").removeClass(attrs.stickyToggleClass);
+          	element.addClass(attrs.stickyToggleClass);
+        	}
+        });
+      }
+    };
+	});
+
 	app.filter('startFrom', function() {
 		return function(input, start) {
 	    if(input) {

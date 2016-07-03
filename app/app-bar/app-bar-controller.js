@@ -151,6 +151,25 @@
 			_(".posts-archive").toggleClass("bottom-drawer-toggled");
 		};
 
+		_(window).load(function() {
+			_(document).click(function(e) {
+				var _target = _(e.target);
+
+				if (_target.hasClass("app-bar-btn") || _target.parents(".app-bar-btn").length) {
+					return;
+				}
+
+				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer")) {
+					if (_(".drawer-open").hasClass("bottom-drawer-add")) {
+						$scope.toggleDrawer("add");
+					} else {
+						$scope.toggleDrawer("edit-circle");
+					}
+					_(".app-bar-btn").removeClass("active");
+				}
+			});
+		});
+
 		$scope.switchCircles = function(accessCode) {
 			var scope = this;
 			var user = this.user;

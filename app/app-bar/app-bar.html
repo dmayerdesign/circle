@@ -5,12 +5,12 @@
 	</h3>
 	<h3 ng-if="!circleJoined"><a ui-sref="main">Circle</a></h3>
 
-	<button id="main-menu-toggle" class="app-bar-btn app-bar-left inner-btn" ng-if="loggedIn && !emailNotVerified" ng-click="toggleMainMenu()" ng-class="{'toggled': mainMenuIsOpen}">
+	<button id="main-menu-toggle" class="app-bar-btn app-bar-left inner-btn" toggle-class="active" ng-if="loggedIn && !emailNotVerified" ng-click="toggleMainMenu()" ng-class="{'toggled': mainMenuIsOpen}">
 		<i ng-if="!mainMenuIsOpen" class="fa fa-bars"></i>
 		<i ng-if="mainMenuIsOpen" class="fa fa-long-arrow-left"></i>
 		</button>
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-cog"></i></button>
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-magic"></i></button>
+	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-cog"></i></button>
+	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-magic"></i></button>
 </div>
 
 <div class="main-menu c-bg-primary" ng-class="{'main-menu-open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
