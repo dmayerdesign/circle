@@ -936,6 +936,10 @@ button:focus, button:active {
 		line-height: 2.9em;
 	}
 
+		.post .commenter .avatar-container.no-avatar {
+			border: 0.2em solid rgba(255,255,255,0.5);
+		}
+
 		.theme-smooth .post .commenter .avatar-container {
 			width: 2.9em;
 			border-radius: 0.8em;
@@ -1024,12 +1028,26 @@ button:focus, button:active {
 
 /* ADD POST */
 
-.floating-btn {
+.add-post-btn-container {
 	position: absolute;
-		z-index: 120;
-		bottom: 0;
-		right: 0;
+    z-index: 120;
+    bottom: 4em;
+  overflow: visible;
 }
+
+.floating-btn {
+	float: right;
+	width: 6em;
+  height: 6em;
+  border-radius: 12em;
+  box-shadow: 0.2em 0.1em 0.8em rgba(0,0,0,0.3);
+}
+	
+	.floating-btn:hover,
+	.floating-btn:active,
+	.floating-btn.active {
+		box-shadow: 0.5em 0.4em 1.2em rgba(0,0,0,0.3) !important;
+	}
 
 .reg-btn {
 	display: block;

@@ -13,11 +13,12 @@
 	<script src="app/gs/TweenMax.min.js"></script>
 
 <!-- jQuery and jQuery UI -->
-	<!-- <link rel="stylesheet" href="scripts/jquery/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css"> -->
 	<link rel="stylesheet" href="scripts/jquery/jquery-ui-1.11.4/jquery-ui.css">
 	<script src="scripts/jquery/jquery-1.12.3.min.js"></script>
 	<script src="scripts/jquery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-	<script src="scripts/jquery/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<!-- jQuery TouchSwipe -->
+	<script src="scripts/jquery.touchswipe.min.js"></script>
 
 <!-- IMAGES LOADED / IMAGE FILL -->
 	<script type="text/javascript" src="scripts/imagesloaded.pkgd.min.js"></script>
@@ -60,7 +61,9 @@
 <!-- EDIT CIRCLE -->
 	<section ng-if="$root.currentCircle" ng-include src="'app/edit-circle.html'" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-content col-md-10 col-md-offset-1" aria-hidden="true"></section>
 
-	<button ng-if="$root.currentCircle" ng-controller="appBarController" class="app-bar-btn floating-btn c-bg-primary c-bg-accent-active" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-magic"></i></button>
+	<div ng-controller="appBarController" class="add-post-btn-container col-md-10 col-md-offset-1">
+		<button ng-if="$root.currentCircle" class="btn app-bar-btn floating-btn c-bg-primary c-bg-accent-active" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady"><i class="fa fa-magic"></i></button>
+	</div>
 
 	<!-- ANGULAR -->
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->

@@ -228,6 +228,7 @@
 
 					_(this).addClass("animation-initiated");
 					setResponsiveMaxHeight(_(this).find(".drawer-inner"));
+					makeDraggableToClose(_(this));
 				});
 
 				$sidebars.each(function() {
@@ -276,16 +277,32 @@
 
 			function makeDraggable(_element) {
 				_(document)
-				.on("swiperight", function() {
-					if (!_element.hasClass("open")) {
-						$scope.toggleMainMenu();
+				.swipe({
+  				swipe:function(event, direction, distance, duration, fingerCount){
+						if (!_element.hasClass("open") && direction === "right") {
+							$scope.toggleMainMenu();
+						}
+
+						if (_element.hasClass("open") && direction === "left") {
+							$scope.toggleMainMenu();
+						}
 					}
-				})
-				.on("swipeleft", function() {
-					if (_element.hasClass("open")) {
-						$scope.toggleMainMenu();
+				});
+			}
+
+			function makeDraggableToClose(_element) {
+				_element.swipe({
+					swipe:function(event, direction, distance, duration, fingerCount){
+						if (direction === "down" && _element.hasClass("drawer-open")) {
+							if (_element.is(".bottom-drawer-add")) {
+								$scope.toggleDrawer("add");
+							}
+							if (_element.is(".bottom-drawer-edit-circle")) {
+								$scope.toggleDrawer("edit-circle");
+							}
+						}
 					}
-				})
+				});
 			}
 
 			if (callback)
