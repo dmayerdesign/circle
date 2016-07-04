@@ -452,8 +452,11 @@
       restrict: 'A',
       link: function(scope, element, attrs) {
         element.bind('click', function() {
+        	var wasToggled = _(element).hasClass(attrs.toggleClass);
         	_("." + attrs.toggleClass).removeClass(attrs.toggleClass);
-          element.toggleClass(attrs.toggleClass);
+          if (!wasToggled) {
+          	element.toggleClass(attrs.toggleClass);
+          }
         });
       }
     };

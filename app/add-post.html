@@ -17,7 +17,7 @@
 		</div>
 
 		<!-- ADD POST MAIN -->
-		<div class="drawer-inner col-md-12">
+		<div class="drawer-inner col-md-12" ng-click="hideAttachmentOptions($event)">
 
 			<!-- POST BODY -->
 			<div class="new-post-content">
@@ -30,7 +30,7 @@
 					class="reg-form" 
 					placeholder="Give this thing some words"></textarea>
 
-				<p>include <strong>#tags</strong> or <strong>@mentions</strong> anywhere in your post</p>
+				<p>include <strong>#tags</strong> or <strong>@mentions</strong> anywhere in your words</p>
 
 				<div ng-if="linkPreview" class="link-preview">
 					<div class="link-preview-thumbnail">

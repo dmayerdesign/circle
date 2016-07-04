@@ -602,9 +602,12 @@ nav {
 	position: relative;
 		z-index: 99;
 		top: -2.1em;
-	float: left;
-	width: 40%;
 	padding: 0 1em 0 0;
+}
+
+.refine-filter li {
+	width: 50%;
+	margin: 0;
 }
 
 button:focus, button:active {
@@ -623,7 +626,7 @@ button:focus, button:active {
   outline: none;
   border: none;
   background: transparent;
-  line-height: 7em !important;
+  line-height: 6.8em !important;
   padding: 0 2em;
 
   text-align: center;
@@ -671,19 +674,18 @@ button:focus, button:active {
 	}
 
 .inner-btn > span {
+	display: inline-block;
 	font-weight: bold;
 	letter-spacing: 0.1em;
+	line-height: 1.1em !important;
+	font-size: 0.9em;
 }
-
-	.inner-btn > span {
-	  font-size: 0.9em;
-	}
 
 	.inner-btn.has-icon > span {
 		display: inline-block;
 		font-size: 0.8em;
 	  text-transform: uppercase;
-	  line-height: 3.6em;
+	  line-height: 3.6em !important;
 	  position: relative;
 	  bottom: -1.1em;
 	}
@@ -733,6 +735,14 @@ button:focus, button:active {
 
 .square-btn {
 	height: 10em !important;
+}
+
+.btn-text {
+	font-size: 0.8em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
 }
 
 @media screen and (max-width: 400px) {
@@ -1028,7 +1038,7 @@ button:focus, button:active {
 
 /* ADD POST */
 
-.add-post-btn-container {
+.floating-btn-container {
 	position: absolute;
     z-index: 120;
     bottom: 4em;
@@ -1040,7 +1050,7 @@ button:focus, button:active {
 	width: 6em;
   height: 6em;
   border-radius: 12em;
-  box-shadow: 0.2em 0.1em 0.8em rgba(0,0,0,0.3);
+  box-shadow: 0.2em 0.1em 0.8em rgba(0,0,0,0.3) !important;
 }
 	
 	.floating-btn:hover,
@@ -1062,6 +1072,16 @@ button:focus, button:active {
 	text-align: center;
 	/*box-shadow: 1px 2px 3px rgba(0,0,0,0.1);*/
 	box-shadow: none;
+}
+
+.reg-btn-alt {
+	font-size: 1em;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
+	box-shadow: none;
+  padding: 1.9em 2.6em;
 }
 
 .send-btn {
@@ -1178,6 +1198,12 @@ button:focus, button:active {
 	width: 75%;
 	padding-left: 20px;
 	border-left: 6px solid #eeeeee;
+}
+
+@media screen and (max-width: 991px) {
+	.floating-btn-container {
+		width: 100%;
+	}
 }
 
 /* FORMS */

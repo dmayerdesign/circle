@@ -527,12 +527,12 @@
 				that.postsAllowed = {allow: 20};
 
 				if ( !list || typeof list === 'undefined' ) {
-					that.postsAreFiltered = {};
+					$scope.postsAreFiltered = {};
 					$rootScope.archiveTag = null;
 					$scope.postsAllowed = {allow: 20};
 					return $scope.posts;
 				} else {
-					that.postsAreFiltered = {
+					$scope.postsAreFiltered = {
 						filter: list,
 						term: item
 					};
@@ -804,6 +804,13 @@
 			}, function(err) {
 				console.error(err);
 			});
+		};
+
+		$scope.hideAttachmentOptions = function(event) {
+			var scope = this;
+			if (!_(event.target).is(".attach-images *")) {
+				scope.showAttachmentOptions = false;
+			}
 		};
 
 	}]);

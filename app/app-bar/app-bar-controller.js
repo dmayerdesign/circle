@@ -183,7 +183,7 @@
 					}
 				}
 
-				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer")) {
+				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer") && !_target.is(".add-post-btn-container")) {
 					if (_(".drawer-open").hasClass("bottom-drawer-add")) {
 						$scope.toggleDrawer("add");
 					} else {
@@ -281,7 +281,7 @@
 				}
 				_(document)
 				.swipe({
-  				swipe:function(event, direction, distance, duration, fingerCount){
+  				swipe: function(event, direction, distance, duration, fingerCount){
 						if (!_element.hasClass("open") && direction === "right") {
 							$scope.toggleMainMenu();
 						}
@@ -289,7 +289,8 @@
 						if (_element.hasClass("open") && direction === "left") {
 							$scope.toggleMainMenu();
 						}
-					}
+					},
+					allowPageScroll: "vertical"
 				});
 			}
 
@@ -298,7 +299,7 @@
 					return;
 				}
 				_element.swipe({
-					swipe:function(event, direction, distance, duration, fingerCount){
+					swipe: function(event, direction, distance, duration, fingerCount){
 						if (direction === "down" && _element.hasClass("drawer-open")) {
 							if (_element.is(".bottom-drawer-add")) {
 								$scope.toggleDrawer("add");
@@ -307,7 +308,8 @@
 								$scope.toggleDrawer("edit-circle");
 							}
 						}
-					}
+					},
+					allowPageScroll: "vertical"
 				});
 			}
 
