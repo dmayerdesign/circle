@@ -25,9 +25,6 @@
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
 
-				init.getCircles(user.username, function(circles) {
-					$rootScope.circles = circles;
-				});
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;
 
@@ -43,10 +40,6 @@
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};
-					initUI(function() {
-						$rootScope.drawersReady = true;
-					});
-					init.initFinal(_("body"));
 
 					// Search for filter in query string
 					var searchQueryString = setInterval(function() {
@@ -454,15 +447,15 @@
 						_activeList.scrollTop(_selected.prev("li").offset().top);
 					}
 				}
-
-				if ( _(".list-active.post-search-list-members").length ) {
-					selectObj.list = "members";
-				}
-				if ( _(".list-active.post-search-list-tags").length ) {
-					selectObj.list = "tags";
-				}
-				selectObj.value = _(".list-active .selected").data("value");
 			}
+
+			if ( _(".list-active.post-search-list-members").length ) {
+				selectObj.list = "members";
+			}
+			if ( _(".list-active.post-search-list-tags").length ) {
+				selectObj.list = "tags";
+			}
+			selectObj.value = _(".list-active .selected").data("value");
 
 			$rootScope.selectedFromList = selectObj;
 			console.log(selectObj);
@@ -670,45 +663,6 @@
 			}
 		};
 
-		function initUI(callback) {
-			var initDrawers = function($drawers, $sidebars) {
-				$drawers.each(function() {
-					var height = _(this).outerHeight(true);
-					TweenMax.fromTo( _(this), 0.1, {
-						y: 500 // needs to be jumpstarted for some reason
-					},
-					{
-						y: height,
-						delay: 1
-					});
-
-					_(this).addClass("animation-initiated");
-				});
-
-				$sidebars.each(function() {
-					var width = _(this).outerWidth(true);
-					TweenMax.fromTo( _(this), 0.1, {
-						x: -500 // needs to be jumpstarted for some reason
-					},
-					{
-						x: -width,
-						delay: 1
-					});
-
-					_(this).addClass("animation-initiated");
-				});
-			};
-			initDrawers( _(".bottom-drawer"), _(".main-menu") );
-
-			var initAddPost = function() {
-				_("#post_type_regular").prop("checked", true);
-			};
-			initAddPost();
-
-			if (callback)
-				callback();
-		}
-
 		$scope.goToPost = function(post_id) {
 			console.log(window.location.href);
 			$state.go("single", {id: post_id, tag: $location.search() && $location.search().tag});
@@ -804,23 +758,6 @@
 			setTimeout(function() {
 				_("#event_date").datepicker();
 			}, 300);
-		};
-
-		$scope.commenter = {};
-		$scope.getCommenters = function(comments) {
-			var scope = this;
-			var commenters = [];
-
-			comments.forEach(function(comment) {
-				scope.commenter.authorName = comment.authorName;
-				scope.commenter.user = comment.user;
-				scope.commenter.avatar = comment.avatar;
-
-				if (commenters.indexOf(scope.commenter) === -1) {
-					commenters.push(scope.commenter);
-				}
-			});
-			return commenters;
 		};
 
 		// $scope.toggleActiveButtons = function() {

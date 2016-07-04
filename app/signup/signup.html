@@ -34,7 +34,7 @@
 					<label for="password_confirm">Confirm Password</label>
 					<input id="password_confirm" placeholder="Confirm your password" type="password" ng-model="$parent.passwordConf" ng-keyup="confirmPassword()" ng-class="{'invalid': $parent.passwordConf.length && !passwordsMatch, 'valid': passwordsMatch}" class="form-control line-form">
 
-					<button ng-disabled="!$parent.newUser.email || !$parent.newUser.username || !$parent.passwordsMatch" type="button" class="floating-btn bg-primary" ng-click="signupJoinCircle = true">Next</button>
+					<button ng-disabled="!$parent.newUser.email || !$parent.newUser.username || !$parent.passwordsMatch" type="button" class="centered-btn bg-primary" ng-click="signupJoinCircle = true">Next</button>
 				</section>
 			</div>
 
@@ -49,7 +49,7 @@
 						<label for="access_code">Access Code</label>
 						<input id="access_code" type="password" ng-model="$parent.newUser.accessCode" class="form-control line-form">
 
-						<button class="floating-btn bg-accent">Let's effin do this</button>
+						<button class="centered-btn bg-accent">Let's effin do this</button>
 
 					<div ng-if="userExists">Hey, looks like there's already an account with that email. Let's redirect you to the login page...</div>
 				</section>

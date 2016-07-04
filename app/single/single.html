@@ -3,22 +3,22 @@
 <section class="main col-sm-8 col-sm-offset-2 {{post.type}}" id="post single-post">
 	<ul ng-if="$root.user._id === post.userId" class="single-post-menu">
 		<li id="delete_post_sequence">
-			<button class="btn btn-primary" ng-if="!deletePostClicked" ng-click="deletePostClick('try')">Delete</button>
-			<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePost(post._id)">Yes</button>
-			<button class="btn btn-primary" ng-show="deletePostClicked" ng-click="deletePostClick('cancel')">No</button>
+			<button class="btn reg-btn c-bg-primary" ng-if="!deletePostClicked" ng-click="deletePostClick('try')">Delete</button>
+			<button class="btn reg-btn c-bg-primary" ng-show="deletePostClicked" ng-click="deletePost(post._id)">Yes</button>
+			<button class="btn reg-btn c-bg-primary" ng-show="deletePostClicked" ng-click="deletePostClick('cancel')">No</button>
 		</li>
 		<li>
-			<button ng-controller="mainController" ng-click="$root.editPost = true; initDatePicker()">Edit post</button>
+			<button class="btn reg-btn c-bg-primary" ng-controller="mainController" ng-click="$root.editPost = true; initDatePicker()">Edit post</button>
 		</li>
 	</ul>
 
-	<button class="btn" ng-class="{'btn-default': post.reactions.like.users.indexOf($root.user.username) == -1, 'btn-primary': post.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react('like', 'comment', post._id)">Like ({{post.reactions.like.amount}})</button>
-	<button class="btn" ng-class="{'btn-default': post.reactions.love.users.indexOf($root.user.username) == -1, 'btn-primary': post.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react('love', 'comment', post._id)">Love ({{post.reactions.love.amount}})</button>
+	<button class="btn reg-btn" ng-class="{'c-bg-secondary': post.reactions.like.users.indexOf($root.user.username) == -1, 'c-bg-primary': post.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react('like', 'comment', post._id)">Like ({{post.reactions.like.amount}})</button>
+	<button class="btn reg-btn" ng-class="{'c-bg-secondary': post.reactions.love.users.indexOf($root.user.username) == -1, 'c-bg-primary': post.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react('love', 'comment', post._id)">Love ({{post.reactions.love.amount}})</button>
 
 	<div ng-if="post.type == 'quest' && $root.user._id == post.userId">
 		<ul ng-if="post.quest.status !== 'completed'">
 			<li>
-				<button ng-click="allCompletedQuest(post._id, post.usersMentioned)">Everyone completed the quest</button>
+				<button class="btn reg-btn c-bg-primary" ng-click="allCompletedQuest(post._id, post.usersMentioned)">Everyone completed the quest</button>
 			</li>
 			<li ng-repeat="user in post.usersMentioned">
 				<button ng-click="completedQuest(post._id, user)">@{{user}} completed the quest</button>

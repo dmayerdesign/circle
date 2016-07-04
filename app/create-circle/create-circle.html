@@ -1,9 +1,9 @@
 <main ng-if="!circleJoined && loggedIn && !emailNotVerified">
 	<div class="setup-form-container container-fluid">
 		<div class="animate-opacity-motion-du floating-animation" ng-show="!optJoin && !optCreate">
-			<button ng-click="optJoin = true" class="floating-btn bg-primary">Join a circle</button>
+			<button ng-click="optJoin = true" class="centered-btn bg-primary">Join a circle</button>
 			<br>
-			<button ng-click="optCreate = true" class="floating-btn bg-primary">Create a circle</button>
+			<button ng-click="optCreate = true" class="centered-btn bg-primary">Create a circle</button>
 		</div>
 
 		<form ng-show="optCreate" class="setup-form animate-opacity-motion-du" ng-submit="createCircle()">
@@ -13,7 +13,7 @@
 						<span ng-if="circleNameValidationStarted">
 							<span ng-if="!circleNameValid">Choose a name for your circle</span>
 						</span>
-					<button type="button" ng-disabled="!circleName || !circleNameValid" ng-click="nameChosen = true" class="floating-btn bg-primary next-btn">Next</button>
+					<button type="button" ng-disabled="!circleName || !circleNameValid" ng-click="nameChosen = true" class="centered-btn bg-primary next-btn">Next</button>
 				</section>
 			</div>
 			
@@ -25,7 +25,7 @@
 						<span ng-if="validationStarted">
 							<span ng-if="!accessAnswerValid && !accessAnswerTooShort" style="color: red">Taken - try another</span><span ng-if="accessAnswerValid" style="color: green">Available!</span><span ng-if="accessAnswerTooShort" style="color: red">Too short</span>
 						</span>
-					<button class="floating-btn bg-accent">Create</button>
+					<button class="centered-btn bg-accent">Create</button>
 				</section>
 			</div>
 		</form>
@@ -34,7 +34,7 @@
 			<section class="col-md-4 col-md-offset-4">
 				<input ng-model="$parent.accessCode" class="form-control" placeholder="The access code" />
 				<input ng-model="$parent.accessAnswer" class="form-control" placeholder="The access answer" />
-				<button class="floating-btn bg-accent">Join</button>
+				<button class="centered-btn bg-accent">Join</button>
 			</section>
 		</form>
 	</div>

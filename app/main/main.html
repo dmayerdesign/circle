@@ -28,10 +28,11 @@
 							<span ng-if="post.type == 'quest'"><i class="fa fa-shield"></i></span>
 							<span ng-if="post.type == 'poll'"><i class="fa fa-check-square"></i></span>
 						</h3>
-						<div class="commenter" ng-repeat="commenter in getCommenters(post.comments)">
+						<div class="commenter" ng-repeat="commenter in post.commenters | limitTo: 3">
 							<div ng-show="commenter.avatar.length" class="avatar-container" style="background-image: url({{commenter.avatar}})"></div>
 							<div ng-hide="commenter.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[commenter.user].primaryColor}}"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
 						</div>
+						<div class="more-commenters" ng-show="post.commenters.length > 3">+ {{post.commenters.length - 3}}</div>
 					</div>
 					<div class="post-main">
 						<div class="content">

@@ -13,9 +13,11 @@
 	<script src="app/gs/TweenMax.min.js"></script>
 
 <!-- jQuery and jQuery UI -->
-	<script src="scripts/jquery/jquery-1.12.3.min.js"></script>
+	<!-- <link rel="stylesheet" href="scripts/jquery/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css"> -->
 	<link rel="stylesheet" href="scripts/jquery/jquery-ui-1.11.4/jquery-ui.css">
+	<script src="scripts/jquery/jquery-1.12.3.min.js"></script>
 	<script src="scripts/jquery/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+	<script src="scripts/jquery/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
 <!-- IMAGES LOADED / IMAGE FILL -->
 	<script type="text/javascript" src="scripts/imagesloaded.pkgd.min.js"></script>
@@ -50,7 +52,7 @@
 		<div ng-class="{'visible': $root.archiveTag}" class="background category-bg animate-opacity" style="background-image:url({{$root.archiveTag.image}})"></div>
 	</div>
 
-	<div class="state-{{$root.currentState}}" ui-view></div>
+	<div class="state-{{$root.currentState}}" ui-view role="main"></div>
 
 <!-- ADD POST -->
 	<section ng-if="$root.currentCircle" ng-include src="'app/add-post.html'" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-content col-md-10 col-md-offset-1" aria-hidden="true"></section>
@@ -58,6 +60,7 @@
 <!-- EDIT CIRCLE -->
 	<section ng-if="$root.currentCircle" ng-include src="'app/edit-circle.html'" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-content col-md-10 col-md-offset-1" aria-hidden="true"></section>
 
+	<button ng-if="$root.currentCircle" ng-controller="appBarController" class="app-bar-btn floating-btn c-bg-primary c-bg-accent-active" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-magic"></i></button>
 
 	<!-- ANGULAR -->
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->

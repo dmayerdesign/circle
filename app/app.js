@@ -102,6 +102,22 @@
 			});
 		};
 
+		init.getCirclesFromAccessCodes = function(accessCodes, callback) {
+			accessCodes.forEach(function(accessCode, index, codes) {
+				$http.get('api/circle/get?accessCode=' + accessCode).then(function(response) {
+					var circle = response.data;
+					var circles = {};
+
+					circles[accessCode] = circle;
+					localStorage.setItem('Circles', JSON.stringify(circles));
+
+					console.log(circles);
+					if (callback && index === (codes.length - 1))
+						callback(circles);
+				});
+			});
+		};
+
 		init.app = function(userId, accessCode, callback) {
 			var that = this;
 			var localCode = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']).accessCode;
@@ -166,6 +182,31 @@
 			$http.get('api/post/get?circleId=' + circleId)
 			.then(function(response) {
 				if (callback) {
+					response.data.forEach(function(post, index, posts) {
+						if (post.comments) {
+							var comments = post.comments;
+							var commenter;
+							var isDup;
+
+							post.commenters = [];
+							comments.forEach(function(comment) {
+								commenter = {};
+								commenter.authorName = comment.authorName;
+								commenter.user = comment.user;
+								commenter.avatar = comment.avatar;
+
+								post.commenters.forEach(function(test) {
+									 if (test.user == commenter.user) {
+									 	isDup = true;
+									 }
+								});
+								if (!isDup) {
+									post.commenters.push(commenter);
+								}
+							});
+							posts[index] = post;
+						}
+					});
 					callback(response.data);
 				}
 				_(".checked-for-tag").removeClass("checked-for-tag");
@@ -353,7 +394,7 @@
 					for (i = 0; i < mentionMatch.length; i++) {
 						theMention = mentionMatch[i];
 						content = content.split(theMention);
-						content[0] += "<a href='/#/?user=" + theMention.replace("@", "") + "' class='mention' style='background:#ddeff2'>" + theMention + "</a>";
+						content[0] += "<a href='/#/?user=" + theMention.replace("@", "") + "' class='mention'>" + theMention + "</a>";
 						content = content.join("");
 
 						if (i === mentionMatch.length - 1) {
@@ -411,6 +452,7 @@
       restrict: 'A',
       link: function(scope, element, attrs) {
         element.bind('click', function() {
+        	_("." + attrs.toggleClass).removeClass(attrs.toggleClass);
           element.toggleClass(attrs.toggleClass);
         });
       }

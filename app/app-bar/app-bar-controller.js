@@ -35,10 +35,20 @@
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
 				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
+				
+				init.getCirclesFromAccessCodes(user.accessCodes, function(circles) {
+					$rootScope.circles = circles;
+					console.log($rootScope.circles);
+				});
+
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
+					initUI(function() {
+						$rootScope.drawersReady = true;
+					});
 				});
 				customizer.getStyle($rootScope);
+				init.initFinal(_("body"));
 			} else {
 				$rootScope.circleJoined = false;
 				$state.go('createCircle');
@@ -154,9 +164,23 @@
 		_(window).load(function() {
 			_(document).click(function(e) {
 				var _target = _(e.target);
-
-				if (_target.hasClass("app-bar-btn") || _target.parents(".app-bar-btn").length) {
-					return;
+				var _btn = function() {
+					if (_target.hasClass("app-bar-btn")) {
+						return _target;
+					}
+					else if (_target.parents(".app-bar-btn").length) {
+						return _target.parents(".app-bar-btn");
+					}
+				}();
+				if (_btn) {
+					if (_btn.hasClass("active")) {
+						_(".active").removeClass("active");
+						return;
+					} else if (_btn.length) {
+						_(".active").removeClass("active");
+						_btn.toggleClass("active");
+						return;
+					}
 				}
 
 				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer")) {
@@ -189,6 +213,84 @@
 			localStorage.removeItem( "Current-Circle" );
 			window.location.href = "/#/create-circle";
 		};
+
+		function initUI(callback) {
+			var initDrawers = function($drawers, $sidebars) {
+				$drawers.each(function() {
+					var height = _(this).outerHeight(true);
+					TweenMax.fromTo( _(this), 0.1, {
+						y: 500 // needs to be jumpstarted for some reason
+					},
+					{
+						y: height,
+						delay: 1
+					});
+
+					_(this).addClass("animation-initiated");
+					setResponsiveMaxHeight(_(this).find(".drawer-inner"));
+				});
+
+				$sidebars.each(function() {
+					var width = _(this).outerWidth(true);
+					TweenMax.fromTo( _(this), 0.1, {
+						x: -500 // needs to be jumpstarted for some reason
+					},
+					{
+						x: -width,
+						delay: 1
+					});
+
+					_(this).addClass("animation-initiated");
+					setResponsiveMaxHeight(_(this), true);
+					makeDraggable(_(this));
+				});
+			};
+			initDrawers( _(".bottom-drawer"), _(".main-menu") );
+
+			var initAddPost = function() {
+				_("#post_type_regular").prop("checked", true);
+			};
+			initAddPost();
+
+			function setResponsiveMaxHeight(_element, taller) {
+				var _window = _(window);
+				var offsetTop = parseInt(_("body").css("padding-top"), 10);
+				var windowHeight, height, maxHeight, drawerBarHeight;
+				function init() {
+					windowHeight = _window.height();
+					drawerBarHeight = 66;
+					height = taller ? (windowHeight - offsetTop + "px") : "auto";
+					maxHeight = (windowHeight - offsetTop - drawerBarHeight) + "px";
+
+					_element.css({
+						height: height,
+						maxHeight: maxHeight
+					});
+				}
+				setInterval(function() {
+					init();
+				}, 2000);
+				_window.load(init);
+				_window.resize(init);
+			}
+
+			function makeDraggable(_element) {
+				_(document)
+				.on("swiperight", function() {
+					if (!_element.hasClass("open")) {
+						$scope.toggleMainMenu();
+					}
+				})
+				.on("swipeleft", function() {
+					if (_element.hasClass("open")) {
+						$scope.toggleMainMenu();
+					}
+				})
+			}
+
+			if (callback)
+				callback();
+		}
 
 	}]);
 }(jQuery));

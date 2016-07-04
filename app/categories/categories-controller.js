@@ -34,8 +34,6 @@
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};
 
-					init.initFinal(_("body"));
-
 					init.getTags(circle._id, function(tags) {
 						$rootScope.categories = tags;
 					});

@@ -9,11 +9,10 @@
 		<i ng-if="!mainMenuIsOpen" class="fa fa-bars"></i>
 		<i ng-if="mainMenuIsOpen" class="fa fa-long-arrow-left"></i>
 		</button>
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-cog"></i></button>
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-magic"></i></button>
+	<button class="app-bar-btn app-bar-right inner-btn c-accent-active" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-cog"></i></button>
 </div>
 
-<div class="main-menu c-bg-primary" ng-class="{'main-menu-open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
+<div class="main-menu c-bg-content" ng-class="{'open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
  	<button class="inner-btn"><a ui-sref="editProfile">Profile/Account</a></button>
   <button ng-click="logOut()" class="inner-btn">Log out</button>
 	<div class="submenu" style="float:left">

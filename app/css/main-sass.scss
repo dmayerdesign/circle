@@ -1,7 +1,7 @@
 $palettesMap: (
 	original-blue: (
 		primary: #4ea1d3,
-		secondary: #55a8da,
+		secondary: #c8d9df,
 		content: #d8e9ef,
 		accent: #e85a71,
 		text: #d8e9ef,
@@ -9,7 +9,7 @@ $palettesMap: (
 	),
 	troll-hollow: (
 		primary: #55967e,
-		secondary: #8F2D56,
+		secondary: #DFD6D9,
 		content: #EFE6E9,
 		accent: #8F2D56,
 		text: #fafafa,
@@ -17,7 +17,7 @@ $palettesMap: (
 	),
 	sunlit-sail: (
 		primary: #004e66,
-		secondary: #fcbe32,
+		secondary: #d1dee6,
 		content: #e1eef6,
 		accent: #ffad08,
 		text: #e1eef6,
@@ -62,7 +62,9 @@ $colors: primary secondary content accent text text-dark;
 			.c-bg-#{$color}:focus,
 			.c-bg-#{$color}-hover:hover,
 			.c-bg-#{$color}-hover:active,
-			.c-bg-#{$color}-hover.active {
+			.c-bg-#{$color}-hover.active,
+			.c-bg-#{$color}-active:active,
+			.c-bg-#{$color}-active.active {
 				@include paletteBG( $palette, $color );
 			}
 
@@ -70,7 +72,9 @@ $colors: primary secondary content accent text text-dark;
 			.c-#{$color}:focus,
 			.c-#{$color}-hover:hover,
 			.c-#{$color}-hover:active,
-			.c-#{$color}-hover.active {
+			.c-#{$color}-hover.active,
+			.c-#{$color}-active:active,
+			.c-#{$color}-active.active {
 				@include paletteColor( $palette, $color );
 			}
 
@@ -89,6 +93,10 @@ $colors: primary secondary content accent text text-dark;
 				@include paletteColor( $palette, text );
 			}
 
+			.c-bg-secondary {
+				@include paletteColor( $palette, primary );
+			}
+
 			.reg-form {
 				@include borderColor( $palette, primary );
 				@include paletteColor( $palette, text-dark );
@@ -97,6 +105,10 @@ $colors: primary secondary content accent text text-dark;
 			.selected {
 				@include paletteBG( $palette, primary );
 				@include paletteColor( $palette, text );
+			}
+
+			.main-menu {
+				@include borderColor( $palette, secondary );
 			}
 		}
 	}
