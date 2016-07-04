@@ -1203,6 +1203,7 @@ button:focus, button:active {
 @media screen and (max-width: 991px) {
 	.floating-btn-container {
 		width: 100%;
+		z-index: 10;
 	}
 }
 
