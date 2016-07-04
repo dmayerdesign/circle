@@ -276,6 +276,9 @@
 			}
 
 			function makeDraggable(_element) {
+				if (!_("html.touchevents").length) {
+					return;
+				}
 				_(document)
 				.swipe({
   				swipe:function(event, direction, distance, duration, fingerCount){
@@ -291,6 +294,9 @@
 			}
 
 			function makeDraggableToClose(_element) {
+				if (!_("html.touchevents").length) {
+					return;
+				}
 				_element.swipe({
 					swipe:function(event, direction, distance, duration, fingerCount){
 						if (direction === "down" && _element.hasClass("drawer-open")) {

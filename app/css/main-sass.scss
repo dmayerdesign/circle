@@ -94,7 +94,7 @@ $colors: primary secondary content accent text text-dark;
 			}
 
 			.c-bg-secondary {
-				@include paletteColor( $palette, primary );
+				@include paletteColor( $palette, text-dark );
 			}
 
 			.reg-form {

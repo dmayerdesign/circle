@@ -90,9 +90,8 @@
 				<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
 				<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>
 				
-				<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" placeholder="paste image URL">
-				<button ng-show="showAttachmentOptions" class="btn c-bg-primary" ng-click="attachImageFromLink(imgLink)">Attach image from URL</button>
-				<button ng-show="showAttachmentOptions" class="btn c-bg-primary" ngf-select="upload($file)">Upload from your computer</button>
+				<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" ng-keyup="attachImageFromLink(imgLink)" placeholder="paste image URL">
+				<button ng-show="showAttachmentOptions" class="btn reg-btn c-bg-secondary c-bg-primary-hover c-text-dark c-text-hover" ngf-select="upload($file)">or upload from your computer</button>
 			</div>
 
 			<button ng-click="sendPost()" class="btn reg-btn send-btn c-bg-primary c-bg-accent-hover tile">Post</button>

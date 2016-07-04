@@ -1086,7 +1086,8 @@ button:focus, button:active {
 
 .attach-images .reg-form {
 	float: left;
-	margin-top: 1em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 .attach-image-btn,
