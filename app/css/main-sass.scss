@@ -85,31 +85,35 @@ $colors: primary secondary content accent text text-dark;
 				@include paletteColor( $palette, $color );
 			}
 
-			.c-bg-content {
-				@include paletteColor( $palette, text-dark );
+			.c-border-#{$color} {
+				@include borderColor( $palette, $color );
 			}
+		}
 
-			.c-bg-primary {
-				@include paletteColor( $palette, text );
-			}
+		.c-bg-content {
+			@include paletteColor( $palette, text-dark );
+		}
 
-			.c-bg-secondary {
-				@include paletteColor( $palette, text-dark );
-			}
+		.c-bg-primary {
+			@include paletteColor( $palette, text );
+		}
 
-			.reg-form {
-				@include borderColor( $palette, primary );
-				@include paletteColor( $palette, text-dark );
-			}
+		.c-bg-secondary {
+			@include paletteColor( $palette, text-dark );
+		}
 
-			.selected {
-				@include paletteBG( $palette, primary );
-				@include paletteColor( $palette, text );
-			}
+		.reg-form {
+			@include borderColor( $palette, primary );
+			@include paletteColor( $palette, text-dark );
+		}
 
-			.main-menu {
-				@include borderColor( $palette, secondary );
-			}
+		.selected {
+			@include paletteBG( $palette, primary );
+			@include paletteColor( $palette, text );
+		}
+
+		.main-menu {
+			@include borderColor( $palette, secondary );
 		}
 	}
 }

@@ -13,13 +13,30 @@
 </div>
 
 <div class="main-menu c-bg-content" ng-class="{'open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
- 	<button class="inner-btn"><a ui-sref="editProfile">Profile/Account</a></button>
-  <button ng-click="logOut()" class="inner-btn">Log out</button>
-	<div class="submenu" style="float:left">
-		<h5>Your circles</h5>
-		<button ng-repeat="(code, circle) in $root.circles" ng-click="switchCircles(code)" class="inner-btn">
-			<img width="40" src="{{circle.styles.logo}}"> {{circle.name}}
-		</button>
-		<button class="btn btn-primary" ng-click="joinAnotherCircle()">Create or join a new circle</button>
+ 	<!-- DRAWER BAR -->
+	<div class="drawer-bar c-border-primary tile c-bg-primary clearfix" ng-if="!$root.editPost">
+		<div class="drawer-bar-inner main-menu-inner">
+			<h3>Menu</h3>
+		</div>
 	</div>
+
+	<div class="main-menu-inner">
+	 	<a class="profile-btn clearfix" ui-sref="editProfile">
+	 		<div ng-show="$root.user.avatar.length" class="avatar-container" style="background-image: url({{$root.user.avatar}})"></div>
+	 		<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[$root.user._id].primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>
+	 		<span class="bold-caps">Profile/Account</span>
+	 	</a>
+	  
+	  <h5>Your circles</h5>
+		<div class="submenu">
+			<button ng-repeat="(code, circle) in $root.circles" ng-click="switchCircles(code)" class="inner-btn">
+				<div class="logo" ng-style="{backgroundImage: 'url(' + $root.currentCircle.styles.logo + ')'}"]></div>
+				<h5>{{circle.name}}</h5>
+			</button>
+			<button class="btn btn-primary" ng-click="joinAnotherCircle()">Create or join a new circle</button>
+		</div>
+
+		<button ng-click="logOut()" class="inner-btn">Log out</button>
+	</div>
+
 </div>

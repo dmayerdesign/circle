@@ -468,6 +468,7 @@ module.exports.castPollVote = function(req, res) {
 module.exports.react = function(req, res) {
 	var postId = req.body.postId;
 	var username = req.body.username;
+	var name = req.body.name;
 	var commentId = req.body.commentId;
 	var reaction = req.body.reaction;
 	var isPost = !commentId ? true : false;
@@ -510,6 +511,32 @@ module.exports.react = function(req, res) {
 					console.error(err);
 					res.json(err);
 				} else {
+					if (!undo && post.user !== username) {
+						Users.findOne({username: post.user}, function(err, user) {
+							if ( err ) {
+								console.log("couldn't find the user to notify them of the reaction");
+								console.error(err);
+								return;
+							}
+							if ( user ) {
+								if ( !user.notifications ) {
+									user.notifications = [];
+								}
+								user.notifications.push({
+									"creator": name || username,
+									"action": reaction + "s your post",
+									"postId": post._id
+								});
+								user.save(function(err) {
+									if (err) {
+										console.error(err);
+									} else {
+										console.log("user notified of mention!");
+									}
+								});
+							}
+						});
+					}
 					res.json(post);
 				}
 			});

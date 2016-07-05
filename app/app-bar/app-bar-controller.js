@@ -41,6 +41,19 @@
 					console.log($rootScope.circles);
 				});
 
+				init.getMembers(circle.accessCode, function(members) {
+					$rootScope.users = members;
+
+					$rootScope.usersById = {};
+					$rootScope.users.forEach(function(user) {
+						$rootScope.usersById[user._id] = user;
+					});
+					$rootScope.usersByUsername = {};
+					$rootScope.users.forEach(function(user) {
+						$rootScope.usersByUsername[user.username] = user;
+					});
+				});
+
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 					initUI(function() {

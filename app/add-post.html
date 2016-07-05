@@ -1,5 +1,5 @@
 		<!-- POST TYPE TABS -->
-		<div class="drawer-bar c-bg-primary tabs radio-tabs clearfix" ng-if="!$root.editPost">
+		<div class="drawer-bar c-bg-primary tabs radio-tabs clearfix">
 			<div class="drawer-bar-inner col-md-12">
 				<h3>Add a<span ng-if="newPost.type == 'event'">n</span> <span ng-if="newPost.type !== 'normal'">{{newPost.type}}</span><span ng-if="newPost.type == 'normal'">thing</span></h3>
 				<input ng-model="newPost.type" id="post_type_normal" name="postType" value="normal" type="radio" />
@@ -28,7 +28,7 @@
 					ng-keyup="generateLinkPreview(); findWithPrefixSymbol(); insertIntoPost($event, $root.selectedFromList.list, $root.selectedFromList.value)" 
 					id="new_post_content" 
 					class="reg-form" 
-					placeholder="Give this thing some words"></textarea>
+					placeholder="Give this {{(newPost.type !== 'normal') ? newPost.type : 'thing'}} some words"></textarea>
 
 				<p>include <strong>#tags</strong> or <strong>@mentions</strong> anywhere in your words</p>
 
@@ -85,7 +85,8 @@
 				<input class="reg-form" type="text" ng-repeat="options in newPost.poll track by $index" ng-model="newPost.poll[$index].choice">
 			</div>
 
-			<h4>Give this thing an image (or a few)</h4>
+			<!-- ATTACH IMAGES -->
+			<h4>Give this {{(newPost.type !== 'normal') ? newPost.type : 'thing'}} an image (or a few)</h4>
 			<div class="attach-images clearfix">
 				<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
 				<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>

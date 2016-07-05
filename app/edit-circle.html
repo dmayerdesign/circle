@@ -1,13 +1,21 @@
-		<!-- DRAWER BAR -->
-		<div class="drawer-bar c-bg-primary tabs radio-tabs clearfix" ng-if="!$root.editPost">
+		<!-- POST TYPE TABS -->
+		<div class="drawer-bar c-bg-primary tabs radio-tabs clearfix">
 			<div class="drawer-bar-inner col-md-12">
-				<h3>Go crazy</h3>
+				<h3>Edit your circle's <span ng-if="newPost.type == 'event'">n</span> <span>{{editCircle.part}}</span></h3>
+				<input ng-model="editCircle.part" id="edit_circle_styles" name="editCircle" value="styles" type="radio" />
+				<label ng-show="editCircle.part !== 'styles'" class="inner-btn edit-circle-part-styles edit-circle-radio" for="edit_circle_styles">styles</label>
+
+				<input ng-model="editCircle.part" id="edit_circle_imagery" name="editCircle" value="imagery" type="radio" />
+				<label ng-show="editCircle.part !== 'imagery'" class="inner-btn edit-circle-part-imagery edit-circle-radio" for="edit_circle_imagery">imagery</label>
+
+				<input ng-model="editCircle.part" id="edit_circle_settings" name="editCircle" value="settings" type="radio" />
+				<label ng-show="editCircle.part !== 'settings'" class="inner-btn edit-circle-part-settings edit-circle-radio" for="edit_circle_settings">settings</label>
 			</div>
 		</div>
 
 		<!-- EDIT CIRCLE MAIN -->
 		<div class="drawer-inner col-md-12">
-			<div class="styles">
+			<div class="styles" ng-show="editCircle.part == 'styles'">
 				<h3>Styles</h3>
 				<div>
 					<p>Change the theme</p>
@@ -37,7 +45,8 @@
 					</select>
 					<button ng-click="styleCircle('font')" class="btn btn-default">Save</button>
 				</div>
-
+			</div>
+			<div class="imagery" ng-show="editCircle.part == 'imagery'">
 				<div>
 					<p>Change the background</p>
 					<button class="btn c-bg-primary" ngf-select="upload('bg', $file)">Select</button>
@@ -59,7 +68,7 @@
 					<button class="btn c-bg-primary" ng-click="updateImageFromLink('tagImage', tagImageLink)">Save</button>
 				</div>
 			</div>
-			<div class="settings">
+			<div class="settings" ng-show="editCircle.part == 'settings'">
 				<h3>Settings</h3>
 				<div>
 					<p>Name your currency</p>

@@ -59,11 +59,11 @@ module.exports = mongoose.model('Post', {
 			reactions: {
 				like: {
 					amount: {type: Number, default: 0},
-					users: [{}]
+					users: [String]
 				},
 				love: {
 					amount: {type: Number, default: 0},
-					users: [{}]
+					users: [String]
 				}
 			}
 		}
@@ -71,11 +71,11 @@ module.exports = mongoose.model('Post', {
 	reactions: {
 		like: {
 			amount: {type: Number, default: 0},
-			users: [{}]
+			users: [String]
 		},
 		love: {
 			amount: {type: Number, default: 0},
-			users: [{}]
+			users: [String]
 		}
 	}
 })

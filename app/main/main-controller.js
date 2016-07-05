@@ -90,7 +90,7 @@
 			}
 		});
 
-
+		$rootScope.location = $location;
 
 		// Listen for state change
 		$rootScope.$on('$stateChangeStart', 
@@ -573,7 +573,6 @@
 		};
 
 		var initArchive = function() {
-			var $head = _("head");
 			var winHeight = _(window).height();
 			var _archive = _(".posts-archive-container");
 
@@ -780,30 +779,32 @@
 		// }();
 
 		$scope.attachImageFromLink = function(link) {
-			var scope = this;
-			console.log(link);
-			var request = {
-				userId: $rootScope.user._id,
-				circleId: $rootScope.currentCircle._id,
-				linkedImageURI: link
-			};
+			if (link) {
+				var scope = this;
+				console.log(link);
+				var request = {
+					userId: $rootScope.user._id,
+					circleId: $rootScope.currentCircle._id,
+					linkedImageURI: link
+				};
 
-			$http.post('api/post/attachImage', request).then(function(response) {
-				console.log(response.data);
-				console.log("image attached");
-				
-				if ( !$scope.newPost.images.length ) {
-					$scope.newPost.images = [];
-				}
-				if (scope.newPost.images.indexOf(response.data.filePath) === -1) {
-					$scope.newPost.images.push(response.data.filePath);
-				}
-				scope.imgLink = null;
-				scope.showAttachmentOptions = false;
+				$http.post('api/post/attachImage', request).then(function(response) {
+					console.log(response.data);
+					console.log("image attached");
+					
+					if ( !$scope.newPost.images.length ) {
+						$scope.newPost.images = [];
+					}
+					if (scope.newPost.images.indexOf(response.data.filePath) === -1) {
+						$scope.newPost.images.push(response.data.filePath);
+					}
+					scope.imgLink = null;
+					scope.showAttachmentOptions = false;
 
-			}, function(err) {
-				console.error(err);
-			});
+				}, function(err) {
+					console.error(err);
+				});
+			}
 		};
 
 		$scope.hideAttachmentOptions = function(event) {

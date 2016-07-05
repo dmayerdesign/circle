@@ -27,6 +27,9 @@
 		});
 
 
+		$scope.editCircle = {
+			part: 'styles'
+		};
 
 		$scope.$watch(function() {
 			return $scope.file

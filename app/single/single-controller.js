@@ -22,6 +22,8 @@
 			}
 		});
 
+		$rootScope.location = $location;
+
 		/**									 **/
 		/** INIT single post **/
 		/**									 **/
@@ -225,17 +227,37 @@
 		};
 
 		$scope.react = function(reaction, type, id, commentId) {
+			var _thisBtn = _("." + reaction + "-btn");
+			var _thisIcon = _thisBtn.find("i");
+			var _newIcon;
 			var request = {
 				circleId: $rootScope.currentCircle._id,
 				postId: id,
 				commentId: (type === "comment") ? commentId : null,
 				username: $rootScope.user.username,
+				name: $rootScope.user.name,
 				reaction: reaction
 			};
 			console.log(request);
 			$http.post('api/post/react', request).then(function(response) {
 				$rootScope.post = response.data;
 			});
+
+			if (!_thisBtn.hasClass("liked-by-you") && !_thisBtn.hasClass("loved-by-you")) {
+				_newIcon = _thisIcon.clone();
+				_newIcon.insertAfter(_thisIcon).addClass("copy");
+				TweenMax.to(_newIcon, 0.6, {
+					y: -30,
+					scale: 1.3,
+					opacity: 0,
+					onComplete: destroyCopy,
+					onCompleteParams: [_newIcon]
+				});
+
+				function destroyCopy(_copy) {
+					_copy.remove();
+				}
+			}
 		};
 
 		$scope.initDatePicker = function() {
@@ -243,6 +265,23 @@
 				_("#event_date").datepicker();
 			}, 300);
 		};
+
+		var initSingle = function() {
+			var winHeight = _(window).height();
+			var _single = _("section.main");
+
+			_single
+				.css({height: (winHeight + 119) + "px"}) //.jScrollPane()
+				.addClass("initiated");
+		};
+		var initSingleInt = setInterval(function() {
+			if ( !_("section.main").hasClass("initiated") ) {
+				initSingle();
+				_(window).resize(initSingle);
+			} else {
+				clearInterval(initSingleInt);
+			}
+		}, 200);
 
 	}]);
 }(jQuery));
