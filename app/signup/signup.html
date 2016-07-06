@@ -19,9 +19,11 @@
 					<input id="email_input" placeholder="Your email" type="text" ng-model="$parent.newUser.email" class="line-form">
 
 					<label for="username_input">Username</label>
-					<input id="username_input" placeholder="Choose a username" type="text" ng-model="$parent.newUser.username" ng-keyup="validateUsername()" class="line-form">
+					<input id="username_input" placeholder="Choose a username" type="text" ng-model="$parent.newUser.username" ng-keyup="validateUsername($event)" class="line-form" pattern="[a-z0-9\-\_]+">
 						<span ng-if="validationStarted">
-							<span ng-if="!usernameValid" style="color: red">Taken - try another</span><span ng-if="usernameValid" style="color: green">Available!</span>
+							<div class="tip-flyout" ng-if="!usernameAvailable" style="background-color: red">Taken - try another</div>
+							<div class="tip-flyout" ng-if="usernameAvailable" style="background-color: green">Available!</div>
+							<div class="tip-flyout" ng-if="usernameInvalid">Only use lowercase letters, numbers, - and _</div>
 						</span>
 
 					<label for="name_input">What's your name?</label>

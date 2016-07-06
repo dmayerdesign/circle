@@ -40,13 +40,23 @@
 				}
 			};
 
-			$scope.validateUsername = function() {
+			$scope.validateUsername = function(event) {
+				$scope.usernameAvailable = false;
+				$scope.usernameInvalid = false;
+
 				if ( $scope.newUser && $scope.newUser.username && $scope.newUser.username.length ) {
 					$scope.validationStarted = true;
+				} else {
+					$scope.validationStarted = false;
 				}
-				$scope.usernameValid = false;
 
-				if ( !$scope.newUser.username ) {
+				if ( event && event.target.className.indexOf("ng-invalid-pattern") > -1 ) {
+					$scope.validationStarted = true;
+					$scope.usernameInvalid = true;
+					return;
+				}
+
+				if ( !$scope.newUser || !$scope.newUser.username ) {
 					$scope.validationStarted = false;
 					return;
 				}
@@ -54,13 +64,13 @@
 				.then(function(response) {
 					var user = response.data;
 					if ( user && user.username ) {
-						$scope.usernameValid = false;
+						$scope.usernameAvailable = false;
 						console.log("found a user?");
 					} else {
-						$scope.usernameValid = true;
+						$scope.usernameAvailable = true;
 					}
 				}, function(error) {
-					$scope.usernameValid = true;
+					$scope.usernameAvailable = true;
 					console.log("there was an error");
 				});
 
