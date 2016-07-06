@@ -16,23 +16,23 @@
 					<h2>Sign up</h3>
 					
 					<label for="email_input">Email</label>
-					<input id="email_input" placeholder="Your email" type="text" ng-model="$parent.newUser.email" class="form-control line-form">
+					<input id="email_input" placeholder="Your email" type="text" ng-model="$parent.newUser.email" class="line-form">
 
 					<label for="username_input">Username</label>
-					<input id="username_input" placeholder="Choose a username" type="text" ng-model="$parent.newUser.username" ng-keyup="validateUsername()" class="form-control line-form">
+					<input id="username_input" placeholder="Choose a username" type="text" ng-model="$parent.newUser.username" ng-keyup="validateUsername()" class="line-form">
 						<span ng-if="validationStarted">
 							<span ng-if="!usernameValid" style="color: red">Taken - try another</span><span ng-if="usernameValid" style="color: green">Available!</span>
 						</span>
 
 					<label for="name_input">What's your name?</label>
-					<input id="name_input" placeholder="What's your name?" type="text" ng-model="$parent.newUser.name" class="form-control line-form">
+					<input id="name_input" placeholder="What's your name?" type="text" ng-model="$parent.newUser.name" class="line-form">
 
 					<label for="password_input">Password</label>
-					<input id="password_input" placeholder="Choose a password" type="password" ng-keyup="confirmPassword(); validatePassword()" ng-model="$parent.newUser.password" ng-class="{'invalid': $parent.passwordTooShort, 'valid': $parent.newUser.password.length && !$parent.passwordTooShort}" class="form-control line-form">
+					<input id="password_input" placeholder="Choose a password" type="password" ng-keyup="confirmPassword(); validatePassword()" ng-model="$parent.newUser.password" ng-class="{'invalid': $parent.passwordTooShort, 'valid': $parent.newUser.password.length && !$parent.passwordTooShort}" class="line-form">
 					<div class="tip-flyout" ng-if="$parent.passwordTooShort">Too short</div>
 
 					<label for="password_confirm">Confirm Password</label>
-					<input id="password_confirm" placeholder="Confirm your password" type="password" ng-model="$parent.passwordConf" ng-keyup="confirmPassword()" ng-class="{'invalid': $parent.passwordConf.length && !passwordsMatch, 'valid': passwordsMatch}" class="form-control line-form">
+					<input id="password_confirm" placeholder="Confirm your password" type="password" ng-model="$parent.passwordConf" ng-keyup="confirmPassword()" ng-class="{'invalid': $parent.passwordConf.length && !passwordsMatch, 'valid': passwordsMatch}" class="line-form">
 
 					<button ng-disabled="!$parent.newUser.email || !$parent.newUser.username || !$parent.passwordsMatch" type="button" class="centered-btn bg-primary" ng-click="signupJoinCircle = true">Next</button>
 				</section>
@@ -44,10 +44,10 @@
 					<p>Enter the access answer and access code given to you by someone in the circle.</p>
 
 						<label for="access_answer">Access Answer</label>
-						<input id="access_answer" type="text" ng-model="$parent.newUser.accessAnswer" class="form-control line-form">
+						<input id="access_answer" type="text" ng-model="$parent.newUser.accessAnswer" class="line-form">
 
 						<label for="access_code">Access Code</label>
-						<input id="access_code" type="password" ng-model="$parent.newUser.accessCode" class="form-control line-form">
+						<input id="access_code" type="password" ng-model="$parent.newUser.accessCode" class="line-form">
 
 						<button class="centered-btn bg-accent">Let's effin do this</button>
 
