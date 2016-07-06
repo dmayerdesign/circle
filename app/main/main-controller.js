@@ -9,9 +9,7 @@
 			$state.go('signup');
 			return;
 		}
-		setInterval(function() {
-			console.log($rootScope.archiveLoading);
-		}, 200);
+
 		$rootScope.loggedIn = true;
 		init.app($rootScope.user._id, false, function(user, circle) {
 			$rootScope.user = user;
@@ -27,6 +25,7 @@
 			if (circle) {
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
+				$rootScope.archiveHeader = false;
 
 				init.getMembers(circle.accessCode, function(members) {
 					$rootScope.users = members;

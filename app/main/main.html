@@ -2,7 +2,7 @@
 
 <main ng-if="circleJoined && user.isEmailVerified" ng-class="applyFilterClasses()">
 
-	<nav ng-include src="'app/circle-nav.html'" class="col-md-8 col-md-offset-2 circle-nav"></nav>
+	<nav ng-include src="'app/circle-nav.html'" class="col-md-8 col-md-offset-2 circle-nav no-gutter"></nav>
 
 <!-- POSTS MAIN -->
 	<section class="main posts-archive-container">
@@ -16,7 +16,13 @@
 		</ul>
 
 		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="location.search().tag" role="header">#{{location.search().tag}}</h1>
-		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && $root.archiveHeader" role="header">{{$root.archiveHeader.capitalize()}}s</h1>
+		<div class="archive-header user col-md-8 col-md-offset-2 centered" ng-if="location.search().user" role="header">
+			<div ng-show="$root.usersByUsername[location.search().user].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[location.search().user].avatar}})"></div>
+			<div ng-hide="$root.usersByUsername[location.search().user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[location.search().user].primaryColor}}"><span>{{location.search().user.split("")[0].toUpperCase()}}</span></div>
+			<span class="name">{{$root.usersByUsername[location.search().user].name}}</span>
+			<span class="username">@{{location.search().user}}</span>
+		</div>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && !location.search().user && $root.archiveHeader" role="header">{{$root.archiveHeader.capitalize()}}s</h1>
 		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && !location.search().user && !$root.archiveHeader" role="header">Everything</h1>
 
 	<!-- archive -->

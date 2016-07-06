@@ -583,62 +583,90 @@ nav {
 
 /* nav bar */
 .circle-nav {
-	position: relative;
-	z-index: 101;
+	position: absolute;
+	  z-index: 101;
+	  bottom: 0;
+  height: 8em;
 }
 
 .circle-nav-inner {
 	position: relative;
 	z-index: 100;
 	float: left;
-	width: 100%;
 }
 
 	.circle-sorting {
 		width: 40%;
-		padding-right: 1em;
 	}
+
+.circle-sorting .tile {
+	border-right: 0.3em solid rgba(50,50,50,0.1);
+}
+
+.circle-sorting, .circle-sorting .tile {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
 
 	.circle-views {
 		width: 60%;
-		padding-left: 1em;
 	}
+
+.circle-views, .circle-views .tile {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+
+.circle-views .tile {
+	border-left: 0.3em solid rgba(50,50,50,0.1);
+}
 
 .circle-nav-inner .tile {
 	overflow: hidden;
 	height: 7em;
 	line-height: 1;
-	margin: 0 0 1.6em;
 }
 
-	.theme-smooth .circle-sorting .tile {
-		border-top-right-radius: 0.4em;
-		border-bottom-right-radius: 0.4em;
+	.theme-smooth .circle-nav-inner .tile {
+		border-radius: 0.6em;
 	}
 
-	.theme-smooth .circle-views .tile {
-		border-top-left-radius: 0.4em;
-		border-bottom-left-radius: 0.4em;
+	.theme-material .circle-nav-inner .tile {
+		border-radius: 0.2em;
 	}
 
-	.theme-material .circle-sorting .tile {
-		border-top-right-radius: 0.2em;
-		border-bottom-right-radius: 0.2em;
-	}
-
-	.theme-material .circle-views .tile {
-		border-top-left-radius: 0.2em;
-		border-bottom-left-radius: 0.2em;
-	}
-
-@media screen and (max-width: 840px) and (min-height: 600px) {
+@media screen and (max-width: 991px) {
 	body {
 		padding-top: 7em;
 	}
 	.main-menu {
 		top: 6.9em;
 	}
-	.circle-sorting,
+	.circle-nav {
+		width: 100%;
+	}
+
+	.circle-nav .inner-btn {
+		padding: 0;
+	}
+
+	.circle-nav-inner .tile {
+		height: 8em;
+	}
+
+		.theme-smooth .circle-nav-inner .tile {
+			border-radius: 0 !important;
+		}
+
+		.theme-material .circle-nav-inner .tile {
+			border-radius: 0 !important;
+		}
+
+	.inner-btn.has-icon {
+		height: 9em !important;
+	}
+
+	/*.circle-sorting,
 	.circle-views {
 		width: 100%;
 		padding: 0;
@@ -668,7 +696,7 @@ nav {
 	.theme-material .circle-views .tile {
 		border-top-left-radius: 0.2em;
 		border-top-right-radius: 0.2em;
-	}
+	}*/
 }
 
 @media screen and (max-height: 600px) {
@@ -680,7 +708,7 @@ nav {
 .refine-filter {
 	position: relative;
 		z-index: 99;
-		top: -2.1em;
+		top: -14em;
 	padding: 0 1em 0 0;
 }
 
@@ -735,11 +763,11 @@ nav {
 
 .main {
 	position: relative;
-		top: -19em;
+		top: -10em;
 	height: 1000px;
     overflow: auto;
     width: 100%;
-    padding-top: 19em;
+    padding-top: 12em;
 }
 
 ::-webkit-scrollbar {
@@ -748,7 +776,7 @@ nav {
 
 
 .loading .posts-archive-container {
-	opacity: 0.5;
+	opacity: 0.3;
 }
 
 .archive-loading {
@@ -762,7 +790,7 @@ nav {
 .dot {
   width: 2.5em;
   height: 2.5em;
-  border: 0.3em solid white;
+  border: 0.4em solid white;
   border-radius: 50%;
   float: left;
   margin: 0 0.5em;
@@ -813,6 +841,10 @@ h1.archive-header {
 	margin-bottom: 0.4em;
 	font-size: 5em;
 }
+
+	.archive-header.user {
+		margin-bottom: 3em;
+	}
 
 .tile, .post-main {
 	box-sizing: border-box;
@@ -967,12 +999,14 @@ h1.archive-header {
 	}
 
 	.post .avatar-container.no-avatar,
-	.profile-btn .avatar-container.no-avatar {
+	.profile-btn .avatar-container.no-avatar,
+	.archive-header .avatar-container.no-avatar {
 		text-align: center;
 		color: #fff;
 	}
 
-	.profile-btn .avatar-container {
+	.profile-btn .avatar-container,
+	.archive-header .avatar-container {
 		font-size: 4em;
     width: 2em;
     height: 2em;
@@ -995,13 +1029,18 @@ h1.archive-header {
 			border-radius: 0.8em;
 		}
 
+		.archive-header .avatar-container {
+			margin: 0 auto;
+		}
+
 .avatar-container.no-avatar span {
 	display: inline-block;
 	font-size: 1.2em;
 	width: 100%;
 }
 
-	.profile-btn .avatar-container.no-avatar span {
+	.profile-btn .avatar-container.no-avatar span,
+	.archive-header .avatar-container.no-avatar span {
 		position: relative;
 			top: -0.15em;
 		display: inline-block;
@@ -1201,7 +1240,7 @@ button:focus, button:active {
 .floating-btn-container {
 	position: absolute;
     z-index: 120;
-    bottom: 4em;
+    bottom: 1.6em;
     right: 5em;
   width: 6em;
   overflow: visible;
@@ -1375,7 +1414,7 @@ button:focus, button:active {
 
 @media screen and (max-width: 991px) {
 	.floating-btn-container {
-		bottom: 1.8em;
+		bottom: 9.8em;
 		right: 1.6em;
 	}
 }
