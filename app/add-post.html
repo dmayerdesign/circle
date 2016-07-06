@@ -32,7 +32,7 @@
 
 				<p>include <strong>#tags</strong> or <strong>@mentions</strong> anywhere in your words</p>
 
-				<div ng-if="linkPreview" class="link-preview">
+				<div ng-if="linkPreview" class="link-preview col-md-12">
 					<div class="link-preview-thumbnail">
 						<img src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
 					</div>
@@ -57,15 +57,28 @@
 				</ul>
 			</div>
 
+			<!-- ATTACH IMAGES -->
+			<div class="attach-images pull-left col-md-3 clearfix no-gutter">
+				<h4>Give this {{(newPost.type !== 'normal') ? newPost.type : 'thing'}} an image (or a few)</h4>
+				<div class="attach-images-inner clearfix">
+					<div class="carousel">
+						<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
+						<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>
+					</div>
+					<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" ng-keyup="attachImageFromLink(imgLink)" placeholder="paste image URL">
+					<button ng-show="showAttachmentOptions" class="btn reg-btn-alt c-bg-secondary c-bg-primary-hover c-text-dark c-text-hover" ngf-select="upload($file)">or upload from your computer</button>
+				</div>
+			</div>
+
 			<!-- EVENT -->
-			<div ng-if="newPost.type === 'event'">
+			<div class="event-info pull-left col-md-9 clearfix" ng-if="newPost.type === 'event'">
 				<h4>Set the date and location</h4>
 				<input class="reg-form" ng-model="newPost.eventDate" id="event_date" placeholder="Pick a date">
 				<input class="reg-form" ng-model="newPost.eventLocation" id="event_location" placeholder="Where's it at?">
 			</div>
 
 			<!-- QUEST -->
-			<div class="clearfix" ng-if="newPost.type === 'quest'">
+			<div class="quest-info pull-left col-md-9 clearfix" ng-if="newPost.type === 'quest'">
 				<h4>What does someone get when they complete the quest?</h4>
 				<div class="quest-form quest-form-left">
 					<input class="reg-form compact" type="number" ng-model="newPost.quest.worth.currency">
@@ -78,21 +91,11 @@
 			</div>
 
 			<!-- POLL -->
-			<div ng-if="newPost.type === 'poll'">
+			<div class="poll-info pull-left col-md-9 clearfix" ng-if="newPost.type === 'poll'">
 				<h5>Add some options</h5>
 				<button class="btn" ng-click="newPost.poll.push({})">add option</button>
 				<button class="btn" ng-click="newPost.poll.splice((newPost.poll.length - 1), 1)">remove option</button>
 				<input class="reg-form" type="text" ng-repeat="options in newPost.poll track by $index" ng-model="newPost.poll[$index].choice">
-			</div>
-
-			<!-- ATTACH IMAGES -->
-			<h4>Give this {{(newPost.type !== 'normal') ? newPost.type : 'thing'}} an image (or a few)</h4>
-			<div class="attach-images clearfix">
-				<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
-				<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>
-				
-				<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" ng-keyup="attachImageFromLink(imgLink)" placeholder="paste image URL">
-				<button ng-show="showAttachmentOptions" class="btn reg-btn-alt c-bg-secondary c-bg-primary-hover c-text-dark c-text-hover" ngf-select="upload($file)">or upload from your computer</button>
 			</div>
 
 			<button ng-click="sendPost()" class="btn reg-btn send-btn c-bg-primary c-bg-accent-hover tile">Post</button>

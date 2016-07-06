@@ -16,7 +16,8 @@
 		</ul>
 
 		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="location.search().tag" role="header">#{{location.search().tag}}</h1>
-		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && !location.search().user" role="header">Everything</h1>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && $root.archiveHeader" role="header">{{$root.archiveHeader.capitalize()}}s</h1>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && !location.search().user && !$root.archiveHeader" role="header">Everything</h1>
 
 	<!-- archive -->
 		<div class="col-md-8 col-md-offset-2 posts-archive archive">

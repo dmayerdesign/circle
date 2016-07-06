@@ -56,6 +56,9 @@ body:not(.not-visible) {
     to   { opacity: 1; }
 }
 
+
+/** General layout **/
+
 body, html {
 	overflow: hidden;
 	opacity: 1;
@@ -85,6 +88,12 @@ a {
 a, span {
 	word-wrap: break-word;
 }
+
+.no-gutter {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
 
 /* feature detects */
 .placeholder label:not(.inner-btn) { display: none; }
@@ -387,6 +396,11 @@ a:hover, a:focus {
 
 	-webkit-filter: blur(4px);
 	filter: blur(4px);
+}
+
+.theme-material .background {
+	-webkit-filter: blur(2px);
+	filter: blur(2px);
 }
 
 .category-bg {
@@ -732,6 +746,60 @@ nav {
 	display: none;
 }
 
+
+.loading .posts-archive-container {
+	opacity: 0.5;
+}
+
+.archive-loading {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.dot {
+  width: 2.5em;
+  height: 2.5em;
+  border: 0.3em solid white;
+  border-radius: 50%;
+  float: left;
+  margin: 0 0.5em;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-animation: fx 1000ms ease infinite 0ms;
+          animation: fx 1000ms ease infinite 0ms;
+}
+.dot:nth-child(2) {
+  -webkit-animation: fx 1000ms ease infinite 300ms;
+          animation: fx 1000ms ease infinite 300ms;
+}
+.dot:nth-child(3) {
+  -webkit-animation: fx 1000ms ease infinite 600ms;
+          animation: fx 1000ms ease infinite 600ms;
+}
+@-webkit-keyframes fx {
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fx {
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .posts-archive {
 	padding: 0 0 10em 0;
 }
@@ -741,7 +809,9 @@ nav {
 	}
 
 h1.archive-header {
-	margin-bottom: 0.8em;
+	margin-top: 0.2em;
+	margin-bottom: 0.4em;
+	font-size: 5em;
 }
 
 .tile, .post-main {
@@ -1190,16 +1260,24 @@ button:focus, button:active {
   border: 2px solid #7ac;
 }
 
-.attach-images {
+.attach-images-inner {
 	margin-bottom: 1em;
+	width: 100%;
+	overflow: hidden;
 }
 
-.attach-images button {
+.attach-images .carousel {
+	width: 100%;
+	overflow: auto;
+	white-space: nowrap;
+}
+
+.attach-images-inner button {
 	float: left;
 	margin-right: 1em;
 }
 
-.attach-images .reg-form {
+.attach-images-inner .reg-form {
 	float: left;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
@@ -1207,7 +1285,7 @@ button:focus, button:active {
 
 .attach-image-btn,
 .attached-image {
-	float: left;
+	display: inline-block;
 	width: 10em;
 	height: 10em;
 	line-height: 9em;

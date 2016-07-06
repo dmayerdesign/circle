@@ -9,6 +9,9 @@
 			$state.go('signup');
 			return;
 		}
+		setInterval(function() {
+			console.log($rootScope.archiveLoading);
+		}, 200);
 		$rootScope.loggedIn = true;
 		init.app($rootScope.user._id, false, function(user, circle) {
 			$rootScope.user = user;
@@ -66,15 +69,15 @@
 
 					// Check for new posts
 					// setInterval(function() {
-					// 	console.log($scope.postsAreFiltered.filter);
+					// 	console.log($rootScope.postsAreFiltered.filter);
 					// 	console.log($scope.postTypesAreFiltered.filter);
 
-					// 	if ($scope.postsAreFiltered.filter || $scope.postTypesAreFiltered.filter || !$rootScope.currentCircle) // last one is if 'create or join a new circle' is clicked
+					// 	if ($rootScope.postsAreFiltered.filter || $scope.postTypesAreFiltered.filter || !$rootScope.currentCircle) // last one is if 'create or join a new circle' is clicked
 					// 		return;
 					// 	$scope.incomingPosts = false;
 					// 	init.getPosts($rootScope.currentCircle._id, function(posts) {
 					// 		$scope.incomingPosts = posts;
-					// 		if ( $scope.incomingPosts && !$scope.postsAreFiltered.filter && !$scope.postTypesAreFiltered.filter ) {
+					// 		if ( $scope.incomingPosts && !$rootScope.postsAreFiltered.filter && !$scope.postTypesAreFiltered.filter ) {
 					// 			$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
 					// 			if ( $scope.difference > 0 ) {
 					// 				$scope.posts = posts;
@@ -103,7 +106,7 @@
 
 		$rootScope.editPost = false;
 
-		$scope.postsAreFiltered = {};
+		$rootScope.postsAreFiltered = {};
 		$rootScope.postTypesAreFiltered = {};
 
 		$scope.postOrder = '-date';
@@ -482,12 +485,15 @@
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
 
+				$rootScope.archiveHeader = type;
+
 				// if ( typeof that.postTypesAreFiltered === 'undefined' ) {
 				// 	that.postTypesAreFiltered = {};
 				// }
 
 				if ( !type || typeof type === 'undefined' ) {
 					$rootScope.postTypesAreFiltered = {};
+					$rootScope.archiveHeader = null;
 
 					// clear query parameter if it exists
 					if ( $location.search().tag || $location.search().user ) {
@@ -513,6 +519,8 @@
 
 		$scope.showPostsFiltered = function(list, item) {
 			var that = this;
+			$rootScope.archiveHeader = item;
+			$rootScope.archiveLoading = true;
 
 			if ($location.search().tag && list === "users") {
 				$location.search("tag", null);
@@ -527,12 +535,14 @@
 				that.postsAllowed = {allow: 20};
 
 				if ( !list || typeof list === 'undefined' ) {
-					$scope.postsAreFiltered = {};
+					$rootScope.postsAreFiltered = {};
 					$rootScope.archiveTag = null;
+					$rootScope.archiveLoading = null;
+
 					$scope.postsAllowed = {allow: 20};
 					return $scope.posts;
 				} else {
-					$scope.postsAreFiltered = {
+					$rootScope.postsAreFiltered = {
 						filter: list,
 						term: item
 					};
@@ -555,6 +565,7 @@
 							return $filter('filter')(that.posts, {user: item});
 						}
 					}();
+					$rootScope.archiveLoading = false;
 					return $scope.posts;
 				}
 			});
