@@ -3,7 +3,7 @@
 				<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered(); orderPosts()"><span><i class="fa fa-circle-o"></i><span>All</span></span></button>
 				<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('date')"><span><i class="fa fa-clock-o"></i><span>Recent</span></span></button>
 				<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('reactions.like.amount + reactions.love.amount')"><span><i class="fa fa-heart"></i><span>Best</span></span></button>
-				<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="showPostsFiltered('users', $root.user.username)">
+				<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="showPostsFiltered('users', $root.user.username)" ng-disabled="$root.postTypesAreFiltered.filter == 'types'">
 					<span ng-if="$root.postTypesAreFiltered.term == 'quest'"><i class="fa fa-user"></i><span>My quests</span></span>
 					<span ng-if="$root.postTypesAreFiltered.term !== 'quest'"><i class="fa fa-user"></i><span>@me</span></span>
 				</button>
@@ -21,7 +21,7 @@
 				<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('quest');" class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active"><span><i class="fa fa-shield"></i><span>Quests</span></span></button>
 			</div>
 		</div>
-		<ul ng-if="postsAreFiltered.filter === 'users'" class="refine-filter col-md-12">
+		<ul ng-if="postsAreFiltered.filter === 'users' && $root.postTypesAreFiltered.filter !== 'types'" class="refine-filter col-md-12">
 			<li sticky-toggle-class="active" class="filter-by-author inner-btn c-text c-bg-accent-active c-bg-accent-hover c-text-active c-text-hover c-bg-content" ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">
 				<span class="btn-text">things by <span ng-if="postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
 			</li>

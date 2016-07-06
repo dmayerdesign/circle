@@ -514,11 +514,11 @@ nav {
 .main-menu {
 	position: absolute;
 		left: 0;
-		top: 9em;
-		z-index: 110;
+		top: 0;
+		z-index: -1;
 	width: 30em;
   height: auto;
-  padding: 10em 0 3em 0;
+  padding: 9em 0 3em 0;
   border-right: 1em solid;
   text-align: center;
 }
@@ -639,9 +639,7 @@ nav {
 	body {
 		padding-top: 7em;
 	}
-	.main-menu {
-		top: 6.9em;
-	}
+	
 	.circle-nav {
 		width: 100%;
 	}
