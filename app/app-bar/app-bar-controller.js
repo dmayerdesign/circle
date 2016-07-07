@@ -196,7 +196,7 @@
 					}
 				}
 
-				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer") && !_target.is(".add-post-btn-container")) {
+				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer") && !_target.is(".add-post-btn-container") && !_target.is(".remove-btn") && !_target.is(".remove-btn *")) {
 					if (_(".drawer-open").hasClass("bottom-drawer-add")) {
 						$scope.toggleDrawer("add");
 					} else {

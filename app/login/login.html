@@ -1,8 +1,14 @@
-<div ng-show="!loggedIn" class="login container-fluid" style="text-align: right;">
-	<form ng-submit="logIn(false)">
-		<input class="line-form" placeholder="your email" type="email" ng-model="login.email" />
-		<input class="line-form" placeholder="your password" type="password" ng-model="login.password" />
-		<button class="btn btn-primary">Log in</button>
-	</form>
-	<a ui-sref="signup">Sign up for free</a>
+<div ng-show="!loggedIn" class="login container-fluid">
+	<form ng-submit="logIn(false)" class="setup-form login-form clearfix">
+		<div class="form-section-container animate-opacity-motion-rl clearfix">
+				<section class="col-md-4 col-md-offset-4 clearfix">
+					<h2 class="centered">Log in</h2>
+					<input class="line-form" placeholder="your email" type="email" ng-model="login.email" />
+					<input class="line-form" placeholder="your password" type="password" ng-model="login.password" />
+					<button class="centered-btn bg-primary">Log in</button>
+				</form>
+			</section>
+		</div>
 </div><!-- /.container-fluid -->
+
+<a class="floating-nav-btn floating-nav-right" ui-sref="signup">Sign up</a>

@@ -824,5 +824,37 @@
 			}
 		};
 
+		$scope.addPollOption = function($e, key) {
+			if ($e.keyCode) {
+				if ($e.keyCode === 13) {
+					if (!key) {
+						return;
+					}
+				} else {
+					return;
+				}
+			}
+			else {
+				if (!$e.target) {
+					return;
+				}
+			}
+			this.newPost.poll.push({});
+			setTimeout(function() {
+				_(".poll-info .option").last().find("input").focus();
+			}, 300);
+		};
+
+		$scope.removePollOption = function($e, $index) {
+			if ($e.keyCode === 8) {
+				if ($e.target.value.length < 1) {
+					this.newPost.poll.splice($index, 1);
+					setTimeout(function() {
+						_(".poll-info .option").last().find("input").focus();
+					}, 300);
+				}
+			}
+		};
+
 	}]);
 }(jQuery));

@@ -283,5 +283,25 @@
 			}
 		}, 200);
 
+		$scope.togglePostOptions = function(force) {
+			console.log(typeof force);
+			if (typeof force !== 'undefined') {
+				$rootScope.postOptionsToggled = force;
+			} else {
+				$rootScope.postOptionsToggled ? $rootScope.postOptionsToggled = false : $rootScope.postOptionsToggled = true;
+			}
+			console.log($rootScope.postOptionsToggled);
+		};
+
+		_(window).load(function() {
+			_(document).on("click", function(event) {
+				var _t = _(event.target);
+				console.log(_t);
+				if ( !_t.hasClass("options-menu-container") && !_t.parents(".options-menu-container").length ) {
+					$scope.togglePostOptions(false);
+				}
+			});
+		});
+
 	}]);
 }(jQuery));

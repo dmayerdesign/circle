@@ -8,12 +8,12 @@
 		<!-- <svg viewBox="12 11.5 16 18"><use xlink:href="images/circle.svg#Circle"></use></svg> -->
 
 	</div>
-	<div ng-if="welcomeText && !emailVerificationSent" class="setup-form-container signup-container container-fluid">
-		<form ng-submit="createUser()" class="setup-form signup-form" ng-class="{'intro-active': !introFinished}">
+	<div ng-if="welcomeText && !emailVerificationSent" class="setup-form-container signup-container container-fluid clearfix">
+		<form ng-submit="createUser()" class="setup-form signup-form clearfix" ng-class="{'intro-active': !introFinished}">
 
-			<div class="form-section-container animate-opacity-motion-rl" ng-show="!signupJoinCircle">
-				<section class="col-md-4 col-md-offset-4">
-					<h2>Sign up</h3>
+			<div class="form-section-container animate-opacity-motion-rl clearfix" ng-show="!signupJoinCircle">
+				<section class="col-md-4 col-md-offset-4 clearfix">
+					<h2>Sign up</h2>
 					
 					<label for="email_input">Email</label>
 					<input id="email_input" placeholder="Your email" type="text" ng-model="$parent.newUser.email" class="line-form">

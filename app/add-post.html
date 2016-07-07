@@ -58,7 +58,7 @@
 			</div>
 
 			<!-- ATTACH IMAGES -->
-			<div class="attach-images pull-left col-md-3 clearfix no-gutter">
+			<div class="attach-images pull-left col-md-4 clearfix no-gutter">
 				<h4>Give this {{(newPost.type !== 'normal') ? newPost.type : 'thing'}} an image (or a few)</h4>
 				<div class="attach-images-inner clearfix">
 					<div class="carousel">
@@ -71,14 +71,14 @@
 			</div>
 
 			<!-- EVENT -->
-			<div class="event-info pull-left col-md-9 clearfix" ng-if="newPost.type === 'event'">
+			<div class="event-info pull-left col-md-8 clearfix" ng-if="newPost.type === 'event'">
 				<h4>Set the date and location</h4>
-				<input class="reg-form" ng-model="newPost.eventDate" id="event_date" placeholder="Pick a date">
-				<input class="reg-form" ng-model="newPost.eventLocation" id="event_location" placeholder="Where's it at?">
+				<input class="reg-form compact" ng-model="newPost.eventDate" id="event_date" placeholder="Pick a date">
+				<input class="reg-form compact" ng-model="newPost.eventLocation" id="event_location" placeholder="Where's it at?">
 			</div>
 
 			<!-- QUEST -->
-			<div class="quest-info pull-left col-md-9 clearfix" ng-if="newPost.type === 'quest'">
+			<div class="quest-info pull-left col-md-8 clearfix" ng-if="newPost.type === 'quest'">
 				<h4>What does someone get when they complete the quest?</h4>
 				<div class="quest-form quest-form-left">
 					<input class="reg-form compact" type="number" ng-model="newPost.quest.worth.currency">
@@ -91,11 +91,13 @@
 			</div>
 
 			<!-- POLL -->
-			<div class="poll-info pull-left col-md-9 clearfix" ng-if="newPost.type === 'poll'">
-				<h5>Add some options</h5>
-				<button class="btn" ng-click="newPost.poll.push({})">add option</button>
-				<button class="btn" ng-click="newPost.poll.splice((newPost.poll.length - 1), 1)">remove option</button>
-				<input class="reg-form" type="text" ng-repeat="options in newPost.poll track by $index" ng-model="newPost.poll[$index].choice">
+			<div class="poll-info pull-left col-md-8 clearfix" ng-if="newPost.type === 'poll'">
+				<h4>Add some options</h4>
+				<button class="reg-btn compact pull-left c-bg-secondary" ng-click="addPollOption($event)">add</button>
+				<div class="option pull-left col-md-12 no-gutter" ng-repeat="options in newPost.poll track by $index">
+					<input class="reg-form compact" type="text" ng-model="newPost.poll[$index].choice" ng-keydown="addPollOption($event, true)" ng-keyup="removePollOption($event, $index)">
+					<button class="floating-btn c-text remove-btn pull-left" ng-click="newPost.poll.splice($index, 1)"><i class="fa fa-trash"></i></button>
+				</div>
 			</div>
 
 			<button ng-click="sendPost()" class="btn reg-btn send-btn c-bg-primary c-bg-accent-hover tile">Post</button>
