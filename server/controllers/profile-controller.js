@@ -44,37 +44,21 @@ module.exports.updatePhoto = function(req, res) {
 };
 
 module.exports.editProfile = function(req, res) {
-	var userId = req.body.userId;
-	var fieldKey, fieldVal;
-
-	if ( req.body.username ) {
-		fieldKey = 'username';
-		fieldVal = req.body.username;
-	}
-	if ( req.body.bio ) { 
-		fieldKey = 'bio';
-		fieldVal = req.body.bio;
-	}
-	if ( req.body.name ) {
-		fieldKey = 'name';
-		fieldVal = req.body.name;
-	}
+	var userId = req.body._id;
 
 	User.findById(userId, function(err, userData) {
 		var user = userData;
-
-		if ( req.body.accessCode ) {
-			user.accessCodes.push( req.body.accessCode );
-		} else {
-			user[fieldKey] = fieldVal;
-		}
+		user.username = req.body.username;
+		user.bio = req.body.bio;
+		user.accessCodes = req.body.accessCodes;
+		user.name = req.body.name;
 
 		user.save(function(err, userData) {
 			if (err) {
-				console.log("failed to update " + fieldKey);
+				console.log("failed to update profile");
 				res.json({status: 500});
 			} else {
-				console.log("successfully updated the " + fieldKey + "!");
+				console.log("successfully updated the user!");
 				Post.find({userId: userId}, function(err, posts) {
 					for ( var i = 0; i < posts.length; i++ ) {
 						posts[i].avatar = user.avatar;

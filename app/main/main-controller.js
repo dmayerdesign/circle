@@ -329,28 +329,25 @@
 		$scope.findWithPrefixSymbol = function(edit) {
 			var scope = this;
 			var content = edit ? $rootScope.post.content : scope.newPost.content;
-			var list, items, regex, match, symbol;
+			var list, items, regex, match, symbol, textToIgnore;
 
-			// setTimeout(function() {
-			// 	_(".post-search-list").each(function() {
-			// 		var _this = _(this);
-			// 		if ( !_this.find("li").length ) {
-			// 			_this.hide().removeClass("list-active");
-			// 		} else {
-			// 			_this.show().addClass("list-active");
-			// 		}
-			// 	});
-			// }, 300);
+			textToIgnore = " ";
 
-			if ( content.indexOf("@") > content.indexOf("#") ) {
+			console.log(textToIgnore);
+
+			if ( content.lastIndexOf("@") > content.lastIndexOf("#") ) {
 				list = "members";
 				symbol = "@";
 				match = content.match(/\@([^\s.,!?\-:\(\)]*)/gi);
 			}
-			if ( content.indexOf("#") > content.indexOf("@") ) {
+			if ( content.lastIndexOf("#") > content.lastIndexOf("@") ) {
 				list = "tags";
 				symbol = "#";
 				match = content.match(/\#([^\s.,!?\-:\(\)]*)/gi);
+			}
+			if ( textToIgnore && content.lastIndexOf(textToIgnore) > content.lastIndexOf("@") && content.lastIndexOf(textToIgnore) > content.lastIndexOf("#") ) {
+				match = false;
+				return;
 			}
 			if ( content.indexOf("@") === -1 && content.indexOf("#") === -1 ) {
 				match = false;
@@ -394,16 +391,13 @@
 					symbol = "#";
 				}
 
-				console.log(list);
-				console.log(symbol);
+				console.log(match);
 
 				if (match) {
 					fragment = match[match.length - 1].replace(symbol, "");
-					if ( text.indexOf(fragment) > -1 ) {
-						scope.newPost.content = content.replace(new RegExp(fragment + "$"), text + " ");
-						scope.symbolSearch[list] = false;
-						_("#new_post_content").focus();
-					}
+					scope.newPost.content = content.replace(new RegExp(fragment + "$"), text + " ");
+					scope.symbolSearch[list] = false;
+					_("#new_post_content").focus();
 				}
 
 				$rootScope.selectedFromList = null;
@@ -518,7 +512,10 @@
 
 		$scope.showPostsFiltered = function(list, item) {
 			var that = this;
-			$rootScope.archiveHeader = item;
+
+			if (list === 'tags') {
+				$rootScope.archiveHeader = item;
+			}
 			$rootScope.archiveLoading = true;
 
 			if ($location.search().tag && list === "users") {

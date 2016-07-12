@@ -121,6 +121,7 @@
 
 		$scope.toggleDrawer = function(whichDrawer) {
 			var $drawer = _(".bottom-drawer-" + whichDrawer);
+			var $button = whichDrawer == 'add' ? _(".add-post-btn") : _(".edit-circle-btn");
 			var open = $drawer.hasClass("drawer-open");
 			var height = $drawer.outerHeight(true);
 			if ( !open && _(".drawer-open").length ) {
@@ -146,6 +147,7 @@
 					onCompleteParams: [whichDrawer]
 				});
 			} else {
+				$button.removeClass("active");
 				TweenMax.to($drawer, 0.5, {
 					y: height,
 					opacity: 0,
@@ -171,7 +173,7 @@
 			}
 
 			$drawer.toggleClass("drawer-open");
-			_(".posts-archive").toggleClass("bottom-drawer-toggled");
+			_(".posts-archive, .category-archive").toggleClass("bottom-drawer-toggled");
 		};
 
 		_(window).load(function() {
@@ -255,7 +257,7 @@
 					});
 
 					_(this).addClass("animation-initiated");
-					setResponsiveMaxHeight(_(this), true);
+					setResponsiveMaxHeight(_(this), false);
 					makeDraggable(_(this));
 				});
 			};

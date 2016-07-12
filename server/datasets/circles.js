@@ -10,8 +10,8 @@ module.exports = mongoose.model('Circle', {
 	members: [String],
 	styles: {
 		theme: {type: String, default: "smooth"},
-		palette: {type: String, default: "original"},
-		font: {type: String, default: "montserrat"},
+		palette: {type: String, default: "original-blue"},
+		font: {type: String, default: "helvetica"},
 		bg: {type: String, default: "/images/default-bg.jpg"},
 		logo: String,
 		css: String,

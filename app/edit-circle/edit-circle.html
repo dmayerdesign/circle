@@ -16,65 +16,68 @@
 		<!-- EDIT CIRCLE MAIN -->
 		<div class="drawer-inner col-md-12">
 			<div class="styles" ng-show="editCircle.part == 'styles'">
-				<h3>Styles</h3>
-				<div class="col-md-6 pull-left">
-					<p>Change the theme</p>
+				<h2>Styles</h2>
+				<div class="col-md-6 pull-left no-gutter">
+					<h4>Change the theme</h4>
 					<select ng-model="currentCircle.styles.theme" value="{{$root.currentCircle.styles.theme}}" type="text" class="reg-form">
 						<option ng-selected="currentCircle.styles.theme == 'smooth'" value="smooth">Smooth</option>
 						<option ng-selected="currentCircle.styles.theme == 'material'" value="material">Material</option>
 					</select>
-					<button ng-click="styleCircle('theme')" class="btn btn-default">Save</button>
+					<button ng-click="styleCircle('theme')" class="reg-btn mini c-bg-secondary">apply</button>
 				</div>
 
-				<div class="col-md-6 pull-left">
-					<p>Change the palette</p>
+				<div class="col-md-6 pull-left no-gutter">
+					<h4>Change the palette</h4>
 					<select ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="reg-form">
 						<option ng-selected="currentCircle.styles.palette == 'original-blue'" value="original-blue">Original Blue</option>
 						<option ng-selected="currentCircle.styles.palette == 'troll-hollow'" value="troll-hollow">Troll Hollow</option>
 						<option ng-selected="currentCircle.styles.palette == 'sunlit-sail'" value="sunlit-sail">Sunlit Sail</option>
 					</select>
-					<button ng-click="styleCircle('palette')" class="btn btn-default">Save</button>
+					<button ng-click="styleCircle('palette')" class="reg-btn mini c-bg-secondary">apply</button>
 				</div>
 
-				<div class="col-md-6 pull-left">
-					<p>Change the font</p>
+				<div class="col-md-6 pull-left no-gutter">
+					<h4>Change the primary font</h4>
 					<select ng-model="currentCircle.styles.font" value="{{$root.currentCircle.styles.font}}" type="text" class="reg-form">
+						<option ng-selected="currentCircle.styles.font == 'helvetica'" value="helvetica">Helvetica</option>
 						<option ng-selected="currentCircle.styles.font == 'open-sans'" value="open-sans">Open Sans</option>
 						<option ng-selected="currentCircle.styles.font == 'montserrat'" value="montserrat">Montserrat</option>
 						<option ng-selected="currentCircle.styles.font == 'pridi'" value="pridi">Pridi</option>
 					</select>
-					<button ng-click="styleCircle('font')" class="btn btn-default">Save</button>
+					<button ng-click="styleCircle('font')" class="reg-btn mini c-bg-secondary">apply</button>
 				</div>
 			</div>
 			<div class="imagery" ng-show="editCircle.part == 'imagery'">
-				<div>
-					<p>Change the background</p>
-					<button class="btn c-bg-primary" ngf-select="upload('bg', $file)">Select</button>
+				<h2>Imagery</h2>
+
+				<div class="col-md-6 pull-left no-gutter">
+					<h4>Change the background</h4>
+					<button class="reg-btn compact upload-btn c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('bg', $file)">upload something</button>
 					<input class="reg-form compact" ng-model="bgLink" placeholder="or paste an image link">
-					<button class="btn c-bg-primary" ng-click="updateImageFromLink('background', bgLink)">Save</button>
+					<button class="reg-btn mini c-bg-secondary" ng-click="updateImageFromLink('background', bgLink)">apply</button>
 				</div>
 
-				<div>
-					<p>Change the logo</p>
-					<button class="btn c-bg-primary" ngf-select="upload('logo', $file)">Select</button>
+				<div class="col-md-6 pull-left no-gutter">
+					<h4>Change the logo</h4>
+					<button class="reg-btn compact upload-btn c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('logo', $file)">upload something</button>
 					<input class="reg-form compact" ng-model="logoLink" placeholder="or paste an image link">
-					<button class="btn c-bg-primary" ng-click="updateImageFromLink('logo', logoLink)">Save</button>
+					<button class="reg-btn mini c-bg-secondary" ng-click="updateImageFromLink('logo', logoLink)">apply</button>
 				</div>
 
-				<div>
-					<p>Select a featured image for this tag</p>
-					<button class="btn c-bg-primary" ngf-select="upload('tagImage', $file)">Select</button>
+				<div class="col-md-6 pull-left no-gutter" ng-if="location.search().tag || postsAreFiltered.filter === 'tags'">
+					<h4>Add a featured image for this category</h4>
+					<button class="reg-btn compact upload-btn c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('tagImage', $file)">upload something</button>
 					<input class="reg-form compact" ng-model="tagImageLink" placeholder="or paste an image link">
-					<button class="btn c-bg-primary" ng-click="updateImageFromLink('tagImage', tagImageLink)">Save</button>
+					<button class="reg-btn mini c-bg-secondary" ng-click="updateImageFromLink('tagImage', tagImageLink)">apply</button>
 				</div>
 			</div>
 			<div class="settings" ng-show="editCircle.part == 'settings'">
-				<h3>Settings</h3>
-				<div>
-					<p>Name your currency</p>
+				<h2>Settings</h2>
+				<div class="col-md-6 pull-left no-gutter">
+					<h4>Name your currency</h4>
 					<input class="reg-form compact" ng-model="currentCircle.currency.singularName" name="currency_name_singular" placeholder="singular name (e.g. 'dollar')">
 					<input class="reg-form compact" ng-model="currentCircle.currency.pluralName" name="currency_name_plural" placeholder="plural name (e.g. 'quid')">
-					<button ng-click="editCurrency()" class="btn btn-default">Save</button>
+					<button ng-click="editCurrency()" class="reg-btn mini c-bg-secondary">apply</button>
 				</div>
 			</div>
 

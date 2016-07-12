@@ -93,11 +93,11 @@
 			</div>
 			
 			<div class="reactions">
-				<button class="btn clear-btn pull-right like-btn" ng-class="{'liked-by-you': post.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react('like', 'post', post._id)">
+				<button class="btn clear-btn pull-right like-btn" ng-class="{'liked-by-you': post.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react($event, 'like', 'post', post._id)">
 					<i class="fa fa-thumbs-up"></i>
 					<span>{{post.reactions.like.amount}}</span>
 				</button>
-				<button class="btn clear-btn pull-right love-btn" ng-class="{'loved-by-you': post.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react('love', 'post', post._id)">
+				<button class="btn clear-btn pull-right love-btn" ng-class="{'loved-by-you': post.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react($event, 'love', 'post', post._id)">
 					<i class="fa fa-heart"></i>
 					<span>{{post.reactions.love.amount}}</span>
 				</button>
@@ -112,15 +112,15 @@
 		<section class="comments">
 			<div ng-repeat="comment in post.comments" class="comment">
 				<p class="not-treated">{{comment.authorName}} said: {{comment.content}}</p>
-				<button class="btn" ng-class="{'btn-default': comment.reactions.like.users.indexOf($root.user.username) == -1, 'btn-primary': comment.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react('like', 'comment', post._id, comment._id)">Like ({{comment.reactions.like.amount}})</button>
-				<button class="btn" ng-class="{'btn-default': comment.reactions.love.users.indexOf($root.user.username) == -1, 'btn-primary': comment.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react('love', 'comment', post._id, comment._id)">Love ({{comment.reactions.love.amount}})</button>
+				<button class="btn" ng-class="{'btn-default': comment.reactions.like.users.indexOf($root.user.username) == -1, 'btn-primary': comment.reactions.like.users.indexOf($root.user.username) > -1}" ng-click="react($event, 'like', 'comment', post._id, comment._id)">Like ({{comment.reactions.like.amount}})</button>
+				<button class="btn" ng-class="{'btn-default': comment.reactions.love.users.indexOf($root.user.username) == -1, 'btn-primary': comment.reactions.love.users.indexOf($root.user.username) > -1}" ng-click="react($event, 'love', 'comment', post._id, comment._id)">Love ({{comment.reactions.love.amount}})</button>
 			</div>
 			<button class="reg-btn compact has-icon-left c-bg-secondary c-bg-primary-hover c-text-hover" ng-show="!allowAddComment" ng-click="allowAddComment = true">
 				<i class="fa fa-comments"></i>Add a comment
 			</button>
 			<form ng-show="allowAddComment" ng-submit="postComment(); allowAddComment = false">
 				<input class="reg-form" focus-if="allowAddComment" type="text" ng-model="newComment.content" placeholder="Write a comment">
-				<button class="reg-btn compact c-bg-primary c-bg-accent-hover">Post comment</button>
+				<button type="submit" class="reg-btn compact c-bg-primary c-bg-accent-hover">Post comment</button>
 			</form>
 		</section>
 

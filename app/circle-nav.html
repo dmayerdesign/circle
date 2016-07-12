@@ -23,12 +23,4 @@
 				</div>
 			</div>
 		</div>
-		<ul ng-if="postsAreFiltered.filter === 'users' && $root.postTypesAreFiltered.filter !== 'types'" class="refine-filter col-md-12">
-			<li sticky-toggle-class="active" class="filter-by-author inner-btn c-text c-bg-accent-active c-bg-accent-hover c-text-active c-text-hover c-bg-content" ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">
-				<span class="btn-text">things by <span ng-if="postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
-			</li>
-			<li sticky-toggle-class="active" class="active filter-by-mention inner-btn c-text c-bg-accent-active c-bg-accent-hover c-text-active c-text-hover c-bg-content" ng-click="filterByCreator = false; showPostsFiltered( 'users', postsAreFiltered.term )">
-				<span class="btn-text">things <span ng-if="(postsAreFiltered.term) === $root.user.username">@</span><span ng-if="(postsAreFiltered.term) !== $root.user.username" style="opacity:1">at</span> <span ng-if="postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
-			</li>
-		</ul>
 		

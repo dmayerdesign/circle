@@ -30,15 +30,11 @@
 				}
 			};
 
-			$scope.editProfile = function(part) {
-				var request = {
-					userId: $scope.user._id
-				};
-
-				request[part] = $scope.user[part];
+			$scope.editProfile = function() {
+				var request = $rootScope.user;
 
 				$http.post('api/profile/editProfile', request)
-				.success(function() {
+				.success(function(response) {
 					console.log("profile updated");
 				})
 				.error(function(err) {

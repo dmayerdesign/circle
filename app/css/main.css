@@ -187,6 +187,10 @@ article a {
 
 
 /* fonts */
+body.font-helvetica {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
 body.font-montserrat {
 	font-family: 'Montserrat', Helvetica, sans-serif;
 }
@@ -225,7 +229,8 @@ a:hover, a:focus {
 
 /** THEMES **/
 .theme-smooth .app-bar,
-.theme-smooth .main-menu {
+.theme-smooth .main-menu,
+.theme-smooth .less-rounded {
 	border-radius: 0.6em;
 }
 
@@ -265,6 +270,10 @@ a:hover, a:focus {
 .theme-material .main-menu {
 	border-radius: 0.2em;
 	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+
+.theme-material .less-rounded {
+	border-radius: 0.2em;
 }
 
 .theme-material .main-menu {
@@ -508,6 +517,7 @@ nav {
 	font-size: 1em;
 	text-transform: uppercase;
 	color: #ffffff;
+	font-family: Helvetica, sans-serif !important;
 }
 
 	.app-bar h3.has-logo {
@@ -568,6 +578,12 @@ nav {
 	text-align: center;
 }
 
+.main-menu h4 {
+	font-size: 2.4em;
+	margin-top: 1.4em;
+}
+
+
 .profile-btn {
 	display: block;
 }
@@ -581,18 +597,60 @@ nav {
 	.profile-btn > span {
 		display: block;
     padding-top: 1em;
+    font-size: 1.2em;
 	}
 
 .submenu {
 	float: left;
 }
 
-.main-menu .logo {
+.your-circles {
+	border-radius: 0.4em;
+}
+
+.your-circles h5 {
+	font-size: 1.1em;
+	line-height: 3em;
+}
+
+.your-circles .logo {
 	position: relative;
 		left: 0;
 	float: left;
-	margin: 0;
+	margin: 0 1em 0 0;
+	width: 3em;
+	height: 3em;
 }
+
+.your-circles .inner-btn {
+	height: 5.2em;
+	border-bottom: 1px solid rgba(50,50,50,0.1);
+	text-align: left;
+}
+
+.your-circles .create-or-join {
+	margin: 0 auto;
+	text-align: center;
+	color: #fff !important;
+}
+
+	.your-circles .create-or-join:hover,
+	.your-circles .create-or-join:active {
+		text-decoration: underline;
+		background: transparent !important;
+	}
+
+.main-menu .log-out {
+	width: 100%;
+	margin-top: 3em;
+}
+
+	.main-menu .log-out:hover,
+	.main-menu .log-out:focus,
+	.main-menu .log-out:active {
+		background: transparent !important;
+		text-decoration: underline;
+	}
 
 @media screen and (max-width: 991px) {
 	.app-bar {
@@ -614,7 +672,7 @@ nav {
 	position: absolute;
 	  z-index: 101;
 	  bottom: 0;
-  height: 8em;
+  height: 7em;
 }
 
 .circle-nav-inner {
@@ -651,7 +709,7 @@ nav {
 
 .circle-nav .tile {
 	overflow: hidden;
-	height: 7em;
+	height: 8em;
 	line-height: 1;
 }
 
@@ -662,6 +720,10 @@ nav {
 	.theme-material .circle-nav .tile {
 		border-radius: 0.2em;
 	}
+
+.circle-nav .inner-btn.has-icon {
+	height: 7.6em !important;
+}
 
 @media screen and (max-width: 991px) {
 	body {
@@ -734,13 +796,25 @@ nav {
 .refine-filter {
 	position: relative;
 		z-index: 99;
-		top: -14em;
-	padding: 0 1em 0 0;
+		top: -1.1em;
+	padding: 0;
 }
 
 .refine-filter li {
-	width: 50%;
+	width: 49%;
 	margin: 0;
+}
+
+	.refine-filter .filter-by-author {
+		margin-right: 0.5%;
+	}
+
+	.refine-filter .filter-by-mention {
+		margin-left: 0.5%;
+	}
+
+.refine-filter li span {
+	font-size: 1.2em;
 }
 
 .tags-dropdown {
@@ -854,11 +928,13 @@ nav {
   }
 }
 
-.posts-archive {
+.posts-archive,
+.category-archive {
 	padding: 0 0 10em 0;
 }
 
-	.posts-archive.bottom-drawer-toggled {
+	.posts-archive.bottom-drawer-toggled,
+	.category-archive.bottom-drawer-toggled {
 		padding-bottom: 32em;
 	}
 
@@ -871,6 +947,11 @@ h1.archive-header {
 	.archive-header.user {
 		margin-bottom: 3em;
 	}
+
+.archiver-header.user .name {
+	margin-top: 0.2em;
+	margin-bottom: 0.1em;
+}
 
 .tile, .post-main {
 	box-sizing: border-box;
@@ -1047,6 +1128,10 @@ h1.archive-header {
     line-height: 2em;
 	}
 
+	.archive-header .avatar-container {
+		font-size: 6em;
+	}
+
 	.post .commenter .avatar-container {
 		width: 3.2em;
 		height: 2.9em;
@@ -1080,6 +1165,17 @@ h1.archive-header {
 		font-size: 0.7em;
 		width: 100%;
 	}
+
+@media only screen and (max-width: 991px) {
+	.post {
+		clear: both;
+	}
+
+	.refine-filter {
+		float: left;
+		width: 100%;
+	}
+}
 
 /* DRAWERS */
 
@@ -1116,12 +1212,17 @@ h1.archive-header {
 }
 
 	.bottom-drawer-edit-circle .drawer-inner {
+		padding-top: 1em !important;
 		padding-bottom: 10em !important;
 	}
 
 .bottom-drawer-edit-circle .drawer-inner .styles,
 .bottom-drawer-edit-circle .drawer-inner .settings {
 	max-width: 60em;
+}
+
+.bottom-drawer-edit-circle .no-gutter {
+	padding-right: 2em !important;
 }
 
 .bottom-drawer-add {
@@ -1156,9 +1257,13 @@ h1.archive-header {
 	margin-bottom: 0;
 }
 
-.bottom-drawer h4 {
+.bottom-drawer-add h4 {
 	margin-top: 1.6em;
 	margin-bottom: 0.8em;
+}
+
+.bottom-drawer .upload-btn {
+	margin-bottom: 0.7em;
 }
 
 .radio-tabs input {
@@ -1222,7 +1327,7 @@ button:focus, button:active {
   outline: none;
   border: none;
   background: transparent;
-  line-height: 6.8em !important;
+  line-height: 6em !important;
   padding: 0 2em;
 
   text-align: center;
@@ -1234,7 +1339,6 @@ button:focus, button:active {
 
 	.main-menu .inner-btn {
 		width: 100%;
-		text-align: left;
 	}
 
 	.circle-sorting .inner-btn {
@@ -1261,6 +1365,7 @@ button:focus, button:active {
 	.inner-btn.back-btn {
 		width: 100%;
 		height: 7em;
+		line-height: 7.2em !important;
 		text-transform: uppercase;
 		font-weight: normal;
 	}
@@ -1308,9 +1413,9 @@ button:focus, button:active {
 
 .floating-btn-container {
 	position: absolute;
-    z-index: 120;
-    bottom: 1.6em;
-    right: 2em;
+    z-index: 109;
+    bottom: 9em;
+    right: 8.3%;
   width: 6em;
   overflow: visible;
 }
@@ -1360,6 +1465,10 @@ button:focus, button:active {
 
 .reg-btn.compact {
 	padding: 1.4em 2.4em;
+}
+
+.reg-btn.mini {
+	padding: 1em 2em;
 }
 
 .send-btn {
@@ -1437,7 +1546,7 @@ button:focus, button:active {
 		top: 11em;
 	overflow: auto;
 	width: 100%;
-	height: 12em;
+	max-height: 12em;
 	background: transparent;
 	box-shadow: 1px 3px 8px rgba(0,0,0,0.1);
 }
@@ -1496,13 +1605,6 @@ button:focus, button:active {
 @media screen and (max-width: 991px) {
 	.floating-btn-container {
 		bottom: 9.8em;
-		right: 1.6em;
-	}
-}
-
-@media screen and (max-height: 600px) {
-	.floating-btn-container {
-		bottom: 1.8em;
 		right: 1.6em;
 	}
 }
@@ -1624,6 +1726,11 @@ textarea {
 	.reg-form[type="number"] {
 		width: 4em;
 		padding-right: 0.2em;
+	}
+
+	select.reg-form {
+    font-size: 1.2em;
+    height: 4em !important;
 	}
 
 .line-form {
@@ -1805,14 +1912,16 @@ textarea {
 
 /** CATEGORIES PAGE **/
 .category-tile {
-	height: 20em;
-	line-height: 20em;
+	height: 18em;
+	line-height: 18em;
+	margin-bottom: 2.8em;
 	text-align: center;
 }
 
 .category-tile > a {
 	background-size: 100% 100%;
 	background-size: cover;
+	background-position: 50% 50%;
 }
 
 .category-tile span {
@@ -1985,6 +2094,25 @@ textarea {
 }
 
 
+
+
+/* EDIT PROFILE */
+.edit-profile-nav .circle-nav-inner {
+	width: 100% !important;
+}
+
+.edit-profile-nav .inner-btn {
+	width: 25% !important;
+}
+
+	.edit-profile-nav .back-btn {
+		border-right: 0.4em solid rgba(50,50,50,0.1);
+	}
+
+.edit-avatar {
+	width: 8em;
+	margin: 0 auto;
+}
 
 
 

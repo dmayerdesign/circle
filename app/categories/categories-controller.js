@@ -1,7 +1,7 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('categoriesController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
-													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
+	.controller('categoriesController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 'generate',
+													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init,   generate) {
 
 		$rootScope.archiveTag = null;
 
@@ -36,6 +36,10 @@
 
 					init.getTags(circle._id, function(tags) {
 						$rootScope.categories = tags;
+
+						angular.forEach($rootScope.categories, function(category) {
+							category.randomBg = 'images/category-bg-' + generate.randomInteger(6) + '.jpg';
+						});
 					});
 				});
 
@@ -48,14 +52,14 @@
 		var initArchive = function() {
 			var $head = _("head");
 			var winHeight = _(window).height();
-			var _archive = _(".category-archive");
+			var _archive = _(".category-archive-container");
 
 			_archive
 				.css({height: (winHeight + 30) + "px"}) //.jScrollPane()
 				.addClass("initiated");
 		};
 		var initArchiveInt = setInterval(function() {
-			if ( !_(".category-archive").hasClass("initiated") ) {
+			if ( !_(".category-archive-container").hasClass("initiated") ) {
 				initArchive();
 				_(window).resize(initArchive);
 			} else {
@@ -63,37 +67,24 @@
 			}
 		}, 200);
 
-		// function randomBgClasses() {
-		// 	var classArr = [
-		// 		"c-bg-primary",
-		// 		"c-bg-secondary",
-		// 		"c-bg-accent"
-		// 	];
-		// 	var addClassesInt = setInterval(function() {
-		// 		_(".category-tile.bg-not-applied").each(function() {
-		// 			$(this)
-		// 				.addClass(classArr[Math.floor(Math.random() * 3)])
-		// 				.removeClass("bg-not-applied");
-		// 		});
-		// 		if ( !_(".category-tile.bg-not-applied").length ) {
-		// 			clearInterval(addClassesInt);
-		// 		}
-		// 	}, 500);
-		// }
-		// randomBgClasses();
-
 		$scope.deleteCategory = function(name) {
-			var scope = this;
-			var request = {
-				circleId: $rootScope.currentCircle._id,
-				tagName: name
+			if (window.confirm("Delete the category '" + name + "'?")) {
+				var scope = this;
+				var request = {
+					circleId: $rootScope.currentCircle._id,
+					tagName: name
+				}
+				$http.post('api/tags/deleteTag', request).then(function(response) {
+					$rootScope.currentCircle.tags = response.data;
+					window.location.reload();
+				});
 			}
-			$http.post('api/tags/deleteTag', request).then(function(response) {
-				$rootScope.currentCircle.tags = response.data;
-				//localStorage.setItem('Current-Circle', JSON.stringify($rootScope.currentCircle));
-				window.location.reload();
-			});
 		};
+
+		// $scope.randomCategoryBg = function() {
+		// 	var bg = 'images/category-bg-' + generate.randomInteger(4) + '.jpg';
+		// 	return bg;
+		// };
 
 
 	}]);

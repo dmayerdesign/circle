@@ -185,7 +185,7 @@
 
 			$http.post('api/comment/post', request)
 			.success(function(response) {
-				that.post = response;
+				$rootScope.post = response;
 				that.newComment = {
 					content: "",
 					images: [],
@@ -226,8 +226,8 @@
 			}
 		};
 
-		$scope.react = function(reaction, type, id, commentId) {
-			var _thisBtn = _("." + reaction + "-btn");
+		$scope.react = function($event, reaction, type, id, commentId) {
+			var _thisBtn = _($event.target);
 			var _thisIcon = _thisBtn.find("i");
 			var _newIcon;
 			var request = {

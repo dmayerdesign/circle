@@ -151,7 +151,7 @@
 				localStorage.setItem('Circles', JSON.stringify(circles));
 
 				request = {
-					userId: user._id,
+					_id: user._id,
 					accessCode: circle.accessCode
 				};
 
@@ -427,13 +427,23 @@
 			if ( $scope.currentCircle.styles.font === "open-sans" && !jQuery(".open-sans-link").length ) { fontLink = "<link class='font-link open-sans-link' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>"; }
 			if ( $scope.currentCircle.styles.font === "montserrat" && !jQuery(".montserrat-link").length ) { fontLink = "<link class='font-link montserrat-link' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>"; }
 			if ( $scope.currentCircle.styles.font === "pridi" && !jQuery(".pridi-link").length ) { fontLink = "<link class='font-link pridi-link' href='https://fonts.googleapis.com/css?family=Pridi:300,400,700' rel='stylesheet' type='text/css'>"; }
-			//_(".font-link").remove();
+			if ( $scope.currentCircle.styles.font === "helvetica" && _(".font-link").length ) { fontLink = ""; _(".font-link").remove(); }
 			_("head").append(fontLink);
 
 			return $scope;
 		};
 
 		return customizer;
+	});
+
+	app.factory('generate', function() {
+		var generate = {};
+		generate.randomInteger = function(n, floor) {
+			var func = floor || 'ceil';
+			return Math[func](Math.random()*n);
+		};
+
+		return generate;
 	});
 
 	app.directive('backImg', function(){
@@ -468,7 +478,7 @@
       link: function(scope, element, attrs) {
         element.bind('click', function() {
         	if (!element.hasClass(attrs.stickyToggleClass)) {
-        		_(".circle-nav .inner-btn").removeClass(attrs.stickyToggleClass);
+        		element.siblings().removeClass(attrs.stickyToggleClass);
           	element.addClass(attrs.stickyToggleClass);
         	}
         });
@@ -503,7 +513,9 @@
 	      // on blur event:
 	      element.bind('blur', function() {
 					console.log('blur');
-					scope.$apply(model.assign(scope, false));
+					$timeout(function() {
+						scope.$apply(model.assign(scope, false));
+					}, 300);
 	      });
 	    }
 	  };

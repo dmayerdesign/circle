@@ -1,7 +1,7 @@
 <div ng-if="loggedIn && user.isEmailVerified" class="app-bar c-bg-primary container-fluid col-md-10 col-md-offset-1">
 	<a class="logo" ui-sref="main" ng-click="refresh()" ng-style="{backgroundImage: 'url(' + $root.currentCircle.styles.logo + ')'}"]></a>
 	<h3 ng-if="circleJoined" ng-class="{'has-logo': $root.currentCircle.styles.logo}">
-		<a ui-sref="main" ng-click="refresh()">{{ $root.currentCircle.name }}</a>
+		<a ui-sref="main" ng-click="refresh()" class="bold-caps">{{ $root.currentCircle.name }}</a>
 	</h3>
 	<h3 ng-if="!circleJoined"><a ui-sref="main">Circle</a></h3>
 
@@ -9,7 +9,7 @@
 		<i ng-if="!mainMenuIsOpen" class="fa fa-bars"></i>
 		<i ng-if="mainMenuIsOpen" class="fa fa-long-arrow-left"></i>
 		</button>
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-active" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady" style="float: right;"><i class="fa fa-magic"></i></button>
+	<button class="app-bar-btn app-bar-right inner-btn c-accent-active edit-circle-btn pull-right" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady"><i class="fa fa-magic"></i></button>
 </div>
 
 <div class="main-menu c-bg-content" ng-class="{'open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
@@ -27,16 +27,16 @@
 	 		<span class="bold-caps">Profile/Account</span>
 	 	</a>
 	  
-	  <h5>Your circles</h5>
-		<div class="submenu">
-			<button ng-repeat="(code, circle) in $root.circles" ng-click="switchCircles(code)" class="inner-btn">
+	  <h4>Your circles</h4>
+		<div class="submenu your-circles c-bg-secondary">
+			<div ng-repeat="(code, circle) in $root.circles" ng-click="switchCircles(code)" class="inner-btn circle c-bg-primary-hover c-text-dark c-text-hover">
 				<div class="logo" ng-style="{backgroundImage: 'url(' + $root.currentCircle.styles.logo + ')'}"]></div>
-				<h5>{{circle.name}}</h5>
-			</button>
-			<button class="btn btn-primary" ng-click="joinAnotherCircle()">Create or join a new circle</button>
+				<h5 class="bold-caps">{{circle.name}}</h5>
+			</div>
+			<button class="reg-btn transparent-btn compact create-or-join" ng-click="joinAnotherCircle()">+ create or join</button>
 		</div>
 
-		<button ng-click="logOut()" class="inner-btn">Log out</button>
+		<button ng-click="logOut()" class="reg-btn transparent-btn bold-caps log-out pull-left has-icon-left"><i class="fa fa-unlock-alt"></i>Log out</button>
 	</div>
 
 </div>

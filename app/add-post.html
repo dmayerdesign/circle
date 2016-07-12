@@ -47,7 +47,7 @@
 			<div ng-show="symbolSearch.members && listIsActive()" ng-class="{'list-active': symbolSearch.members}" class="post-search-list post-search-list-members">
 				<ul>
 					<li ng-repeat="user in $root.users | filter: attemptFind" ng-click="insertIntoPost($event, 'members', user.username)" class="post-search-list-select c-bg-content" data-value="{{user.username}}">
-						<img width="40" src="{{user.avatar}}"> {{user.name}} <span class="username"><span class="symbol">#</span>{{user.username}}</span>
+						<img width="40" src="{{user.avatar}}"> {{user.name}} <span class="username"><span class="symbol">@</span>{{user.username}}</span>
 					</li>
 				</ul>
 			</div>
@@ -100,5 +100,5 @@
 				</div>
 			</div>
 
-			<button ng-click="sendPost()" class="btn reg-btn send-btn c-bg-primary c-bg-accent-hover tile">Post</button>
+			<button ng-click="sendPost()" class="btn reg-btn send-btn c-bg-primary c-bg-accent-hover tile has-icon-left"><i class="fa fa-paper-plane"></i>Post</button>
 		</div>
