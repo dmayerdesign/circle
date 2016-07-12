@@ -4,13 +4,16 @@ var mv = require('mv');
 var path = require('path');
 
 module.exports.updatePhoto = function(req, res) {
-	var file = req.files.file,
+	var file = req.files && req.files.file,
 		userId = req.body.userId;
 
+	if (req.body.linkedImageURI) {
+		updateAvatar(userId, req.body.linkedImageURI);
+		return;
+	}
+	
 	console.log("User " + userId + " is submitting " , file);
-
 	var uploadDate = new Date().getTime();
-
 	var tempPath = file.path;
 	var targetPath = path.join(__dirname, "../../uploads/" + userId + "_" + uploadDate + "_" + file.name);
 	var savePath = "/uploads/" + userId + "_" + uploadDate + "_" + file.name;
@@ -19,28 +22,32 @@ module.exports.updatePhoto = function(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			User.findById(userId, function(err, user) {
-				user.avatar = savePath;
-				user.save(function(err, userData) {
-					if (err) {
-						console.log("Save failed :(");
-						res.json({status: 500});
-					} else {
-						console.log("Save successful! ^_^");
-						Post.find({userId: userId}, function(err, posts) {
-							for ( var i = 0; i < posts.length; i++ ) {
-								posts[i].avatar = user.avatar;
-								posts[i].user = user.username || user.email;
-								posts[i].save();
-								console.log(posts[i].avatar);
-							}
-							res.json(userData);
-						});
-					}
-				})
-			});
+			updateAvatar(userId, savePath);
 		}
 	});
+
+	function updateAvatar(userId, path) {
+		User.findById(userId, function(err, user) {
+			user.avatar = path;
+			user.save(function(err, userData) {
+				if (err) {
+					console.log("Save failed :(");
+					res.json({status: 500});
+				} else {
+					console.log("Save successful! ^_^");
+					Post.find({userId: userId}, function(err, posts) {
+						for ( var i = 0; i < posts.length; i++ ) {
+							posts[i].avatar = user.avatar;
+							posts[i].user = user.username || user.email;
+							posts[i].save();
+							console.log(posts[i].avatar);
+						}
+						res.json(userData);
+					});
+				}
+			})
+		});
+	}
 };
 
 module.exports.editProfile = function(req, res) {

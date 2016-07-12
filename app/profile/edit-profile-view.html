@@ -1,4 +1,4 @@
-<nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
+<nav ng-include src="'app/app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
 <nav class="circle-nav edit-profile-nav col-md-8 col-md-offset-2">
 	<div class="circle-nav-inner">
@@ -16,21 +16,18 @@
 
 <section class="main" id="profile-account">
 	<div class="col-sm-6 col-sm-offset-3">
-		<div class="edit-avatar profile-btn" ngf-select="upload($file)">
+		<div class="edit-avatar profile-btn" ng-click="editAvatar = true">
 			<div ng-show="$root.user.avatar.length" class="avatar-container" style="background-image: url({{$root.user.avatar}})"></div>
 		 	<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[$root.user._id].primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>
+		 	<button ng-show="editAvatar" class="reg-btn c-bg-primary" ngf-select="upload($file)">Upload</button>
+		 	<input ng-show="editAvatar" class="reg-form compact" ng-model="avatarLink" placeholder="or paste an image link">
+			<button ng-show="editAvatar" class="reg-btn mini c-bg-secondary" ng-click="updateAvatarFromLink(avatarLink)">apply</button>
 		</div>
 	</div>
 
 	<form class="row" ng-submit="editProfile()">
 		<div class="col-sm-6 col-sm-offset-3">
 			<input ng-model="$root.user.name" type="text" class="line-form" placeholder="name" />
-		</div>
-	</form>
-
-	<form class="row" ng-submit="editProfile()">
-		<div class="col-sm-6 col-sm-offset-3">
-			<input ng-model="$root.user.username" type="text" class="line-form" placeholder="username" />
 		</div>
 	</form>
 

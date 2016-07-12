@@ -3,7 +3,7 @@ var User = require('../datasets/users');
 
 module.exports.signup = function(req, res) {
 	var signedUp = false;
-	var randomOfFour = Math.random() * 4;
+	var randomOfFive = Math.floor(Math.random() * 5);
 	var avatarColors = ["#a5dff9", "#ef5285", "#60c5ba", "#a593e0", "#4ea1d3"];
 
 
@@ -20,7 +20,7 @@ module.exports.signup = function(req, res) {
 		} else {
 			var newUser = new User(req.body);
 
-			newUser.primaryColor = avatarColors[randomOfFour];
+			newUser.primaryColor = avatarColors[randomOfFive];
 
 			newUser.save(function(err, user) {
 				res.json(user);

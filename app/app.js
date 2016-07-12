@@ -103,10 +103,10 @@
 		};
 
 		init.getCirclesFromAccessCodes = function(accessCodes, callback) {
+			var circles = {};
 			accessCodes.forEach(function(accessCode, index, codes) {
 				$http.get('api/circle/get?accessCode=' + accessCode).then(function(response) {
 					var circle = response.data;
-					var circles = {};
 
 					circles[accessCode] = circle;
 					localStorage.setItem('Circles', JSON.stringify(circles));
@@ -478,7 +478,7 @@
       link: function(scope, element, attrs) {
         element.bind('click', function() {
         	if (!element.hasClass(attrs.stickyToggleClass)) {
-        		element.siblings().removeClass(attrs.stickyToggleClass);
+        		element.parent().parent().parent().find("." + attrs.stickyToggleClass).removeClass(attrs.stickyToggleClass);
           	element.addClass(attrs.stickyToggleClass);
         	}
         });

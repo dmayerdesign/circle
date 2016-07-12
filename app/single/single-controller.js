@@ -9,7 +9,7 @@
 
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
-		if (!$rootScope.user) {
+		if (!$rootScope.user || !$rootScope.user.email) {
 			$state.go('signup');
 			return;
 		}
@@ -30,9 +30,13 @@
 		$scope.initPost = function() {
 			var scope = this;
 
-			$http.get('api/post/getSingle?id=' + postId)
+			$http.get('api/post/getSingle?id=' + postId + '&circleId=' + $rootScope.currentCircle._id)
 			.then(function(response) {
 				$rootScope.post = response.data;
+				if (!$rootScope.post || !$rootScope.post.content || !$rootScope.post.content.length) {
+					$state.go('main');
+					return;
+				}
 				$rootScope.post.image = $rootScope.post.images[0];
 				if ( $rootScope.post.linkEmbed ) {
 					$rootScope.post.image = JSON.parse($rootScope.post.linkEmbed).thumbnail_url;
@@ -44,21 +48,25 @@
 				console.log( $rootScope.post );
 
 				action.treatPost(scope, $rootScope);
+			}, function(error) {
+				window.location.href = '/';
 			});
 		};
 		$scope.initPost();
 
 		$scope.deletePost = function(postId) {
-			var that = this;
-			var request = {
-				postId: postId,
-				circleId: $rootScope.currentCircle._id
-			};
-			console.log(request);
-			$http.post('api/post/delete', request).then(function(response) {
-				that.posts = response.data;
-				$state.go('main');
-			});
+			if (window.confirm("Delete this post?")) {
+				var that = this;
+				var request = {
+					postId: postId,
+					circleId: $rootScope.currentCircle._id
+				};
+				console.log(request);
+				$http.post('api/post/delete', request).then(function(response) {
+					that.posts = response.data;
+					$state.go('main');
+				});
+			}
 		};
 
 		$scope.deletePostClicked = false;
@@ -215,21 +223,22 @@
 			});
 		};
 
-		$scope.getMemberByUsername = function(username) {
-			var members = $rootScope.users;
-			if (members) {
-				for (var i = 0; i < members.length; i++) {
-					if (members[i].username === username) {
-						return members[i];
-					}
-				}
-			}
-		};
+		// $scope.getMemberByUsername = function(username) {
+		// 	var members = $rootScope.users;
+		// 	if (members) {
+		// 		for (var i = 0; i < members.length; i++) {
+		// 			if (members[i].username === username) {
+		// 				return members[i];
+		// 			}
+		// 		}
+		// 	}
+		// };
 
 		$scope.react = function($event, reaction, type, id, commentId) {
-			var _thisBtn = _($event.target);
+			var _thisBtn = _($event.target).is("button") ? _($event.target) : _($event.target).parents("button");
 			var _thisIcon = _thisBtn.find("i");
 			var _newIcon;
+
 			var request = {
 				circleId: $rootScope.currentCircle._id,
 				postId: id,
@@ -243,9 +252,13 @@
 				$rootScope.post = response.data;
 			});
 
+			if (_thisBtn.parents(".comment").length) {
+				return;
+			}
 			if (!_thisBtn.hasClass("liked-by-you") && !_thisBtn.hasClass("loved-by-you")) {
 				_newIcon = _thisIcon.clone();
 				_newIcon.insertAfter(_thisIcon).addClass("copy");
+				console.log(_thisIcon);
 				TweenMax.to(_newIcon, 0.6, {
 					y: -30,
 					scale: 1.3,

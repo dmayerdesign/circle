@@ -59,22 +59,26 @@ $colors: primary secondary content accent text text-dark;
 
 		@each $color in $colors {
 			.c-bg-#{$color},
-			.c-bg-#{$color}:focus,
 			.c-bg-#{$color}-hover:hover,
 			.c-bg-#{$color}-hover:active,
 			.c-bg-#{$color}-hover.active,
+			.c-bg-#{$color}-hover:focus,
 			.c-bg-#{$color}-active:active,
-			.c-bg-#{$color}-active.active {
+			.c-bg-#{$color}-active.active,
+			.c-bg-#{$color}-active:focus,
+			.c-bg-#{$color}-focus:focus {
 				@include paletteBG( $palette, $color );
 			}
 
 			.c-#{$color},
-			.c-#{$color}:focus,
 			.c-#{$color}-hover:hover,
 			.c-#{$color}-hover:active,
 			.c-#{$color}-hover.active,
+			.c-#{$color}-hover:focus,
 			.c-#{$color}-active:active,
-			.c-#{$color}-active.active {
+			.c-#{$color}-active.active,
+			.c-#{$color}-active:focus,
+			.c-#{$color}-focus:focus {
 				@include paletteColor( $palette, $color );
 			}
 
@@ -90,8 +94,30 @@ $colors: primary secondary content accent text text-dark;
 			}
 		}
 
-		.c-bg-content {
+		.c-bg-content,
+		.comment .reactions button {
 			@include paletteColor( $palette, text-dark );
+		}
+
+		.c-bg-content,
+		.comment .reactions button {
+			@include paletteColor( $palette, text-dark );
+		}
+
+		.comment .reactions .liked-by-you,
+		.comment .reactions .liked-by-you:hover,
+		.comment .reactions .liked-by-you:focus,
+		.comment .reactions .liked-by-you:active,
+		.comment .reactions .liked-by-you.active {
+			color: #55b060 !important;
+		}
+
+		.comment .reactions .loved-by-you,
+		.comment .reactions .loved-by-you:hover,
+		.comment .reactions .loved-by-you:focus,
+		.comment .reactions .loved-by-you:active,
+		.comment .reactions .loved-by-you.active {
+			color: #cc4444 !important;
 		}
 
 		.c-bg-primary {
@@ -104,6 +130,9 @@ $colors: primary secondary content accent text text-dark;
 
 		.reg-form {
 			@include borderColor( $palette, primary );
+		}
+
+		.bottom-drawer .reg-form {
 			@include paletteColor( $palette, text-dark );
 		}
 

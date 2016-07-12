@@ -34,16 +34,35 @@
 				var request = $rootScope.user;
 
 				$http.post('api/profile/editProfile', request)
-				.success(function(response) {
-					console.log("profile updated");
-				})
-				.error(function(err) {
+				.then(function(response) {
+					$rootScope.user = response;
+					localStorage.setItem("User", JSON.stringify(response));
+				},
+				function(err) {
 					console.error("profile update failed");
 				});
 			};
 
 			$scope.goToSection = function(section) {
 				_("#" + section).show().siblings("section").hide();
+			};
+
+			$scope.updateAvatarFromLink = function(link) {
+				var request = {
+					userId: $rootScope.user._id,
+					linkedImageURI: link
+				};
+
+				$http.post('api/profile/updatePhoto', request).then(function(response) {
+					console.log(response.data);
+					console.log("avatar updated");
+					
+					if (response.data) {
+						$rootScope.user = response.data;
+					}
+				}, function(err) {
+					console.error(err);
+				});
 			};
 
 

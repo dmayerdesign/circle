@@ -180,9 +180,18 @@ article a {
 }
 
 .bold-caps {
+	font-family: Helvetica, sans-serif !important;
 	font-weight: bold !important;
 	text-transform: uppercase !important;
 	letter-spacing: 0.05em !important;
+}
+
+.inline {
+	display: inline !important;
+}
+
+.inline-block {
+	display: inline-block !important;
 }
 
 
@@ -231,25 +240,28 @@ a:hover, a:focus {
 .theme-smooth .app-bar,
 .theme-smooth .main-menu,
 .theme-smooth .less-rounded {
-	border-radius: 0.6em;
+	border-radius: 0.6em !important;
 }
 
 .theme-smooth .main-menu {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
 }
 
 .theme-smooth .tile,
 .theme-smooth .post-main,
 .theme-smooth .reg-btn {
-	border-radius: 2.2em;
+	border-top-left-radius: 2.2em !important;
+	border-top-right-radius: 2.2em !important;
+	border-bottom-left-radius: 2.2em !important;
+	border-bottom-right-radius: 2.2em !important;
 }
 
 .theme-smooth .reg-form,
 .theme-smooth .bottom-drawer,
 .theme-smooth .drawer-bar {
-	border-top-left-radius: 0.6em;
-	border-top-right-radius: 0.6em;
+	border-top-left-radius: 0.6em !important;
+	border-top-right-radius: 0.6em !important;
 }
 
 .theme-smooth .reg-form {
@@ -257,13 +269,13 @@ a:hover, a:focus {
 	border-bottom-right-radius: 0.2em;
 }
 
-.theme-smooth .archive-post .post-inner {
+/*.theme-smooth .archive-post .post-inner {
 	opacity: 0.9;
 }
 
 .theme-smooth .archive-post .post-inner:hover {
 	opacity: 1;
-}
+}*/
 
 
 .theme-material .app-bar,
@@ -273,17 +285,19 @@ a:hover, a:focus {
 }
 
 .theme-material .less-rounded {
-	border-radius: 0.2em;
+	border-radius: 0.2em !important;
 }
 
 .theme-material .main-menu {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
 }
 
 .theme-material .drawer-bar {
-	border-top-left-radius: 0.2em;
-	border-top-right-radius: 0.2em;
+	border-top-left-radius: 0.2em !important;
+	border-top-right-radius: 0.2em !important;
+	border-bottom-left-radius: 0.2em !important;
+	border-bottom-right-radius: 0.2em !important;
 }
 
 .theme-material .tile,
@@ -655,6 +669,10 @@ nav {
 @media screen and (max-width: 991px) {
 	.app-bar {
 		margin-top: 0;
+	}
+
+	.theme-smooth .app-bar,
+	.theme-material .app-bar {
 		border-radius: 0 !important;
 	}
 
@@ -711,14 +729,16 @@ nav {
 	overflow: hidden;
 	height: 8em;
 	line-height: 1;
+	border-bottom-right-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
 }
 
 	.theme-smooth .circle-nav .tile {
-		border-radius: 0.6em;
+		border-radius: 0.6em !important;
 	}
 
 	.theme-material .circle-nav .tile {
-		border-radius: 0.2em;
+		border-radius: 0.2em !important;
 	}
 
 .circle-nav .inner-btn.has-icon {
@@ -742,11 +762,11 @@ nav {
 		height: 8em;
 	}
 
-		.theme-smooth .circle-nav-inner .tile {
+		.theme-smooth .circle-nav .tile {
 			border-radius: 0 !important;
 		}
 
-		.theme-material .circle-nav-inner .tile {
+		.theme-material .circle-nav .tile {
 			border-radius: 0 !important;
 		}
 
@@ -874,9 +894,12 @@ nav {
 	display: none;
 }
 
+.load-more {
+	padding: 2em !important;
+}
 
 .loading .posts-archive-container {
-	opacity: 0.3;
+	opacity: 0.1;
 }
 
 .archive-loading {
@@ -930,7 +953,7 @@ nav {
 
 .posts-archive,
 .category-archive {
-	padding: 0 0 10em 0;
+	padding: 0 0 11.5em 0;
 }
 
 	.posts-archive.bottom-drawer-toggled,
@@ -951,6 +974,10 @@ h1.archive-header {
 .archiver-header.user .name {
 	margin-top: 0.2em;
 	margin-bottom: 0.1em;
+}
+
+.no-posts h3 {
+	margin-top: 0;
 }
 
 .tile, .post-main {
@@ -1029,6 +1056,8 @@ h1.archive-header {
 	height: 6em;
 	line-height: 6.1em;
 	padding: 0 3em;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
 }
 
 .post .post-before h3 {
@@ -1074,6 +1103,7 @@ h1.archive-header {
 }
 
 .author .author-name {
+	font-family: Helvetica, sans-serif !important;
 	line-height: 3.4em;
 	margin-left: 1em;
 	text-transform: uppercase;
@@ -1090,14 +1120,15 @@ h1.archive-header {
 	float: left;
 }
 
-.author .avatar-container,
-.commenter .avatar-container {
+.avatar-container {
 	box-sizing: content-box;
 	width: 3.8em;
 	height: 3.4em;
 	line-height: 3.4em;
 	overflow: hidden;
 	border-radius: 0.2em;
+	background-size: 100%;
+	background-size: cover;
 }
 
 	.theme-smooth .author .avatar-container {
@@ -1111,10 +1142,7 @@ h1.archive-header {
 		border: 0.2em solid rgba(255,255,255,0.8);
 	}
 
-	.author .avatar-container.no-avatar,
-	.commenter .avatar-container.no-avatar,
-	.profile-btn .avatar-container.no-avatar,
-	.archive-header .avatar-container.no-avatar {
+	.avatar-container.no-avatar {
 		text-align: center;
 		color: #fff;
 	}
@@ -1135,7 +1163,7 @@ h1.archive-header {
 	.post .commenter .avatar-container {
 		width: 3.2em;
 		height: 2.9em;
-		line-height: 2.9em;
+		line-height: 3em;
 	}
 
 		.post .commenter .avatar-container.no-avatar {
@@ -1150,6 +1178,20 @@ h1.archive-header {
 		.archive-header .avatar-container {
 			margin: 0 auto;
 		}
+
+	.single-post .after-content .avatar-container {
+		width: 4.8em;
+    height: 4.3em;
+    line-height: 4.5em;
+	}
+
+		.theme-smooth .single-post .after-content .avatar-container {
+			width: 4.3em;
+		}
+
+	.single-post .after-content .author .author-name {
+    line-height: 4.3em;
+	}
 
 .avatar-container.no-avatar span {
 	display: inline-block;
@@ -1223,6 +1265,14 @@ h1.archive-header {
 
 .bottom-drawer-edit-circle .no-gutter {
 	padding-right: 2em !important;
+}
+
+.bottom-drawer-edit-circle .reg-form {
+	margin-bottom: 0.8em;
+}
+
+.bottom-drawer-edit-circle .reg-btn.mini {
+	margin-bottom: 0.8em;
 }
 
 .bottom-drawer-add {
@@ -1588,6 +1638,11 @@ button:focus, button:active {
 
 /* MISC */
 
+.reg-label {
+	display: inline-block;
+	margin-bottom: 0.6em;
+}
+
 .link-preview img {
 	float: left;
 	width: 25%;
@@ -1612,27 +1667,68 @@ button:focus, button:active {
 /* FORMS */
 
 input.reg-form::-webkit-input-placeholder {
+	color: #fff !important;
 	opacity: 0.8;
 }
 input.reg-form:-moz-placeholder { /* Firefox 18- */
+	color: #fff !important;
 	opacity: 0.8;
 }
 input.reg-form::-moz-placeholder {  /* Firefox 19+ */
+	color: #fff !important;
 	opacity: 0.8;
 }
 input.reg-form:-ms-input-placeholder {  
+	color: #fff !important;
 	opacity: 0.8;
 }
 textarea.reg-form::-webkit-input-placeholder {
+	color: #fff !important;
 	opacity: 0.8;
 }
 textarea.reg-form:-moz-placeholder { /* Firefox 18- */
+	color: #fff !important;
 	opacity: 0.8;
 }
 textarea.reg-form::-moz-placeholder {  /* Firefox 19+ */
+	color: #fff !important;
 	opacity: 0.8;
 }
-textarea.reg-form:-ms-input-placeholder {  
+textarea.reg-form:-ms-input-placeholder {
+	color: #fff !important;
+	opacity: 0.8;
+}
+
+.bottom-drawer input.reg-form::-webkit-input-placeholder {
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer input.reg-form:-moz-placeholder { /* Firefox 18- */
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer input.reg-form::-moz-placeholder {  /* Firefox 19+ */
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer input.reg-form:-ms-input-placeholder {  
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer textarea.reg-form::-webkit-input-placeholder {
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer textarea.reg-form:-moz-placeholder { /* Firefox 18- */
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer textarea.reg-form::-moz-placeholder {  /* Firefox 19+ */
+	color: inherit !important;
+	opacity: 0.8;
+}
+.bottom-drawer textarea.reg-form:-ms-input-placeholder {
+	color: inherit !important;
 	opacity: 0.8;
 }
 
@@ -1988,23 +2084,35 @@ textarea {
 	padding-bottom: 3em;
 }
 
-.after-content {
-	height: 7em;
-	line-height: 7em;
+.single-post .content {
+	margin-top: 0.6em;
+	margin-bottom: 0.1em;
+	font-size: 3.2em;
+	text-shadow: 2px 2px 10px rgba(50,50,50,0.1) !important;
 }
 
-.after-content > * {
+.single-post .secondary {
+	margin-top: 2em;
 }
+
+.after-content {
+	padding: 2em 0;
+}
+
+	.after-content .author {
+		position: relative;
+			top: 0.2em;
+	}
 
 	.after-content .date {
 		position: relative;
-    line-height: 3.9em;
+    line-height: 4.6em;
     left: 2em;
 	}
 
 	.after-content .reactions {
 		position: relative;
-			top: 0.1em;
+			top: 0.2em;
 	}
 
 .post-images img {
@@ -2039,7 +2147,7 @@ textarea {
 	.reactions .liked-by-you:focus,
 	.reactions .liked-by-you:active,
 	.reactions .liked-by-you.active {
-		color: #55b060 ;
+		color: #55b060 !important;
 	}
 
 	.reactions .loved-by-you,
@@ -2047,7 +2155,7 @@ textarea {
 	.reactions .loved-by-you:focus,
 	.reactions .loved-by-you:active,
 	.reactions .loved-by-you.active {
-		color: #cc4444;
+		color: #cc4444 !important;
 	}
 
 	.reactions button .fa.copy {
@@ -2067,7 +2175,7 @@ textarea {
 
 .options-menu-container {
 	position: absolute;
-    top: 0;
+    top: -0.9em;
     right: 1.5em;
   width: 3em;
   height: 3em;
@@ -2084,15 +2192,62 @@ textarea {
 .options-menu-toggle {
 	font-size: 1.6em;
 	padding: 0;
+	width: 2em;
+	height: 2em;
 }
 
-.single-post .content {
-	margin-top: 0.6em;
-	margin-bottom: 0.8em;
-	font-size: 3.2em;
-	text-shadow: 2px 2px 10px rgba(50,50,50,0.1) !important;
+.poll-option {
+	margin-bottom: 1em;
 }
 
+.poll-option h4 {
+	margin: 0;
+	padding: 0 1em;
+	height: 3em;
+	line-height: 3em;
+}
+
+.poll-option h3 {
+	margin: 0 1em 0 0;
+	height: 2.2em;
+	line-height: 2.2em;
+}
+
+.poll-option .votes {
+	max-height: 5.3em;
+	overflow: hidden;
+}
+
+.poll-option .voter {
+	position: relative;
+		top: 0.9em;
+	margin-right: 1em;
+}
+
+/* comments */
+
+.comment {
+	margin-bottom: 1em;
+}
+
+.comment-body {
+	font-weight: bold;
+	font-size: 1.3em;
+	padding: 2em 0;
+	margin: 0 0 0 3em;
+}
+
+.comment .author {
+	position: relative;
+		top: 1.8em;
+	margin-left: 1.8em;
+}
+
+.comment .reactions {
+	position: relative;
+		top: 2.4em;
+	font-size: 0.8em;
+}
 
 
 

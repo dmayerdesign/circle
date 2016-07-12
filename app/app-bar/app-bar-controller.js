@@ -16,6 +16,9 @@
 			else if ( $location.url().indexOf("edit-profile") > -1 ) {
 				$rootScope.currentState = "editProfile";
 			}
+			else if ( $location.url().indexOf("login") > -1 ) {
+				$rootScope.currentState = "login";
+			}
 			else {
 				$rootScope.currentState = "main";
 			}
@@ -24,8 +27,8 @@
 
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
-		if (!$rootScope.user) {
-			$state.go('signup');
+		if (!$rootScope.user || !$rootScope.user.email) {
+			$state.go('login');
 			return;
 		}
 		$rootScope.loggedIn = true;
@@ -34,6 +37,7 @@
 			if (circle) {
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
+				_("title").html(circle.name);
 				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
 				
 				init.getCirclesFromAccessCodes(user.accessCodes, function(circles) {
@@ -210,13 +214,11 @@
 		});
 
 		$scope.switchCircles = function(accessCode) {
-			var scope = this;
-			var user = this.user;
 			var circles = $rootScope.circles;
 			var circle = circles[accessCode];
 
 			localStorage.removeItem("Current-Circle");
-			localStorage["Current-Circle"] = JSON.stringify(circle);
+			localStorage.setItem("Current-Circle", JSON.stringify(circle));
 			$rootScope.currentCircle = circle;
 			window.location.href = "/";
 		};
@@ -225,7 +227,7 @@
 			this.circleJoined = false;
 			$rootScope.circleJoined = false;
 			$rootScope.currentCircle = null;
-			localStorage.removeItem( "Current-Circle" );
+			localStorage.removeItem("Current-Circle");
 			window.location.href = "/#/create-circle";
 		};
 

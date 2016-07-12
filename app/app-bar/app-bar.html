@@ -9,7 +9,7 @@
 		<i ng-if="!mainMenuIsOpen" class="fa fa-bars"></i>
 		<i ng-if="mainMenuIsOpen" class="fa fa-long-arrow-left"></i>
 		</button>
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-active edit-circle-btn pull-right" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady"><i class="fa fa-magic"></i></button>
+	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover c-text-focus edit-circle-btn pull-right" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady"><i class="fa fa-magic"></i></button>
 </div>
 
 <div class="main-menu c-bg-content" ng-class="{'open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
@@ -23,14 +23,14 @@
 	<div class="main-menu-inner">
 	 	<a class="profile-btn clearfix" ui-sref="editProfile">
 	 		<div ng-show="$root.user.avatar.length" class="avatar-container" style="background-image: url({{$root.user.avatar}})"></div>
-	 		<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[$root.user._id].primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>
+	 		<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.user.primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>
 	 		<span class="bold-caps">Profile/Account</span>
 	 	</a>
 	  
 	  <h4>Your circles</h4>
 		<div class="submenu your-circles c-bg-secondary">
 			<div ng-repeat="(code, circle) in $root.circles" ng-click="switchCircles(code)" class="inner-btn circle c-bg-primary-hover c-text-dark c-text-hover">
-				<div class="logo" ng-style="{backgroundImage: 'url(' + $root.currentCircle.styles.logo + ')'}"]></div>
+				<div class="logo" ng-style="{backgroundImage: 'url(' + circle.styles.logo + ')'}"]></div>
 				<h5 class="bold-caps">{{circle.name}}</h5>
 			</div>
 			<button class="reg-btn transparent-btn compact create-or-join" ng-click="joinAnotherCircle()">+ create or join</button>

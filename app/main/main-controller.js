@@ -5,40 +5,42 @@
 
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
-		if (!$rootScope.user) {
+		if (!$rootScope.user || !$rootScope.user.email) {
 			$state.go('signup');
 			return;
 		}
 
 		$rootScope.loggedIn = true;
 		init.app($rootScope.user._id, false, function(user, circle) {
-			$rootScope.user = user;
-			if ( !$rootScope.user || !$rootScope.user.isEmailVerified ) {
-				console.log("email is not verified");
-				if ( $location.search().email && $location.search().verifyEmail ) {
-					window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
-				}
-				$scope.emailVerificationSent = true;
-				$state.go('signup');
-				return;
-			}
-			if (circle) {
-				$rootScope.circleJoined = true;
-				$rootScope.currentCircle = circle;
-				$rootScope.archiveHeader = false;
+			// $rootScope.user = user;
+			// if ( !$rootScope.user || !$rootScope.user.isEmailVerified ) {
+			// 	console.log("email is not verified");
+			// 	if ( $location.search().email && $location.search().verifyEmail ) {
+			// 		window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
+			// 	}
+			// 	$scope.emailVerificationSent = true;
+			// 	$state.go('login');
+			// 	return;
+			// }
+			 if (circle) {
+			 	$rootScope.circleJoined = true;
+			 	$rootScope.currentCircle = circle;
+			 	$rootScope.archiveHeader = false;
 
-				init.getMembers(circle.accessCode, function(members) {
-					$rootScope.users = members;
+			// 	init.getMembers(circle.accessCode, function(members) {
+			// 		$rootScope.users = members;
 
-					$rootScope.usersById = {};
-					$rootScope.users.forEach(function(user) {
-						$rootScope.usersById[user._id] = user;
-					});
-					$rootScope.usersByUsername = {};
-					$rootScope.users.forEach(function(user) {
-						$rootScope.usersByUsername[user.username] = user;
-					});
-				});
+			// 		$rootScope.usersById = {};
+			// 		$rootScope.users.forEach(function(user) {
+			// 			$rootScope.usersById[user._id] = user;
+			// 		});
+			// 		$rootScope.usersByUsername = {};
+			// 		$rootScope.users.forEach(function(user) {
+			// 			$rootScope.usersByUsername[user.username] = user;
+			// 		});
+
+			// 		console.log($rootScope.usersByUsername);
+			// 	});
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};

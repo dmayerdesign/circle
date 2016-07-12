@@ -1,18 +1,22 @@
 .palette-original-blue .c-bg-primary,
-.palette-original-blue .c-bg-primary:focus,
 .palette-original-blue .c-bg-primary-hover:hover,
 .palette-original-blue .c-bg-primary-hover:active,
 .palette-original-blue .c-bg-primary-hover.active,
+.palette-original-blue .c-bg-primary-hover:focus,
 .palette-original-blue .c-bg-primary-active:active,
-.palette-original-blue .c-bg-primary-active.active {
+.palette-original-blue .c-bg-primary-active.active,
+.palette-original-blue .c-bg-primary-active:focus,
+.palette-original-blue .c-bg-primary-focus:focus {
   background-color: #4ea1d3 !important; }
 .palette-original-blue .c-primary,
-.palette-original-blue .c-primary:focus,
 .palette-original-blue .c-primary-hover:hover,
 .palette-original-blue .c-primary-hover:active,
 .palette-original-blue .c-primary-hover.active,
+.palette-original-blue .c-primary-hover:focus,
 .palette-original-blue .c-primary-active:active,
-.palette-original-blue .c-primary-active.active {
+.palette-original-blue .c-primary-active.active,
+.palette-original-blue .c-primary-active:focus,
+.palette-original-blue .c-primary-focus:focus {
   color: #4ea1d3 !important; }
 .palette-original-blue .c-primary::-webkit-input-placeholder,
 .palette-original-blue .c-primary:-moz-input-placeholder,
@@ -22,20 +26,24 @@
 .palette-original-blue .c-border-primary {
   border-color: #4ea1d3 !important; }
 .palette-original-blue .c-bg-secondary,
-.palette-original-blue .c-bg-secondary:focus,
 .palette-original-blue .c-bg-secondary-hover:hover,
 .palette-original-blue .c-bg-secondary-hover:active,
 .palette-original-blue .c-bg-secondary-hover.active,
+.palette-original-blue .c-bg-secondary-hover:focus,
 .palette-original-blue .c-bg-secondary-active:active,
-.palette-original-blue .c-bg-secondary-active.active {
+.palette-original-blue .c-bg-secondary-active.active,
+.palette-original-blue .c-bg-secondary-active:focus,
+.palette-original-blue .c-bg-secondary-focus:focus {
   background-color: #c8d9df !important; }
 .palette-original-blue .c-secondary,
-.palette-original-blue .c-secondary:focus,
 .palette-original-blue .c-secondary-hover:hover,
 .palette-original-blue .c-secondary-hover:active,
 .palette-original-blue .c-secondary-hover.active,
+.palette-original-blue .c-secondary-hover:focus,
 .palette-original-blue .c-secondary-active:active,
-.palette-original-blue .c-secondary-active.active {
+.palette-original-blue .c-secondary-active.active,
+.palette-original-blue .c-secondary-active:focus,
+.palette-original-blue .c-secondary-focus:focus {
   color: #c8d9df !important; }
 .palette-original-blue .c-secondary::-webkit-input-placeholder,
 .palette-original-blue .c-secondary:-moz-input-placeholder,
@@ -45,20 +53,24 @@
 .palette-original-blue .c-border-secondary {
   border-color: #c8d9df !important; }
 .palette-original-blue .c-bg-content,
-.palette-original-blue .c-bg-content:focus,
 .palette-original-blue .c-bg-content-hover:hover,
 .palette-original-blue .c-bg-content-hover:active,
 .palette-original-blue .c-bg-content-hover.active,
+.palette-original-blue .c-bg-content-hover:focus,
 .palette-original-blue .c-bg-content-active:active,
-.palette-original-blue .c-bg-content-active.active {
+.palette-original-blue .c-bg-content-active.active,
+.palette-original-blue .c-bg-content-active:focus,
+.palette-original-blue .c-bg-content-focus:focus {
   background-color: #d8e9ef !important; }
 .palette-original-blue .c-content,
-.palette-original-blue .c-content:focus,
 .palette-original-blue .c-content-hover:hover,
 .palette-original-blue .c-content-hover:active,
 .palette-original-blue .c-content-hover.active,
+.palette-original-blue .c-content-hover:focus,
 .palette-original-blue .c-content-active:active,
-.palette-original-blue .c-content-active.active {
+.palette-original-blue .c-content-active.active,
+.palette-original-blue .c-content-active:focus,
+.palette-original-blue .c-content-focus:focus {
   color: #d8e9ef !important; }
 .palette-original-blue .c-content::-webkit-input-placeholder,
 .palette-original-blue .c-content:-moz-input-placeholder,
@@ -68,20 +80,24 @@
 .palette-original-blue .c-border-content {
   border-color: #d8e9ef !important; }
 .palette-original-blue .c-bg-accent,
-.palette-original-blue .c-bg-accent:focus,
 .palette-original-blue .c-bg-accent-hover:hover,
 .palette-original-blue .c-bg-accent-hover:active,
 .palette-original-blue .c-bg-accent-hover.active,
+.palette-original-blue .c-bg-accent-hover:focus,
 .palette-original-blue .c-bg-accent-active:active,
-.palette-original-blue .c-bg-accent-active.active {
+.palette-original-blue .c-bg-accent-active.active,
+.palette-original-blue .c-bg-accent-active:focus,
+.palette-original-blue .c-bg-accent-focus:focus {
   background-color: #e85a71 !important; }
 .palette-original-blue .c-accent,
-.palette-original-blue .c-accent:focus,
 .palette-original-blue .c-accent-hover:hover,
 .palette-original-blue .c-accent-hover:active,
 .palette-original-blue .c-accent-hover.active,
+.palette-original-blue .c-accent-hover:focus,
 .palette-original-blue .c-accent-active:active,
-.palette-original-blue .c-accent-active.active {
+.palette-original-blue .c-accent-active.active,
+.palette-original-blue .c-accent-active:focus,
+.palette-original-blue .c-accent-focus:focus {
   color: #e85a71 !important; }
 .palette-original-blue .c-accent::-webkit-input-placeholder,
 .palette-original-blue .c-accent:-moz-input-placeholder,
@@ -91,20 +107,24 @@
 .palette-original-blue .c-border-accent {
   border-color: #e85a71 !important; }
 .palette-original-blue .c-bg-text,
-.palette-original-blue .c-bg-text:focus,
 .palette-original-blue .c-bg-text-hover:hover,
 .palette-original-blue .c-bg-text-hover:active,
 .palette-original-blue .c-bg-text-hover.active,
+.palette-original-blue .c-bg-text-hover:focus,
 .palette-original-blue .c-bg-text-active:active,
-.palette-original-blue .c-bg-text-active.active {
+.palette-original-blue .c-bg-text-active.active,
+.palette-original-blue .c-bg-text-active:focus,
+.palette-original-blue .c-bg-text-focus:focus {
   background-color: #d8e9ef !important; }
 .palette-original-blue .c-text,
-.palette-original-blue .c-text:focus,
 .palette-original-blue .c-text-hover:hover,
 .palette-original-blue .c-text-hover:active,
 .palette-original-blue .c-text-hover.active,
+.palette-original-blue .c-text-hover:focus,
 .palette-original-blue .c-text-active:active,
-.palette-original-blue .c-text-active.active {
+.palette-original-blue .c-text-active.active,
+.palette-original-blue .c-text-active:focus,
+.palette-original-blue .c-text-focus:focus {
   color: #d8e9ef !important; }
 .palette-original-blue .c-text::-webkit-input-placeholder,
 .palette-original-blue .c-text:-moz-input-placeholder,
@@ -114,20 +134,24 @@
 .palette-original-blue .c-border-text {
   border-color: #d8e9ef !important; }
 .palette-original-blue .c-bg-text-dark,
-.palette-original-blue .c-bg-text-dark:focus,
 .palette-original-blue .c-bg-text-dark-hover:hover,
 .palette-original-blue .c-bg-text-dark-hover:active,
 .palette-original-blue .c-bg-text-dark-hover.active,
+.palette-original-blue .c-bg-text-dark-hover:focus,
 .palette-original-blue .c-bg-text-dark-active:active,
-.palette-original-blue .c-bg-text-dark-active.active {
+.palette-original-blue .c-bg-text-dark-active.active,
+.palette-original-blue .c-bg-text-dark-active:focus,
+.palette-original-blue .c-bg-text-dark-focus:focus {
   background-color: #7a7c7e !important; }
 .palette-original-blue .c-text-dark,
-.palette-original-blue .c-text-dark:focus,
 .palette-original-blue .c-text-dark-hover:hover,
 .palette-original-blue .c-text-dark-hover:active,
 .palette-original-blue .c-text-dark-hover.active,
+.palette-original-blue .c-text-dark-hover:focus,
 .palette-original-blue .c-text-dark-active:active,
-.palette-original-blue .c-text-dark-active.active {
+.palette-original-blue .c-text-dark-active.active,
+.palette-original-blue .c-text-dark-active:focus,
+.palette-original-blue .c-text-dark-focus:focus {
   color: #7a7c7e !important; }
 .palette-original-blue .c-text-dark::-webkit-input-placeholder,
 .palette-original-blue .c-text-dark:-moz-input-placeholder,
@@ -136,14 +160,31 @@
   color: #7a7c7e !important; }
 .palette-original-blue .c-border-text-dark {
   border-color: #7a7c7e !important; }
-.palette-original-blue .c-bg-content {
+.palette-original-blue .c-bg-content,
+.palette-original-blue .comment .reactions button {
   color: #7a7c7e !important; }
+.palette-original-blue .c-bg-content,
+.palette-original-blue .comment .reactions button {
+  color: #7a7c7e !important; }
+.palette-original-blue .comment .reactions .liked-by-you,
+.palette-original-blue .comment .reactions .liked-by-you:hover,
+.palette-original-blue .comment .reactions .liked-by-you:focus,
+.palette-original-blue .comment .reactions .liked-by-you:active,
+.palette-original-blue .comment .reactions .liked-by-you.active {
+  color: #55b060 !important; }
+.palette-original-blue .comment .reactions .loved-by-you,
+.palette-original-blue .comment .reactions .loved-by-you:hover,
+.palette-original-blue .comment .reactions .loved-by-you:focus,
+.palette-original-blue .comment .reactions .loved-by-you:active,
+.palette-original-blue .comment .reactions .loved-by-you.active {
+  color: #cc4444 !important; }
 .palette-original-blue .c-bg-primary {
   color: #d8e9ef !important; }
 .palette-original-blue .c-bg-secondary {
   color: #7a7c7e !important; }
 .palette-original-blue .reg-form {
-  border-color: #4ea1d3 !important;
+  border-color: #4ea1d3 !important; }
+.palette-original-blue .bottom-drawer .reg-form {
   color: #7a7c7e !important; }
 .palette-original-blue .selected {
   background-color: #4ea1d3 !important;
@@ -152,20 +193,24 @@
   border-color: #c8d9df !important; }
 
 .palette-troll-hollow .c-bg-primary,
-.palette-troll-hollow .c-bg-primary:focus,
 .palette-troll-hollow .c-bg-primary-hover:hover,
 .palette-troll-hollow .c-bg-primary-hover:active,
 .palette-troll-hollow .c-bg-primary-hover.active,
+.palette-troll-hollow .c-bg-primary-hover:focus,
 .palette-troll-hollow .c-bg-primary-active:active,
-.palette-troll-hollow .c-bg-primary-active.active {
+.palette-troll-hollow .c-bg-primary-active.active,
+.palette-troll-hollow .c-bg-primary-active:focus,
+.palette-troll-hollow .c-bg-primary-focus:focus {
   background-color: #55967e !important; }
 .palette-troll-hollow .c-primary,
-.palette-troll-hollow .c-primary:focus,
 .palette-troll-hollow .c-primary-hover:hover,
 .palette-troll-hollow .c-primary-hover:active,
 .palette-troll-hollow .c-primary-hover.active,
+.palette-troll-hollow .c-primary-hover:focus,
 .palette-troll-hollow .c-primary-active:active,
-.palette-troll-hollow .c-primary-active.active {
+.palette-troll-hollow .c-primary-active.active,
+.palette-troll-hollow .c-primary-active:focus,
+.palette-troll-hollow .c-primary-focus:focus {
   color: #55967e !important; }
 .palette-troll-hollow .c-primary::-webkit-input-placeholder,
 .palette-troll-hollow .c-primary:-moz-input-placeholder,
@@ -175,20 +220,24 @@
 .palette-troll-hollow .c-border-primary {
   border-color: #55967e !important; }
 .palette-troll-hollow .c-bg-secondary,
-.palette-troll-hollow .c-bg-secondary:focus,
 .palette-troll-hollow .c-bg-secondary-hover:hover,
 .palette-troll-hollow .c-bg-secondary-hover:active,
 .palette-troll-hollow .c-bg-secondary-hover.active,
+.palette-troll-hollow .c-bg-secondary-hover:focus,
 .palette-troll-hollow .c-bg-secondary-active:active,
-.palette-troll-hollow .c-bg-secondary-active.active {
+.palette-troll-hollow .c-bg-secondary-active.active,
+.palette-troll-hollow .c-bg-secondary-active:focus,
+.palette-troll-hollow .c-bg-secondary-focus:focus {
   background-color: #DFD6D9 !important; }
 .palette-troll-hollow .c-secondary,
-.palette-troll-hollow .c-secondary:focus,
 .palette-troll-hollow .c-secondary-hover:hover,
 .palette-troll-hollow .c-secondary-hover:active,
 .palette-troll-hollow .c-secondary-hover.active,
+.palette-troll-hollow .c-secondary-hover:focus,
 .palette-troll-hollow .c-secondary-active:active,
-.palette-troll-hollow .c-secondary-active.active {
+.palette-troll-hollow .c-secondary-active.active,
+.palette-troll-hollow .c-secondary-active:focus,
+.palette-troll-hollow .c-secondary-focus:focus {
   color: #DFD6D9 !important; }
 .palette-troll-hollow .c-secondary::-webkit-input-placeholder,
 .palette-troll-hollow .c-secondary:-moz-input-placeholder,
@@ -198,20 +247,24 @@
 .palette-troll-hollow .c-border-secondary {
   border-color: #DFD6D9 !important; }
 .palette-troll-hollow .c-bg-content,
-.palette-troll-hollow .c-bg-content:focus,
 .palette-troll-hollow .c-bg-content-hover:hover,
 .palette-troll-hollow .c-bg-content-hover:active,
 .palette-troll-hollow .c-bg-content-hover.active,
+.palette-troll-hollow .c-bg-content-hover:focus,
 .palette-troll-hollow .c-bg-content-active:active,
-.palette-troll-hollow .c-bg-content-active.active {
+.palette-troll-hollow .c-bg-content-active.active,
+.palette-troll-hollow .c-bg-content-active:focus,
+.palette-troll-hollow .c-bg-content-focus:focus {
   background-color: #EFE6E9 !important; }
 .palette-troll-hollow .c-content,
-.palette-troll-hollow .c-content:focus,
 .palette-troll-hollow .c-content-hover:hover,
 .palette-troll-hollow .c-content-hover:active,
 .palette-troll-hollow .c-content-hover.active,
+.palette-troll-hollow .c-content-hover:focus,
 .palette-troll-hollow .c-content-active:active,
-.palette-troll-hollow .c-content-active.active {
+.palette-troll-hollow .c-content-active.active,
+.palette-troll-hollow .c-content-active:focus,
+.palette-troll-hollow .c-content-focus:focus {
   color: #EFE6E9 !important; }
 .palette-troll-hollow .c-content::-webkit-input-placeholder,
 .palette-troll-hollow .c-content:-moz-input-placeholder,
@@ -221,20 +274,24 @@
 .palette-troll-hollow .c-border-content {
   border-color: #EFE6E9 !important; }
 .palette-troll-hollow .c-bg-accent,
-.palette-troll-hollow .c-bg-accent:focus,
 .palette-troll-hollow .c-bg-accent-hover:hover,
 .palette-troll-hollow .c-bg-accent-hover:active,
 .palette-troll-hollow .c-bg-accent-hover.active,
+.palette-troll-hollow .c-bg-accent-hover:focus,
 .palette-troll-hollow .c-bg-accent-active:active,
-.palette-troll-hollow .c-bg-accent-active.active {
+.palette-troll-hollow .c-bg-accent-active.active,
+.palette-troll-hollow .c-bg-accent-active:focus,
+.palette-troll-hollow .c-bg-accent-focus:focus {
   background-color: #8F2D56 !important; }
 .palette-troll-hollow .c-accent,
-.palette-troll-hollow .c-accent:focus,
 .palette-troll-hollow .c-accent-hover:hover,
 .palette-troll-hollow .c-accent-hover:active,
 .palette-troll-hollow .c-accent-hover.active,
+.palette-troll-hollow .c-accent-hover:focus,
 .palette-troll-hollow .c-accent-active:active,
-.palette-troll-hollow .c-accent-active.active {
+.palette-troll-hollow .c-accent-active.active,
+.palette-troll-hollow .c-accent-active:focus,
+.palette-troll-hollow .c-accent-focus:focus {
   color: #8F2D56 !important; }
 .palette-troll-hollow .c-accent::-webkit-input-placeholder,
 .palette-troll-hollow .c-accent:-moz-input-placeholder,
@@ -244,20 +301,24 @@
 .palette-troll-hollow .c-border-accent {
   border-color: #8F2D56 !important; }
 .palette-troll-hollow .c-bg-text,
-.palette-troll-hollow .c-bg-text:focus,
 .palette-troll-hollow .c-bg-text-hover:hover,
 .palette-troll-hollow .c-bg-text-hover:active,
 .palette-troll-hollow .c-bg-text-hover.active,
+.palette-troll-hollow .c-bg-text-hover:focus,
 .palette-troll-hollow .c-bg-text-active:active,
-.palette-troll-hollow .c-bg-text-active.active {
+.palette-troll-hollow .c-bg-text-active.active,
+.palette-troll-hollow .c-bg-text-active:focus,
+.palette-troll-hollow .c-bg-text-focus:focus {
   background-color: #fafafa !important; }
 .palette-troll-hollow .c-text,
-.palette-troll-hollow .c-text:focus,
 .palette-troll-hollow .c-text-hover:hover,
 .palette-troll-hollow .c-text-hover:active,
 .palette-troll-hollow .c-text-hover.active,
+.palette-troll-hollow .c-text-hover:focus,
 .palette-troll-hollow .c-text-active:active,
-.palette-troll-hollow .c-text-active.active {
+.palette-troll-hollow .c-text-active.active,
+.palette-troll-hollow .c-text-active:focus,
+.palette-troll-hollow .c-text-focus:focus {
   color: #fafafa !important; }
 .palette-troll-hollow .c-text::-webkit-input-placeholder,
 .palette-troll-hollow .c-text:-moz-input-placeholder,
@@ -267,20 +328,24 @@
 .palette-troll-hollow .c-border-text {
   border-color: #fafafa !important; }
 .palette-troll-hollow .c-bg-text-dark,
-.palette-troll-hollow .c-bg-text-dark:focus,
 .palette-troll-hollow .c-bg-text-dark-hover:hover,
 .palette-troll-hollow .c-bg-text-dark-hover:active,
 .palette-troll-hollow .c-bg-text-dark-hover.active,
+.palette-troll-hollow .c-bg-text-dark-hover:focus,
 .palette-troll-hollow .c-bg-text-dark-active:active,
-.palette-troll-hollow .c-bg-text-dark-active.active {
+.palette-troll-hollow .c-bg-text-dark-active.active,
+.palette-troll-hollow .c-bg-text-dark-active:focus,
+.palette-troll-hollow .c-bg-text-dark-focus:focus {
   background-color: #3F4B3B !important; }
 .palette-troll-hollow .c-text-dark,
-.palette-troll-hollow .c-text-dark:focus,
 .palette-troll-hollow .c-text-dark-hover:hover,
 .palette-troll-hollow .c-text-dark-hover:active,
 .palette-troll-hollow .c-text-dark-hover.active,
+.palette-troll-hollow .c-text-dark-hover:focus,
 .palette-troll-hollow .c-text-dark-active:active,
-.palette-troll-hollow .c-text-dark-active.active {
+.palette-troll-hollow .c-text-dark-active.active,
+.palette-troll-hollow .c-text-dark-active:focus,
+.palette-troll-hollow .c-text-dark-focus:focus {
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-text-dark::-webkit-input-placeholder,
 .palette-troll-hollow .c-text-dark:-moz-input-placeholder,
@@ -289,14 +354,31 @@
   color: #3F4B3B !important; }
 .palette-troll-hollow .c-border-text-dark {
   border-color: #3F4B3B !important; }
-.palette-troll-hollow .c-bg-content {
+.palette-troll-hollow .c-bg-content,
+.palette-troll-hollow .comment .reactions button {
   color: #3F4B3B !important; }
+.palette-troll-hollow .c-bg-content,
+.palette-troll-hollow .comment .reactions button {
+  color: #3F4B3B !important; }
+.palette-troll-hollow .comment .reactions .liked-by-you,
+.palette-troll-hollow .comment .reactions .liked-by-you:hover,
+.palette-troll-hollow .comment .reactions .liked-by-you:focus,
+.palette-troll-hollow .comment .reactions .liked-by-you:active,
+.palette-troll-hollow .comment .reactions .liked-by-you.active {
+  color: #55b060 !important; }
+.palette-troll-hollow .comment .reactions .loved-by-you,
+.palette-troll-hollow .comment .reactions .loved-by-you:hover,
+.palette-troll-hollow .comment .reactions .loved-by-you:focus,
+.palette-troll-hollow .comment .reactions .loved-by-you:active,
+.palette-troll-hollow .comment .reactions .loved-by-you.active {
+  color: #cc4444 !important; }
 .palette-troll-hollow .c-bg-primary {
   color: #fafafa !important; }
 .palette-troll-hollow .c-bg-secondary {
   color: #3F4B3B !important; }
 .palette-troll-hollow .reg-form {
-  border-color: #55967e !important;
+  border-color: #55967e !important; }
+.palette-troll-hollow .bottom-drawer .reg-form {
   color: #3F4B3B !important; }
 .palette-troll-hollow .selected {
   background-color: #55967e !important;
@@ -305,20 +387,24 @@
   border-color: #DFD6D9 !important; }
 
 .palette-sunlit-sail .c-bg-primary,
-.palette-sunlit-sail .c-bg-primary:focus,
 .palette-sunlit-sail .c-bg-primary-hover:hover,
 .palette-sunlit-sail .c-bg-primary-hover:active,
 .palette-sunlit-sail .c-bg-primary-hover.active,
+.palette-sunlit-sail .c-bg-primary-hover:focus,
 .palette-sunlit-sail .c-bg-primary-active:active,
-.palette-sunlit-sail .c-bg-primary-active.active {
+.palette-sunlit-sail .c-bg-primary-active.active,
+.palette-sunlit-sail .c-bg-primary-active:focus,
+.palette-sunlit-sail .c-bg-primary-focus:focus {
   background-color: #004e66 !important; }
 .palette-sunlit-sail .c-primary,
-.palette-sunlit-sail .c-primary:focus,
 .palette-sunlit-sail .c-primary-hover:hover,
 .palette-sunlit-sail .c-primary-hover:active,
 .palette-sunlit-sail .c-primary-hover.active,
+.palette-sunlit-sail .c-primary-hover:focus,
 .palette-sunlit-sail .c-primary-active:active,
-.palette-sunlit-sail .c-primary-active.active {
+.palette-sunlit-sail .c-primary-active.active,
+.palette-sunlit-sail .c-primary-active:focus,
+.palette-sunlit-sail .c-primary-focus:focus {
   color: #004e66 !important; }
 .palette-sunlit-sail .c-primary::-webkit-input-placeholder,
 .palette-sunlit-sail .c-primary:-moz-input-placeholder,
@@ -328,20 +414,24 @@
 .palette-sunlit-sail .c-border-primary {
   border-color: #004e66 !important; }
 .palette-sunlit-sail .c-bg-secondary,
-.palette-sunlit-sail .c-bg-secondary:focus,
 .palette-sunlit-sail .c-bg-secondary-hover:hover,
 .palette-sunlit-sail .c-bg-secondary-hover:active,
 .palette-sunlit-sail .c-bg-secondary-hover.active,
+.palette-sunlit-sail .c-bg-secondary-hover:focus,
 .palette-sunlit-sail .c-bg-secondary-active:active,
-.palette-sunlit-sail .c-bg-secondary-active.active {
+.palette-sunlit-sail .c-bg-secondary-active.active,
+.palette-sunlit-sail .c-bg-secondary-active:focus,
+.palette-sunlit-sail .c-bg-secondary-focus:focus {
   background-color: #d1dee6 !important; }
 .palette-sunlit-sail .c-secondary,
-.palette-sunlit-sail .c-secondary:focus,
 .palette-sunlit-sail .c-secondary-hover:hover,
 .palette-sunlit-sail .c-secondary-hover:active,
 .palette-sunlit-sail .c-secondary-hover.active,
+.palette-sunlit-sail .c-secondary-hover:focus,
 .palette-sunlit-sail .c-secondary-active:active,
-.palette-sunlit-sail .c-secondary-active.active {
+.palette-sunlit-sail .c-secondary-active.active,
+.palette-sunlit-sail .c-secondary-active:focus,
+.palette-sunlit-sail .c-secondary-focus:focus {
   color: #d1dee6 !important; }
 .palette-sunlit-sail .c-secondary::-webkit-input-placeholder,
 .palette-sunlit-sail .c-secondary:-moz-input-placeholder,
@@ -351,20 +441,24 @@
 .palette-sunlit-sail .c-border-secondary {
   border-color: #d1dee6 !important; }
 .palette-sunlit-sail .c-bg-content,
-.palette-sunlit-sail .c-bg-content:focus,
 .palette-sunlit-sail .c-bg-content-hover:hover,
 .palette-sunlit-sail .c-bg-content-hover:active,
 .palette-sunlit-sail .c-bg-content-hover.active,
+.palette-sunlit-sail .c-bg-content-hover:focus,
 .palette-sunlit-sail .c-bg-content-active:active,
-.palette-sunlit-sail .c-bg-content-active.active {
+.palette-sunlit-sail .c-bg-content-active.active,
+.palette-sunlit-sail .c-bg-content-active:focus,
+.palette-sunlit-sail .c-bg-content-focus:focus {
   background-color: #e1eef6 !important; }
 .palette-sunlit-sail .c-content,
-.palette-sunlit-sail .c-content:focus,
 .palette-sunlit-sail .c-content-hover:hover,
 .palette-sunlit-sail .c-content-hover:active,
 .palette-sunlit-sail .c-content-hover.active,
+.palette-sunlit-sail .c-content-hover:focus,
 .palette-sunlit-sail .c-content-active:active,
-.palette-sunlit-sail .c-content-active.active {
+.palette-sunlit-sail .c-content-active.active,
+.palette-sunlit-sail .c-content-active:focus,
+.palette-sunlit-sail .c-content-focus:focus {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .c-content::-webkit-input-placeholder,
 .palette-sunlit-sail .c-content:-moz-input-placeholder,
@@ -374,20 +468,24 @@
 .palette-sunlit-sail .c-border-content {
   border-color: #e1eef6 !important; }
 .palette-sunlit-sail .c-bg-accent,
-.palette-sunlit-sail .c-bg-accent:focus,
 .palette-sunlit-sail .c-bg-accent-hover:hover,
 .palette-sunlit-sail .c-bg-accent-hover:active,
 .palette-sunlit-sail .c-bg-accent-hover.active,
+.palette-sunlit-sail .c-bg-accent-hover:focus,
 .palette-sunlit-sail .c-bg-accent-active:active,
-.palette-sunlit-sail .c-bg-accent-active.active {
+.palette-sunlit-sail .c-bg-accent-active.active,
+.palette-sunlit-sail .c-bg-accent-active:focus,
+.palette-sunlit-sail .c-bg-accent-focus:focus {
   background-color: #ffad08 !important; }
 .palette-sunlit-sail .c-accent,
-.palette-sunlit-sail .c-accent:focus,
 .palette-sunlit-sail .c-accent-hover:hover,
 .palette-sunlit-sail .c-accent-hover:active,
 .palette-sunlit-sail .c-accent-hover.active,
+.palette-sunlit-sail .c-accent-hover:focus,
 .palette-sunlit-sail .c-accent-active:active,
-.palette-sunlit-sail .c-accent-active.active {
+.palette-sunlit-sail .c-accent-active.active,
+.palette-sunlit-sail .c-accent-active:focus,
+.palette-sunlit-sail .c-accent-focus:focus {
   color: #ffad08 !important; }
 .palette-sunlit-sail .c-accent::-webkit-input-placeholder,
 .palette-sunlit-sail .c-accent:-moz-input-placeholder,
@@ -397,20 +495,24 @@
 .palette-sunlit-sail .c-border-accent {
   border-color: #ffad08 !important; }
 .palette-sunlit-sail .c-bg-text,
-.palette-sunlit-sail .c-bg-text:focus,
 .palette-sunlit-sail .c-bg-text-hover:hover,
 .palette-sunlit-sail .c-bg-text-hover:active,
 .palette-sunlit-sail .c-bg-text-hover.active,
+.palette-sunlit-sail .c-bg-text-hover:focus,
 .palette-sunlit-sail .c-bg-text-active:active,
-.palette-sunlit-sail .c-bg-text-active.active {
+.palette-sunlit-sail .c-bg-text-active.active,
+.palette-sunlit-sail .c-bg-text-active:focus,
+.palette-sunlit-sail .c-bg-text-focus:focus {
   background-color: #e1eef6 !important; }
 .palette-sunlit-sail .c-text,
-.palette-sunlit-sail .c-text:focus,
 .palette-sunlit-sail .c-text-hover:hover,
 .palette-sunlit-sail .c-text-hover:active,
 .palette-sunlit-sail .c-text-hover.active,
+.palette-sunlit-sail .c-text-hover:focus,
 .palette-sunlit-sail .c-text-active:active,
-.palette-sunlit-sail .c-text-active.active {
+.palette-sunlit-sail .c-text-active.active,
+.palette-sunlit-sail .c-text-active:focus,
+.palette-sunlit-sail .c-text-focus:focus {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .c-text::-webkit-input-placeholder,
 .palette-sunlit-sail .c-text:-moz-input-placeholder,
@@ -420,20 +522,24 @@
 .palette-sunlit-sail .c-border-text {
   border-color: #e1eef6 !important; }
 .palette-sunlit-sail .c-bg-text-dark,
-.palette-sunlit-sail .c-bg-text-dark:focus,
 .palette-sunlit-sail .c-bg-text-dark-hover:hover,
 .palette-sunlit-sail .c-bg-text-dark-hover:active,
 .palette-sunlit-sail .c-bg-text-dark-hover.active,
+.palette-sunlit-sail .c-bg-text-dark-hover:focus,
 .palette-sunlit-sail .c-bg-text-dark-active:active,
-.palette-sunlit-sail .c-bg-text-dark-active.active {
+.palette-sunlit-sail .c-bg-text-dark-active.active,
+.palette-sunlit-sail .c-bg-text-dark-active:focus,
+.palette-sunlit-sail .c-bg-text-dark-focus:focus {
   background-color: #7a7c7e !important; }
 .palette-sunlit-sail .c-text-dark,
-.palette-sunlit-sail .c-text-dark:focus,
 .palette-sunlit-sail .c-text-dark-hover:hover,
 .palette-sunlit-sail .c-text-dark-hover:active,
 .palette-sunlit-sail .c-text-dark-hover.active,
+.palette-sunlit-sail .c-text-dark-hover:focus,
 .palette-sunlit-sail .c-text-dark-active:active,
-.palette-sunlit-sail .c-text-dark-active.active {
+.palette-sunlit-sail .c-text-dark-active.active,
+.palette-sunlit-sail .c-text-dark-active:focus,
+.palette-sunlit-sail .c-text-dark-focus:focus {
   color: #7a7c7e !important; }
 .palette-sunlit-sail .c-text-dark::-webkit-input-placeholder,
 .palette-sunlit-sail .c-text-dark:-moz-input-placeholder,
@@ -442,14 +548,31 @@
   color: #7a7c7e !important; }
 .palette-sunlit-sail .c-border-text-dark {
   border-color: #7a7c7e !important; }
-.palette-sunlit-sail .c-bg-content {
+.palette-sunlit-sail .c-bg-content,
+.palette-sunlit-sail .comment .reactions button {
   color: #7a7c7e !important; }
+.palette-sunlit-sail .c-bg-content,
+.palette-sunlit-sail .comment .reactions button {
+  color: #7a7c7e !important; }
+.palette-sunlit-sail .comment .reactions .liked-by-you,
+.palette-sunlit-sail .comment .reactions .liked-by-you:hover,
+.palette-sunlit-sail .comment .reactions .liked-by-you:focus,
+.palette-sunlit-sail .comment .reactions .liked-by-you:active,
+.palette-sunlit-sail .comment .reactions .liked-by-you.active {
+  color: #55b060 !important; }
+.palette-sunlit-sail .comment .reactions .loved-by-you,
+.palette-sunlit-sail .comment .reactions .loved-by-you:hover,
+.palette-sunlit-sail .comment .reactions .loved-by-you:focus,
+.palette-sunlit-sail .comment .reactions .loved-by-you:active,
+.palette-sunlit-sail .comment .reactions .loved-by-you.active {
+  color: #cc4444 !important; }
 .palette-sunlit-sail .c-bg-primary {
   color: #e1eef6 !important; }
 .palette-sunlit-sail .c-bg-secondary {
   color: #7a7c7e !important; }
 .palette-sunlit-sail .reg-form {
-  border-color: #004e66 !important;
+  border-color: #004e66 !important; }
+.palette-sunlit-sail .bottom-drawer .reg-form {
   color: #7a7c7e !important; }
 .palette-sunlit-sail .selected {
   background-color: #004e66 !important;

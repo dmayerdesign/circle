@@ -284,7 +284,7 @@ module.exports.userCompletedQuest = function(req, res) {
 							if ( req.body.undo ) {
 								user.notifications.push({
 									"creator": post.authorName || post.user,
-									"action": post.authorName + " said you haven't completed this quest :(",
+									"action": "said you haven't completed this quest :(",
 									"postId": post._id
 								});
 							}
@@ -337,8 +337,12 @@ module.exports.getPostsByTag = function(req, res) {
 };
 
 module.exports.getPost = function(req, res) {
-	if ( !req.query.id ) { return; }
-	Post.findOne({_id: req.query.id}, function(err, post) {
+	if ( !req.query.id || !req.query.circleId ) {
+		console.err("Couldn't get the post");
+		res.json({status: 500})
+		return;
+	}
+	Post.findOne({_id: req.query.id, circleId: req.query.circleId}, function(err, post) {
 		if (err) {
 			res.json(err);
 		} else {

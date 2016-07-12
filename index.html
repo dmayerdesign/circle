@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="Circle">
 <head>
-	<title>{{$root.currentCircle.name || 'Circle'}}</title>
+	<title>Circle</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge"><!-- for "svg for everyone" in IE <= 8 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,8 +45,8 @@
 <!-- 	<link rel="stylesheet" href="styles/font-awesome.min.css"/>
  -->
 <!-- CIRCLE styles -->
-	<link rel="stylesheet" type="text/css" href="app/css/main.css">
 	<link rel="stylesheet" type="text/css" href="app/css/main-sass.css">
+	<link rel="stylesheet" type="text/css" href="app/css/main.css">
 </head>
 <body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible {{archiveLoading ? ' loading' : '';}}">
 	<div id="background-container">

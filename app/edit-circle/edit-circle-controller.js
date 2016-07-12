@@ -3,28 +3,28 @@
 	.controller('editCircleController', ['Upload', '$scope', '$rootScope', '$state', '$http', '$location', 'init', 'customizer', 
 															function( Upload,   $scope,   $rootScope,   $state,   $http,   $location,   init,   customizer) {
 
-		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
-		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
-		if (!$rootScope.user) {
-			$state.go('signup');
-			return;
-		}
-		$rootScope.loggedIn = true;
-		init.app($rootScope.user._id, false, function(user, circle) {
-			$rootScope.user = user;
-			if (circle) {
-				$rootScope.circleJoined = true;
-				$rootScope.currentCircle = circle;
-				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
-				init.getPosts(circle._id, function(posts) {
-					$scope.posts = posts;
-				});
-				customizer.getStyle($rootScope);
-			} else {
-				$rootScope.circleJoined = false;
-				$state.go('createCircle');
-			}
-		});
+		// $rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
+		// $rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
+		// if (!$rootScope.user || !$rootScope.user.email) {
+		// 	$state.go('signup');
+		// 	return;
+		// }
+		// $rootScope.loggedIn = true;
+		// init.app($rootScope.user._id, false, function(user, circle) {
+		// 	$rootScope.user = user;
+		// 	if (circle) {
+		// 		$rootScope.circleJoined = true;
+		// 		$rootScope.currentCircle = circle;
+		// 		$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
+		// 		init.getPosts(circle._id, function(posts) {
+		// 			$scope.posts = posts;
+		// 		});
+		// 		customizer.getStyle($rootScope);
+		// 	} else {
+		// 		$rootScope.circleJoined = false;
+		// 		$state.go('createCircle');
+		// 	}
+		// });
 
 
 		$scope.editCircle = {

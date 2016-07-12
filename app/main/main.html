@@ -1,6 +1,6 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<main ng-if="circleJoined && user.isEmailVerified" ng-class="applyFilterClasses()">
+<main ng-if="$root.currentCircle && user.isEmailVerified" ng-class="applyFilterClasses()">
 
 	<nav ng-include src="'app/circle-nav.html'" class="col-md-10 col-md-offset-1 circle-nav no-gutter"></nav>
 
@@ -17,7 +17,7 @@
 
 	<!-- ARCHIVE HEADER -->
 		<!-- user -->
-		<div class="archive-header user col-md-8 col-md-offset-2 centered" ng-if="location.search().user" role="header">
+		<div class="archive-header user col-md-8 col-md-offset-2 centered" ng-if="posts.length && location.search().user" role="header">
 			<div ng-show="$root.usersByUsername[location.search().user].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[location.search().user].avatar}})"></div>
 			<div ng-hide="$root.usersByUsername[location.search().user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[location.search().user].primaryColor}}">
 				<span>{{location.search().user.split("")[0].toUpperCase()}}</span>
@@ -26,14 +26,19 @@
 			<p class="username bold-caps c-text text-shadow">@{{location.search().user}}</p>
 		</div>
 		<!-- tag -->
-		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="location.search().tag" role="header">#{{location.search().tag}}</h1>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="posts.length && location.search().tag" role="header">#{{location.search().tag}}</h1>
 		<!-- type -->
-		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && !location.search().user && $root.archiveHeader" role="header">{{$root.archiveHeader.capitalize()}}s</h1>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="posts.length && !location.search().tag && !location.search().user && $root.archiveHeader" role="header">{{$root.archiveHeader.capitalize()}}s</h1>
 		<!-- all -->
-		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!location.search().tag && !location.search().user && !$root.archiveHeader" role="header">Everything</h1>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="posts.length && !location.search().tag && !location.search().user && !$root.archiveHeader" role="header">Everything</h1>
+		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!posts.length" role="header">Hi there!</h1>
+
+		<div class="col-md-10 col-md-offset-1 no-posts" ng-show="!posts.length">
+			<h3 class="centered">Your circle&rsquo;s emptier than my car&rsquo;s fuel tank.<br>Tap the pencil at the bottom right to add something.</h3>
+		</div>
 
 		<!-- refine (by user / mentioning user) -->
-		<ul ng-if="postsAreFiltered.filter === 'users' && $root.postTypesAreFiltered.filter !== 'types'" class="refine-filter col-md-8 col-md-offset-2">
+		<ul ng-if="posts.length && postsAreFiltered.filter === 'users' && $root.postTypesAreFiltered.filter !== 'types'" class="refine-filter col-md-8 col-md-offset-2">
 			<li sticky-toggle-class="active" class="filter-by-author less-rounded inner-btn c-text c-bg-accent-active c-bg-accent-hover c-text-active c-text-hover c-bg-content" ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">
 				<span class="btn-text">things by <span ng-if="postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
 			</li>
@@ -56,8 +61,8 @@
 							<span ng-if="post.type == 'poll'"><i class="fa fa-check-square"></i></span>
 						</h3>
 						<div class="commenter" ng-repeat="commenter in post.commenters | limitTo: 3">
-							<div ng-show="commenter.avatar.length" class="avatar-container" style="background-image: url({{commenter.avatar}})"></div>
-							<div ng-hide="commenter.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[commenter.user].primaryColor}}"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
+							<div ng-show="$root.usersByUsername[commenter.user].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[commenter.user].avatar}})"></div>
+							<div ng-hide="$root.usersByUsername[commenter.user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[commenter.user].primaryColor}}"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
 						</div>
 						<div class="more-commenters" ng-show="post.commenters.length > 3">+ {{post.commenters.length - 3}}</div>
 					</div>
@@ -78,9 +83,8 @@
 			</div>
 		<!-- /post -->
 
-			<button class="btn btn-primary" ng-hide="posts.length < 20" ng-click="loadMore()">Load more</button>
-			<div class="col-md-10 col-md-offset-1 no-posts" ng-show="posts.length == 0">
-				<h3 class="centered">Your circle&rsquo;s as empty as a banker&rsquo;s heart. Add the first post by clicking on the pencil at the bottom right!</h3>
+			<div class="col-md-12 load-more-container" ng-show="postsAllowed.allow <= posts.length">
+				<button class="load-more reg-btn c-bg-content c-bg-primary-hover c-text-hover col-md-12" ng-hide="posts.length < 20" ng-click="loadMore()">Load more</button>
 			</div>
 		</div>
 	</section>

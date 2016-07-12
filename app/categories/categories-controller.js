@@ -7,7 +7,7 @@
 
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
-		if (!$rootScope.user) {
+		if (!$rootScope.user || !$rootScope.user.email) {
 			$state.go('signup');
 			return;
 		}
