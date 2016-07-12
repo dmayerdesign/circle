@@ -122,13 +122,12 @@
 			var accessCode = $scope.accessCode;
 			var accessAnswer = $scope.accessAnswer;
 			if ( accessCode && accessAnswer ) {
-				init.getCircle(accessAnswer, accessCode, function(circle) {
+				init.circle(accessCode, function(circle) {
 					if ( !circle ) {
 						console.error("Couldn't join the circle - probably an invalid access code or access answer");
 						return;
 					}
 					init.joinCircle($scope.user, circle, function(user, circle) {
-						init.circle(circle.accessCode);
 						window.location.href = "/";
 					});
 				});
