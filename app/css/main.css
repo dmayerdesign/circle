@@ -1098,6 +1098,7 @@ h1.archive-header {
 	font-size: 0.32em;
 	margin-left: 2.4em;
 	padding-top: 0.5em;
+	opacity: 0.8;
 }
 
 .theme-smooth .post .questers .avatar-container {
