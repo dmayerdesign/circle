@@ -1087,6 +1087,23 @@ h1.archive-header {
 		opacity: 0.3;
 	}
 
+.post .post-before h3 span span {
+	position: relative;
+  padding-top: 0.26em;
+  padding-left: 0.6em;
+  opacity: 0.5;
+}
+
+.post .questers {
+	font-size: 0.32em;
+	margin-left: 2.4em;
+	padding-top: 0.5em;
+}
+
+.theme-smooth .post .questers .avatar-container {
+	border-width: 0.34em !important;
+}
+
 .post .commenter {
 	position: relative;
 		top: 1.5em;
@@ -1138,18 +1155,19 @@ h1.archive-header {
 	border-radius: 0.2em;
 	background-size: 100%;
 	background-size: cover;
+	background-repeat: no-repeat !important;
 }
 
 	.theme-smooth .author .avatar-container,
 	.theme-smooth .member .avatar-container {
 		width: 3.4em;
-		border: 0.2em solid rgba(0,0,0,0.1);
+		border: 0.2em solid #eee;
 		border-radius: 1em;
 	}
 
 	.theme-smooth .post .commenter .avatar-container,
 	.theme-smooth .post.has-image .avatar-container {
-		border: 0.2em solid rgba(255,255,255,0.8);
+		border: 0.2em solid #eee;
 	}
 
 	.avatar-container.no-avatar {
@@ -1178,7 +1196,7 @@ h1.archive-header {
 	}
 
 		.post .commenter .avatar-container.no-avatar {
-			border: 0.2em solid rgba(255,255,255,0.5);
+			border: 0.2em solid #eee;
 		}
 
 		.theme-smooth .post .commenter .avatar-container {
@@ -1525,10 +1543,11 @@ button:focus, button:active {
 }
 
 .reg-btn.compact {
-	padding: 1.4em 2.4em;
+	padding: 1.2em 2.4em;
 }
 
 .reg-btn.mini {
+	font-size: 0.8em;
 	padding: 1em 2em;
 }
 
@@ -1544,6 +1563,13 @@ button:focus, button:active {
 .ui-datepicker {
 	background: #8bd;
   border: 2px solid #7ac;
+}
+
+.ui-datepicker .ui-corner-all .ui-icon {
+	text-indent: 0 !important;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 0.9em;
 }
 
 .attach-images-inner {
@@ -1572,6 +1598,7 @@ button:focus, button:active {
 .attach-image-btn,
 .attached-image {
 	display: inline-block;
+	float: left;
 	width: 10em;
 	height: 10em;
 	line-height: 9em;
@@ -1599,8 +1626,8 @@ button:focus, button:active {
 		opacity: 0.6;
 	}
 
-/* post search dropdown */
-.post-search-list {
+/* post search dropdown and notifications */
+.floating-list {
 	float: left;
 	position: absolute;
 		z-index: 110;
@@ -1612,7 +1639,15 @@ button:focus, button:active {
 	box-shadow: 1px 3px 8px rgba(0,0,0,0.1);
 }
 
-.post-search-list ul {
+	.notifications {
+		max-height: 20em;
+    top: 7.1em;
+    right: 0;
+    max-width: 53em;
+    padding: 0;
+	}
+
+.floating-list ul {
 	position: relative;
 	width: 100%;
 	padding: 0;
@@ -1621,16 +1656,44 @@ button:focus, button:active {
 	background: #fff;
 }
 
-.post-search-list ul li {
+.floating-list ul li {
 	width: 100%;
 	padding: 2em;
 	border-bottom: 2px solid rgba(120,120,120,0.1);
 	opacity: 0.8;
 }
 
-.post-search-list ul li:hover,
-.post-search-list ul li.selected {
+	.notifications li {
+		font-size: 1.3em;
+		padding: 1em 1.5em 1em 2.2em;
+		border-bottom: 0.2em solid rgba(50,50,50,0.1);
+	}
+
+.floating-list ul li:hover,
+.floating-list ul li.selected {
 	opacity: 1;
+}
+
+.notifications li span {
+	position: relative;
+	top: 0.6em;
+}
+
+.notifications-btn {
+	position: relative;
+}
+
+.notifications-btn .number {
+	position: absolute;
+    top: 1.5em;
+    right: 1.5em;
+    z-index: 100;
+  background: #ee6644;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em !important;
+  font-family: Helvetica, sans-serif;
+  border-radius: 3em;
 }
 
 /* QUEST */
@@ -1659,6 +1722,10 @@ button:focus, button:active {
 		width: 100%;
 	}
 
+.link-preview {
+	padding-top: 2.5em !important;
+}
+
 .link-preview img {
 	float: left;
 	width: 25%;
@@ -1669,8 +1736,11 @@ button:focus, button:active {
 .link-preview-text {
 	float: left;
 	width: 75%;
-	padding-left: 20px;
-	border-left: 6px solid #eeeeee;
+	opacity: 0.6;
+}
+
+.link-preview.no-thumb h3 {
+	margin-top: 0 !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -1841,8 +1911,13 @@ textarea {
 	}
 
 	select.reg-form {
-    font-size: 1.2em;
-    height: 4em !important;
+		-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    font-weight: bold;
+    font-size: 1.3em;
+    padding: 0.8em 1em;
 	}
 
 .line-form {

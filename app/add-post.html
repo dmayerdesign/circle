@@ -25,18 +25,19 @@
 				<textarea 
 					ng-model="newPost.content" 
 					ng-keydown="selectFromList($event)" 
-					ng-keyup="generateLinkPreview(); findWithPrefixSymbol(); insertIntoPost($event, $root.selectedFromList.list, $root.selectedFromList.value)" 
+					ng-change="generateLinkPreview()" 
+					ng-keyup="findWithPrefixSymbol(); insertIntoPost($event, $root.selectedFromList.list, $root.selectedFromList.value)" 
 					id="new_post_content" 
 					class="reg-form" 
 					placeholder="Give this {{(newPost.type !== 'normal') ? newPost.type : 'thing'}} some words"></textarea>
 
 				<p>include <strong>#tags</strong> or <strong>@mentions</strong> anywhere in your words</p>
 
-				<div ng-if="linkPreview" class="link-preview col-md-12">
+				<div ng-if="linkPreview" ng-class="{'no-thumb': !linkPreview.src}" class="link-preview col-md-12 no-gutter">
 					<div class="link-preview-thumbnail">
-						<img src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
+						<img ng-if="linkPreview.src" src="{{linkPreview.src}}" alt="{{linkPreview.title}}">
 					</div>
-					<div class="link-preview-text">
+					<div ng-if="linkPreview.title || linkPreview.description" class="link-preview-text">
 						<h3>{{linkPreview.title}}</h3>
 						<p>{{linkPreview.description}}</p>
 					</div>
@@ -44,7 +45,7 @@
 			</div>
 
 			<!-- TAG AND MENTION LISTS -->
-			<div ng-show="symbolSearch.members && listIsActive()" ng-class="{'list-active': symbolSearch.members}" class="post-search-list post-search-list-members">
+			<div ng-show="symbolSearch.members && listIsActive()" ng-class="{'list-active': symbolSearch.members}" class="floating-list post-search-list post-search-list-members">
 				<ul>
 					<li ng-repeat="user in $root.users | filter: attemptFind" ng-click="insertIntoPost($event, 'members', user.username)" class="member post-search-list-select c-bg-content clearfix" data-value="{{user.username}}">
 						<div ng-show="user.avatar.length" class="avatar-container" style="background-image: url({{user.avatar}})" data-user-id="{{user._id}}"></div>
@@ -67,8 +68,8 @@
 						<div class="attached-image" ng-repeat="image in newPost.images" style="background-image: url({{image}})"></div>
 						<div class="attach-image-btn" ng-click="showAttachmentOptions = true"><span>+</span></div>
 					</div>
-					<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" ng-keyup="attachImageFromLink(imgLink)" placeholder="paste image URL">
-					<button ng-show="showAttachmentOptions" class="btn reg-btn-alt c-bg-secondary c-bg-primary-hover c-text-dark c-text-hover" ngf-select="upload($file)">or upload from your computer</button>
+					<input ng-show="showAttachmentOptions" class="reg-form compact" ng-model="imgLink" ng-change="attachImageFromLink(imgLink)" placeholder="paste image URL">
+					<button disabled ng-show="showAttachmentOptions" class="btn reg-btn-alt c-bg-secondary c-bg-primary-hover c-text-dark c-text-hover has-icon-left" ngf-select="upload($file)"><i class="fa fa-cloud-upload"></i>disabled in demo</button>
 				</div>
 			</div>
 
@@ -84,11 +85,11 @@
 				<h4>What does someone get when they complete the quest?</h4>
 				<div class="quest-form quest-form-left">
 					<input class="reg-form compact" type="number" ng-model="newPost.quest.worth.currency">
-					<p>{{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}</p>
+					<p class="bold-caps">{{(newPost.quest.worth.currency == 1 || newPost.quest.worth.currency == -1) ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}</p>
 				</div>
 				<div class="quest-form quest-form-right">
 					<input class="reg-form compact" ng-model="newPost.quest.worth.achievement.title" ng-keyup="checkQuest()" placeholder="Name the achievement">
-					<p>and/or an achievement</p>
+					<p class="bold-caps">and/or an achievement</p>
 				</div>
 			</div>
 

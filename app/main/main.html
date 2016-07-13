@@ -7,14 +7,6 @@
 <!-- POSTS MAIN -->
 	<section class="main posts-archive-container">
 
-	<!-- notifications -->
-		<ul class="notifications" ng-if="$root.user.notifications.length">
-			<li ng-repeat="notification in $root.user.notifications" ng-if="notification.circleId === $root.currentCircle._id" data-notif-id="{{notification._id}}">
-				<span ng-click="clearNotification(false, notification._id); goToPost(notification.postId)">{{notification.creator}} {{notification.action}}</span>
-				<button ng-click="clearNotification(false, notification._id)" class="reg-btn mini c-bg-primary c-text">{{notification.dismissal}}</button>
-			</li>
-		</ul>
-
 	<!-- ARCHIVE HEADER -->
 		<!-- user -->
 		<div class="archive-header user col-md-8 col-md-offset-2 centered" ng-if="posts.length && location.search().user" role="header">
@@ -53,11 +45,24 @@
 		<!-- post -->
 			<div ng-repeat="post in posts | orderBy: postOrder:orderPostsAscending | limitTo:postsAllowed['allow']" class="post archive-post {{post.type}} col-md-6 not-treated" data-post-id="{{post._id}}" data-creator-id="{{post.userId}}" data-link-set="{{post.linkEmbed}}" ng-click="$parent.goToPost(post._id)" data-images="{{post.images}}" data-post-type="{{post.type}}" ng-class="{'has-image': (archiveLinkPreviews[post._id].src || post.images[0])}">
 				<div class="post-inner c-bg-content c-text-dark tile" ng-style="{backgroundImage: 'url(' + (archiveLinkPreviews[post._id].src || post.images[0]) + ')'}">
+
+				<!-- post before -->
 					<div class="post-before c-bg-primary">
 						<h3 class="c-text">
 							<span ng-if="post.type == 'normal'"><i class="fa fa-pencil"></i></span>
-							<span ng-if="post.type == 'event'"><i class="fa fa-calendar"></i></span>
-							<span ng-if="post.type == 'quest'"><i class="fa fa-shield"></i></span>
+							<span ng-if="post.type == 'event'">
+								<i class="fa fa-calendar"></i>
+								<span>{{post.eventDate | date:"MM/dd"}}</span>
+							</span>
+							<span ng-if="post.type == 'quest'">
+								<i class="fa fa-shield"></i>
+								<div class="questers">
+									<div ng-repeat="quester in post.usersMentioned" class="member">
+										<div ng-show="$root.usersByUsername[quester].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[quester].avatar}})"></div>
+										<div ng-hide="$root.usersByUsername[quester].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[quester].primaryColor}}"><span>{{quester.split("")[0].toUpperCase()}}</span></div>
+									</div>
+								</div>
+							</span>
 							<span ng-if="post.type == 'poll'"><i class="fa fa-check-square"></i></span>
 						</h3>
 						<div class="commenter" ng-repeat="commenter in post.commenters | limitTo: 3">
@@ -66,6 +71,8 @@
 						</div>
 						<div class="more-commenters" ng-show="post.commenters.length > 3">+ {{post.commenters.length - 3}}</div>
 					</div>
+
+				<!-- post main -->
 					<div class="post-main">
 						<div class="content">
 							<article>{{post.content}}</article>

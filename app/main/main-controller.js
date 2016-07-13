@@ -296,7 +296,6 @@
 
 				init.getPosts($rootScope.currentCircle._id, function(posts) {
 					$scope.posts = posts;
-					$scope.$apply();
 					console.log($scope.posts);
 				});
 			})
@@ -800,7 +799,9 @@
 		// }();
 
 		$scope.attachImageFromLink = function(link) {
-			if (link) {
+			var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+			var match = urlPattern.exec(link);
+			if (link && match) {
 				var scope = this;
 				console.log(link);
 				var request = {

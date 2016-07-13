@@ -1,15 +1,15 @@
 <nav ng-include src="'app/app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<nav class="circle-nav edit-profile-nav col-md-6 col-md-offset-3">
+<nav class="circle-nav edit-profile-nav col-md-8 col-md-offset-2">
 	<div class="circle-nav-inner">
 		<div class="c-bg-primary tile clearfix">
-			<a ui-sref="main" class="inner-btn c-text back-btn c-bg-primary c-bg-accent-hover"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
+			<a ui-sref="main" class="inner-btn c-text back-btn c-bg-primary c-bg-accent-hover"><span><i class="fa fa-long-arrow-left"></i>Back</span></a>
 			<button sticky-toggle-class="active" class="active inner-btn c-bg-accent-hover has-icon" ng-click="goToSection('profile-account')">
-				<span><i class="fa fa-user"></i>Profile/Account</span></button>
+				<span><i class="fa fa-user"></i><span>Profile/Account</span></span></button>
 			<button sticky-toggle-class="active" class="inner-btn c-bg-accent-hover has-icon" ng-click="goToSection('currency')">
-				<span><i class="fa fa-money"></i>{{$root.currentCircle.currency.pluralName}}</span></button>
+				<span><i class="fa fa-money"></i><span>{{$root.currentCircle.currency.pluralName}}</span></span></button>
 			<button sticky-toggle-class="active" class="inner-btn c-bg-accent-hover has-icon" ng-click="goToSection('achievements')">
-				<span><i class="fa fa-trophy"></i>Achievements</span></button>
+				<span><i class="fa fa-trophy"></i><span>Achievements</span></span></button>
 		</div>
 	</div>
 </nav>
@@ -22,7 +22,7 @@
 		 	<button class="edit-avatar-btn transparent-btn"><i class="fa fa-pencil text-shadow"></i></button>
 		</div>
 		<div class="edit-avatar-options" ng-show="editAvatar">
-			<button class="upload-avatar reg-btn mini has-icon-left centered-btn c-bg-primary" ngf-select="upload($file)"><i class="fa fa-cloud-upload"></i>Upload</button>
+			<button disabled class="upload-avatar reg-btn mini has-icon-left centered-btn c-bg-primary" ngf-select="upload($file)"><i class="fa fa-cloud-upload"></i>disabled in demo</button>
 		 	<input class="reg-form compact centered" ng-model="avatarLink" placeholder="or paste an image link">
 			<button class="centered-btn c-bg-secondary c-bg-accent-hover c-text-hover" ng-click="updateAvatarFromLink(avatarLink)">save</button>
 		</div>
@@ -45,10 +45,10 @@
 <section class="main" id="achievements">
 	<div class="col-md-6 col-md-offset-3">
 		<h2 class="centered">Your achievements</h3>
-		<ul class="achievements centered">
-			<li class="has-icon-left" ng-repeat="achievement in $root.user.achievements">
+		<div class="achievements centered">
+			<h3 class="has-icon-left" ng-repeat="achievement in $root.user.achievements">
 				<i class="fa fa-trophy"></i><span>{{achievement.title}}</span>
-			</li>
-		</ul>
+			</h3>
+		</div>
 	</div>
 </section>
