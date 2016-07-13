@@ -73,12 +73,12 @@
 		<div class="secondary" ng-if="post.type == 'poll'" class="pull-left clearfix col-md-12 no-gutter">
 			<div class="poll-option clearfix" ng ng-repeat="option in post.poll">
 				<h4
-					class="less-rounded pull-left col-md-6 c-text"
+					class="less-rounded pull-left c-text"
 					ng-class="{'c-bg-accent': (option.voters.indexOf($root.user.username) > -1), 'c-bg-primary': (option.voters.indexOf($root.user.username) === -1)}"
 					ng-click="castPollVote(post._id, option.choice, $root.user.username)">
 					{{option.choice}}
 				</h4>
-				<div class="votes col-md-4 pull-left clearfix">
+				<div class="votes pull-left clearfix">
 					<h3 class="inline-block">{{option.votes}}</h3>
 					<a ng-repeat="voter in option.voters track by $index" class="voter inline-block" href="/#/?user={{voter}}">
 						<div ng-show="$root.usersByUsername[voter].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[voter].avatar}})"></div>
@@ -91,7 +91,7 @@
 		</div>
 
 		<!-- AFTER CONTENT -->
-		<div class="after-content pull-left clearfix col-md-12 no-gutter text-shadow">
+		<div class="after-content clearfix col-md-12 no-gutter text-shadow">
 			<a class="author pull-left" href="/#/?user={{post.user}}">
 				<div ng-show="post.avatar.length" class="avatar-container" style="background-image: url({{post.avatar}})"></div>
 				<div ng-hide="post.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[post.user].primaryColor}}">
@@ -120,7 +120,7 @@
 		</div> -->
 
 		<!-- COMMENTS -->
-		<section class="comments col-md-12 no-gutter pull-left clearfix">
+		<section class="comments col-md-12 no-gutter clearfix">
 			<div ng-repeat="comment in post.comments" class="comment tile less-rounded c-bg-content clearfix">
 				<a class="author pull-left" href="/#/?user={{comment.user}}">
 					<div ng-show="$root.usersByUsername[comment.user].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[comment.user].avatar}})"></div>

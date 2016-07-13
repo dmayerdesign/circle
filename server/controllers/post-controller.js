@@ -66,6 +66,7 @@ module.exports.postPost = function(req, res) {
 								user.notifications = [];
 							}
 							user.notifications.push({
+								"circleId": post.circleId,
 								"creator": post.authorName || post.user,
 								"action": notificationCopy,
 								"postId": post._id
@@ -134,6 +135,7 @@ module.exports.postComment = function(req, res) {
 										user.notifications = [];
 									}
 									user.notifications.push({
+										"circleId": post.circleId,
 										"creator": comment.authorName || comment.user,
 										"action": notificationCopy,
 										"postId": post._id
@@ -170,6 +172,7 @@ module.exports.postComment = function(req, res) {
 											user.notifications = [];
 										}
 										user.notifications.push({
+											"circleId": post.circleId,
 											"creator": comment.authorName || comment.user,
 											"action": notificationCopy,
 											"postId": post._id
@@ -276,6 +279,7 @@ module.exports.userCompletedQuest = function(req, res) {
 						Users.findOne({username: req.body.username}, function(err, user) {
 							if ( !req.body.undo ) {
 								user.notifications.push({
+									"circleId": post.circleId,
 									"creator": post.authorName || post.user,
 									"action": "said you completed this quest!",
 									"postId": post._id
@@ -283,6 +287,7 @@ module.exports.userCompletedQuest = function(req, res) {
 							}
 							if ( req.body.undo ) {
 								user.notifications.push({
+									"circleId": post.circleId,
 									"creator": post.authorName || post.user,
 									"action": "said you haven't completed this quest :(",
 									"postId": post._id
@@ -527,6 +532,7 @@ module.exports.react = function(req, res) {
 									user.notifications = [];
 								}
 								user.notifications.push({
+									"circleId": post.circleId,
 									"creator": name || username,
 									"action": reaction + "s your post",
 									"postId": post._id

@@ -128,6 +128,7 @@
 						return;
 					}
 					init.joinCircle($scope.user, circle, function(user, circle) {
+						$rootScope.currentCircle = circle;
 						window.location.href = "/";
 					});
 				});

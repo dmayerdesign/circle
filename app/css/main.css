@@ -96,7 +96,7 @@ a, span {
 
 
 /* feature detects */
-.placeholder label:not(.inner-btn) { display: none; }
+.placeholder label:not(.inner-btn):not(.reg-label) { display: none; }
 
 
 /* icons */
@@ -192,6 +192,10 @@ article a {
 
 .inline-block {
 	display: inline-block !important;
+}
+
+ul {
+	list-style: none;
 }
 
 
@@ -625,6 +629,8 @@ nav {
 .your-circles h5 {
 	font-size: 1.1em;
 	line-height: 3em;
+	height: 3em;
+	overflow: hidden;
 }
 
 .your-circles .logo {
@@ -1102,7 +1108,8 @@ h1.archive-header {
 		bottom: 2em;
 }
 
-.author .author-name {
+.author .author-name,
+.member .member-name {
 	font-family: Helvetica, sans-serif !important;
 	line-height: 3.4em;
 	margin-left: 1em;
@@ -1116,7 +1123,9 @@ h1.archive-header {
 	}
 
 .author .avatar-container,
-.author .author-name {
+.author .author-name,
+.member .avatar-container,
+.member .member-name {
 	float: left;
 }
 
@@ -1131,7 +1140,8 @@ h1.archive-header {
 	background-size: cover;
 }
 
-	.theme-smooth .author .avatar-container {
+	.theme-smooth .author .avatar-container,
+	.theme-smooth .member .avatar-container {
 		width: 3.4em;
 		border: 0.2em solid rgba(0,0,0,0.1);
 		border-radius: 1em;
@@ -1143,6 +1153,7 @@ h1.archive-header {
 	}
 
 	.avatar-container.no-avatar {
+		font-family: Helvetica, sans-serif !important;
 		text-align: center;
 		color: #fff;
 	}
@@ -1642,6 +1653,11 @@ button:focus, button:active {
 	display: inline-block;
 	margin-bottom: 0.6em;
 }
+
+	.reg-label.full-width {
+		display: block;
+		width: 100%;
+	}
 
 .link-preview img {
 	float: left;
@@ -2198,11 +2214,13 @@ textarea {
 
 .poll-option {
 	margin-bottom: 1em;
+	padding-left: 0;
 }
 
 .poll-option h4 {
 	margin: 0;
 	padding: 0 1em;
+	width: 60%;
 	height: 3em;
 	line-height: 3em;
 }
@@ -2214,6 +2232,8 @@ textarea {
 }
 
 .poll-option .votes {
+	width: 37%;
+	margin-left: 3%;
 	max-height: 5.3em;
 	overflow: hidden;
 }
@@ -2252,6 +2272,14 @@ textarea {
 
 
 /* EDIT PROFILE */
+.body-editProfile {
+	overflow: auto;
+}
+
+.state-editProfile section:not(#profile-account) {
+	display: none;
+}
+
 .edit-profile-nav .circle-nav-inner {
 	width: 100% !important;
 }
@@ -2265,10 +2293,52 @@ textarea {
 	}
 
 .edit-avatar {
-	width: 8em;
-	margin: 0 auto;
+	position: relative;
+	width: 13em;
+	margin: 2em auto 0 auto;
 }
 
+.edit-avatar .avatar-container {
+	width: 3em;
+	height: 3em;
+}
+
+	.edit-avatar .avatar-container.no-avatar span {
+		display: none;
+	}
+
+#profile-account form {
+	margin-top: 4em;
+}
+
+#profile-account form button {
+	margin-top: 1em;
+}
+
+#profile-account label {
+	font-size: 1.2em;
+}
+
+.edit-avatar-options {
+	margin-top: 2em;
+}
+
+.edit-avatar-options .upload-avatar {
+	margin-bottom: 0.6em;
+}
+
+.edit-avatar-btn {
+	display: block;
+	position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 100;
+	margin-top: -1em;
+	margin-left: -1em;
+	font-size: 3em;
+	width: 2em;
+	height: 2em;
+}
 
 
 

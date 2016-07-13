@@ -1,3 +1,7 @@
+.palette-original-blue .c-bg-primary {
+  color: #d8e9ef !important; }
+.palette-original-blue .c-bg-secondary {
+  color: #7a7c7e !important; }
 .palette-original-blue .c-bg-primary,
 .palette-original-blue .c-bg-primary-hover:hover,
 .palette-original-blue .c-bg-primary-hover:active,
@@ -178,10 +182,6 @@
 .palette-original-blue .comment .reactions .loved-by-you:active,
 .palette-original-blue .comment .reactions .loved-by-you.active {
   color: #cc4444 !important; }
-.palette-original-blue .c-bg-primary {
-  color: #d8e9ef !important; }
-.palette-original-blue .c-bg-secondary {
-  color: #7a7c7e !important; }
 .palette-original-blue .reg-form {
   border-color: #4ea1d3 !important; }
 .palette-original-blue .bottom-drawer .reg-form {
@@ -192,6 +192,10 @@
 .palette-original-blue .main-menu {
   border-color: #c8d9df !important; }
 
+.palette-troll-hollow .c-bg-primary {
+  color: #fafafa !important; }
+.palette-troll-hollow .c-bg-secondary {
+  color: #3F4B3B !important; }
 .palette-troll-hollow .c-bg-primary,
 .palette-troll-hollow .c-bg-primary-hover:hover,
 .palette-troll-hollow .c-bg-primary-hover:active,
@@ -372,10 +376,6 @@
 .palette-troll-hollow .comment .reactions .loved-by-you:active,
 .palette-troll-hollow .comment .reactions .loved-by-you.active {
   color: #cc4444 !important; }
-.palette-troll-hollow .c-bg-primary {
-  color: #fafafa !important; }
-.palette-troll-hollow .c-bg-secondary {
-  color: #3F4B3B !important; }
 .palette-troll-hollow .reg-form {
   border-color: #55967e !important; }
 .palette-troll-hollow .bottom-drawer .reg-form {
@@ -386,6 +386,10 @@
 .palette-troll-hollow .main-menu {
   border-color: #DFD6D9 !important; }
 
+.palette-sunlit-sail .c-bg-primary {
+  color: #e1eef6 !important; }
+.palette-sunlit-sail .c-bg-secondary {
+  color: #7a7c7e !important; }
 .palette-sunlit-sail .c-bg-primary,
 .palette-sunlit-sail .c-bg-primary-hover:hover,
 .palette-sunlit-sail .c-bg-primary-hover:active,
@@ -566,10 +570,6 @@
 .palette-sunlit-sail .comment .reactions .loved-by-you:active,
 .palette-sunlit-sail .comment .reactions .loved-by-you.active {
   color: #cc4444 !important; }
-.palette-sunlit-sail .c-bg-primary {
-  color: #e1eef6 !important; }
-.palette-sunlit-sail .c-bg-secondary {
-  color: #7a7c7e !important; }
 .palette-sunlit-sail .reg-form {
   border-color: #004e66 !important; }
 .palette-sunlit-sail .bottom-drawer .reg-form {

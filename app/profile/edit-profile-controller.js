@@ -35,8 +35,8 @@
 
 				$http.post('api/profile/editProfile', request)
 				.then(function(response) {
-					$rootScope.user = response;
-					localStorage.setItem("User", JSON.stringify(response));
+					$rootScope.user = response.data;
+					localStorage.setItem("User", JSON.stringify(response.data));
 				},
 				function(err) {
 					console.error("profile update failed");
@@ -64,6 +64,8 @@
 					console.error(err);
 				});
 			};
+
+			$scope.editAvatar = false;
 
 
 		}]);

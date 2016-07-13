@@ -20,6 +20,7 @@ module.exports = mongoose.model('User', {
 	],
 	notifications: [
 		{
+			circleId: String,
 			creator: String,
 			action: String,
 			postId: String

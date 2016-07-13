@@ -46,8 +46,10 @@
 			<!-- TAG AND MENTION LISTS -->
 			<div ng-show="symbolSearch.members && listIsActive()" ng-class="{'list-active': symbolSearch.members}" class="post-search-list post-search-list-members">
 				<ul>
-					<li ng-repeat="user in $root.users | filter: attemptFind" ng-click="insertIntoPost($event, 'members', user.username)" class="post-search-list-select c-bg-content" data-value="{{user.username}}">
-						<img width="40" src="{{user.avatar}}"> {{user.name}} <span class="username"><span class="symbol">@</span>{{user.username}}</span>
+					<li ng-repeat="user in $root.users | filter: attemptFind" ng-click="insertIntoPost($event, 'members', user.username)" class="member post-search-list-select c-bg-content clearfix" data-value="{{user.username}}">
+						<div ng-show="user.avatar.length" class="avatar-container" style="background-image: url({{user.avatar}})" data-user-id="{{user._id}}"></div>
+						<div ng-hide="user.avatar.length" class="avatar-container no-avatar" style="background-color: {{user.primaryColor}}"><span>{{user.username.split("")[0].toUpperCase()}}</span></div>
+						<span data-user-id="{{user._id}}" class="member-name">{{user.name}} <span class="c-text">@{{user.username}}</span></span>
 					</li>
 				</ul>
 			</div>

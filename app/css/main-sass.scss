@@ -57,6 +57,14 @@ $colors: primary secondary content accent text text-dark;
 	.palette-#{$palette} {
 		//@include paletteColor( $palette, text );
 
+		.c-bg-primary {
+			@include paletteColor( $palette, text );
+		}
+
+		.c-bg-secondary {
+			@include paletteColor( $palette, text-dark );
+		}
+
 		@each $color in $colors {
 			.c-bg-#{$color},
 			.c-bg-#{$color}-hover:hover,
@@ -118,14 +126,6 @@ $colors: primary secondary content accent text text-dark;
 		.comment .reactions .loved-by-you:active,
 		.comment .reactions .loved-by-you.active {
 			color: #cc4444 !important;
-		}
-
-		.c-bg-primary {
-			@include paletteColor( $palette, text );
-		}
-
-		.c-bg-secondary {
-			@include paletteColor( $palette, text-dark );
 		}
 
 		.reg-form {

@@ -48,7 +48,7 @@
 	<link rel="stylesheet" type="text/css" href="app/css/main-sass.css">
 	<link rel="stylesheet" type="text/css" href="app/css/main.css">
 </head>
-<body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible {{archiveLoading ? ' loading' : '';}}">
+<body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible {{archiveLoading ? ' loading' : '';}} body-{{$root.currentState}}">
 	<div id="background-container">
 		<div ng-if="$root.currentCircle" class="background main-bg" style="background-image:url({{$root.currentCircle.styles.bg}})"></div>
 		<div ng-if="!$root.currentCircle" class="background main-bg" style="background-image:url(images/default-bg.jpg)"></div>

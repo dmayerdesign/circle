@@ -9,9 +9,9 @@
 
 	<!-- notifications -->
 		<ul class="notifications" ng-if="$root.user.notifications.length">
-			<li ng-repeat="notification in $root.user.notifications" data-notif-id="{{notification._id}}">
+			<li ng-repeat="notification in $root.user.notifications" ng-if="notification.circleId === $root.currentCircle._id" data-notif-id="{{notification._id}}">
 				<span ng-click="clearNotification(false, notification._id); goToPost(notification.postId)">{{notification.creator}} {{notification.action}}</span>
-				<button ng-click="clearNotification(false, notification._id)" class="btn btn-default">{{$root.randomDismissal}}</button>
+				<button ng-click="clearNotification(false, notification._id)" class="reg-btn mini c-bg-primary c-text">{{notification.dismissal}}</button>
 			</li>
 		</ul>
 
@@ -72,8 +72,8 @@
 						</div>
 						<div class="post-after">
 							<div class="author">
-								<div ng-show="post.avatar.length" class="avatar-container" style="background-image: url({{post.avatar}})" data-user-id="{{post.userId}}"></div>
-								<div ng-hide="post.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[post.userId].primaryColor}}"><span>{{post.user.split("")[0].toUpperCase()}}</span></div>
+								<div ng-show="$root.usersByUsername[post.user].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[post.user].avatar}})" data-user-id="{{post.userId}}"></div>
+								<div ng-hide="$root.usersByUsername[post.user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[post.userId].primaryColor}}"><span>{{post.user.split("")[0].toUpperCase()}}</span></div>
 								<span data-user-id="{{post.userId}}" class="author-name">{{post.authorName || post.user}}</span>
 							</div>
 						</div>

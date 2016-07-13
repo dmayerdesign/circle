@@ -1,7 +1,7 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('mainController', ['$scope', '$rootScope', '$state', '$stateParams', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 'Upload', 
-						   					 function($scope,   $rootScope,   $state,   $stateParams,   $location,   $http,   init,   customizer,   action,   $q,   $filter,   Upload) {
+	.controller('mainController', ['$scope', '$rootScope', '$state', '$stateParams', '$location', '$http', 'init', 'customizer', 'action', '$q', '$filter', 'Upload', 'generate', 
+						   					 function($scope,   $rootScope,   $state,   $stateParams,   $location,   $http,   init,   customizer,   action,   $q,   $filter,   Upload,   generate) {
 
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
@@ -86,6 +86,11 @@
 					// 		}
 					// 	});
 					// }, 1000);
+
+					angular.forEach($rootScope.user.notifications, function(notification, index) {
+						console.log($scope.dismissals[generate.randomInteger(5, 'floor')]);
+						$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
+					});
 				});
 				customizer.getStyle($rootScope);
 			} else {
@@ -268,8 +273,6 @@
 
 			$http.post('api/post/post', request)
 			.success(function(response) {
-				$scope.posts = response;
-
 				if (edit) {
 					$rootScope.editPost = false;
 				}
@@ -290,6 +293,12 @@
 				that.linkPreview = null;
 				that.symbolSearch = {};
 				_("#new-post-area > *").blur();
+
+				init.getPosts($rootScope.currentCircle._id, function(posts) {
+					$scope.posts = posts;
+					$scope.$apply();
+					console.log($scope.posts);
+				});
 			})
 			.error(function(err) {
 				console.error(err);
@@ -423,29 +432,33 @@
 
 			if (!selectObj) {
 				selectObj = {};
-				_firstInList.addClass("selected").siblings().removeClass("selected");
-			} else {
-				if (event.keyCode === 40) {
+				//_firstInList.addClass("selected").siblings().removeClass("selected");
+			}
+
+			if (event.keyCode === 40) {
+				if (!_selected.length) {
+					_firstInList.addClass("selected");
+				} else {
 					_selected.removeClass("selected").next("li").addClass("selected");
-
-					if ( !_selected.next("li").length ) {
-						_firstInList.addClass("selected");
-						_activeList.scrollTop(0);
-					} else {
-						_activeList.scrollTop(_selected.next("li").offset().top);
-					}
 				}
-				if (event.keyCode === 38) {
-					_selected.removeClass("selected").prev("li").addClass("selected");
-
-					if ( !_selected.prev("li").length ) {
-						selectObj = null;
-						return;
-					} else {
-						_activeList.scrollTop(_selected.prev("li").offset().top);
-					}
+				if ( !_selected.next("li").length ) {
+					_firstInList.addClass("selected");
+					_activeList.scrollTop(0);
+				} else {
+					_activeList.scrollTop(_selected.next("li").offset().top);
 				}
 			}
+			if (event.keyCode === 38) {
+				_selected.removeClass("selected").prev("li").addClass("selected");
+
+				if ( !_selected.prev("li").length ) {
+					selectObj = null;
+					return;
+				} else {
+					_activeList.scrollTop(_selected.prev("li").offset().top);
+				}
+			}
+
 
 			if ( _(".list-active.post-search-list-members").length ) {
 				selectObj.list = "members";
@@ -747,16 +760,15 @@
 			var scope = this;
 			action.clearNotification(scope.user._id, all, id, function(user) {
 				$rootScope.user.notifications = user.notifications;
+				angular.forEach($rootScope.user.notifications, function(notification, index) {
+					console.log($scope.dismissals[generate.randomInteger(5, 'floor')]);
+					$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
+				});
 				console.log(user);
 			});
 		};
 
-		$rootScope.randomDismissal = function() {
-			var index = Math.floor(Math.random() * 4);
-			var dismissals = ["ok", "whatever", "fine", "cool"];
-			console.log(dismissals[index]);
-			return dismissals[index];
-		}();
+		$scope.dismissals = ["ok", "whatever", "great", "fine", "cool", "got it", "nice"];
 
 		$scope.checkQuest = function() {
 			console.log(this.newPost.quest);

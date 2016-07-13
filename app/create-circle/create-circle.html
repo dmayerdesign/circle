@@ -25,7 +25,7 @@
 						<span ng-if="validationStarted">
 							<span ng-if="!accessAnswerValid && !accessAnswerTooShort" style="color: red">Taken - try another</span><span ng-if="accessAnswerValid" style="color: green">Available!</span><span ng-if="accessAnswerTooShort" style="color: red">Too short</span>
 						</span>
-					<button class="centered-btn bg-accent">Create</button>
+					<button class="centered-btn bg-primary">Create</button>
 				</section>
 			</div>
 		</form>
@@ -34,7 +34,7 @@
 			<section class="col-md-4 col-md-offset-4">
 				<input ng-model="$parent.accessCode" class="form-control" placeholder="The access code" />
 				<input ng-model="$parent.accessAnswer" class="form-control" placeholder="The access answer" />
-				<button class="centered-btn bg-accent">Join</button>
+				<button class="centered-btn bg-primary">Join</button>
 			</section>
 		</form>
 	</div>

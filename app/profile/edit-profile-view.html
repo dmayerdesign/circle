@@ -1,10 +1,10 @@
 <nav ng-include src="'app/app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<nav class="circle-nav edit-profile-nav col-md-8 col-md-offset-2">
+<nav class="circle-nav edit-profile-nav col-md-6 col-md-offset-3">
 	<div class="circle-nav-inner">
 		<div class="c-bg-primary tile clearfix">
 			<a ui-sref="main" class="inner-btn c-text back-btn c-bg-primary c-bg-accent-hover"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
-			<button sticky-toggle-class="active" class="inner-btn c-bg-accent-hover has-icon" ng-click="goToSection('profile-account')">
+			<button sticky-toggle-class="active" class="active inner-btn c-bg-accent-hover has-icon" ng-click="goToSection('profile-account')">
 				<span><i class="fa fa-user"></i>Profile/Account</span></button>
 			<button sticky-toggle-class="active" class="inner-btn c-bg-accent-hover has-icon" ng-click="goToSection('currency')">
 				<span><i class="fa fa-money"></i>{{$root.currentCircle.currency.pluralName}}</span></button>
@@ -16,42 +16,38 @@
 
 <section class="main" id="profile-account">
 	<div class="col-sm-6 col-sm-offset-3">
-		<div class="edit-avatar profile-btn" ng-click="editAvatar = true">
+		<div class="edit-avatar profile-btn" ng-click="editAvatar ? editAvatar = false : editAvatar = true">
 			<div ng-show="$root.user.avatar.length" class="avatar-container" style="background-image: url({{$root.user.avatar}})"></div>
 		 	<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[$root.user._id].primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>
-		 	<button ng-show="editAvatar" class="reg-btn c-bg-primary" ngf-select="upload($file)">Upload</button>
-		 	<input ng-show="editAvatar" class="reg-form compact" ng-model="avatarLink" placeholder="or paste an image link">
-			<button ng-show="editAvatar" class="reg-btn mini c-bg-secondary" ng-click="updateAvatarFromLink(avatarLink)">apply</button>
+		 	<button class="edit-avatar-btn transparent-btn"><i class="fa fa-pencil text-shadow"></i></button>
+		</div>
+		<div class="edit-avatar-options" ng-show="editAvatar">
+			<button class="upload-avatar reg-btn mini has-icon-left centered-btn c-bg-primary" ngf-select="upload($file)"><i class="fa fa-cloud-upload"></i>Upload</button>
+		 	<input class="reg-form compact centered" ng-model="avatarLink" placeholder="or paste an image link">
+			<button class="centered-btn c-bg-secondary c-bg-accent-hover c-text-hover" ng-click="updateAvatarFromLink(avatarLink)">save</button>
 		</div>
 	</div>
 
-	<form class="row" ng-submit="editProfile()">
-		<div class="col-sm-6 col-sm-offset-3">
-			<input ng-model="$root.user.name" type="text" class="line-form" placeholder="name" />
-		</div>
+	<form class="row edit-name col-sm-6 col-sm-offset-3" ng-submit="editProfile()">
+		<label for="name" class="reg-label bold-caps full-width centered">What do you like to be called?</label>
+		<input ng-model="$root.user.name" type="text" class="reg-form centered" name="name" id="name" placeholder="name" />
+		<button class="centered-btn c-bg-secondary c-bg-accent-hover c-text-hover">save</button>
 	</form>
-
-	<form class="row" ng-submit="editProfile()">
-		<div class="col-sm-6 col-sm-offset-3">
-			<input ng-model="$root.user.bio" type="text" class="line-form" placeholder="bio" />
-		</div>
-	</form>
-
-	<button ng-click="editProfile()" class="centered-btn c-bg-secondary c-bg-accent-hover c-text-hover">Apply</button>
 </section>
 
 <section class="main" id="currency">
 	<div class="col-md-6 col-md-offset-3">
-		<h3>You have {{$root.user.currency}} {{Math.abs($root.user.currency) === 1 ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}</h3>
+		<h4 class="centered" style="font-size:6em"><i class="fa fa-money c-primary"></i></h4>
+		<h3 class="centered">You have<br><span class="c-text" style="font-size:3em">{{$root.user.currency}}</span><br>{{Math.abs($root.user.currency) === 1 ? $root.currentCircle.currency.singularName : $root.currentCircle.currency.pluralName}}</h3>
 	</div>
 </section>
 
 <section class="main" id="achievements">
 	<div class="col-md-6 col-md-offset-3">
-		<h3>Your achievements</h3>
-		<ul>
-			<li ng-repeat="achievement in $root.user.achievements">
-				{{achievement.title}}
+		<h2 class="centered">Your achievements</h3>
+		<ul class="achievements centered">
+			<li class="has-icon-left" ng-repeat="achievement in $root.user.achievements">
+				<i class="fa fa-trophy"></i><span>{{achievement.title}}</span>
 			</li>
 		</ul>
 	</div>

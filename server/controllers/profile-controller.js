@@ -51,14 +51,26 @@ module.exports.updatePhoto = function(req, res) {
 };
 
 module.exports.editProfile = function(req, res) {
+	var updatedUser = req.body;
 	var userId = req.body._id;
+	var accessCode = req.body.accessCode;
 
 	User.findById(userId, function(err, userData) {
 		var user = userData;
-		user.username = req.body.username;
-		user.bio = req.body.bio;
-		user.accessCodes = req.body.accessCodes;
-		user.name = req.body.name;
+		if (updatedUser.name) {
+			user.name = updatedUser.name;
+		}
+		if (updatedUser.avatar) {
+			user.avatar = updatedUser.avatar;
+		}
+		if (accessCode) {
+			if (user.accessCodes && user.accessCodes.length) {
+				user.accessCodes.push(accessCode);
+			}
+			else {
+				user.accessCodes = [accessCode];
+			}
+		}
 
 		user.save(function(err, userData) {
 			if (err) {
@@ -66,24 +78,22 @@ module.exports.editProfile = function(req, res) {
 				res.json({status: 500});
 			} else {
 				console.log("successfully updated the user!");
-				Post.find({userId: userId}, function(err, posts) {
-					for ( var i = 0; i < posts.length; i++ ) {
-						posts[i].avatar = user.avatar;
-						posts[i].user = user.username;
-						posts[i].authorName = user.name || user.username;
-						posts[i].save();
-					}
-				});
-				Post.find({'comments.userId': userId}, function(err, posts) {
-					for ( var i = 0; i < posts.length; i++ ) {
-						for ( var index = 0; index < posts[i].comments.length; index++ ) {
-							posts[i].comments[index].avatar = user.avatar;
-							posts[i].comments[index].user = user.username;
-							posts[i].comments[index].authorName = user.name || user.username;
-							posts[i].save();
-						}
-					}
-				});
+				// Post.find({userId: userId}, function(err, posts) {
+				// 	for ( var i = 0; i < posts.length; i++ ) {
+				// 		posts[i].avatar = user.avatar;
+				// 		posts[i].authorName = user.name || user.username;
+				// 		posts[i].save();
+				// 	}
+				// });
+				// Post.find({'comments.userId': userId}, function(err, posts) {
+				// 	for ( var i = 0; i < posts.length; i++ ) {
+				// 		for ( var index = 0; index < posts[i].comments.length; index++ ) {
+				// 			posts[i].comments[index].avatar = user.avatar;
+				// 			posts[i].comments[index].authorName = user.name || user.username;
+				// 			posts[i].save();
+				// 		}
+				// 	}
+				// });
 				res.json(userData);
 			}
 		});

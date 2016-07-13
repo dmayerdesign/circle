@@ -52,21 +52,21 @@
 
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the background</h4>
-					<button class="reg-btn compact upload-btn c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('bg', $file)">upload something</button>
+					<button class="reg-btn compact upload-btn has-icon-left c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('bg', $file)"><i class="fa fa-cloud-upload"></i>upload something</button>
 					<input class="reg-form compact" ng-model="bgLink" placeholder="or paste an image link">
 					<button class="reg-btn mini c-bg-secondary" ng-click="updateImageFromLink('background', bgLink)">apply</button>
 				</div>
 
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the logo</h4>
-					<button class="reg-btn compact upload-btn c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('logo', $file)">upload something</button>
+					<button class="reg-btn compact upload-btn has-icon-left c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('logo', $file)"><i class="fa fa-cloud-upload"></i>upload something</button>
 					<input class="reg-form compact" ng-model="logoLink" placeholder="or paste an image link">
 					<button class="reg-btn mini c-bg-secondary" ng-click="updateImageFromLink('logo', logoLink)">apply</button>
 				</div>
 
 				<div class="col-md-6 pull-left no-gutter" ng-if="location.search().tag || postsAreFiltered.filter === 'tags'">
 					<h4>Add a featured image for this category</h4>
-					<button class="reg-btn compact upload-btn c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('tagImage', $file)">upload something</button>
+					<button class="reg-btn compact upload-btn has-icon-left c-bg-primary c-text c-bg-accent-hover c-text-hover" ngf-select="upload('tagImage', $file)"><i class="fa fa-cloud-upload"></i>upload something</button>
 					<input class="reg-form compact" ng-model="tagImageLink" placeholder="or paste an image link">
 					<button class="reg-btn mini c-bg-secondary" ng-click="updateImageFromLink('tagImage', tagImageLink)">apply</button>
 				</div>
