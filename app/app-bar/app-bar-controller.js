@@ -1,7 +1,7 @@
 (function(_) {
 	angular.module('Circle')
-	.controller('appBarController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'customizer',
-							 						function( $scope,   $rootScope,   $state,   $location,   $http,   init,   customizer) {
+	.controller('appBarController', ['$scope', '$rootScope', '$state', '$location', '$http', 'init', 'action', 'generate', 'customizer',
+							 						function( $scope,   $rootScope,   $state,   $location,   $http,   init,   action,   generate,   customizer) {
 
 		setInterval(function() {
 			if ( $location.url().indexOf("single") > -1 ) {
@@ -34,6 +34,14 @@
 		$rootScope.loggedIn = true;
 		init.app($rootScope.user._id, false, function(user, circle) {
 			$rootScope.user = user;
+
+			var demoUsers = ["alex", "amy", "avy", "dave", "hamid", "raindance"];
+			demoUsers.forEach(function(demoUser) {
+				if (user.username === demoUser) {
+					$rootScope.isDemoUser = true;
+				}
+			});
+
 			if (circle) {
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
@@ -73,6 +81,11 @@
 					initUI(function() {
 						$rootScope.drawersReady = true;
 					});
+
+					angular.forEach($rootScope.user.notifications, function(notification, index) {
+						console.log($scope.dismissals[generate.randomInteger(5, 'floor')]);
+						$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
+					});
 				});
 				customizer.getStyle($rootScope);
 				init.initFinal(_("body"));
@@ -81,8 +94,6 @@
 				$state.go('createCircle');
 			}
 		});
-
-
 
 
 		$scope.refresh = function() {
@@ -95,8 +106,6 @@
 				window.location.reload();
 			}
 		};
-
-
 
 		$scope.logOut = function() {
 			localStorage.clear();
@@ -232,6 +241,24 @@
 				$scope.showNotifications = true;
 			}
 		};
+
+		$scope.clearNotification = function(all, id) {
+			console.log(all);
+			console.log(id);
+			console.log(this.user._id);
+
+			var scope = this;
+			action.clearNotification(scope.user._id, all, id, function(user) {
+				$rootScope.user.notifications = user.notifications;
+				angular.forEach($rootScope.user.notifications, function(notification, index) {
+					console.log($scope.dismissals[generate.randomInteger(5, 'floor')]);
+					$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
+				});
+				console.log(user);
+			});
+		};
+
+		$scope.dismissals = ["ok", "whatever", "great", "fine", "cool", "got it", "nice"];
 
 		$scope.switchCircles = function(accessCode) {
 			var circles = $rootScope.circles;

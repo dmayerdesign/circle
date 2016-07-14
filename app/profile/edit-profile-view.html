@@ -46,6 +46,7 @@
 	<div class="col-md-6 col-md-offset-3">
 		<h2 class="centered">Your achievements</h3>
 		<div class="achievements centered">
+			<h4 ng-if="!$root.user.achievements.length">Get achievements by completing quests! Send others on quests by choosing 'quest' when you create a post.</h4>
 			<h3 class="has-icon-left" ng-repeat="achievement in $root.user.achievements">
 				<i class="fa fa-trophy"></i><span>{{achievement.title}}</span>
 			</h3>

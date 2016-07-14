@@ -54,7 +54,7 @@
 					</li>
 				</ul>
 			</div>
-			<div ng-show="symbolSearch.tags && listIsActive()" ng-class="{'list-active': symbolSearch.tags}" class="post-search-list post-search-list-tags">
+			<div ng-show="symbolSearch.tags && listIsActive()" ng-class="{'list-active': symbolSearch.tags}" class="floating-list post-search-list post-search-list-tags">
 				<ul>
 					<li ng-repeat="tag in $root.currentCircle.tags | filter: attemptFind" ng-click="insertIntoPost($event, 'tags', tag)" class="post-search-list-select c-bg-content" data-value="{{tag}}"><span class="symbol">#</span>{{tag}}</li>
 				</ul>

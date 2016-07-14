@@ -94,6 +94,12 @@ a, span {
 	padding-right: 0 !important;
 }
 
+img.centered {
+	display: block;
+	margin-right: auto !important;
+	margin-left: auto !important;
+}
+
 
 /* feature detects */
 .placeholder label:not(.inner-btn):not(.reg-label) { display: none; }
@@ -309,7 +315,11 @@ a:hover, a:focus {
 .theme-material .reg-form,
 .theme-material .bottom-drawer {
 	border-radius: 0.2em;
-	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+	box-shadow: 0 2px 2px rgba(0,0,0,0.2) !important;
+}
+
+.theme-material .box-shadow {
+	box-shadow: 0 2px 2px rgba(0,0,0,0.2) !important;
 }
 
 .theme-material .reg-form,
@@ -427,7 +437,7 @@ a:hover, a:focus {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-	opacity: 0.9;
+	opacity: 0.85;
 }
 
 .background {
@@ -569,6 +579,7 @@ nav {
 		left: 0;
 		top: 1.6em;
 		z-index: -1;
+	overflow: auto;
 	width: 30em;
   height: auto;
   padding: 9em 0 3em 0;
@@ -606,6 +617,20 @@ nav {
 .profile-btn {
 	display: block;
 }
+
+	.demo-profile-btn {
+		display: inline-block;
+		padding: 1.5em 1em;
+
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		-ms-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+
+	.demo-profile-btn:hover {
+		transform: scale(1.2);
+	}
 
 .profile-btn > * {
 	margin: 0 auto;
@@ -816,7 +841,7 @@ nav {
 
 @media screen and (max-height: 600px) {
 	body {
-		padding-top: 7em;
+		padding-top: 8em;
 	}
 }
 
@@ -1090,7 +1115,7 @@ h1.archive-header {
 
 .post .post-before h3 span > span {
 	position: relative;
-  padding-top: 0.26em;
+  padding-top: 0.3em;
   padding-left: 0.6em;
   opacity: 0.5;
 }
@@ -1098,12 +1123,16 @@ h1.archive-header {
 .post .questers {
 	font-size: 0.32em;
 	margin-left: 2.4em;
-	padding-top: 0.5em;
+	padding-top: 0.8em;
 	opacity: 0.8;
 }
 
 .theme-smooth .post .questers .avatar-container {
 	border-width: 0.4em !important;
+}
+
+.post .quester {
+	padding-right: 0.7em;
 }
 
 .post .commenter {
@@ -1138,7 +1167,7 @@ h1.archive-header {
 }
 
 	.theme-smooth .author .author-name {
-		line-height: 3.9em;
+		line-height: 3.4em;
 	}
 
 .author .avatar-container,
@@ -1149,7 +1178,7 @@ h1.archive-header {
 }
 
 .avatar-container {
-	box-sizing: content-box;
+	box-sizing: border-box;
 	width: 3.8em;
 	height: 3.4em;
 	line-height: 3.4em;
@@ -1167,10 +1196,19 @@ h1.archive-header {
 		border-radius: 1em;
 	}
 
+	.theme-smooth .after-content .author .avatar-container,
+	.theme-smooth .comment .author .avatar-container {
+		border-width: 0.3em;
+	}
+
 	.theme-smooth .post .commenter .avatar-container,
 	.theme-smooth .post.has-image .avatar-container {
 		border: 0.2em solid #eee;
 	}
+
+		.theme-smooth .post .commenter .avatar-container {
+			border-width: 0.3em;
+		}
 
 	.avatar-container.no-avatar {
 		font-family: Helvetica, sans-serif !important;
@@ -1192,9 +1230,9 @@ h1.archive-header {
 	}
 
 	.post .commenter .avatar-container {
-		width: 3.2em;
-		height: 2.9em;
-		line-height: 3em;
+		width: 3.3em;
+		height: 3em;
+		line-height: 3.1em;
 	}
 
 		.post .commenter .avatar-container.no-avatar {
@@ -1202,7 +1240,7 @@ h1.archive-header {
 		}
 
 		.theme-smooth .post .commenter .avatar-container {
-			width: 2.9em;
+			width: 3em;
 			border-radius: 0.8em;
 		}
 
@@ -1453,6 +1491,7 @@ button:focus, button:active {
 
 .inner-btn > span {
 	display: inline-block;
+	vertical-align: middle;
 	font-weight: bold;
 	letter-spacing: 0.1em;
 	line-height: 1.1em !important;
@@ -1461,6 +1500,7 @@ button:focus, button:active {
 
 	.inner-btn.has-icon > span {
 		display: inline-block;
+		vertical-align: baseline;
 		font-size: 0.8em;
 	  text-transform: uppercase;
 	  line-height: 3.6em !important;
@@ -1711,6 +1751,10 @@ button:focus, button:active {
 	.quest-form-right input {
 
 	}
+
+.quest-details h2 {
+	font-weight: bold;
+}
 
 /* MISC */
 
@@ -2054,6 +2098,13 @@ textarea {
 	font-weight: bold;
 }
 
+.demo-welcome-text {
+	margin-top: -3.9em;
+	margin-bottom: 6em;
+	font-size: 1.6em;
+	font-weight: bold;
+}
+
 .tip-flyout {
     position: absolute;
     right: 0;
@@ -2177,12 +2228,20 @@ textarea {
 	padding-bottom: 3em;
 }
 
+.single-post .secondary p {
+	font-size: 1.5em;
+}
+
 .single-post .content {
 	margin-top: 0.6em;
 	margin-bottom: 0.1em;
 	font-size: 3.2em;
 	text-shadow: 2px 2px 10px rgba(50,50,50,0.1) !important;
 }
+
+	.single-post.no-image .content {
+		margin-top: 0.1em;
+	}
 
 .single-post .secondary {
 	margin-top: 2em;
@@ -2270,8 +2329,8 @@ textarea {
 	position: absolute;
     top: -0.9em;
     right: 1.5em;
-  width: 3em;
-  height: 3em;
+  width: 20em;
+  height: auto;
   overflow: visible;
   text-align: right;
 }
@@ -2287,6 +2346,11 @@ textarea {
 	padding: 0;
 	width: 2em;
 	height: 2em;
+}
+
+.options-menu li {
+	width: 100%;
+	border-bottom: 0.2em solid rgba(50,50,50,0.1);
 }
 
 .poll-option {
@@ -2346,6 +2410,9 @@ textarea {
 	font-size: 0.8em;
 }
 
+.comments .reg-form {
+	background: rgba(50,50,50,0.2);
+}
 
 
 /* EDIT PROFILE */

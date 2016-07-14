@@ -86,11 +86,6 @@
 					// 		}
 					// 	});
 					// }, 1000);
-
-					angular.forEach($rootScope.user.notifications, function(notification, index) {
-						console.log($scope.dismissals[generate.randomInteger(5, 'floor')]);
-						$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
-					});
 				});
 				customizer.getStyle($rootScope);
 			} else {
@@ -296,6 +291,7 @@
 
 				init.getPosts($rootScope.currentCircle._id, function(posts) {
 					$scope.posts = posts;
+					window.location.reload();
 					console.log($scope.posts);
 				});
 			})
@@ -750,24 +746,6 @@
 		}
 
 		$scope.tagsLimit = 5;
-
-		$scope.clearNotification = function(all, id) {
-			console.log(all);
-			console.log(id);
-			console.log(this.user._id);
-
-			var scope = this;
-			action.clearNotification(scope.user._id, all, id, function(user) {
-				$rootScope.user.notifications = user.notifications;
-				angular.forEach($rootScope.user.notifications, function(notification, index) {
-					console.log($scope.dismissals[generate.randomInteger(5, 'floor')]);
-					$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
-				});
-				console.log(user);
-			});
-		};
-
-		$scope.dismissals = ["ok", "whatever", "great", "fine", "cool", "got it", "nice"];
 
 		$scope.checkQuest = function() {
 			console.log(this.newPost.quest);

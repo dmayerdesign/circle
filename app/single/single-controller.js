@@ -234,7 +234,7 @@
 		// 	}
 		// };
 
-		$scope.react = function($event, reaction, type, id, commentId) {
+		$scope.react = function($event, reaction, type, id, commentId, commenter) {
 			var _thisBtn = _($event.target).is("button") ? _($event.target) : _($event.target).parents("button");
 			var _thisIcon = _thisBtn.find("i");
 			var _newIcon;
@@ -243,6 +243,7 @@
 				circleId: $rootScope.currentCircle._id,
 				postId: id,
 				commentId: (type === "comment") ? commentId : null,
+				commenter: commenter,
 				username: $rootScope.user.username,
 				name: $rootScope.user.name,
 				reaction: reaction

@@ -50,7 +50,7 @@
 				<div class="logo" ng-style="{backgroundImage: 'url(' + circle.styles.logo + ')'}"]></div>
 				<h5 class="bold-caps">{{circle.name}}</h5>
 			</div>
-			<button class="reg-btn transparent-btn compact create-or-join" ng-click="joinAnotherCircle()">+ create or join</button>
+			<button ng-disabled="isDemoUser" class="reg-btn transparent-btn compact create-or-join" ng-click="joinAnotherCircle()">+ create or join</button>
 		</div>
 
 		<button ng-click="logOut()" class="reg-btn transparent-btn bold-caps log-out pull-left has-icon-left"><i class="fa fa-unlock-alt"></i>Log out</button>

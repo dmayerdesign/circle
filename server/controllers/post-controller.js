@@ -484,8 +484,11 @@ module.exports.react = function(req, res) {
 	var isComment = commentId ? true: false;
 	var undo = false;
 	var theComment;
+	var thing = isComment ? "comment" : "post";
 
 	Post.findById(postId, function(err, post) {
+		var userToNotify = (thing === "post") ? post.user : req.body.commenter;
+
 		if (err) {
 			console.error(err);
 			res.json({status: 500});
@@ -521,7 +524,7 @@ module.exports.react = function(req, res) {
 					res.json(err);
 				} else {
 					if (!undo && post.user !== username) {
-						Users.findOne({username: post.user}, function(err, user) {
+						Users.findOne({username: userToNotify}, function(err, user) {
 							if ( err ) {
 								console.log("couldn't find the user to notify them of the reaction");
 								console.error(err);
@@ -534,14 +537,14 @@ module.exports.react = function(req, res) {
 								user.notifications.push({
 									"circleId": post.circleId,
 									"creator": name || username,
-									"action": reaction + "s your post",
+									"action": reaction + "s your " + thing,
 									"postId": post._id
 								});
 								user.save(function(err) {
 									if (err) {
 										console.error(err);
 									} else {
-										console.log("user notified of mention!");
+										console.log("user notified of the reaction on their " + thing + "!");
 									}
 								});
 							}

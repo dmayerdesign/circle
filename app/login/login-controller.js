@@ -4,6 +4,7 @@
 													 function( $scope,   $rootScope,   $state,   $location,   $http,   init) {
 
 			$rootScope.currentState = 'login';
+			$rootScope.location = $location;
 
 			$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 			if ($rootScope.user && $rootScope.user.email) {
@@ -13,8 +14,15 @@
 			
 			init.initFinal(_("body"));
 
-			$scope.logIn = function(alreadyLoggedIn) {
+			$scope.demoUsers = ["alex", "amy", "avy", "dave", "hamid", "rain"];
+
+			$scope.logIn = function(alreadyLoggedIn, demoCredentials) {
 				$scope.login = alreadyLoggedIn ? JSON.parse(localStorage['User']) : $scope.login;
+				
+				console.log(demoCredentials);
+				if (demoCredentials && typeof demoCredentials !== 'undefined') {
+					$scope.login = demoCredentials;
+				}
 
 				var request = {
 					email: $scope.login.email,

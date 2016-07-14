@@ -44,15 +44,19 @@
 	// SERIOUSLY DIRTY WORKAROUND for weird bug where sometimes
 	// all HTML except for inner text is stripped out of .post
 	// (the one that's ng-repeating in main.html)
-	setTimeout(function() {
-		setInterval(function() {
-			var $archivePost = $(".archive-post");
-			$archivePost.each(function() {
-				if ($(this).length && $(this).find("*").length < 2) {
-					window.location.reload();
-				}
-			});
-		}, 1000);
-	}, 5000);
+	function dirtyCheckForGlitch() {
+		setTimeout(function() {
+			setInterval(function() {
+				var $archivePost = $(".archive-post");
+				$archivePost.each(function() {
+					if ($(this).length && $(this).find("*").length < 2) {
+						window.location.reload();
+					}
+				});
+			}, 1000);
+		}, 5000);
+	}
+	dirtyCheckForGlitch();
+	window.addEventListener("hashchange", dirtyCheckForGlitch, false);
 
 }(jQuery));

@@ -57,7 +57,7 @@
 							<span ng-if="post.type == 'quest'">
 								<i class="fa fa-shield"></i>
 								<div class="questers">
-									<div ng-repeat="quester in post.usersMentioned | limitTo:4" class="member">
+									<div class="quester member" ng-repeat="quester in post.usersMentioned | limitTo:4">
 										<div ng-show="$root.usersByUsername[quester].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[quester].avatar}})"></div>
 										<div ng-hide="$root.usersByUsername[quester].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersById[quester].primaryColor}}"><span>{{quester.split("")[0].toUpperCase()}}</span></div>
 									</div>

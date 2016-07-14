@@ -1,14 +1,33 @@
-<div ng-show="!loggedIn" class="login container-fluid">
-	<form ng-submit="logIn(false)" class="setup-form login-form clearfix">
-		<div class="form-section-container animate-opacity-motion-rl clearfix">
+<div ng-if="location.search().access === '309413450559234780243561783'">
+	<div class="login container-fluid">
+		<form ng-submit="logIn(false)" class="setup-form login-form clearfix">
+			<div class="form-section-container animate-opacity-motion-rl clearfix">
 				<section class="col-md-4 col-md-offset-4 clearfix">
 					<h2 class="centered">Log in</h2>
-					<input class="line-form" placeholder="your email" type="email" ng-model="login.email" />
-					<input class="line-form" placeholder="your password" type="password" ng-model="login.password" />
+					<input class="line-form" placeholder="your email" type="email" ng-model="$root.login.email" />
+					<input class="line-form" placeholder="your password" type="password" ng-model="$root.login.password" />
 					<button class="centered-btn bg-primary">Log in</button>
-				</form>
-			</section>
-		</div>
-</div><!-- /.container-fluid -->
+				</section>
+			</div>
+		</form>
+	</div><!-- /.container-fluid -->
 
-<a class="floating-nav-btn floating-nav-right" ui-sref="signup">Sign up</a>
+	<a class="floating-nav-btn floating-nav-right" ui-sref="signup">Sign up</a>
+</div>
+
+<div ng-if="!location.search().access" class="demo-login login container-fluid centered">
+
+	<img ng-class="{'opaque': justTheCircle}" class="svg-img" src="images/circle.svg" width="124" height="120" style="padding-top:5px;">
+	<h4 class="animate-med centered demo-welcome-text">welcome.</h4>
+	<h2 class="centered text-shadow">Pick a demo profile to log in with</h2>
+
+	<div class="col-md-10 col-md-offset-1" style="margin-top:2em;">
+
+		<div ng-repeat="user in demoUsers" class="demo-profile-btn profile-btn clearfix" ng-click="logIn(false, {email: user + '@example.com', password: user})">
+	 		<div class="avatar-container" style="background-image: url('images/demo/{{user}}.png')"></div>
+	 		<span class="bold-caps text-shadow">{{user.capitalize()}}</span>
+	 	</div>
+
+	</div>
+
+</div>
