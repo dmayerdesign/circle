@@ -2220,11 +2220,15 @@ textarea {
 /** SINGLE POST **/
 
 /* edit */
-#edit-post-area {
-	position: absolute;
-		top: 30em;
-		z-index: 99;
-	width: 100%;
+#edit-post-area .reg-form {
+	background: rgba(50,50,50,0.1);
+}
+
+#edit-post-area .reg-btn {
+	font-size: 0.8em;
+	display: inline-block;
+  text-align: center;
+  margin: 0 0.5em;
 }
 
 /* view */
