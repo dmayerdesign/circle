@@ -523,7 +523,7 @@ module.exports.react = function(req, res) {
 					console.error(err);
 					res.json(err);
 				} else {
-					if (!undo && post.user !== username) {
+					if (!undo && userToNotify !== username) {
 						Users.findOne({username: userToNotify}, function(err, user) {
 							if ( err ) {
 								console.log("couldn't find the user to notify them of the reaction");

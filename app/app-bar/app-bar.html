@@ -38,6 +38,7 @@
 <!-- MAIN MENU -->
 <div class="main-menu c-bg-content" ng-class="{'open': mainMenuIsOpen}" ng-if="loggedIn" aria-hidden="true">
 	<div class="main-menu-inner">
+		<!-- profile -->
 	 	<a class="profile-btn clearfix" ui-sref="editProfile">
 	 		<div ng-show="$root.user.avatar.length" class="avatar-container" style="background-image: url({{$root.user.avatar}})"></div>
 	 		<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.user.primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>

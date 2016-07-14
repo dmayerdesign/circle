@@ -1,8 +1,14 @@
 <nav ng-include src="'app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<section class="main members-list">
-	<div ng-repeat="user in $root.users">
-		<img width="80" src="{{user.avatar}}" alt="{{user.name}}">
-		<span>{{user.name}} | @{{user.username}}</span>
+<section class="main members-list container-fluid centered">
+
+	<div class="col-md-10 col-md-offset-1">
+		<a ng-repeat="user in $root.users" class="member-profile-btn profile-btn clearfix" href="/#/?user={{user.username}}">
+	 		<div ng-show="user.avatar.length" class="avatar-container" style="background-image: url({{user.avatar}})"></div>
+	 		<div ng-hide="user.avatar.length" class="avatar-container no-avatar" style="background-color: {{user.primaryColor}}"><span>{{user.username.split("")[0].toUpperCase()}}</span></div>
+	 		<h4 class="text-shadow">{{user.name}}</h4>
+	 		<span class="bold-caps text-shadow">@{{user.username}}</span>
+	 	</a>
 	</div>
+
 </section>

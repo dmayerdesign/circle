@@ -618,7 +618,7 @@ nav {
 	display: block;
 }
 
-	.demo-profile-btn {
+	.member-profile-btn {
 		display: inline-block;
 		padding: 1.5em 1em;
 
@@ -628,7 +628,7 @@ nav {
 		transition: all 0.3s;
 	}
 
-	.demo-profile-btn:hover {
+	.member-profile-btn:hover {
 		transform: scale(1.2);
 	}
 
@@ -643,6 +643,14 @@ nav {
     padding-top: 1em;
     font-size: 1.2em;
 	}
+
+	.members-list .profile-btn > span {
+		padding-top: 0.5em;
+	}
+
+.members-list .profile-btn h4 {
+	padding-top: 0.8em;
+}
 
 .submenu {
 	float: left;
@@ -2396,6 +2404,7 @@ textarea {
 	font-size: 1.3em;
 	padding: 2em 0;
 	margin: 0 0 0 3em;
+	max-width: 60%;
 }
 
 .comment .author {
@@ -2412,6 +2421,12 @@ textarea {
 
 .comments .reg-form {
 	background: rgba(50,50,50,0.2);
+}
+
+@media screen and (max-width: 600px) {
+	.comment-body {
+		max-width: 34%;
+	}
 }
 
 
