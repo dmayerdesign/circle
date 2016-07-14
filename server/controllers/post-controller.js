@@ -119,37 +119,71 @@ module.exports.postComment = function(req, res) {
 					res.json(err);
 				} else {
 					console.log("SAVED COMMENT");
+
+					if (comment.user !== post.user) {
+						Users.findOne({username: post.user}, function(err, user) {
+							if ( err ) {
+								console.log("couldn't find the author to notify them of the comment");
+								console.error(err);
+								return;
+							}
+							if ( user ) {
+								if ( !user.notifications ) {
+									user.notifications = [];
+								}
+								user.notifications.push({
+									"circleId": post.circleId,
+									"creator": comment.authorName || comment.user,
+									"action": "commented on your post",
+									"postId": post._id
+								});
+								user.save(function(err) {
+									if (err) {
+										console.error(err);
+									} else {
+										console.log("user notified of comment!");
+										
+										if (post.usersMentioned && post.usersMentioned.length) {
+											commentedOnMention();
+										}
+									}
+								});
+							}
+						});
+					}
+
 					if (comment.usersMentioned && comment.usersMentioned.length) {
 						notificationCopy = "mentioned you in a comment";
 						for (var i = 0; i < comment.usersMentioned.length; i++) {
 							mentionedUser = comment.usersMentioned[i];
 
-							Users.findOne({username: mentionedUser}, function(err, user) {
-								if ( err ) {
-									console.log("couldn't find the user to notify them of the mention");
-									console.error(err);
-									return;
-								}
-								if ( user ) {
-									if ( !user.notifications ) {
-										user.notifications = [];
+							if (mentionedUser !== comment.user) {
+								Users.findOne({username: mentionedUser}, function(err, user) {
+									if ( err ) {
+										console.log("couldn't find the user to notify them of the mention");
+										console.error(err);
+										return;
 									}
-									user.notifications.push({
-										"circleId": post.circleId,
-										"creator": comment.authorName || comment.user,
-										"action": notificationCopy,
-										"postId": post._id
-									});
-									user.save(function(err) {
-										if (err) {
-											console.error(err);
-										} else {
-											console.log("user notified of mention!");
-											commentedOnMention();
+									if ( user ) {
+										if ( !user.notifications ) {
+											user.notifications = [];
 										}
-									});
-								}
-							});
+										user.notifications.push({
+											"circleId": post.circleId,
+											"creator": comment.authorName || comment.user,
+											"action": notificationCopy,
+											"postId": post._id
+										});
+										user.save(function(err) {
+											if (err) {
+												console.error(err);
+											} else {
+												console.log("user notified of mention!");
+											}
+										});
+									}
+								});
+							}
 						}
 					} else {
 						commentedOnMention();
@@ -211,6 +245,23 @@ module.exports.deletePost = function(req, res) {
 				res.json(allPosts);
 			}
 		});
+	});
+};
+
+module.exports.deleteComment = function(req, res) {
+	Post.findOne({_id: req.body.postId, circleId: req.body.circleId}, function(err, post) {
+		if (err) {
+			res.json(err);
+		} else {
+			post.comments.pull(req.body.commentId);
+			post.save(function(err, post) {
+				if (err) {
+					res.json(err);
+				} else {
+					res.json(post);
+				}
+			});
+		}
 	});
 };
 

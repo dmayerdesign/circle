@@ -388,11 +388,22 @@
 			function treatMentions(_element, scope, rootScope, content, callback) {
 				var mentionPattern = /\@([^\s.,!?\-:\(\)]*)/gi;
 				var mentionMatch = content.match(mentionPattern);
-				var theMention, i;
+				var theMention, i, userExists;
 
 				if ( mentionMatch && mentionMatch.length ) {
 					for (i = 0; i < mentionMatch.length; i++) {
 						theMention = mentionMatch[i];
+
+						rootScope.users.forEach(function(member) {
+							if (theMention.replace("@", "") == member.username) {
+								userExists = true;
+							}
+						});
+
+						if (!userExists) {
+							continue;
+						}
+
 						content = content.split(theMention);
 						content[0] += "<a href='/#/?user=" + theMention.replace("@", "") + "' class='mention'>" + theMention + "</a>";
 						content = content.join("");

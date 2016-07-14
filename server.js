@@ -76,6 +76,7 @@ app.post('/api/post/react', postController.react);
 
 // Comments
 app.post('/api/comment/post', postController.postComment);
+app.post('/api/comment/delete', postController.deleteComment);
 
 // Quests
 app.post('/api/quest/updateQuestStatus', postController.updateQuestStatus);

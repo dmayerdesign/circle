@@ -9,7 +9,7 @@
 
 	<!-- ARCHIVE HEADER -->
 		<!-- user -->
-		<div class="archive-header user col-md-8 col-md-offset-2 centered" ng-if="posts.length && location.search().user" role="header">
+		<div class="archive-header user col-md-8 col-md-offset-2 centered" ng-if="location.search().user" role="header">
 			<div ng-show="$root.usersByUsername[location.search().user].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[location.search().user].avatar}})"></div>
 			<div ng-hide="$root.usersByUsername[location.search().user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[location.search().user].primaryColor}}">
 				<span>{{location.search().user.split("")[0].toUpperCase()}}</span>
@@ -23,14 +23,9 @@
 		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="posts.length && !location.search().tag && !location.search().user && $root.archiveHeader" role="header">{{$root.archiveHeader.capitalize()}}s</h1>
 		<!-- all -->
 		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="posts.length && !location.search().tag && !location.search().user && !$root.archiveHeader" role="header">Everything</h1>
-		<h1 class="archive-header col-md-8 col-md-offset-2 centered" ng-if="!posts.length" role="header">Hi there!</h1>
-
-		<div class="col-md-10 col-md-offset-1 no-posts" ng-show="!posts.length">
-			<h3 class="centered">Your circle&rsquo;s emptier than my car&rsquo;s fuel tank.<br>Tap the pencil at the bottom right to add something.</h3>
-		</div>
 
 		<!-- refine (by user / mentioning user) -->
-		<ul ng-if="posts.length && postsAreFiltered.filter === 'users' && $root.postTypesAreFiltered.filter !== 'types'" class="refine-filter col-md-8 col-md-offset-2">
+		<ul ng-if="postsAreFiltered.filter === 'users' && $root.postTypesAreFiltered.filter !== 'types'" class="refine-filter col-md-8 col-md-offset-2">
 			<li sticky-toggle-class="active" class="filter-by-author less-rounded inner-btn c-text c-bg-accent-active c-bg-accent-hover c-text-active c-text-hover c-bg-content" ng-click="filterByCreator = true; showPostsFiltered( 'users', postsAreFiltered.term )">
 				<span class="btn-text">things by <span ng-if="postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
 			</li>
@@ -38,6 +33,10 @@
 				<span class="btn-text">things mentioning <span ng-if="postsAreFiltered.term !== $root.user.username">@</span><span ng-if="postsAreFiltered.filter === 'tags'">#</span>{{(postsAreFiltered.term) === $root.user.username ? "you" : postsAreFiltered.term}}</span>
 			</li>
 		</ul>
+
+		<div class="col-md-10 col-md-offset-1 no-posts" ng-show="!posts.length">
+			<h3 class="centered">There's nothing here! <br>Tap the pencil at the bottom right to add something.</h3>
+		</div>
 
 	<!-- archive -->
 		<div class="col-md-8 col-md-offset-2 posts-archive archive">

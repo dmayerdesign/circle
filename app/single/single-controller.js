@@ -54,6 +54,16 @@
 		};
 		$scope.initPost();
 
+		$scope.deleteCommentOption = {};
+
+		$scope.toggleDeleteCommentOption = function(commentId, force) {
+			if ($scope.deleteCommentOption[commentId]) {
+				$scope.deleteCommentOption[commentId] = false;
+			} else {
+				$scope.deleteCommentOption[commentId] = true;
+			}
+		};
+
 		$scope.deletePost = function(postId) {
 			if (window.confirm("Delete this post?")) {
 				var that = this;
@@ -65,6 +75,20 @@
 				$http.post('api/post/delete', request).then(function(response) {
 					that.posts = response.data;
 					$state.go('main');
+				});
+			}
+		};
+
+		$scope.deleteComment = function(commentId, postId) {
+			if (window.confirm("Delete this comment?")) {
+				var that = this;
+				var request = {
+					commentId: commentId,
+					postId: postId,
+					circleId: $rootScope.currentCircle._id
+				};
+				$http.post('api/comment/delete', request).then(function(response) {
+					$rootScope.post = response.data;
 				});
 			}
 		};
