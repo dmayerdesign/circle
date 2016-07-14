@@ -16,8 +16,8 @@
 					<button class="reg-btn c-bg-primary" ng-show="deletePostClicked" ng-click="deletePostClick('cancel')">No</button> -->
 				<li ng-if="$root.user._id == post.userId && post.quest.status === 'completed'" class="inner-btn bold-caps c-bg-primary c-bg-accent-hover" ng-click="undoCompletedQuest(post._id, post.usersMentioned, 'failed')"><span>change all to 'failed'</span></li>
 				<li ng-if="$root.user._id == post.userId && post.quest.status === 'completed'" class="inner-btn bold-caps c-bg-primary c-bg-accent-hover" ng-click="undoCompletedQuest(post._id, post.usersMentioned, 'in_progress')"><span>change all to 'in progress'</span></li>
-				<li ng-if="$root.user._id == post.userId && post.quest.status !== 'completed'" class="inner-btn bold-caps c-bg-primary c-bg-accent-hover" ng-click="allCompletedQuest(post._id, post.usersMentioned)"><span>Everyone completed the quest</span></li>
-				<li ng-if="$root.user._id == post.userId && post.quest.status !== 'completed'" ng-repeat="user in post.usersMentioned" class="inner-btn bold-caps c-bg-primary c-bg-accent-hover" ng-click="completedQuest(post._id, user)"><span>{{user}} completed the quest</span></li>
+				<li ng-if="post.type === 'quest' && $root.user._id == post.userId && post.quest.status !== 'completed'" class="inner-btn bold-caps c-bg-primary c-bg-accent-hover" ng-click="allCompletedQuest(post._id, post.usersMentioned)"><span>Everyone completed the quest</span></li>
+				<li ng-if="post.type === 'quest' && $root.user._id == post.userId && post.quest.status !== 'completed'" ng-repeat="user in post.usersMentioned" class="inner-btn bold-caps c-bg-primary c-bg-accent-hover" ng-click="completedQuest(post._id, user)"><span>{{user}} completed the quest</span></li>
 
 				<!-- <li ng-if="$root.user._id == post.userId && post.quest.status !== 'completed'">
 					<form ng-submit="completedQuest(post._id, singleQuestCompleter)"

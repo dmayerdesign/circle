@@ -1128,7 +1128,7 @@ h1.archive-header {
 }
 
 .theme-smooth .post .questers .avatar-container {
-	border-width: 0.4em !important;
+	border-width: 0.35em !important;
 }
 
 .post .quester {
@@ -1137,7 +1137,7 @@ h1.archive-header {
 
 .post .commenter {
 	position: relative;
-		top: 1.5em;
+		top: 1.6em;
 	float: right;
 	margin-left: 0.8em;
 }
@@ -1207,7 +1207,7 @@ h1.archive-header {
 	}
 
 		.theme-smooth .post .commenter .avatar-container {
-			border-width: 0.3em;
+			border-width: 0.26em;
 		}
 
 	.avatar-container.no-avatar {

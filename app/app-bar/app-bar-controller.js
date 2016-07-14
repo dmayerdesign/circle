@@ -278,6 +278,11 @@
 			window.location.href = "/#/create-circle";
 		};
 
+		$scope.goToPost = function(post_id) {
+			console.log(window.location.href);
+			$state.go("single", {id: post_id, tag: $location.search() && $location.search().tag});
+		};
+
 		function initUI(callback) {
 			var initDrawers = function($drawers, $sidebars) {
 				$drawers.each(function() {
