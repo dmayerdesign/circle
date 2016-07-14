@@ -568,11 +568,11 @@
 						}
 						if (list === 'users' && !that.filterByCreator) {
 							$location.search("user", item);
-							return $filter('filter')(that.posts, {usersMentioned: item});
+							return $filter('filter')(that.posts, {usersMentioned: item}, true);
 						}
 						if (list === 'users' && that.filterByCreator) {
 							$location.search("user", item);
-							return $filter('filter')(that.posts, {user: item});
+							return $filter('filter')(that.posts, {user: item}, true);
 						}
 					}();
 					$rootScope.archiveLoading = false;

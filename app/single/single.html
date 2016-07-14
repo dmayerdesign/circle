@@ -4,11 +4,11 @@
 	<div class="single-post-inner col-md-8 col-md-offset-2">
 		<div class="single-post-masthead clearfix">
 			{{$location.search()}}
-			<a href="{{location.search().tag ? ('/#/?tag=' + location.search().tag) : '/#/'}}" class="back-btn pull-left bold-caps text-shadow"><span><i class="fa fa-long-arrow-left"></i>Back to feed</span></a>
+			<a href="{{location.search().tag ? ('/#/?tag=' + location.search().tag) : '/#/'}}" class="back-btn pull-left bold-caps text-shadow"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
 		</div>
 		
 		<div class="options-menu-container single-post-menu-container" ng-if="$root.user._id === post.userId">
-			<button ng-click="togglePostOptions()" class="options-menu-toggle transparent-btn"><i class="fa fa-cog"></i></button>
+			<button ng-click="togglePostOptions()" class="options-menu-toggle transparent-btn"><i class="fa fa-cog text-shadow"></i></button>
 			<ul ng-show="$root.postOptionsToggled" class="options-menu single-post-menu">
 				<li id="delete_post_sequence">
 					<button class="btn reg-btn c-bg-primary" ng-if="!deletePostClicked" ng-click="deletePost(post._id)">Delete</button>
@@ -37,24 +37,26 @@
 		<div class="secondary" ng-if="post.type == 'quest'">
 			<div ng-if="$root.user._id == post.userId">
 				<ul ng-if="post.quest.status !== 'completed'">
-					<li>
+					<li class="pull-left">
 						<button class="reg-btn c-bg-primary" ng-click="allCompletedQuest(post._id, post.usersMentioned)">Everyone completed the quest</button>
 					</li>
-					<li ng-repeat="user in post.usersMentioned">
-						<button class="reg-btn c-bg-secondary" ng-click="completedQuest(post._id, user)">@{{user}} completed the quest</button>
+					<li class="pull-left">
+						<ul>
+							<li ng-repeat="user in post.usersMentioned"><button class="reg-btn c-bg-secondary" ng-click="completedQuest(post._id, user)">@{{user}} completed the quest</button></li>
+						</ul>
 					</li>
 				</ul>
 
-				<button class="reg-btn c-bg-secondary" ng-if="post.quest.status === 'completed'" ng-click="undoCompletedQuest(post._id, post.usersMentioned, 'failed')">JK everyone failed</button>
-				<button class="reg-btn c-bg-secondary" ng-if="post.quest.status === 'completed'" ng-click="undoCompletedQuest(post._id, post.usersMentioned, 'in_progress')">JK it's not finished</button>
+				<button class="pull-left reg-btn c-bg-secondary" ng-if="post.quest.status === 'completed'" ng-click="undoCompletedQuest(post._id, post.usersMentioned, 'failed')">change all to 'failed'</button>
+				<button class="pull-left reg-btn c-bg-secondary" ng-if="post.quest.status === 'completed'" ng-click="undoCompletedQuest(post._id, post.usersMentioned, 'in_progress')">change all to 'in progress'</button>
 			</div>
 
-			<div ng-if="post.usersMentioned.indexOf($root.user.username) === -1">
+			<div class="col-md-12" ng-if="post.usersMentioned.indexOf($root.user.username) === -1">
 				<h2 ng-if="post.quest.status === 'completed'">Success!</h2>
 				<h2 ng-if="post.quest.status === 'in_progress'">In Progress</h2>
 				<h2 ng-if="post.quest.status === 'failed'">Failed</h2>
 			</div>
-			<div ng-if="post.usersMentioned.indexOf($root.user.username) > -1">
+			<div class="col-md-12" ng-if="post.usersMentioned.indexOf($root.user.username) > -1">
 				<div ng-if="post.quest.completers.indexOf($root.user.username) > -1">
 					<h2>Success!</h2>
 					<p>You completed the quest!</p>

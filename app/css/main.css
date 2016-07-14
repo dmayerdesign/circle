@@ -196,6 +196,7 @@ article a {
 
 ul {
 	list-style: none;
+	padding-left: 0;
 }
 
 
@@ -832,11 +833,11 @@ nav {
 }
 
 	.refine-filter .filter-by-author {
-		margin-right: 0.5%;
+		margin-right: 1%;
 	}
 
 	.refine-filter .filter-by-mention {
-		margin-left: 0.5%;
+		margin-left: 1%;
 	}
 
 .refine-filter li span {
@@ -1087,7 +1088,7 @@ h1.archive-header {
 		opacity: 0.3;
 	}
 
-.post .post-before h3 span span {
+.post .post-before h3 span > span {
 	position: relative;
   padding-top: 0.26em;
   padding-left: 0.6em;
@@ -1102,7 +1103,7 @@ h1.archive-header {
 }
 
 .theme-smooth .post .questers .avatar-container {
-	border-width: 0.34em !important;
+	border-width: 0.4em !important;
 }
 
 .post .commenter {
