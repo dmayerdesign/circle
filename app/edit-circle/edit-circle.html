@@ -19,32 +19,34 @@
 				<h2>Styles</h2>
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the theme</h4>
-					<select ng-model="currentCircle.styles.theme" value="{{$root.currentCircle.styles.theme}}" type="text" class="reg-form">
+					<select ng-change="styleCircle('theme')" ng-model="currentCircle.styles.theme" value="{{$root.currentCircle.styles.theme}}" type="text" class="reg-form">
 						<option ng-selected="currentCircle.styles.theme == 'smooth'" value="smooth">Smooth</option>
 						<option ng-selected="currentCircle.styles.theme == 'material'" value="material">Material</option>
 					</select>
-					<button ng-click="styleCircle('theme')" class="reg-btn compact c-bg-secondary">apply</button>
+					<!-- <button ng-click="styleCircle('theme')" class="reg-btn compact c-bg-secondary">apply</button> -->
 				</div>
 
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the palette</h4>
-					<select ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="reg-form">
+					<select ng-change="styleCircle('palette')" ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="reg-form">
 						<option ng-selected="currentCircle.styles.palette == 'original-blue'" value="original-blue">Original Blue</option>
-						<option ng-selected="currentCircle.styles.palette == 'troll-hollow'" value="troll-hollow">Troll Hollow</option>
 						<option ng-selected="currentCircle.styles.palette == 'sunlit-sail'" value="sunlit-sail">Sunlit Sail</option>
+						<option ng-selected="currentCircle.styles.palette == 'purple-rain'" value="purple-rain">Purple Rain</option>
+						<option ng-selected="currentCircle.styles.palette == 'troll-hollow'" value="troll-hollow">Troll Hollow</option>
+						<option ng-selected="currentCircle.styles.palette == 'fifties-kitchen'" value="fifties-kitchen">Fifties Kitchen</option>
 					</select>
-					<button ng-click="styleCircle('palette')" class="reg-btn compact c-bg-secondary">apply</button>
+					<!-- <button ng-click="styleCircle('palette')" class="reg-btn compact c-bg-secondary">apply</button> -->
 				</div>
 
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the primary font</h4>
-					<select ng-model="currentCircle.styles.font" value="{{$root.currentCircle.styles.font}}" type="text" class="reg-form">
+					<select ng-change="styleCircle('font')" ng-model="currentCircle.styles.font" value="{{$root.currentCircle.styles.font}}" type="text" class="reg-form">
 						<option ng-selected="currentCircle.styles.font == 'helvetica'" value="helvetica">Helvetica</option>
 						<option ng-selected="currentCircle.styles.font == 'open-sans'" value="open-sans">Open Sans</option>
 						<option ng-selected="currentCircle.styles.font == 'montserrat'" value="montserrat">Montserrat</option>
 						<option ng-selected="currentCircle.styles.font == 'pridi'" value="pridi">Pridi</option>
 					</select>
-					<button ng-click="styleCircle('font')" class="reg-btn compact c-bg-secondary">apply</button>
+					<!-- <button ng-click="" class="reg-btn compact c-bg-secondary">apply</button> -->
 				</div>
 			</div>
 			<div class="imagery" ng-show="editCircle.part == 'imagery'">

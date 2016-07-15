@@ -580,4 +580,392 @@
 .palette-sunlit-sail .main-menu {
   border-color: #d1dee6 !important; }
 
+.palette-purple-rain .c-bg-primary {
+  color: #f5f5f0 !important; }
+.palette-purple-rain .c-bg-secondary {
+  color: #566270 !important; }
+.palette-purple-rain .c-bg-primary,
+.palette-purple-rain .c-bg-primary-hover:hover,
+.palette-purple-rain .c-bg-primary-hover:active,
+.palette-purple-rain .c-bg-primary-hover.active,
+.palette-purple-rain .c-bg-primary-hover:focus,
+.palette-purple-rain .c-bg-primary-active:active,
+.palette-purple-rain .c-bg-primary-active.active,
+.palette-purple-rain .c-bg-primary-active:focus,
+.palette-purple-rain .c-bg-primary-focus:focus {
+  background-color: #A593E0 !important; }
+.palette-purple-rain .c-primary,
+.palette-purple-rain .c-primary-hover:hover,
+.palette-purple-rain .c-primary-hover:active,
+.palette-purple-rain .c-primary-hover.active,
+.palette-purple-rain .c-primary-hover:focus,
+.palette-purple-rain .c-primary-active:active,
+.palette-purple-rain .c-primary-active.active,
+.palette-purple-rain .c-primary-active:focus,
+.palette-purple-rain .c-primary-focus:focus {
+  color: #A593E0 !important; }
+.palette-purple-rain .c-primary::-webkit-input-placeholder,
+.palette-purple-rain .c-primary:-moz-input-placeholder,
+.palette-purple-rain .c-primary::-moz-input-placeholder,
+.palette-purple-rain .c-primary:-ms-input-placeholder {
+  color: #A593E0 !important; }
+.palette-purple-rain .c-border-primary {
+  border-color: #A593E0 !important; }
+.palette-purple-rain .c-bg-secondary,
+.palette-purple-rain .c-bg-secondary-hover:hover,
+.palette-purple-rain .c-bg-secondary-hover:active,
+.palette-purple-rain .c-bg-secondary-hover.active,
+.palette-purple-rain .c-bg-secondary-hover:focus,
+.palette-purple-rain .c-bg-secondary-active:active,
+.palette-purple-rain .c-bg-secondary-active.active,
+.palette-purple-rain .c-bg-secondary-active:focus,
+.palette-purple-rain .c-bg-secondary-focus:focus {
+  background-color: #E0E3DA !important; }
+.palette-purple-rain .c-secondary,
+.palette-purple-rain .c-secondary-hover:hover,
+.palette-purple-rain .c-secondary-hover:active,
+.palette-purple-rain .c-secondary-hover.active,
+.palette-purple-rain .c-secondary-hover:focus,
+.palette-purple-rain .c-secondary-active:active,
+.palette-purple-rain .c-secondary-active.active,
+.palette-purple-rain .c-secondary-active:focus,
+.palette-purple-rain .c-secondary-focus:focus {
+  color: #E0E3DA !important; }
+.palette-purple-rain .c-secondary::-webkit-input-placeholder,
+.palette-purple-rain .c-secondary:-moz-input-placeholder,
+.palette-purple-rain .c-secondary::-moz-input-placeholder,
+.palette-purple-rain .c-secondary:-ms-input-placeholder {
+  color: #E0E3DA !important; }
+.palette-purple-rain .c-border-secondary {
+  border-color: #E0E3DA !important; }
+.palette-purple-rain .c-bg-content,
+.palette-purple-rain .c-bg-content-hover:hover,
+.palette-purple-rain .c-bg-content-hover:active,
+.palette-purple-rain .c-bg-content-hover.active,
+.palette-purple-rain .c-bg-content-hover:focus,
+.palette-purple-rain .c-bg-content-active:active,
+.palette-purple-rain .c-bg-content-active.active,
+.palette-purple-rain .c-bg-content-active:focus,
+.palette-purple-rain .c-bg-content-focus:focus {
+  background-color: #f5f5f0 !important; }
+.palette-purple-rain .c-content,
+.palette-purple-rain .c-content-hover:hover,
+.palette-purple-rain .c-content-hover:active,
+.palette-purple-rain .c-content-hover.active,
+.palette-purple-rain .c-content-hover:focus,
+.palette-purple-rain .c-content-active:active,
+.palette-purple-rain .c-content-active.active,
+.palette-purple-rain .c-content-active:focus,
+.palette-purple-rain .c-content-focus:focus {
+  color: #f5f5f0 !important; }
+.palette-purple-rain .c-content::-webkit-input-placeholder,
+.palette-purple-rain .c-content:-moz-input-placeholder,
+.palette-purple-rain .c-content::-moz-input-placeholder,
+.palette-purple-rain .c-content:-ms-input-placeholder {
+  color: #f5f5f0 !important; }
+.palette-purple-rain .c-border-content {
+  border-color: #f5f5f0 !important; }
+.palette-purple-rain .c-bg-accent,
+.palette-purple-rain .c-bg-accent-hover:hover,
+.palette-purple-rain .c-bg-accent-hover:active,
+.palette-purple-rain .c-bg-accent-hover.active,
+.palette-purple-rain .c-bg-accent-hover:focus,
+.palette-purple-rain .c-bg-accent-active:active,
+.palette-purple-rain .c-bg-accent-active.active,
+.palette-purple-rain .c-bg-accent-active:focus,
+.palette-purple-rain .c-bg-accent-focus:focus {
+  background-color: #d65270 !important; }
+.palette-purple-rain .c-accent,
+.palette-purple-rain .c-accent-hover:hover,
+.palette-purple-rain .c-accent-hover:active,
+.palette-purple-rain .c-accent-hover.active,
+.palette-purple-rain .c-accent-hover:focus,
+.palette-purple-rain .c-accent-active:active,
+.palette-purple-rain .c-accent-active.active,
+.palette-purple-rain .c-accent-active:focus,
+.palette-purple-rain .c-accent-focus:focus {
+  color: #d65270 !important; }
+.palette-purple-rain .c-accent::-webkit-input-placeholder,
+.palette-purple-rain .c-accent:-moz-input-placeholder,
+.palette-purple-rain .c-accent::-moz-input-placeholder,
+.palette-purple-rain .c-accent:-ms-input-placeholder {
+  color: #d65270 !important; }
+.palette-purple-rain .c-border-accent {
+  border-color: #d65270 !important; }
+.palette-purple-rain .c-bg-text,
+.palette-purple-rain .c-bg-text-hover:hover,
+.palette-purple-rain .c-bg-text-hover:active,
+.palette-purple-rain .c-bg-text-hover.active,
+.palette-purple-rain .c-bg-text-hover:focus,
+.palette-purple-rain .c-bg-text-active:active,
+.palette-purple-rain .c-bg-text-active.active,
+.palette-purple-rain .c-bg-text-active:focus,
+.palette-purple-rain .c-bg-text-focus:focus {
+  background-color: #f5f5f0 !important; }
+.palette-purple-rain .c-text,
+.palette-purple-rain .c-text-hover:hover,
+.palette-purple-rain .c-text-hover:active,
+.palette-purple-rain .c-text-hover.active,
+.palette-purple-rain .c-text-hover:focus,
+.palette-purple-rain .c-text-active:active,
+.palette-purple-rain .c-text-active.active,
+.palette-purple-rain .c-text-active:focus,
+.palette-purple-rain .c-text-focus:focus {
+  color: #f5f5f0 !important; }
+.palette-purple-rain .c-text::-webkit-input-placeholder,
+.palette-purple-rain .c-text:-moz-input-placeholder,
+.palette-purple-rain .c-text::-moz-input-placeholder,
+.palette-purple-rain .c-text:-ms-input-placeholder {
+  color: #f5f5f0 !important; }
+.palette-purple-rain .c-border-text {
+  border-color: #f5f5f0 !important; }
+.palette-purple-rain .c-bg-text-dark,
+.palette-purple-rain .c-bg-text-dark-hover:hover,
+.palette-purple-rain .c-bg-text-dark-hover:active,
+.palette-purple-rain .c-bg-text-dark-hover.active,
+.palette-purple-rain .c-bg-text-dark-hover:focus,
+.palette-purple-rain .c-bg-text-dark-active:active,
+.palette-purple-rain .c-bg-text-dark-active.active,
+.palette-purple-rain .c-bg-text-dark-active:focus,
+.palette-purple-rain .c-bg-text-dark-focus:focus {
+  background-color: #566270 !important; }
+.palette-purple-rain .c-text-dark,
+.palette-purple-rain .c-text-dark-hover:hover,
+.palette-purple-rain .c-text-dark-hover:active,
+.palette-purple-rain .c-text-dark-hover.active,
+.palette-purple-rain .c-text-dark-hover:focus,
+.palette-purple-rain .c-text-dark-active:active,
+.palette-purple-rain .c-text-dark-active.active,
+.palette-purple-rain .c-text-dark-active:focus,
+.palette-purple-rain .c-text-dark-focus:focus {
+  color: #566270 !important; }
+.palette-purple-rain .c-text-dark::-webkit-input-placeholder,
+.palette-purple-rain .c-text-dark:-moz-input-placeholder,
+.palette-purple-rain .c-text-dark::-moz-input-placeholder,
+.palette-purple-rain .c-text-dark:-ms-input-placeholder {
+  color: #566270 !important; }
+.palette-purple-rain .c-border-text-dark {
+  border-color: #566270 !important; }
+.palette-purple-rain .c-bg-content,
+.palette-purple-rain .comment .reactions button {
+  color: #566270 !important; }
+.palette-purple-rain .c-bg-content,
+.palette-purple-rain .comment .reactions button {
+  color: #566270 !important; }
+.palette-purple-rain .comment .reactions .liked-by-you,
+.palette-purple-rain .comment .reactions .liked-by-you:hover,
+.palette-purple-rain .comment .reactions .liked-by-you:focus,
+.palette-purple-rain .comment .reactions .liked-by-you:active,
+.palette-purple-rain .comment .reactions .liked-by-you.active {
+  color: #55b060 !important; }
+.palette-purple-rain .comment .reactions .loved-by-you,
+.palette-purple-rain .comment .reactions .loved-by-you:hover,
+.palette-purple-rain .comment .reactions .loved-by-you:focus,
+.palette-purple-rain .comment .reactions .loved-by-you:active,
+.palette-purple-rain .comment .reactions .loved-by-you.active {
+  color: #cc4444 !important; }
+.palette-purple-rain .reg-form {
+  border-color: #A593E0 !important; }
+.palette-purple-rain .bottom-drawer .reg-form {
+  color: #566270 !important; }
+.palette-purple-rain .selected {
+  background-color: #A593E0 !important;
+  color: #f5f5f0 !important; }
+.palette-purple-rain .main-menu {
+  border-color: #E0E3DA !important; }
+
+.palette-fifties-kitchen .c-bg-primary {
+  color: #FCFCF9 !important; }
+.palette-fifties-kitchen .c-bg-secondary {
+  color: #171612 !important; }
+.palette-fifties-kitchen .c-bg-primary,
+.palette-fifties-kitchen .c-bg-primary-hover:hover,
+.palette-fifties-kitchen .c-bg-primary-hover:active,
+.palette-fifties-kitchen .c-bg-primary-hover.active,
+.palette-fifties-kitchen .c-bg-primary-hover:focus,
+.palette-fifties-kitchen .c-bg-primary-active:active,
+.palette-fifties-kitchen .c-bg-primary-active.active,
+.palette-fifties-kitchen .c-bg-primary-active:focus,
+.palette-fifties-kitchen .c-bg-primary-focus:focus {
+  background-color: #9BD9E0 !important; }
+.palette-fifties-kitchen .c-primary,
+.palette-fifties-kitchen .c-primary-hover:hover,
+.palette-fifties-kitchen .c-primary-hover:active,
+.palette-fifties-kitchen .c-primary-hover.active,
+.palette-fifties-kitchen .c-primary-hover:focus,
+.palette-fifties-kitchen .c-primary-active:active,
+.palette-fifties-kitchen .c-primary-active.active,
+.palette-fifties-kitchen .c-primary-active:focus,
+.palette-fifties-kitchen .c-primary-focus:focus {
+  color: #9BD9E0 !important; }
+.palette-fifties-kitchen .c-primary::-webkit-input-placeholder,
+.palette-fifties-kitchen .c-primary:-moz-input-placeholder,
+.palette-fifties-kitchen .c-primary::-moz-input-placeholder,
+.palette-fifties-kitchen .c-primary:-ms-input-placeholder {
+  color: #9BD9E0 !important; }
+.palette-fifties-kitchen .c-border-primary {
+  border-color: #9BD9E0 !important; }
+.palette-fifties-kitchen .c-bg-secondary,
+.palette-fifties-kitchen .c-bg-secondary-hover:hover,
+.palette-fifties-kitchen .c-bg-secondary-hover:active,
+.palette-fifties-kitchen .c-bg-secondary-hover.active,
+.palette-fifties-kitchen .c-bg-secondary-hover:focus,
+.palette-fifties-kitchen .c-bg-secondary-active:active,
+.palette-fifties-kitchen .c-bg-secondary-active.active,
+.palette-fifties-kitchen .c-bg-secondary-active:focus,
+.palette-fifties-kitchen .c-bg-secondary-focus:focus {
+  background-color: #F9D4EE !important; }
+.palette-fifties-kitchen .c-secondary,
+.palette-fifties-kitchen .c-secondary-hover:hover,
+.palette-fifties-kitchen .c-secondary-hover:active,
+.palette-fifties-kitchen .c-secondary-hover.active,
+.palette-fifties-kitchen .c-secondary-hover:focus,
+.palette-fifties-kitchen .c-secondary-active:active,
+.palette-fifties-kitchen .c-secondary-active.active,
+.palette-fifties-kitchen .c-secondary-active:focus,
+.palette-fifties-kitchen .c-secondary-focus:focus {
+  color: #F9D4EE !important; }
+.palette-fifties-kitchen .c-secondary::-webkit-input-placeholder,
+.palette-fifties-kitchen .c-secondary:-moz-input-placeholder,
+.palette-fifties-kitchen .c-secondary::-moz-input-placeholder,
+.palette-fifties-kitchen .c-secondary:-ms-input-placeholder {
+  color: #F9D4EE !important; }
+.palette-fifties-kitchen .c-border-secondary {
+  border-color: #F9D4EE !important; }
+.palette-fifties-kitchen .c-bg-content,
+.palette-fifties-kitchen .c-bg-content-hover:hover,
+.palette-fifties-kitchen .c-bg-content-hover:active,
+.palette-fifties-kitchen .c-bg-content-hover.active,
+.palette-fifties-kitchen .c-bg-content-hover:focus,
+.palette-fifties-kitchen .c-bg-content-active:active,
+.palette-fifties-kitchen .c-bg-content-active.active,
+.palette-fifties-kitchen .c-bg-content-active:focus,
+.palette-fifties-kitchen .c-bg-content-focus:focus {
+  background-color: #F1FBFD !important; }
+.palette-fifties-kitchen .c-content,
+.palette-fifties-kitchen .c-content-hover:hover,
+.palette-fifties-kitchen .c-content-hover:active,
+.palette-fifties-kitchen .c-content-hover.active,
+.palette-fifties-kitchen .c-content-hover:focus,
+.palette-fifties-kitchen .c-content-active:active,
+.palette-fifties-kitchen .c-content-active.active,
+.palette-fifties-kitchen .c-content-active:focus,
+.palette-fifties-kitchen .c-content-focus:focus {
+  color: #F1FBFD !important; }
+.palette-fifties-kitchen .c-content::-webkit-input-placeholder,
+.palette-fifties-kitchen .c-content:-moz-input-placeholder,
+.palette-fifties-kitchen .c-content::-moz-input-placeholder,
+.palette-fifties-kitchen .c-content:-ms-input-placeholder {
+  color: #F1FBFD !important; }
+.palette-fifties-kitchen .c-border-content {
+  border-color: #F1FBFD !important; }
+.palette-fifties-kitchen .c-bg-accent,
+.palette-fifties-kitchen .c-bg-accent-hover:hover,
+.palette-fifties-kitchen .c-bg-accent-hover:active,
+.palette-fifties-kitchen .c-bg-accent-hover.active,
+.palette-fifties-kitchen .c-bg-accent-hover:focus,
+.palette-fifties-kitchen .c-bg-accent-active:active,
+.palette-fifties-kitchen .c-bg-accent-active.active,
+.palette-fifties-kitchen .c-bg-accent-active:focus,
+.palette-fifties-kitchen .c-bg-accent-focus:focus {
+  background-color: #FF996B !important; }
+.palette-fifties-kitchen .c-accent,
+.palette-fifties-kitchen .c-accent-hover:hover,
+.palette-fifties-kitchen .c-accent-hover:active,
+.palette-fifties-kitchen .c-accent-hover.active,
+.palette-fifties-kitchen .c-accent-hover:focus,
+.palette-fifties-kitchen .c-accent-active:active,
+.palette-fifties-kitchen .c-accent-active.active,
+.palette-fifties-kitchen .c-accent-active:focus,
+.palette-fifties-kitchen .c-accent-focus:focus {
+  color: #FF996B !important; }
+.palette-fifties-kitchen .c-accent::-webkit-input-placeholder,
+.palette-fifties-kitchen .c-accent:-moz-input-placeholder,
+.palette-fifties-kitchen .c-accent::-moz-input-placeholder,
+.palette-fifties-kitchen .c-accent:-ms-input-placeholder {
+  color: #FF996B !important; }
+.palette-fifties-kitchen .c-border-accent {
+  border-color: #FF996B !important; }
+.palette-fifties-kitchen .c-bg-text,
+.palette-fifties-kitchen .c-bg-text-hover:hover,
+.palette-fifties-kitchen .c-bg-text-hover:active,
+.palette-fifties-kitchen .c-bg-text-hover.active,
+.palette-fifties-kitchen .c-bg-text-hover:focus,
+.palette-fifties-kitchen .c-bg-text-active:active,
+.palette-fifties-kitchen .c-bg-text-active.active,
+.palette-fifties-kitchen .c-bg-text-active:focus,
+.palette-fifties-kitchen .c-bg-text-focus:focus {
+  background-color: #FCFCF9 !important; }
+.palette-fifties-kitchen .c-text,
+.palette-fifties-kitchen .c-text-hover:hover,
+.palette-fifties-kitchen .c-text-hover:active,
+.palette-fifties-kitchen .c-text-hover.active,
+.palette-fifties-kitchen .c-text-hover:focus,
+.palette-fifties-kitchen .c-text-active:active,
+.palette-fifties-kitchen .c-text-active.active,
+.palette-fifties-kitchen .c-text-active:focus,
+.palette-fifties-kitchen .c-text-focus:focus {
+  color: #FCFCF9 !important; }
+.palette-fifties-kitchen .c-text::-webkit-input-placeholder,
+.palette-fifties-kitchen .c-text:-moz-input-placeholder,
+.palette-fifties-kitchen .c-text::-moz-input-placeholder,
+.palette-fifties-kitchen .c-text:-ms-input-placeholder {
+  color: #FCFCF9 !important; }
+.palette-fifties-kitchen .c-border-text {
+  border-color: #FCFCF9 !important; }
+.palette-fifties-kitchen .c-bg-text-dark,
+.palette-fifties-kitchen .c-bg-text-dark-hover:hover,
+.palette-fifties-kitchen .c-bg-text-dark-hover:active,
+.palette-fifties-kitchen .c-bg-text-dark-hover.active,
+.palette-fifties-kitchen .c-bg-text-dark-hover:focus,
+.palette-fifties-kitchen .c-bg-text-dark-active:active,
+.palette-fifties-kitchen .c-bg-text-dark-active.active,
+.palette-fifties-kitchen .c-bg-text-dark-active:focus,
+.palette-fifties-kitchen .c-bg-text-dark-focus:focus {
+  background-color: #171612 !important; }
+.palette-fifties-kitchen .c-text-dark,
+.palette-fifties-kitchen .c-text-dark-hover:hover,
+.palette-fifties-kitchen .c-text-dark-hover:active,
+.palette-fifties-kitchen .c-text-dark-hover.active,
+.palette-fifties-kitchen .c-text-dark-hover:focus,
+.palette-fifties-kitchen .c-text-dark-active:active,
+.palette-fifties-kitchen .c-text-dark-active.active,
+.palette-fifties-kitchen .c-text-dark-active:focus,
+.palette-fifties-kitchen .c-text-dark-focus:focus {
+  color: #171612 !important; }
+.palette-fifties-kitchen .c-text-dark::-webkit-input-placeholder,
+.palette-fifties-kitchen .c-text-dark:-moz-input-placeholder,
+.palette-fifties-kitchen .c-text-dark::-moz-input-placeholder,
+.palette-fifties-kitchen .c-text-dark:-ms-input-placeholder {
+  color: #171612 !important; }
+.palette-fifties-kitchen .c-border-text-dark {
+  border-color: #171612 !important; }
+.palette-fifties-kitchen .c-bg-content,
+.palette-fifties-kitchen .comment .reactions button {
+  color: #171612 !important; }
+.palette-fifties-kitchen .c-bg-content,
+.palette-fifties-kitchen .comment .reactions button {
+  color: #171612 !important; }
+.palette-fifties-kitchen .comment .reactions .liked-by-you,
+.palette-fifties-kitchen .comment .reactions .liked-by-you:hover,
+.palette-fifties-kitchen .comment .reactions .liked-by-you:focus,
+.palette-fifties-kitchen .comment .reactions .liked-by-you:active,
+.palette-fifties-kitchen .comment .reactions .liked-by-you.active {
+  color: #55b060 !important; }
+.palette-fifties-kitchen .comment .reactions .loved-by-you,
+.palette-fifties-kitchen .comment .reactions .loved-by-you:hover,
+.palette-fifties-kitchen .comment .reactions .loved-by-you:focus,
+.palette-fifties-kitchen .comment .reactions .loved-by-you:active,
+.palette-fifties-kitchen .comment .reactions .loved-by-you.active {
+  color: #cc4444 !important; }
+.palette-fifties-kitchen .reg-form {
+  border-color: #9BD9E0 !important; }
+.palette-fifties-kitchen .bottom-drawer .reg-form {
+  color: #171612 !important; }
+.palette-fifties-kitchen .selected {
+  background-color: #9BD9E0 !important;
+  color: #FCFCF9 !important; }
+.palette-fifties-kitchen .main-menu {
+  border-color: #F9D4EE !important; }
+
 /*# sourceMappingURL=main-sass.css.map */

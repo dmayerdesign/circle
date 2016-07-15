@@ -1,0 +1,42 @@
+{
+	"original-blue": {
+		"primary": "#4ea1d3",
+		"secondary": "#c8d9df",
+		"content": "#d8e9ef",
+		"accent": "#e85a71",
+		"text": "#d8e9ef",
+		"text-dark": "#7a7c7e"
+	},
+	"troll-hollow": {
+		"primary": "#55967e",
+		"secondary": "#DFD6D9",
+		"content": "#EFE6E9",
+		"accent": "#8F2D56",
+		"text": "#fafafa",
+		"text-dark": "#3F4B3B"
+	},
+	"sunlit-sail": {
+		"primary": "#004e66",
+		"secondary": "#d1dee6",
+		"content": "#e1eef6",
+		"accent": "#ffad08",
+		"text": "#e1eef6",
+		"text-dark": "#7a7c7e"
+	},
+	"purple-rain": {
+		"primary": "#A593E0",
+		"secondary": "#E0E3DA",
+		"content": "#f5f5f0",
+		"accent": "#d65270",
+		"text": "#f5f5f0",
+		"text-dark": "#566270"
+	},
+	"fifties-kitchen": {
+		"primary": "#9BD9E0",
+		"secondary": "#F9D4EE",
+		"content": "#F1FBFD",
+		"accent": "#FF996B",
+		"text": "#FCFCF9",
+		"text-dark": "#171612"
+	}
+}

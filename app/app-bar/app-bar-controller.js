@@ -283,6 +283,10 @@
 			$state.go("single", {id: post_id, tag: $location.search() && $location.search().tag});
 		};
 
+
+
+
+
 		function initUI(callback) {
 			var initDrawers = function($drawers, $sidebars) {
 				$drawers.each(function() {

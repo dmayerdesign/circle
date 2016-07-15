@@ -22,6 +22,22 @@ $palettesMap: (
 		accent: #ffad08,
 		text: #e1eef6,
 		text-dark: #7a7c7e
+	),
+	purple-rain: (
+		primary: #A593E0,
+		secondary: #E0E3DA,
+		content: #f5f5f0,
+		accent: #d65270,
+		text: #f5f5f0,
+		text-dark: #566270
+	),
+	fifties-kitchen: (
+		primary: #9BD9E0,
+		secondary: #F9D4EE,
+		content: #F1FBFD,
+		accent: #FF996B,
+		text: #FCFCF9,
+		text-dark: #171612
 	)
 );
 
@@ -50,7 +66,7 @@ $palettesMap: (
 	border-color: $color !important;
 }
 
-$palettes: original-blue troll-hollow sunlit-sail;
+$palettes: original-blue troll-hollow sunlit-sail purple-rain fifties-kitchen;
 $colors: primary secondary content accent text text-dark;
 
 @each $palette in $palettes {
