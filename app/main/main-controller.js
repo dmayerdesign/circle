@@ -339,8 +339,6 @@
 
 			textToIgnore = " ";
 
-			console.log(textToIgnore);
-
 			if ( content.lastIndexOf("@") > content.lastIndexOf("#") ) {
 				list = "members";
 				symbol = "@";
@@ -386,7 +384,7 @@
 			var content = edit ? $rootScope.post.content : scope.newPost.content;
 			var fragment, match, symbol;
 
-			if ( event.keyCode === 13 || event.target.className.indexOf("post-search-list-select") > -1 ) {
+			if ( event.keyCode === 13 || _(event.target).hasClass("post-search-list-select") || _(event.target).parents(".post-search-list-select").length ) {
 
 				if (list === "members") {
 					match = content.match(/\@([^\s.,!?\-:\(\)]*)/gi);
@@ -726,7 +724,7 @@
 					}
 
 					function setPostLinkData($scope, data) {
-						if ( data.type === "photo" || data.type === "video" ) {
+						if ( data.type === "photo" ) { // || data.type === "video"
 							data.src = data.url;
 						} else {
 							data.src = data.thumbnail_url;

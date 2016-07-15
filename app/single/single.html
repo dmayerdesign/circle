@@ -23,21 +23,24 @@
 		</div>
 		<!--/options-->
 
+		<!-- EVENT DATE -->
+		<h2 class="event-date-header centered c-text" ng-if="post.type === 'event'">{{post.eventDate | date:"EEE, MMM dd"}}</h2>
+
 		<!-- IMAGES -->
 		<div class="post-images" ng-if="post.images.length">
 			<div class="post-image" ng-repeat="image in post.images">
-				<img ng-class="{'centered': post.type === 'quest'}" class="img-responsive tile" src="{{image}}" alt="{{$root.post.content}}">
+				<img ng-class="{'centered': post.type === 'quest' || post.type === 'event'}" class="img-responsive tile" src="{{image}}" alt="{{$root.post.content}}">
 			</div>
 		</div>
 
 		<!-- MAIN CONTENT -->
-		<article ng-class="{'centered': post.type === 'quest'}" ng-hide="$root.editPost" class="content not-treated text-shadow">
+		<article ng-class="{'centered': post.type === 'quest' || post.type === 'event'}" ng-hide="$root.editPost" class="content not-treated text-shadow">
 			{{$root.post.content}}
 		</article>
 		<!-- /MAIN CONTENT -->
 
 		<!-- EDIT POST -->
-		<article ng-class="{'centered': post.type === 'quest'}" id="edit-post-area" class="text-shadow" ng-controller="mainController" ng-show="$root.editPost">
+		<article ng-class="{'centered': post.type === 'quest' || post.type === 'event'}" id="edit-post-area" class="text-shadow" ng-controller="mainController" ng-show="$root.editPost">
 			<!-- EDIT POST MAIN -->
 			<textarea 
 				ng-model="$root.post.content" 
@@ -47,28 +50,30 @@
 				class="reg-form" 
 				placeholder="Give this thing some words"></textarea>
 
-			<button ng-click="sendPost(true)" class="reg-btn c-bg-primary c-bg-accent-hover">Post</button>
+			<button ng-click="sendPost(true)" class="reg-btn c-bg-primary c-bg-accent-hover">Save</button>
 			<button ng-click="$root.editPost = false" class="reg-btn c-bg-secondary c-bg-primary-hover c-text-hover">Cancel</button>
 		</article>
 
 		<!-- QUEST -->
 		<div class="quest-details secondary centered" ng-if="post.type == 'quest'">
 			<div class="col-md-12" ng-if="post.usersMentioned.indexOf($root.user.username) === -1">
-				<h2 ng-if="post.quest.status === 'completed'">Success!</h2>
-				<h2 ng-if="post.quest.status === 'in_progress'">In Progress</h2>
-				<h2 ng-if="post.quest.status === 'failed'">Failed</h2>
+				<h3 class="green trophy" ng-if="post.quest.status === 'completed'"><i class="fa fa-trophy"></i></h3>
+				<h2 class="quest-status success" ng-if="post.quest.status === 'completed'">Success!</h2>
+				<h2 class="quest-status in-progress" ng-if="post.quest.status === 'in_progress'">In Progress</h2>
+				<h2 class="quest-status failed" ng-if="post.quest.status === 'failed'">Failed</h2>
 			</div>
 			<div class="col-md-12" ng-if="post.usersMentioned.indexOf($root.user.username) > -1">
 				<div ng-if="post.quest.completers.indexOf($root.user.username) > -1">
-					<h2>Success!</h2>
+					<h3 class="green trophy"><i class="fa fa-trophy"></i></h3>
+					<h2 class="quest-status success">Success!</h2>
 					<p>You completed the quest!</p>
 				</div>
 				<div ng-if="post.quest.completers.indexOf($root.user.username) === -1 && post.quest.status === 'in_progress'">
-					<h2>Good luck...</h2>
+					<h2 class="quest-status in-progress">Good luck...</h2>
 					<p>You haven't completed this quest yet.</p>
 				</div>
 				<div ng-if="post.quest.completers.indexOf($root.user.username) === -1 && post.quest.status === 'failed'">
-					<h2>Boooo!</h2>
+					<h2 class="quest-status failed">Boooo!</h2>
 					<p>You failed this quest.</p>
 				</div>
 			</div>
@@ -149,7 +154,7 @@
 					</button>
 				</div>
 
-				<button ng-if="deleteCommentOption[comment._id] && comment.user === $root.user.username" ng-click="deleteComment(comment._id, post._id)" class="delete-comment reg-btn less-rounded c-bg-secondary">Delete</button>
+				<button ng-if="deleteCommentOption[comment._id] && comment.user === $root.user.username" ng-click="deleteComment(comment._id, post._id)" class="delete-comment reg-btn less-rounded c-bg-secondary c-bg-accent-hover c-text-hover">Delete</button>
 			</div>
 		<!-- /comment -->
 

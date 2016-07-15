@@ -246,6 +246,10 @@ a:hover, a:focus {
 	text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
 }
 
+.green {
+	color: #77ff66;
+}
+
 
 /** THEMES **/
 .theme-smooth .main-menu {
@@ -1764,6 +1768,19 @@ button:focus, button:active {
 	font-weight: bold;
 }
 
+.trophy {
+	font-size: 5em;
+	margin-bottom: 0;
+}
+
+.success {
+	margin-top: 0 !important;
+}
+
+.failed {
+	color: #cc4433;
+}
+
 /* MISC */
 
 .reg-label {
@@ -1799,7 +1816,7 @@ button:focus, button:active {
 
 @media screen and (max-width: 991px) {
 	.floating-btn-container {
-		bottom: 9.8em;
+		bottom: 8.6em;
 		right: 1.6em;
 	}
 }
@@ -2164,6 +2181,7 @@ textarea {
 	line-height: 18em;
 	margin-bottom: 2.8em;
 	text-align: center;
+	overflow: hidden;
 }
 
 .category-tile > a {
@@ -2175,6 +2193,7 @@ textarea {
 .category-tile span {
 	display: inline-block;
 	line-height: 1;
+	font-size: 1.4em;
 	vertical-align: middle;
 	color: #fff;
 }
@@ -2225,9 +2244,8 @@ textarea {
 }
 
 #edit-post-area .reg-btn {
-	font-size: 0.8em;
+	font-size: 0.65em;
 	display: inline-block;
-  text-align: center;
   margin: 0 0.5em;
 }
 
@@ -2397,9 +2415,17 @@ textarea {
 	margin-right: 1em;
 }
 
+.event-date-header {
+	position: relative;
+		top: -0.6em;
+	margin-top: 0;
+	font-weight: bold;
+}
+
 /* comments */
 
 .comment {
+	position: relative;
 	margin-bottom: 1em;
 }
 
@@ -2428,7 +2454,8 @@ textarea {
 }
 
 .delete-comment {
-	position: relative;
+	position: absolute;
+		right: 0.8em;
 		top: 1.2em;
 }
 
