@@ -3,7 +3,7 @@
 				<div ng-show="$root.currentState === 'main'" class="c-bg-primary clearfix">
 					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered(); orderPosts()"><span><i class="fa fa-circle-o"></i><span>All</span></span></button>
 					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('date')"><span><i class="fa fa-clock-o"></i><span>Recent</span></span></button>
-					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('reactions.like.amount + reactions.love.amount')"><span><i class="fa fa-heart"></i><span>Best</span></span></button>
+					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('reactions.like.amount + (reactions.love.amount * 2)')"><span><i class="fa fa-heart"></i><span>Best</span></span></button>
 					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="showPostsFiltered('users', $root.user.username)" ng-disabled="$root.postTypesAreFiltered.filter == 'types'">
 						<!-- <span ng-if="$root.postTypesAreFiltered.term == 'quest'"><i class="fa fa-user"></i><span>My quests</span></span> -->
 						<span><i class="fa fa-user"></i><span>@me</span></span>
