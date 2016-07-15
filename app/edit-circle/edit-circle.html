@@ -28,6 +28,14 @@
 
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the palette</h4>
+					<div class="palette current-palette">
+						<div style="background-color: {{palettes[currentCircle.styles.palette]['text-dark']}}"></div>
+						<div style="background-color: {{palettes[currentCircle.styles.palette]['text']}}"></div>
+						<div style="background-color: {{palettes[currentCircle.styles.palette].secondary}}"></div>
+						<div style="background-color: {{palettes[currentCircle.styles.palette].content}}"></div>
+						<div style="background-color: {{palettes[currentCircle.styles.palette].accent}}"></div>
+						<div style="background-color: {{palettes[currentCircle.styles.palette].primary}}" class="primary"></div>
+					</div>
 					<select ng-change="styleCircle('palette')" ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="reg-form">
 						<option ng-selected="currentCircle.styles.palette == 'original-blue'" value="original-blue">Original Blue</option>
 						<option ng-selected="currentCircle.styles.palette == 'sunlit-sail'" value="sunlit-sail">Sunlit Sail</option>
@@ -44,6 +52,8 @@
 						<option ng-selected="currentCircle.styles.font == 'helvetica'" value="helvetica">Helvetica</option>
 						<option ng-selected="currentCircle.styles.font == 'open-sans'" value="open-sans">Open Sans</option>
 						<option ng-selected="currentCircle.styles.font == 'montserrat'" value="montserrat">Montserrat</option>
+						<option ng-selected="currentCircle.styles.font == 'roboto'" value="roboto">Roboto</option>
+						<option ng-selected="currentCircle.styles.font == 'quicksand'" value="quicksand">Quicksand</option>
 						<option ng-selected="currentCircle.styles.font == 'pridi'" value="pridi">Pridi</option>
 					</select>
 					<!-- <button ng-click="" class="reg-btn compact c-bg-secondary">apply</button> -->

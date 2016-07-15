@@ -143,8 +143,10 @@
 			});
 		};
 
+		$scope.palettes = null;
 		$http.get("styles/palettes.json").then(function(response) {
 			console.log(response.data);
+			$scope.palettes = response.data;
 		});
 
 

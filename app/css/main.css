@@ -5,6 +5,7 @@ html {
 }
 
 body {
+	font-family: Helvetica, sans-serif;
 	padding-top: 9em;
 	background: #000;
 	color: #fff;
@@ -214,17 +215,20 @@ ul {
 body.font-helvetica {
 	font-family: Helvetica, Arial, sans-serif;
 }
-
 body.font-montserrat {
 	font-family: 'Montserrat', Helvetica, sans-serif;
 }
-
 body.font-open-sans {
 	font-family: 'Open Sans', Helvetica, sans-serif;
 }
-
 body.font-pridi {
 	font-family: 'Pridi', Helvetica, sans-serif;
+}
+body.font-quicksand {
+	font-family: 'Quicksand', Helvetica, sans-serif;
+}
+body.font-roboto {
+	font-family: 'Roboto', Helvetica, sans-serif;
 }
 
 
@@ -475,12 +479,8 @@ a:hover, a:focus {
 	filter: blur(2px);
 }
 
-.category-bg {
+.category-bg:not(.visible) {
 	opacity: 0;
-}
-
-.category-bg.visible {
-	opacity: 1;
 }
 
 /* app bar */
@@ -792,7 +792,7 @@ nav {
 	}
 
 .circle-nav .inner-btn.has-icon {
-	height: 7.6em !important;
+	height: 7.8em !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -867,7 +867,6 @@ nav {
 	position: relative;
 		z-index: 99;
 		top: -1.1em;
-	padding: 0;
 }
 
 .refine-filter li {
@@ -1354,7 +1353,7 @@ h1.archive-header {
 }
 
 .bottom-drawer-edit-circle .no-gutter {
-	padding-right: 2em !important;
+	padding-right: 3em !important;
 }
 
 .bottom-drawer-edit-circle .reg-form {
@@ -1365,9 +1364,27 @@ h1.archive-header {
 	margin-bottom: 0.8em;
 }
 
-.bottom-drawer-add {
-
+.bottom-drawer-edit-circle .palette {
+	float: left;
+	padding-left: 0.4em;
+	padding-bottom: 1em;
 }
+
+.bottom-drawer-edit-circle .palette > div {
+	float: right;
+	width: 3em;
+	height: 3em;
+	/*border: 1px solid rgba(0,0,0,0.1);*/
+	border-radius: 0.2em;
+	margin-left: -0.4em;
+	box-shadow: 2px 1px 1px rgba(0,0,0,0.1);
+}
+
+.bottom-drawer-edit-circle .palette > div.primary {
+	width: 3.4em;
+	height: 3.4em;
+}
+
 
 .bottom-drawer-add .event-info {
 	max-width: 48em;

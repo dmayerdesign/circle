@@ -435,6 +435,8 @@
 							+ " font-" + $scope.currentCircle.styles.font;
 
 			var fontLink;
+			if ( $scope.currentCircle.styles.font === "quicksand" && !jQuery(".quicksand-link").length ) { fontLink = "<link class='font-link quicksand-link' href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>"; }
+			if ( $scope.currentCircle.styles.font === "roboto" && !jQuery(".roboto-link").length ) { fontLink = "<link class='font-link roboto-link' href='https://fonts.googleapis.com/css?family=Roboto:300,400,700' rel='stylesheet' type='text/css'>"; }
 			if ( $scope.currentCircle.styles.font === "open-sans" && !jQuery(".open-sans-link").length ) { fontLink = "<link class='font-link open-sans-link' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>"; }
 			if ( $scope.currentCircle.styles.font === "montserrat" && !jQuery(".montserrat-link").length ) { fontLink = "<link class='font-link montserrat-link' href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>"; }
 			if ( $scope.currentCircle.styles.font === "pridi" && !jQuery(".pridi-link").length ) { fontLink = "<link class='font-link pridi-link' href='https://fonts.googleapis.com/css?family=Pridi:300,400,700' rel='stylesheet' type='text/css'>"; }
