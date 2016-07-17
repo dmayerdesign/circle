@@ -70,9 +70,9 @@
 </head>
 <body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible {{archiveLoading ? ' loading' : '';}} body-{{$root.currentState}}">
 	<div id="background-container">
-		<div ng-if="$root.currentCircle" class="background main-bg" style="background-image:url({{$root.currentCircle.styles.bg}})"></div>
-		<div ng-if="!$root.currentCircle" class="background main-bg" style="background-image:url(images/default-bg.jpg)"></div>
-		<div ng-class="{'visible': $root.archiveTag}" class="background category-bg animate-opacity" style="background-image:url({{$root.archiveTag.image}})"></div>
+		<div ng-if="$root.currentCircle" class="background main-bg" style="background-image: url({{$root.currentCircle.styles.bg}})"></div>
+		<div ng-if="!$root.currentCircle" class="background main-bg" style="background-image: url(images/default-bg.jpg)"></div>
+		<div ng-class="{'visible': $root.archiveTag}" class="background category-bg animate-opacity" style="background-image: url({{$root.archiveTag.image}})"></div>
 	</div>
 
 	<div class="state-{{$root.currentState}}" ui-view role="main"></div>
@@ -98,14 +98,13 @@
 
 	<!-- ANGULAR -->
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->
-	<script src="app/angular/angular.min.js"></script>
+	<script src="node_modules/angular/angular.min.js"></script>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script> -->
 	<script src="node_modules/angular-animate/angular-animate.min.js"></script>
 
 	<!-- ANGULAR UI ROUTER -->
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script> -->
 	<script src="app/angular/angular-ui-router.min.js"></script>
-
 
 	<!-- ANGULAR LIBRARIES -->
 <!-- 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
@@ -135,8 +134,6 @@
 	<script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
 	<script src="node_modules/ng-file-upload/dist/ng-file-upload-all.js"></script>
 	<script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.js"></script>
-	<script src="node_modules/ment.io/src/mentio.directive.js"></script>
-	<script src="node_modules/ment.io/src/mentio.service.js"></script>
 
 	<!-- INFINITE SCROLL -->
 	<!-- <script type='text/javascript' src='scripts/ng-infinite-scroll.min.js'></script> -->

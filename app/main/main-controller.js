@@ -677,8 +677,10 @@
 			}
 		};
 
-		$scope.goToPost = function(post_id) {
-			console.log(window.location.href);
+		$scope.goToPost = function(event, post_id) {
+			if (_(event.target).hasClass("reactions") || _(event.target).parents(".reactions").length) {
+				return;
+			}
 			$state.go("single", {id: post_id, tag: $location.search() && $location.search().tag});
 		};
 
@@ -842,6 +844,15 @@
 					}, 300);
 				}
 			}
+		};
+
+		$scope.react = function($event, reaction, type, id, commentId, commenter) {
+			action.react($event, reaction, type, id, commentId, commenter, $rootScope.user, $rootScope.currentCircle._id, function(posts) {
+//				$scope.posts = posts;
+				init.getPosts($rootScope.currentCircle._id, function(posts) {
+					$scope.posts = posts;
+				});
+			}, true);
 		};
 
 	}]);

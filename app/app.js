@@ -1,5 +1,5 @@
 (function(_) {
-	var app = angular.module('Circle', ['ui.router', 'ngFileUpload', 'ngAnimate', 'mentio']);
+	var app = angular.module('Circle', ['ui.router', 'ngFileUpload', 'ngAnimate']);
 	
 	// CONFIG
 	app.config(function($stateProvider, $urlRouterProvider) {
@@ -419,6 +419,49 @@
 				}
 				_element.html(content);
 				callback(rootScope.post);
+			}
+		};
+
+		action.react = function($event, reaction, type, id, commentId, commenter, user, circleId, callback, returnAllPosts) {
+			var _thisBtn = _($event.target).is("button") ? _($event.target) : _($event.target).parents("button");
+			var _thisIcon = _thisBtn.find("i");
+			var _newIcon;
+
+			var request = {
+				circleId: circleId,
+				postId: id,
+				commentId: (type === "comment") ? commentId : null,
+				commenter: commenter,
+				username: user.username,
+				name: user.name,
+				reaction: reaction,
+				allPosts: returnAllPosts
+			};
+			console.log(request);
+			$http.post('api/post/react', request).then(function(response) {
+				if (callback) {
+					callback(response.data);
+				}
+			});
+
+			if (_thisBtn.parents(".comment").length) {
+				return;
+			}
+			if (!_thisBtn.hasClass("liked-by-you") && !_thisBtn.hasClass("loved-by-you")) {
+				_newIcon = _thisIcon.clone();
+				_newIcon.insertAfter(_thisIcon).addClass("copy");
+				console.log(_thisIcon);
+				TweenMax.to(_newIcon, 0.6, {
+					y: -30,
+					scale: 1.3,
+					opacity: 0,
+					onComplete: destroyCopy,
+					onCompleteParams: [_newIcon]
+				});
+
+				function destroyCopy(_copy) {
+					_copy.remove();
+				}
 			}
 		};
 

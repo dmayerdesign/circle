@@ -247,55 +247,10 @@
 			});
 		};
 
-		// $scope.getMemberByUsername = function(username) {
-		// 	var members = $rootScope.users;
-		// 	if (members) {
-		// 		for (var i = 0; i < members.length; i++) {
-		// 			if (members[i].username === username) {
-		// 				return members[i];
-		// 			}
-		// 		}
-		// 	}
-		// };
-
 		$scope.react = function($event, reaction, type, id, commentId, commenter) {
-			var _thisBtn = _($event.target).is("button") ? _($event.target) : _($event.target).parents("button");
-			var _thisIcon = _thisBtn.find("i");
-			var _newIcon;
-
-			var request = {
-				circleId: $rootScope.currentCircle._id,
-				postId: id,
-				commentId: (type === "comment") ? commentId : null,
-				commenter: commenter,
-				username: $rootScope.user.username,
-				name: $rootScope.user.name,
-				reaction: reaction
-			};
-			console.log(request);
-			$http.post('api/post/react', request).then(function(response) {
-				$rootScope.post = response.data;
+			action.react($event, reaction, type, id, commentId, commenter, $rootScope.user, $rootScope.currentCircle._id, function(post) {
+				$rootScope.post = post;
 			});
-
-			if (_thisBtn.parents(".comment").length) {
-				return;
-			}
-			if (!_thisBtn.hasClass("liked-by-you") && !_thisBtn.hasClass("loved-by-you")) {
-				_newIcon = _thisIcon.clone();
-				_newIcon.insertAfter(_thisIcon).addClass("copy");
-				console.log(_thisIcon);
-				TweenMax.to(_newIcon, 0.6, {
-					y: -30,
-					scale: 1.3,
-					opacity: 0,
-					onComplete: destroyCopy,
-					onCompleteParams: [_newIcon]
-				});
-
-				function destroyCopy(_copy) {
-					_copy.remove();
-				}
-			}
 		};
 
 		$scope.initDatePicker = function() {

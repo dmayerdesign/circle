@@ -1,6 +1,9 @@
 html {
 	background-color: #fff;
 	background-image: radial-gradient(#ffffff, #eaeef4);
+	background-image: url('images/image-loading.gif');
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
 	height: 100%;
 }
 
@@ -15,11 +18,13 @@ body {
 	position: relative;
 }
 
-body.not-visible {
+body.not-visible,
+body.not-ready {
 	opacity: 0;
 }
 
-body:not(.not-visible) {
+body:not(.not-visible),
+body:not(.not-ready) {
 /*  -webkit-animation: fadein 0.6s;
      -moz-animation: fadein 0.6s;
       -ms-animation: fadein 0.6s;
@@ -1054,7 +1059,7 @@ h1.archive-header {
 	padding: 0;
 	overflow: hidden;
 	background-repeat: no-repeat !important;
-	background-position: left top !important;
+	background-position: 50% 50% !important;
 	background-size: auto 101% !important;
 	background-size: cover !important;
 }
@@ -1171,9 +1176,20 @@ h1.archive-header {
 	letter-spacing: -1px;
 }
 
-.post .post-after {
+.post .author-container {
 	position: absolute;
 		bottom: 2em;
+}
+
+.post .reactions-container {
+	position: absolute;
+		bottom: 2.5em;
+		right: 2.8em;
+}
+
+.archive-post .like-btn, .archive-post .love-btn {
+	padding-right: 0.5em;
+	padding-left: 0.5em;
 }
 
 .author .author-name,
@@ -2318,16 +2334,19 @@ textarea {
     left: 2em;
 	}
 
-	.after-content .reactions {
-		position: relative;
-			top: 0.2em;
-	}
-
 .post-images img {
 	margin: 0 0 1em 0;
 	min-width: 40em;
 	max-width: 100%;
 }
+
+.reactions {
+	position: relative;
+}
+
+	.after-content .reactions {
+		top: 0.2em;
+	}
 
 .reactions > button {
 	position: relative;
@@ -2376,10 +2395,17 @@ textarea {
 .reactions button span {
 	display: inline-block;
   position: relative;
-		top: -0.3em;
   width: 1.1em;
   font-size: 0.7em;
 }
+
+	.post .reactions button span {
+		top: 0.3em;
+	}
+
+	.single-post .reactions button span {
+		top: -0.3em;
+	}
 
 .options-menu-container {
 	position: absolute;

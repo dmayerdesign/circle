@@ -531,6 +531,7 @@ module.exports.react = function(req, res) {
 	var name = req.body.name;
 	var commentId = req.body.commentId;
 	var reaction = req.body.reaction;
+	var returnAllPosts = req.body.allPosts;
 	var isPost = !commentId ? true : false;
 	var isComment = commentId ? true: false;
 	var undo = false;
@@ -601,7 +602,17 @@ module.exports.react = function(req, res) {
 							}
 						});
 					}
-					res.json(post);
+					if (!returnAllPosts) {
+						res.json(post);
+					} else {
+						Post.find({}).exec(function(err, allPosts) {
+							if (err) {
+								res.json(err);
+							} else {
+								res.json(allPosts);
+							}
+						});
+					}
 				}
 			});
 		}

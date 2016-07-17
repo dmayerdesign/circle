@@ -1,5 +1,4 @@
 (function($) {
-	// Update Avatars
 	window.onload = function() {
 
 		$(window).resize(bodyHeight);
@@ -15,14 +14,13 @@
 			backgroundImage: "url(images/intro-bg.jpg)"
 		});
 
-		// var datepickerInt = setInterval(function() {
-		// 	console.log($("#event_date").parent().html());
-		// 	if ($("#event_date").length) {
-		// 		$("#event_date").datepicker();
-		// 		console.log("date picker found");
-		// 		clearInterval(datepickerInt);
-		// 	}
-		// }, 300);
+		$(".lazy-load-bg").each(function() {
+			var $this = $(this);
+			console.log($this.data("bg-style"));
+			$this.css({
+				"background-image": "url(" + $this.data("bg-style") + ")"
+			});
+		});
 
 	};
 
