@@ -866,6 +866,10 @@ nav {
 	body {
 		padding-top: 8em;
 	}
+
+	.inner-btn.has-icon > span .fa {
+		top: 0.35em;
+	}
 }
 
 .refine-filter {

@@ -847,6 +847,18 @@
 		};
 
 		$scope.react = function($event, reaction, type, id, commentId, commenter) {
+			var thisPost;
+			for (var i = 0; i < $scope.posts.length; i++) {
+				thisPost = $scope.posts[i];
+				if (id === thisPost._id) {
+					if (thisPost.reactions[reaction].users.indexOf($rootScope.user.username) === -1) {
+						thisPost.reactions[reaction].amount += 1;
+						thisPost.reactions[reaction].users.push($rootScope.user.username);
+					} else {
+						thisPost.reactions[reaction].amount -= 1;
+					}
+				}
+			}
 			action.react($event, reaction, type, id, commentId, commenter, $rootScope.user, $rootScope.currentCircle._id, function(posts) {
 //				$scope.posts = posts;
 				init.getPosts($rootScope.currentCircle._id, function(posts) {

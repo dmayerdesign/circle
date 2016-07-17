@@ -248,6 +248,12 @@
 		};
 
 		$scope.react = function($event, reaction, type, id, commentId, commenter) {
+			if ($rootScope.post.reactions[reaction].users.indexOf($rootScope.user.username) === -1) {
+				$rootScope.post.reactions[reaction].amount += 1;
+				$rootScope.post.reactions[reaction].users.push($rootScope.user.username);
+			} else {
+				$rootScope.post.reactions[reaction].amount -= 1;
+			}
 			action.react($event, reaction, type, id, commentId, commenter, $rootScope.user, $rootScope.currentCircle._id, function(post) {
 				$rootScope.post = post;
 			});
