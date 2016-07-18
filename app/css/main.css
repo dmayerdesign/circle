@@ -1631,7 +1631,7 @@ button:focus, button:active {
   overflow: visible;
 }
 
-	.body-single .floating-btn-container {
+	.single-post .floating-btn-container {
 		bottom: 3em !important;
 	}
 
