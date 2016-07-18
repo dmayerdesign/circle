@@ -1631,6 +1631,10 @@ button:focus, button:active {
   overflow: visible;
 }
 
+	.body-single .floating-btn-container {
+		bottom: 3em !important;
+	}
+
 .floating-btn {
 	float: right;
 	width: 6em;
