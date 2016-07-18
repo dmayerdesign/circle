@@ -6,24 +6,36 @@
 		setInterval(function() {
 			if ( $location.url().indexOf("single") > -1 ) {
 				$rootScope.currentState = "single";
+				if (!$("body").hasClass("single-view"));
+					$("body").addClass("single-view");
 			}
 			else if ( $location.url().indexOf("categories") > -1 ) {
 				$rootScope.currentState = "categories";
+				if (!$("body").hasClass("categories-view"));
+					$("body").addClass("categories-view");
 			}
 			else if ( $location.url().indexOf("members") > -1 ) {
 				$rootScope.currentState = "members";
+				if (!$("body").hasClass("members-view"));
+					$("body").addClass("members-view");
 			}
 			else if ( $location.url().indexOf("edit-profile") > -1 ) {
 				$rootScope.currentState = "editProfile";
+				if (!$("body").hasClass("editProfile-view"));
+					$("body").addClass("editProfile-view");
 			}
 			else if ( $location.url().indexOf("login") > -1 ) {
 				$rootScope.currentState = "login";
+				if (!$("body").hasClass("login-view"));
+					$("body").addClass("login-view");
 			}
 			else {
 				$rootScope.currentState = "main";
+				if (!$("body").hasClass("main-view"));
+					$("body").addClass("main-view");
 			}
 			$scope.$apply();
-		}, 1000);
+		}, 200);
 
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
@@ -284,8 +296,7 @@
 		};
 
 
-
-
+		/** FUNCTIONS **/
 
 		function initUI(callback) {
 			var initDrawers = function($drawers, $sidebars) {
@@ -389,6 +400,7 @@
 			if (callback)
 				callback();
 		}
+
 
 	}]);
 }(jQuery));

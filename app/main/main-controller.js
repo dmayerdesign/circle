@@ -537,16 +537,18 @@
 			init.getPosts($rootScope.currentCircle._id, function(posts) {
 				$scope.posts = posts;
 				that.postsAllowed = {allow: 20};
+				console.log("POST:");
+				console.log($scope.posts[0]);
 
 				if ( !list || typeof list === 'undefined' ) {
 					$rootScope.postsAreFiltered = {};
 					$rootScope.archiveTag = null;
-					$rootScope.archiveLoading = null;
+					$rootScope.archiveLoading = false;
 
 					$scope.postsAllowed = {allow: 20};
 					return $scope.posts;
 				} else {
-					$rootScope.postsAreFiltered = {
+					$rootScope.postsAreFiltered = { // Not sure why but I named this object like a boolean
 						filter: list,
 						term: item
 					};
@@ -570,6 +572,8 @@
 						}
 					}();
 					$rootScope.archiveLoading = false;
+					console.log("AFTER:");
+					console.log($scope.posts[0]);
 					return $scope.posts;
 				}
 			});
