@@ -270,6 +270,10 @@ a:hover, a:focus {
 	border-bottom-left-radius: 0 !important;
 }
 
+.theme-smooth .box-shadow {
+	box-shadow: 1px 1px 5px rgba(50,50,50,0.1);
+}
+
 .theme-smooth .tile,
 .theme-smooth .post-main,
 .theme-smooth .reg-btn {
@@ -1167,6 +1171,34 @@ h1.archive-header {
 		top: 1.6em;
 	float: right;
 	margin-left: 0.8em;
+}
+
+.quick-view-comment {
+	opacity: 0;
+	display: none;
+	float: none !important;
+	position: absolute;
+		z-index: 111;
+		top: 2em;
+  right: 0;
+  width: 22em;
+  height: 4em;
+  overflow: visible;
+  padding: 0 2em;
+  line-height: 4em;
+  vertical-align: middle;
+  font-size: 1.2em;
+}
+
+.quick-view-comment span {
+	float: none !important;
+	display: inline-block;
+	position: relative;
+		top: 0.1em;
+	line-height: 1.3em;
+	height: 1.3em;
+	overflow: hidden;
+	font-weight: bold;
 }
 
 .post .more-commenters {

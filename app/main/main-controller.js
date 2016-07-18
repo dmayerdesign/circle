@@ -867,5 +867,38 @@
 			}, true);
 		};
 
+		$scope.showOneComment = function(event, post, commenter) {
+			//var _element = (_(event.target).hasClass("commenter")) ? _(event.target) : _(event.target).parents(".commenter");
+			var _element = _(event.target).parents(".commenter");
+			var _quickView;
+			var comment;
+			for (var i = 0; i < post.comments.length; i++) {
+				comment = post.comments[i];
+				if (comment.user === commenter.user) {
+					_quickView = _element.find(".quick-view-comment");
+					_quickView.find("span").html(comment.content);
+					_quickView.css({display: "block"});
+					TweenMax.to(_quickView, 0.4, {
+						y: 10,
+						opacity: 1,
+						ease: Power3.easeOut
+					});
+				}
+			}
+		};
+
+		$scope.hideOneComment = function(event) {
+			var _quickView = _(event.target).parents(".commenter").find(".quick-view-comment");
+			TweenMax.to(_quickView, 0.4, {
+				y: 0,
+				opacity: 0,
+				onComplete: function(t) {
+					t.hide();
+				},
+				ease: Power3.easeOut,
+				onCompleteParams: [_quickView]
+			});
+		};
+
 	}]);
 }(jQuery));
