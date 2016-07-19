@@ -257,16 +257,19 @@
 			var i = 0;
 			if (params.name) {
 				titleBlink = setInterval(function() {
-					if (i%2 && params.notifications && !document.hasFocus()) {
-						_("title").html("in " + params.name);
-					}
-					else if (i%2 && !params.notifications) {
+					if (i%2 && !params.notifications) {
 						_("title").html(params.name);
-					} else if (!document.hasFocus() && params.notifications) {
-						_("title").html("You've got " + params.notifications + " notifications");
-					} else if (params.notifications) {
+					}
+					else if (!document.hasFocus() && params.notifications) {
+						if (i%2)
+							_("title").html("You've got " + params.notifications + " notifications");
+						else
+							_("title").html("in " + params.name);
+					}
+					else if (params.notifications) {
 						_("title").html("(" + params.notifications + ") " + params.name);
-					} else {
+					}
+					else {
 						_("title").html(params.name);
 					}
 					i++;
