@@ -3,14 +3,12 @@
 	.controller('membersController', ['$scope', '$rootScope', '$location', '$state', '$stateParams', '$http', 'init', 
 													    function( $scope,   $rootScope,   $location,   $state,   $stateParams,   $http,   init) {
 
-		// $rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
-		// $rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
-		// if (!$rootScope.user || !$rootScope.user.email) {
-		// 	$state.go('signup');
-		// 	return;
-		// }
-		// $rootScope.loggedIn = true;
-		// init.app($rootScope.user._id, false, function(user, circle) {
+		// init.getMembers($rootScope.currentCircle.accessCode, function(members) {
+		// 	$rootScope.users = members;
+		// });
+		// 			$rootScope.users = members;
+		// 		});
+		//init.app($rootScope.user._id, false, function(user, circle) {
 		// 	$rootScope.user = user;
 		// 	if ( !$rootScope.user.isEmailVerified ) {
 		// 		console.log("email is not verified");
@@ -21,7 +19,7 @@
 		// 		$state.go('signup');
 		// 		return;
 		// 	}
-		// 	if (circle) {
+		//if (circle) {
 		// 		$rootScope.circleJoined = true;
 		// 		$rootScope.currentCircle = circle;
 		// 		$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
@@ -37,11 +35,16 @@
 		// 			});
 		// 		});
 
-		// 	} else {
+		//}
+		//	else {
 		// 		$rootScope.circleJoined = false;
 		// 		$state.go('createCircle');
 		// 	}
-		// });
+		//});
+
+		angular.element(document).ready(function() {
+			$rootScope.unveilMembers = true;
+		});
 
 
 	}]);

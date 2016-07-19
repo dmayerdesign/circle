@@ -34,7 +34,7 @@
 			</li>
 		</ul>
 
-		<div class="col-md-10 col-md-offset-1 no-posts" ng-show="!posts.length">
+		<div class="col-md-10 col-md-offset-1 no-posts" ng-show="!posts.length && nothingToShow">
 			<h3 class="centered">There's nothing here! <br>Tap the pencil at the bottom right to add something.</h3>
 		</div>
 
@@ -64,8 +64,9 @@
 							</span>
 							<span ng-if="post.type == 'poll'"><i class="fa fa-check-square"></i></span>
 						</h3>
+
 						<div 
-							class="commenter"
+							class="commenter pull-right"
 							ng-repeat="commenter in post.commenters | limitTo: 3"
 							ng-mouseover="showOneComment($event, post, commenter)"
 							ng-mouseout="hideOneComment($event)">
@@ -73,6 +74,7 @@
 							<div ng-hide="$root.usersByUsername[commenter.user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[commenter.user].primaryColor}}"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
 							<div class="quick-view-comment tile box-shadow c-bg-text-dark c-text"><span></span></div>
 						</div>
+						<h5 class="comments-count pull-right" ng-if="post.comments.length > 0">{{post.comments.length}} comment<span ng-show="post.comments.length > 1" class="pull-right">s</span></h5>
 						<div class="more-commenters" ng-show="post.commenters.length > 3">+ {{post.commenters.length - 3}}</div>
 					</div>
 

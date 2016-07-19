@@ -45,6 +45,10 @@
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};
 
+					if (posts.length < 1) {
+						$rootScope.nothingToShow = true;
+					}
+
 					// Search for filter in query string
 					var searchQueryString = setInterval(function() {
 						if ( $location.search().tag ) {
@@ -594,10 +598,23 @@
 		var initArchive = function() {
 			var winHeight = _(window).height();
 			var _archive = _(".posts-archive-container");
+			var scrolled = 0;
+			var transformAmt = 0;
 
 			_archive
 				.css({height: (winHeight + 30) + "px"}) //.jScrollPane()
 				.addClass("initiated");
+
+			$(".main").scroll(function() {
+				scrolled = Math.abs($(".main").scrollTop());
+				console.log(scrolled);
+				transformAmt = scrolled / 200;
+				scaleAmt = 1 + scrolled / 700000;
+				TweenMax.to($("#background-container"), 1, {
+					scale: scaleAmt
+				});
+			});
+
 		};
 		var initArchiveInt = setInterval(function() {
 			if ( !_(".posts-archive-container").hasClass("initiated") ) {

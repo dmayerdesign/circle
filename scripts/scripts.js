@@ -1,6 +1,5 @@
 (function($) {
-	window.onload = function() {
-
+	$(document).ready(function() {
 		$(window).resize(bodyHeight);
 		bodyHeight();
 		function bodyHeight() {
@@ -9,6 +8,10 @@
 				height: height
 			});
 		}
+	});
+
+
+	window.onload = function() {
 
 		$(".circle-not-joined #background").css({
 			backgroundImage: "url(images/intro-bg.jpg)"

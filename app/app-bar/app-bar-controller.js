@@ -75,7 +75,9 @@
 				});
 
 				init.getMembers(circle.accessCode, function(members) {
-					$rootScope.users = members;
+					//if ($rootScope.users.length >= $rootScope.currentCircle.members.length) {
+						$rootScope.users = members;
+					//}
 
 					$rootScope.usersById = {};
 					$rootScope.users.forEach(function(user) {
@@ -85,7 +87,6 @@
 					$rootScope.users.forEach(function(user) {
 						$rootScope.usersByUsername[user.username] = user;
 					});
-					console.log($rootScope.usersByUsername);
 				});
 
 				init.getPosts(circle._id, function(posts) {
@@ -248,9 +249,28 @@
 
 		$scope.toggleNotifications = function() {
 			if ($scope.showNotifications) {
+				_(".notification").each(function() {
+					TweenMax.to(_(this), 0.1, {
+						css: {
+							opacity: 0,
+							transform: "translateX(-16px)"
+						}
+					});
+				});
 				$scope.showNotifications = false;
 			} else {
 				$scope.showNotifications = true;
+				_(".notification").each(function(index) {
+					var _this = _(this);
+					TweenMax.to(_this, 0.6, {
+						css: {
+							opacity: 1,
+							transform: "translateX(0px)"
+						},
+						delay: index * 0.08,
+						ease: Power3.easeOut
+					});
+				});
 			}
 		};
 
