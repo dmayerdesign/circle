@@ -8,7 +8,7 @@ module.exports.postPost = function(req, res) {
 	console.log("POSTING: ");
 	console.log(req.body);
 	var post;
-	if (req.body._id) {
+	if (req.body._id) { // if you're editing a post
 		console.log("post exists!");
 		Post.findById({_id: req.body._id}, function(err, post) {
 			if (post)
@@ -55,31 +55,34 @@ module.exports.postPost = function(req, res) {
 							break;
 					};
 
-					Users.findOne({username: mentionedUser}, function(err, user) {
-						if ( err ) {
-							console.log("couldn't find the user to notify them of the mention");
-							console.error(err);
-							return;
-						}
-						if ( user ) {
-							if ( !user.notifications ) {
-								user.notifications = [];
+					/** NOTIFICATION **/
+					if (mentionedUser !== post.user) {
+						Users.findOne({username: mentionedUser}, function(err, user) {
+							if ( err ) {
+								console.log("couldn't find the user to notify them of the mention");
+								console.error(err);
+								return;
 							}
-							user.notifications.push({
-								"circleId": post.circleId,
-								"creator": post.authorName || post.user,
-								"action": notificationCopy,
-								"postId": post._id
-							});
-							user.save(function(err) {
-								if (err) {
-									console.error(err);
-								} else {
-									console.log("user notified of mention!");
+							if ( user ) {
+								if ( !user.notifications ) {
+									user.notifications = [];
 								}
-							});
-						}
-					});
+								user.notifications.push({
+									"circleId": post.circleId,
+									"creator": post.authorName || post.user,
+									"action": notificationCopy,
+									"postId": post._id
+								});
+								user.save(function(err) {
+									if (err) {
+										console.error(err);
+									} else {
+										console.log("user notified of mention!");
+									}
+								});
+							}
+						});
+					}
 				}
 			}
 		}
@@ -120,6 +123,7 @@ module.exports.postComment = function(req, res) {
 				} else {
 					console.log("SAVED COMMENT");
 
+					/** NOTIFICATION **/
 					if (comment.user !== post.user) {
 						Users.findOne({username: post.user}, function(err, user) {
 							if ( err ) {
@@ -157,6 +161,7 @@ module.exports.postComment = function(req, res) {
 						for (var i = 0; i < comment.usersMentioned.length; i++) {
 							mentionedUser = comment.usersMentioned[i];
 
+							/** NOTIFICATION **/
 							if (mentionedUser !== comment.user) {
 								Users.findOne({username: mentionedUser}, function(err, user) {
 									if ( err ) {
@@ -195,31 +200,33 @@ module.exports.postComment = function(req, res) {
 							for (var j = 0; j < post.usersMentioned.length; j++) {
 								mentionedUser = post.usersMentioned[j];
 
-								Users.findOne({username: mentionedUser}, function(err, user) {
-									if ( err ) {
-										console.log("couldn't find the user to notify them of the comment");
-										console.error(err);
-										return;
-									}
-									if ( user ) {
-										if ( !user.notifications ) {
-											user.notifications = [];
+								if (mentionedUser !== comment.user) {
+									Users.findOne({username: mentionedUser}, function(err, user) {
+										if ( err ) {
+											console.log("couldn't find the user to notify them of the comment");
+											console.error(err);
+											return;
 										}
-										user.notifications.push({
-											"circleId": post.circleId,
-											"creator": comment.authorName || comment.user,
-											"action": notificationCopy,
-											"postId": post._id
-										});
-										user.save(function(err) {
-											if (err) {
-												console.error(err);
-											} else {
-												console.log("user notified of comment!");
+										if ( user ) {
+											if ( !user.notifications ) {
+												user.notifications = [];
 											}
-										});
-									}
-								});
+											user.notifications.push({
+												"circleId": post.circleId,
+												"creator": comment.authorName || comment.user,
+												"action": notificationCopy,
+												"postId": post._id
+											});
+											user.save(function(err) {
+												if (err) {
+													console.error(err);
+												} else {
+													console.log("user notified of comment!");
+												}
+											});
+										}
+									});
+								}
 							}
 						}
 					}

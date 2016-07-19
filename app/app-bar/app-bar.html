@@ -34,8 +34,8 @@
 			ng-if="notification.circleId === $root.currentCircle._id" 
 			data-notif-id="{{notification._id}}">
 			<span ng-click="clearNotification(false, notification._id); goToPost(notification.postId)"><strong>{{notification.creator}}</strong> {{notification.action}}</span>
-			<span ng-if="$index === 0" class="recency bold-caps">oldest</span>
-			<span ng-if="$index === $root.user.notifications.length - 1" class="recency bold-caps">newest</span>
+			<span ng-if="$index === 0 && $root.user.notifications.length > 2" class="recency bold-caps">oldest</span>
+			<span ng-if="$root.user.notifications.length > 2 && $index === $root.user.notifications.length - 1" class="recency bold-caps">newest</span>
 			<button ng-click="clearNotification(false, notification._id)" class="reg-btn mini c-bg-secondary c-text-dark pull-right">{{notification.dismissal}}</button>
 		</li>
 	</ul>
