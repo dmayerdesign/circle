@@ -28,6 +28,13 @@
 
 				<div class="col-md-6 pull-left no-gutter">
 					<h4>Change the palette</h4>
+					<select ng-change="styleCircle('palette')" ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="reg-form">
+						<option ng-selected="currentCircle.styles.palette == 'original-blue'" value="original-blue">Original Blue</option>
+						<option ng-selected="currentCircle.styles.palette == 'sunlit-sail'" value="sunlit-sail">Sunlit Sail</option>
+						<option ng-selected="currentCircle.styles.palette == 'wild-flowers'" value="wild-flowers">Wild Flowers</option>
+						<option ng-selected="currentCircle.styles.palette == 'troll-hollow'" value="troll-hollow">Troll Hollow</option>
+						<option ng-selected="currentCircle.styles.palette == 'fifties-kitchen'" value="fifties-kitchen">Fifties Kitchen</option>
+					</select>
 					<div class="palette current-palette">
 						<div style="background-color: {{palettes[currentCircle.styles.palette]['text-dark']}}"></div>
 						<div style="background-color: {{palettes[currentCircle.styles.palette]['text']}}"></div>
@@ -36,13 +43,6 @@
 						<div style="background-color: {{palettes[currentCircle.styles.palette].accent}}"></div>
 						<div style="background-color: {{palettes[currentCircle.styles.palette].primary}}" class="primary"></div>
 					</div>
-					<select ng-change="styleCircle('palette')" ng-model="currentCircle.styles.palette" value="{{$root.currentCircle.styles.palette}}" type="text" class="reg-form">
-						<option ng-selected="currentCircle.styles.palette == 'original-blue'" value="original-blue">Original Blue</option>
-						<option ng-selected="currentCircle.styles.palette == 'sunlit-sail'" value="sunlit-sail">Sunlit Sail</option>
-						<option ng-selected="currentCircle.styles.palette == 'purple-rain'" value="purple-rain">Purple Rain</option>
-						<option ng-selected="currentCircle.styles.palette == 'troll-hollow'" value="troll-hollow">Troll Hollow</option>
-						<option ng-selected="currentCircle.styles.palette == 'fifties-kitchen'" value="fifties-kitchen">Fifties Kitchen</option>
-					</select>
 					<!-- <button ng-click="styleCircle('palette')" class="reg-btn compact c-bg-secondary">apply</button> -->
 				</div>
 
