@@ -2481,7 +2481,7 @@ textarea {
 }
 
 .single-post-masthead {
-	padding-bottom: 3em;
+	padding: 0.4em 0 2em 0;
 }
 
 .single-post .secondary p {
