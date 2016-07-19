@@ -257,15 +257,20 @@
 			var i = 0;
 			if (params.name) {
 				titleBlink = setInterval(function() {
-					if (i%2) {
+					if (i%2 && params.notifications && !document.hasFocus()) {
+						_("title").html("in " + params.name);
+					}
+					else if (i%2 && !params.notifications) {
 						_("title").html(params.name);
-					} else if (!document.hasFocus()) {
-						_("title").html(params.notifications + " notifications");
+					} else if (!document.hasFocus() && params.notifications) {
+						_("title").html("You've got " + params.notifications + " notifications");
+					} else if (params.notifications) {
+						_("title").html("(" + params.notifications + ") " + params.name);
 					} else {
 						_("title").html(params.name);
 					}
 					i++;
-				}, 2000);
+				}, 3000);
 			}
 		};
 
