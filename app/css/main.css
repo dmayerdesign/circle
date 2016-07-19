@@ -2042,6 +2042,13 @@ button:focus, button:active {
 		opacity: 0.3;
 	}
 
+.notifications li .fa {
+	position: relative;
+	top: 0.4em;
+	display: inline-block;
+	padding-right: 1em;
+}
+
 .notifications-btn {
 	position: relative;
 }
