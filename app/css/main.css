@@ -1151,6 +1151,7 @@ h1.archive-header {
 	padding: 0 3em;
 	border-top-left-radius: inherit;
 	border-top-right-radius: inherit;
+	overflow: hidden;
 }
 
 .post .post-before h3 {
@@ -1526,6 +1527,10 @@ h1.archive-header {
 	opacity: 0.8;
 	margin-bottom: 0;
 }
+
+	.bottom-drawer .quest-form p {
+		font-size: 1em;
+	}
 
 .bottom-drawer-add h4 {
 	margin-top: 1.6em;
