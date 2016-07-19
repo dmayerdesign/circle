@@ -57,16 +57,17 @@
 			if (circle) {
 				$rootScope.circleJoined = true;
 				$rootScope.currentCircle = circle;
-				_("title").html(circle.name);
+
 				var unread = 0;
 				$rootScope.user.notifications.forEach(function(notification) {
 					if (notification.circleId === $rootScope.currentCircle._id) {
 						unread++;
 					}
 				});
-				if (unread > 0) {
-					_("title").prepend(document.createTextNode("(" + unread + ") "));
-				}
+				init.title({
+					name: $rootScope.currentCircle.name,
+					notifications: unread
+				});
 				$rootScope.circles = localStorage['Circles'] && localStorage['Circles'].length && JSON.parse(localStorage['Circles']);
 				
 				init.getCirclesFromAccessCodes(user.accessCodes, function(circles) {
@@ -287,6 +288,10 @@
 					$rootScope.user.notifications[index].dismissal = $scope.dismissals[generate.randomInteger(5, 'floor')];
 				});
 				console.log(user);
+				init.title({
+					name: $rootScope.currentCircle.name,
+					notifications: $rootScope.user.notifications.length
+				});
 			});
 		};
 

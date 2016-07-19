@@ -9,7 +9,7 @@ html {
 
 body {
 	font-family: Helvetica, sans-serif;
-	padding-top: 9em;
+	padding-top: 8em;
 	background: #000;
 	color: #fff;
 	perspective: 2000px;
@@ -215,6 +215,14 @@ article a {
 ul {
 	list-style: none;
 	padding-left: 0;
+}
+
+.tiny-label {
+	margin: 0.8em 0;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-size: 0.9em;
 }
 
 
@@ -1210,7 +1218,7 @@ h1.archive-header {
 	position: relative;
 		top: 50%;
 	line-height: 2em;
-	margin: -1em 0 5em 0;
+	margin: -0.8em 0 5em 0;
 	opacity: 0.3;
 
 	font-weight: bold;
@@ -1960,16 +1968,16 @@ button:focus, button:active {
   line-height: 1.5em !important;
   font-family: Helvetica, sans-serif;
   border-radius: 3em;
-  animation: scale-pulsate 5s infinite;
+  animation: scale-pulsate 4s infinite;
 }
 
 @keyframes scale-pulsate {
-    0% { transform: scale(1); }
-    49% { transform: scale(1.1); }
-    50% { transform: scale(1.5); }
-    51% { transform: scale(1.2); }
-    58% { transform: scale(1.08); }
-    100% { transform: scale(1); }
+    0% { transform: scale(1) rotate(0deg); }
+    49% { transform: scale(1.1) rotate(0deg); }
+    50% { transform: scale(1.5) rotate(10deg); }
+    51% { transform: scale(1.2) rotate(-10deg); }
+    58% { transform: scale(1.08) rotate(0deg); }
+    100% { transform: scale(1) rotate(0deg); }
 }
 
 /* QUEST */
@@ -2481,7 +2489,7 @@ textarea {
 }
 
 .single-post-masthead {
-	padding: 0 0 2em 0;
+	padding: 0.4em 0 2em 0;
 }
 
 .single-post .secondary p {

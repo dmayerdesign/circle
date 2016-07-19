@@ -252,6 +252,23 @@
 			obj.removeClass("not-visible");
 		};
 
+		init.title = function(params) {
+			var titleBlink = false;
+			var i = 0;
+			if (params.name) {
+				titleBlink = setInterval(function() {
+					if (i%2) {
+						_("title").html(params.name);
+					} else if (!document.hasFocus()) {
+						_("title").html(params.notifications + " notifications");
+					} else {
+						_("title").html(params.name);
+					}
+					i++;
+				}, 2000);
+			}
+		};
+
 		return init;
 	});
 
