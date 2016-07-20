@@ -26,7 +26,7 @@
 
 	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
 
-	<script src="scripts/scripts-before.js"></script>
+	<script src="scripts/scripts-before.js?v=0.1"></script>
 
 <!-- MODERNIZR -->
 	<script type="text/javascript" src="scripts/modernizr.min.js"></script>
@@ -46,7 +46,10 @@
 	<script type="text/javascript" src="scripts/imagesloaded.pkgd.min.js"></script>
 	<script type="text/javascript" src="scripts/jquery-imagefill.js"></script>
 
-	<script type="text/javascript" src="scripts/scripts.js"></script>
+<!-- MAIN SCRIPTS ?v=0.1 -->
+	<script type="text/javascript" src="scripts/scripts.js?v=0.1"></script>
+
+<!-- SVG FOR EVERYBODY -->
 	<script type="text/javascript" src="scripts/svgforeverybody.js"></script>
 	<script type="text/javascript">svg4everybody();</script>
 
@@ -65,8 +68,8 @@
 <!-- 	<link rel="stylesheet" href="styles/font-awesome.min.css"/>
  -->
 <!-- CIRCLE styles -->
-	<link rel="stylesheet" type="text/css" href="app/css/main-sass.css">
-	<link rel="stylesheet" type="text/css" href="app/css/main.css">
+	<link rel="stylesheet" type="text/css" href="app/css/main-sass.css?v=0.1">
+	<link rel="stylesheet" type="text/css" href="app/css/main.css?v=0.1">
 </head>
 <body ng-class="{'circle-joined': circleJoined, 'circle-not-joined': !circleJoined}" ng-cloak class="not-visible body-{{$root.currentState}}"> <!--{{archiveLoading ? ' loading' : '';}}-->
 	<div id="background-container">
@@ -116,20 +119,20 @@
 	<!-- <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script> -->
 
 	<!-- THE APP -->
-	<script src="app/app.js"></script>
+	<script src="app/app.js?v=0.1"></script>
 
 	<!-- CONTROLLERS -->
-	<script src="app/signup/signup-controller.js"></script>
-	<script src="app/app-bar/app-bar-controller.js"></script>
-	<script src="app/login/login-controller.js"></script>
-	<script src="app/profile/edit-profile-controller.js"></script>
-	<script src="app/main/main-controller.js"></script>
-	<script src="app/single/single-controller.js"></script>
-	<script src="app/create-circle/create-circle-controller.js"></script>
-	<script src="app/edit-circle/edit-circle-controller.js"></script>
-	<script src="app/verify-email/verify-email-controller.js"></script>
-	<script src="app/categories/categories-controller.js"></script>
-	<script src="app/members/members-controller.js"></script>
+	<script src="app/signup/signup-controller.js?v=0.1"></script>
+	<script src="app/app-bar/app-bar-controller.js?v=0.1"></script>
+	<script src="app/login/login-controller.js?v=0.1"></script>
+	<script src="app/profile/edit-profile-controller.js?v=0.1"></script>
+	<script src="app/main/main-controller.js?v=0.1"></script>
+	<script src="app/single/single-controller.js?v=0.1"></script>
+	<script src="app/create-circle/create-circle-controller.js?v=0.1"></script>
+	<script src="app/edit-circle/edit-circle-controller.js?v=0.1"></script>
+	<script src="app/verify-email/verify-email-controller.js?v=0.1"></script>
+	<script src="app/categories/categories-controller.js?v=0.1"></script>
+	<script src="app/members/members-controller.js?v=0.1"></script>
 
 	<!-- NODE LIBRARIES -->
 	<script src="node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
