@@ -699,6 +699,7 @@ nav {
 }
 
 .your-circles {
+	width: 100%;
 	border-radius: 0.4em;
 }
 
