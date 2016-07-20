@@ -255,6 +255,10 @@
 		init.title = function(params) {
 			var titleBlink = false;
 			var i = 0;
+			var plural = params.notifications && params.notifications.length > 1 && "s";
+			if (!plural) {
+				plural = "";
+			}
 			if (params.name) {
 				titleBlink = setInterval(function() {
 					if (i%2 && !params.notifications) {
@@ -262,7 +266,7 @@
 					}
 					else if (!document.hasFocus() && params.notifications) {
 						if (i%2)
-							_("title").html("You've got " + params.notifications + " notifications");
+							_("title").html("You've got " + params.notifications + " notification" + plural);
 						else
 							_("title").html("in " + params.name);
 					}

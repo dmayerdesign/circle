@@ -2016,6 +2016,11 @@ button:focus, button:active {
 	top: 0.6em;
 }
 
+	.notifications li > span:first-child {
+		display: inline-block;
+		width: 60%;
+	}
+
 	.notifications li span.recency {
 		display: inline-block;
 		top: 0.8em !important;
