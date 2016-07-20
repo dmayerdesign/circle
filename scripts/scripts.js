@@ -33,13 +33,45 @@
 			this.css("visibility", "hidden");
 			this.attr("aria-hidden", "true");
 		},
-
 		ariaShow: function(display) {
 			if ( !display ) { display = "block" }
 			this.css("display", display);
 			this.css("visibility", "visible");
 			this.attr("aria-hidden", "false");
-		}
+		},
+
+		isPartOf: function(selectors) {
+			var selector;
+			var that = this;
+			var oneMatches = false;
+			if (!selectors || typeof selectors === "undefined") {
+				return false;
+			}
+			if (typeof selectors === "string") {
+				selector = selectors;
+				return testSelector(selector);
+			}
+			if (typeof selectors === "object" && selectors.length) {
+				selectors.forEach(function(s) {
+					if (testSelector(s)) {
+						oneMatches = true;
+					}
+				});
+				if (oneMatches) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			function testSelector(s) {
+				if (that.is(s) || that.parents(s).length) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+		} 
 	});
 
 	// SERIOUSLY DIRTY WORKAROUND for weird bug where sometimes

@@ -161,6 +161,11 @@
 			var $button = whichDrawer == 'add' ? _(".add-post-btn") : _(".edit-circle-btn");
 			var open = $drawer.hasClass("drawer-open");
 			var height = $drawer.outerHeight(true);
+
+			// if ( $scope.mainMenuIsOpen ) {
+			// 	$scope.toggleMainMenu();
+			// }
+
 			if ( !open && _(".drawer-open").length ) {
 				var drawers = ["add", "edit-circle"];
 
@@ -213,45 +218,10 @@
 			_(".posts-archive, .category-archive").toggleClass("bottom-drawer-toggled");
 		};
 
-		_(window).load(function() {
-			_(document).click(function(e) {
-				var _target = _(e.target);
-				var _btn = function() {
-					if (_target.hasClass("app-bar-btn")) {
-						return _target;
-					}
-					else if (_target.parents(".app-bar-btn").length) {
-						return _target.parents(".app-bar-btn");
-					}
-				}();
-				if (_btn) {
-					if (_btn.hasClass("active")) {
-						_(".active").removeClass("active");
-						return;
-					} else if (_btn.length) {
-						_(".active").removeClass("active");
-						_btn.toggleClass("active");
-						return;
-					}
-				}
-
-				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer") && !_target.is(".add-post-btn-container") && !_target.is(".remove-btn") && !_target.is(".remove-btn *") && !_target.is(".ui-datepicker") && !_target.parents(".ui-datepicker-calendar, .ui-datepicker-header").length) {
-					console.log(_target.is(".ui-datepicker") || _target.is(".ui-datepicker *"));
-					console.log(_target);
-					if (_(".drawer-open").hasClass("bottom-drawer-add")) {
-						$scope.toggleDrawer("add");
-					} else {
-						$scope.toggleDrawer("edit-circle");
-					}
-					_(".app-bar-btn").removeClass("active");
-				}
-			});
-		});
-
 		$scope.toggleNotifications = function() {
 			if ($scope.showNotifications) {
 				_(".notification").each(function() {
-					TweenMax.to(_(this), 0.1, {
+					TweenLite.to(_(this), 0.1, {
 						css: {
 							opacity: 0,
 							transform: "translateX(-16px)"
@@ -263,7 +233,7 @@
 				$scope.showNotifications = true;
 				_(".notification").each(function(index) {
 					var _this = _(this);
-					TweenMax.to(_this, 0.6, {
+					TweenLite.to(_this, 0.6, {
 						css: {
 							opacity: 1,
 							transform: "translateX(0px)"
@@ -426,6 +396,48 @@
 				callback();
 		}
 
+		/** Click outside of a drawer to close it **/
+		_(window).load(function() {
+			_(document).click(function(e) {
+				var _target = _(e.target);
+				var _btn;
+
+				if (_("#main-menu-toggle").hasClass("toggled")) {
+					if (!_target.isPartOf([".main-menu", "#main-menu-toggle"])) {
+						$scope.toggleMainMenu();
+					}
+				}
+
+				_btn = function() {
+					if (_target.hasClass("app-bar-btn")) {
+						return _target;
+					}
+					else if (_target.parents(".app-bar-btn").length) {
+						return _target.parents(".app-bar-btn");
+					}
+				}();
+				if (_btn) {
+					if (_btn.hasClass("active")) {
+						_(".active").removeClass("active");
+						return;
+					} else if (_btn.length) {
+						_(".active").removeClass("active");
+						_btn.toggleClass("active");
+						return;
+					}
+				}
+				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer") && !_target.is(".add-post-btn-container") && !_target.is(".remove-btn") && !_target.is(".remove-btn *") && !_target.is(".ui-datepicker") && !_target.parents(".ui-datepicker-calendar, .ui-datepicker-header").length) {
+					console.log(_target.is(".ui-datepicker") || _target.is(".ui-datepicker *"));
+					console.log(_target);
+					if (_(".drawer-open").hasClass("bottom-drawer-add")) {
+						$scope.toggleDrawer("add");
+					} else {
+						$scope.toggleDrawer("edit-circle");
+					}
+					_(".app-bar-btn").removeClass("active");
+				}
+			});
+		});
 
 	}]);
 }(jQuery));
