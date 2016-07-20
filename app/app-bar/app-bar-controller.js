@@ -405,6 +405,7 @@
 				if (_("#main-menu-toggle").hasClass("toggled")) {
 					if (!_target.isPartOf([".main-menu", "#main-menu-toggle"])) {
 						$scope.toggleMainMenu();
+						$scope.$apply();
 					}
 				}
 
@@ -430,8 +431,10 @@
 					if (_target.isPartOf(".exit-drawer") || (!_target.isPartOf(".bottom-drawer") && !_target.isPartOf(".add-post-btn-container") && !_target.isPartOf(".remove-btn") && !_target.is(".ui-datepicker") && !_target.parents(".ui-datepicker-calendar, .ui-datepicker-header").length)) {
 						if (_(".drawer-open").hasClass("bottom-drawer-add")) {
 							$scope.toggleDrawer("add");
+							$scope.$apply();
 						} else {
 							$scope.toggleDrawer("edit-circle");
+							$scope.$apply();
 						}
 						_(".app-bar-btn").removeClass("active");
 					}
