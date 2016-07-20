@@ -426,15 +426,15 @@
 						return;
 					}
 				}
-				if (_(".drawer-open").length && !_target.parents(".bottom-drawer").length && !_target.hasClass("bottom-drawer") && !_target.is(".add-post-btn-container") && !_target.is(".remove-btn") && !_target.is(".remove-btn *") && !_target.is(".ui-datepicker") && !_target.parents(".ui-datepicker-calendar, .ui-datepicker-header").length) {
-					console.log(_target.is(".ui-datepicker") || _target.is(".ui-datepicker *"));
-					console.log(_target);
-					if (_(".drawer-open").hasClass("bottom-drawer-add")) {
-						$scope.toggleDrawer("add");
-					} else {
-						$scope.toggleDrawer("edit-circle");
+				if (_(".drawer-open").length) {
+					if (_target.isPartOf(".exit-drawer") || (!_target.isPartOf(".bottom-drawer") && !_target.isPartOf(".add-post-btn-container") && !_target.isPartOf(".remove-btn") && !_target.is(".ui-datepicker") && !_target.parents(".ui-datepicker-calendar, .ui-datepicker-header").length)) {
+						if (_(".drawer-open").hasClass("bottom-drawer-add")) {
+							$scope.toggleDrawer("add");
+						} else {
+							$scope.toggleDrawer("edit-circle");
+						}
+						_(".app-bar-btn").removeClass("active");
 					}
-					_(".app-bar-btn").removeClass("active");
 				}
 			});
 		});
