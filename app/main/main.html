@@ -74,7 +74,7 @@
 							<div ng-hide="$root.usersByUsername[commenter.user].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[commenter.user].primaryColor}}"><span>{{commenter.user.split("")[0].toUpperCase()}}</span></div>
 							<div class="quick-view-comment tile box-shadow c-bg-text-dark c-text"><span></span></div>
 						</div>
-						<h5 class="comments-count pull-right" ng-if="post.comments.length > 0">{{post.comments.length}} comment<span ng-show="post.comments.length > 1" class="pull-right">s</span></h5>
+						<h5 class="comments-count pull-right" ng-if="post.comments.length > 0"><span>{{post.comments.length}} comment<span ng-show="post.comments.length > 1" class="pull-right">s</span></span></h5>
 						<div class="more-commenters" ng-show="post.commenters.length > 3">+ {{post.commenters.length - 3}}</div>
 					</div>
 

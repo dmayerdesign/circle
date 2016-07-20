@@ -1,3 +1,18 @@
+.default-header span {
+	display: inline-block;
+	animation-name: pop-letter;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+
+$delay: 0.1;
+$index: 1;
+@while $index <= 11 {
+	.default-header span:nth-child(#{$index}) { animation-delay: #{$delay}s; }
+	$index: $index + 1;
+}
+
 $palettesMap: (
 	original-blue: (
 		primary: #4ea1d3,
@@ -161,5 +176,19 @@ $colors: primary secondary content accent text text-dark;
 			@include borderColor( $palette, secondary );
 		}
 	}
-}
 
+	@-webkit-keyframes pop-letter {
+		0% { color: inherit; /*-webkit-transform: scale(1);*/ }
+		43% { color: inherit; /*-webkit-transform: scale(1);*/ }
+		50% { @include paletteColor( $palette, primary ); /*-webkit-transform: scale(1.05);*/ }
+		57% { color: inherit; /*-webkit-transform: scale(1);*/ }
+		100% { color: inherit; /*-webkit-transform: scale(1);*/ }
+	}
+	@keyframes pop-letter {
+		0% { color: inherit; /*transform: scale(1);*/ }
+		43% { color: inherit; /*transform: scale(1);*/ }
+		50% { @include paletteColor( $palette, primary ); /*transform: scale(1.05);*/ }
+		57% { color: inherit; /*transform: scale(1);*/ }
+		100% { color: inherit; /*transform: scale(1);*/ }
+	}
+}

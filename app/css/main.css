@@ -1077,41 +1077,6 @@ h1.archive-header {
 		margin-bottom: 3em;
 	}
 
-.default-header span {
-	display: inline-block;
-	animation-name: pop-letter;
-	animation-duration: 5s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
-}
-
-	.default-header span:nth-child(1) { animation-delay: 0.1s; }
-	.default-header span:nth-child(2) { animation-delay: 0.15s; }
-	.default-header span:nth-child(3) { animation-delay: 0.2s; }
-	.default-header span:nth-child(4) { animation-delay: 0.25s; }
-	.default-header span:nth-child(5) { animation-delay: 0.3s; }
-	.default-header span:nth-child(6) { animation-delay: 0.35s; }
-	.default-header span:nth-child(7) { animation-delay: 0.4s; }
-	.default-header span:nth-child(8) { animation-delay: 0.45s; }
-	.default-header span:nth-child(9) { animation-delay: 0.5s; }
-	.default-header span:nth-child(10) { animation-delay: 0.55s; }
-	.default-header span:nth-child(11) { animation-delay: 0.6s; }
-
-@-webkit-keyframes pop-letter {
-	0% { -webkit-transform: scale(1); }
-	43% { -webkit-transform: scale(1); }
-	50% { -webkit-transform: scale(1.05); }
-	57% { -webkit-transform: scale(1); }
-	100% { -webkit-transform: scale(1); }
-}
-@keyframes pop-letter {
-	0% { transform: scale(1); }
-	43% { transform: scale(1); }
-	50% { transform: scale(1.05); }
-	57% { transform: scale(1); }
-	100% { transform: scale(1); }
-}
-
 .archiver-header.user .name {
 	margin-top: 0.2em;
 	margin-bottom: 0.1em;
@@ -1199,7 +1164,6 @@ h1.archive-header {
 	padding: 0 3em;
 	border-top-left-radius: inherit;
 	border-top-right-radius: inherit;
-	overflow: hidden;
 }
 
 .post .post-before h3 {
@@ -1254,23 +1218,28 @@ h1.archive-header {
 }
 
 .post .comments-count {
+	display: block;
 	float: right;
 	position: relative;
 		top: 50%;
 	line-height: 2em;
-	margin: -0.8em 0 5em 0;
+	height: 1em;
+	margin: -0.2em 0 5em 0;
 	opacity: 0.3;
 
 	font-weight: bold;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	font-size: 0.9em;
+	overflow: hidden;
 /*	text-decoration: underline;
 */}
 
-.post .comments-count span {
+.post .comments-count > span {
 /*	text-decoration: underline;
-*/}
+*/
+	line-height: 1em;
+}
 
 .quick-view-comment {
 	opacity: 0;

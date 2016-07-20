@@ -607,9 +607,11 @@
 
 			$(".main").scroll(function() {
 				scrolled = Math.abs($(".main").scrollTop());
-				console.log(scrolled);
+				if (scrolled > 10000) {
+					return;
+				}
 				transformAmt = scrolled / 200;
-				scaleAmt = 1 + scrolled / 700000;
+				scaleAmt = 1 - scrolled / 900000;
 				TweenMax.to($("#background-container"), 1, {
 					scale: scaleAmt
 				});
