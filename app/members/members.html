@@ -7,8 +7,10 @@
 </div>
 
 <section class="main members-list container-fluid centered">
-
 	<div class="col-md-10 col-md-offset-1" ng-show="unveilMembers">
+		<div class="content-masthead clearfix">
+			<a href="{{location.search().tag ? ('/#/?tag=' + location.search().tag) : '/#/'}}" class="back-btn pull-left bold-caps text-shadow"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
+		</div>
 		<a ng-repeat="username in $root.currentCircle.members" ng-show="unveilMembers" class="member-profile-btn profile-btn clearfix" href="/#/?user={{username}}">
 	 		<div ng-show="$root.usersByUsername[username].avatar.length" class="avatar-container" style="background-image: url({{$root.usersByUsername[username].avatar}})"></div>
 	 		<!-- <div ng-hide="$root.usersByUsername[username].avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.usersByUsername[username].primaryColor}}"><span>{{username.split("")[0].toUpperCase()}}</span></div> -->

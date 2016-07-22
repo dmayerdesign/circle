@@ -71,7 +71,16 @@
 					return false;
 				}
 			}
-		} 
+		},
+
+		latch: function(callback) {
+			var callbackInt = setInterval(function() {
+				callback();
+				if (this.length) {
+					clearInterval(callbackInt);
+				}
+			}, 200);
+		}
 	});
 
 	// SERIOUSLY DIRTY WORKAROUND for weird bug where sometimes

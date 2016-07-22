@@ -1,13 +1,8 @@
 		<div class="tile">
 			<div class="circle-nav-inner circle-sorting">
 				<div ng-show="$root.currentState === 'main'" class="c-bg-primary clearfix">
-					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered(); orderPosts()"><span><i class="fa fa-circle-o"></i><span>All</span></span></button>
 					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('date')"><span><i class="fa fa-clock-o"></i><span>Recent</span></span></button>
 					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('reactions.like.amount + (reactions.love.amount * 2)')"><span><i class="fa fa-heart"></i><span>Best</span></span></button>
-					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="showPostsFiltered('users', $root.user.username)" ng-disabled="$root.postTypesAreFiltered.filter == 'types'">
-						<!-- <span ng-if="$root.postTypesAreFiltered.term == 'quest'"><i class="fa fa-user"></i><span>My quests</span></span> -->
-						<span><i class="fa fa-user"></i><span>@me</span></span>
-					</button>
 				</div>
 				<div ng-show="$root.currentState !== 'main'" class="c-bg-primary clearfix">
 					<a ui-sref="main" class="inner-btn c-text back-btn c-bg-primary c-bg-accent-hover"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
@@ -15,8 +10,11 @@
 			</div>
 			<div class="circle-nav-inner circle-views">
 				<div class="c-bg-primary clearfix">
-					<a ui-sref="categories"><button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active"><span><i class="fa fa-th"></i><span>Categories</span></span></button></a>
-					<a ui-sref="members"><button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active"><span><i class="fa fa-users"></i><span>Friends</span></span></button></a>
+					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="setNewPosts(); showPostsOfType(); showPostsFiltered(); orderPosts()"><span><i class="fa fa-circle-o"></i><span>All</span></span></button>
+					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="showPostsFiltered('users', $root.user.username)" ng-disabled="$root.postTypesAreFiltered.filter == 'types'">
+						<!-- <span ng-if="$root.postTypesAreFiltered.term == 'quest'"><i class="fa fa-user"></i><span>My quests</span></span> -->
+						<span><i class="fa fa-user"></i><span>@me</span></span>
+					</button>
 					<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('event');" class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active"><span><i class="fa fa-calendar-o"></i><span>Calendar</span></span></button>
 					<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('poll');" class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active"><span><i class="fa fa-check-square"></i><span>Polls</span></span></button>
 					<button ng-disabled="$root.currentState !== 'main'" ng-click="showPostsOfType('quest');" class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active"><span><i class="fa fa-shield"></i><span>Quests</span></span></button>

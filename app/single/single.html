@@ -3,7 +3,6 @@
 <section class="main {{post.type}} single-post" ng-class="{'no-image': !post.images.length}">
 	<div class="single-post-inner col-md-8 col-md-offset-2">
 		<div class="single-post-masthead clearfix">
-			{{$location.search()}}
 			<a href="{{location.search().tag ? ('/#/?tag=' + location.search().tag) : '/#/'}}" class="back-btn pull-left bold-caps text-shadow"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
 		</div>
 		

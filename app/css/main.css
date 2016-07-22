@@ -148,7 +148,7 @@ button[disabled] {
 	}
 
 .has-icon-left .fa {
-	font-size: 1.5em;
+	font-size: 1.5em !important;
   padding-right: 0.4em;
   position: relative;
     top: 0.1em;
@@ -225,6 +225,14 @@ ul {
 	font-size: 0.9em;
 }
 
+.small {
+	font-size: 0.9em;
+}
+
+.smaller {
+	font-size: 0.8em;
+}
+
 
 /* fonts */
 body.font-helvetica {
@@ -279,6 +287,21 @@ a:hover, a:focus {
 	-ms-transition: all 0.3s !important;
 	-o-transition: all 0.3s !important;
 	transition: all 0.3s !important;
+}
+
+/* animations */
+/* The starting CSS styles for the enter animation */
+.fade.ng-add,
+.fade.ng-enter,
+.fade.ng-remove.ng-remove-active,
+.fade.ng-leave.ng-leave-active {
+  opacity:0 !important;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fade.ng-add.ng-add-active,
+.fade.ng-enter.ng-enter-active {
+  opacity:1 !important;
 }
 
 
@@ -696,14 +719,20 @@ nav {
 
 .submenu {
 	float: left;
-}
-
-.your-circles {
 	width: 100%;
-	border-radius: 0.4em;
+	margin-bottom: 3em;
 }
 
-.your-circles h5 {
+	.your-circles {
+		width: 100%;
+		border-radius: 0.4em;
+	}
+
+	.explore {
+		text-align: left;
+	}
+
+.submenu h5 {
 	font-size: 1.1em;
 	line-height: 3em;
 	height: 3em;
@@ -719,8 +748,9 @@ nav {
 	height: 3em;
 }
 
-.your-circles .inner-btn {
+.submenu .inner-btn {
 	height: 5.2em;
+	line-height: 5.2em !important;
 	border-bottom: 1px solid rgba(50,50,50,0.1);
 	text-align: left;
 }
@@ -739,7 +769,6 @@ nav {
 
 .main-menu .log-out {
 	width: 100%;
-	margin-top: 3em;
 }
 
 	.main-menu .log-out:hover,
@@ -783,7 +812,7 @@ nav {
 }
 
 	.circle-sorting {
-		width: 40%;
+		width: 30%;
 	}
 
 .circle-sorting > div {
@@ -796,7 +825,7 @@ nav {
 }
 
 	.circle-views {
-		width: 60%;
+		width: 70%;
 	}
 
 .circle-views, .circle-views .tile {
@@ -1648,7 +1677,7 @@ button:focus, button:active {
 	}
 
 	.circle-sorting .inner-btn {
-		width: 25%;
+		width: 50%;
 	}
 
 	.circle-views .inner-btn {
@@ -1726,17 +1755,30 @@ button:focus, button:active {
     right: 8.3%;
   width: 6em;
   overflow: visible;
-  -webkit-transition: bottom 0.9s cubic-bezier(0.9,0,0.1,1);
-  -moz-transition: bottom 0.9s cubic-bezier(0.9,0,0.1,1);
-  -ms-transition: bottom 0.9s cubic-bezier(0.9,0,0.1,1);
-  transition: bottom 0.9s cubic-bezier(0.9,0,0.1,1);
-}
+  -webkit-transition: all 0.9s cubic-bezier(0.7,0,0.3,1);
+  -moz-transition: all 0.9s cubic-bezier(0.7,0,0.3,1);
+  -ms-transition: all 0.9s cubic-bezier(0.7,0,0.3,1);
+  transition: all 0.9s cubic-bezier(0.7,0,0.3,1);
+  opacity: 1;
+/*  opacity: 0;
+*/}
 
-	.single-view .floating-btn-container {
+	.single-view .floating-btn-container,
+	.categories-view .floating-btn-container,
+	.members-view .floating-btn-container {
 		bottom: 3em !important;
 	}
 
-.floating-btn {
+	.main-view .floating-btn-container.floating-top {
+		top: 12.9em;
+		left: 8.3%;
+		right: auto !important;
+		bottom: auto !important;
+		width: auto;
+		height: auto;
+	}
+
+.floating-bottom .floating-btn {
 	float: right;
 	position: relative;
 	width: 6em;
@@ -1754,7 +1796,7 @@ button:focus, button:active {
 		box-shadow: 0.5em 0.4em 1.1em rgba(0,0,0,0.2) !important;
 	}
 
-.floating-btn .fa {
+.floating-bottom .floating-btn .fa {
 	position: absolute;
   top: 50%;
   left: 50%;
@@ -1768,11 +1810,11 @@ button:focus, button:active {
 }
 
 .floating-btn .fa-plus,
-.floating-btn:hover .fa-pencil {
+.floating-bottom .floating-btn:hover .fa-pencil {
 	opacity: 0;
 }
 
-.floating-btn .fa-pencil,
+.floating-bottom .floating-btn .fa-pencil,
 .floating-btn:hover .fa-plus {
 	opacity: 1;
 }
@@ -2002,6 +2044,8 @@ button:focus, button:active {
 	.notification {
 		opacity: 0;
 		transform: translateX(-16px);
+		position: relative;
+    	z-index: 9999;
 	}
 
 	.list-active .notification {
@@ -2573,8 +2617,9 @@ textarea {
 	padding-bottom: 18em !important;
 }
 
-.single-post-masthead {
-	padding: 0.4em 0 2em 0;
+.single-post-masthead,
+.content-masthead {
+	padding: 0.4em 0 2.5em 0;
 }
 
 .single-post .secondary p {

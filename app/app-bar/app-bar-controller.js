@@ -396,8 +396,29 @@
 				callback();
 		}
 
+		//_(".floating-bottom").latch(function() {
+		setInterval(switchAddButtons, 1000);
+		switchAddButtons();
+		function switchAddButtons() {
+			_(".main").on("scroll", function() {
+				var _topBtn = _(".floating-btn-container.floating-top");
+				var _bottomBtn = _(".floating-btn-container.floating-bottom");
+				console.log(_(".main").scrollTop());
+					if (_(".main").scrollTop() > 200) {
+						$rootScope.scrolled = true;
+					} else {
+						$rootScope.scrolled = false;
+					}
+					$scope.$apply();
+			});
+		}
+
+		//});
+
+
 		/** Click outside of a drawer to close it **/
 		_(window).load(function() {
+
 			_(document).click(function(e) {
 				var _target = _(e.target);
 				var _btn;

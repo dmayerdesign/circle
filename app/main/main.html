@@ -38,6 +38,14 @@
 			<h3 class="centered">There's nothing here! <br>Tap the pencil at the bottom right to add something.</h3>
 		</div>
 
+
+	<!-- ADD POST BUTTON -->
+		<div ng-controller="appBarController" class="floating-btn-container floating-top add-post-btn-container pull-right col-md-10 col-md-offset-1 fade" ng-if="!scrolled">
+			<button ng-if="$root.currentCircle" class="reg-btn less-rounded has-icon-left app-bar-btn c-bg-primary c-bg-accent-hover c-bg-accent-active c-text add-post-btn" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady">
+				<i class="fa fa-pencil c-text"></i>
+				<span class="small">Add something</span>
+			</button>
+		</div>
 	<!-- archive -->
 		<div class="col-md-8 col-md-offset-2 posts-archive archive">
 

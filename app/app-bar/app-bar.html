@@ -10,7 +10,7 @@
 	<!-- MAIN MENU TOGGLE -->
 	<button id="main-menu-toggle" class="app-bar-btn app-bar-left inner-btn" toggle-class="active" ng-if="loggedIn && !emailNotVerified" ng-click="toggleMainMenu()" ng-class="{'toggled': mainMenuIsOpen}">
 		<i ng-if="!mainMenuIsOpen" class="fa fa-bars"></i>
-		<i ng-if="mainMenuIsOpen" class="fa fa-long-arrow-left"></i>
+		<i ng-if="mainMenuIsOpen" class="fa fa-close"></i>
 	</button>
 	
 	<!-- EDIT CIRCLE BUTTON -->
@@ -51,6 +51,18 @@
 	 		<div ng-hide="$root.user.avatar.length" class="avatar-container no-avatar" style="background-color: {{$root.user.primaryColor}}"><span>{{$root.user.username.split("")[0].toUpperCase()}}</span></div>
 	 		<span class="bold-caps">Profile/Account</span>
 	 	</a>
+
+	 	<h4>Explore</h4>
+		<div class="submenu explore c-bg-secondary">
+			<a class="inner-btn has-icon-left c-bg-primary-hover c-text-dark c-text-hover bold-caps" ui-sref="categories">
+				<i class="fa fa-hashtag"></i>
+				<h5 class="bold-caps" style="display:inline">Categories</h5>
+			</a>
+			<a class="inner-btn has-icon-left c-bg-primary-hover c-text-dark c-text-hover bold-caps" ui-sref="members">
+				<i class="fa fa-at"></i>
+				<h5 class="bold-caps" style="display:inline">People</h5>
+			</a>
+		</div>
 	  
 	  <h4>Your circles</h4>
 		<div class="submenu your-circles c-bg-secondary">

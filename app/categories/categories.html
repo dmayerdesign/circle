@@ -1,10 +1,11 @@
 <nav ng-include src="'app/app-bar/app-bar.html'" ng-controller="appBarController" class="main-nav navbar navbar-fixed-top"></nav>
 
-<nav ng-include src="'app/circle-nav.html'" ng-controller="mainController" class="col-md-10 col-md-offset-1 no-gutter circle-nav"></nav>
-
 <main ng-if="$root.currentCircle && user.isEmailVerified">
 	<section class="main category-archive-container">
 		<div class="category-archive archive col-md-8 col-md-offset-2 clearfix">
+			<div class="content-masthead clearfix">
+				<a href="{{location.search().tag ? ('/#/?tag=' + location.search().tag) : '/#/'}}" class="back-btn pull-left bold-caps text-shadow"><span><i class="fa fa-long-arrow-left"></i>Back to posts</span></a>
+			</div>
 			<div class="category-tile col-sm-4 bg-not-applied" ng-repeat="category in categories">
 				<a class="tile" href="/#/?tag={{category.name}}" style="display:block; background-image: url({{category.image || category.randomBg}})">
 					<span class="bold-caps text-shadow">#{{category.name}}</span>

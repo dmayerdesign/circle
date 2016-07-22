@@ -255,10 +255,12 @@
 		init.title = function(params) {
 			var titleBlink = false;
 			var i = 0;
-			var plural = params.notifications && params.notifications.length > 1 && "s";
-			if (!plural) {
-				plural = "";
-			}
+			var plural = function() {
+				if (params.notifications && params.notifications.length > 1)
+					return "s";
+				else
+					return "";
+			}();
 			if (params.name) {
 				titleBlink = setInterval(function() {
 					if (i%2 && !params.notifications) {
