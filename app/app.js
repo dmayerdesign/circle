@@ -66,6 +66,11 @@
 		})
 	});
 
+	app.run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
+	    $rootScope.$state = $state;
+	    $rootScope.$stateParams = $stateParams; 
+		}]);
+
 
 	// FACTORY
 	app.factory('init', function($http, $state) {

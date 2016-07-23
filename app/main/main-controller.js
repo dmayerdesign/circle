@@ -12,35 +12,12 @@
 
 		$rootScope.loggedIn = true;
 		init.app($rootScope.user._id, false, function(user, circle) {
-			// $rootScope.user = user;
-			// if ( !$rootScope.user || !$rootScope.user.isEmailVerified ) {
-			// 	console.log("email is not verified");
-			// 	if ( $location.search().email && $location.search().verifyEmail ) {
-			// 		window.location.href = '/#/verify-email?email=' + $location.search().email + "&verifyEmail=" + $location.search().verifyEmail;
-			// 	}
-			// 	$scope.emailVerificationSent = true;
-			// 	$state.go('login');
-			// 	return;
-			// }
+
 			 if (circle) {
 			 	$rootScope.circleJoined = true;
 			 	$rootScope.currentCircle = circle;
 			 	$rootScope.archiveHeader = false;
 
-			// 	init.getMembers(circle.accessCode, function(members) {
-			// 		$rootScope.users = members;
-
-			// 		$rootScope.usersById = {};
-			// 		$rootScope.users.forEach(function(user) {
-			// 			$rootScope.usersById[user._id] = user;
-			// 		});
-			// 		$rootScope.usersByUsername = {};
-			// 		$rootScope.users.forEach(function(user) {
-			// 			$rootScope.usersByUsername[user.username] = user;
-			// 		});
-
-			// 		console.log($rootScope.usersByUsername);
-			// 	});
 				init.getPosts(circle._id, function(posts) {
 					$scope.posts = posts;
 					$scope.postsAllowed = {allow: 20};
@@ -72,24 +49,6 @@
 						}
 					}, 100);
 
-					// Check for new posts
-					// setInterval(function() {
-					// 	console.log($rootScope.postsAreFiltered.filter);
-					// 	console.log($scope.postTypesAreFiltered.filter);
-
-					// 	if ($rootScope.postsAreFiltered.filter || $scope.postTypesAreFiltered.filter || !$rootScope.currentCircle) // last one is if 'create or join a new circle' is clicked
-					// 		return;
-					// 	$scope.incomingPosts = false;
-					// 	init.getPosts($rootScope.currentCircle._id, function(posts) {
-					// 		$scope.incomingPosts = posts;
-					// 		if ( $scope.incomingPosts && !$rootScope.postsAreFiltered.filter && !$scope.postTypesAreFiltered.filter ) {
-					// 			$scope.difference = $scope.incomingPosts.length - $scope.posts.length;
-					// 			if ( $scope.difference > 0 ) {
-					// 				$scope.posts = posts;
-					// 			}
-					// 		}
-					// 	});
-					// }, 1000);
 				});
 				customizer.getStyle($rootScope);
 			} else {
@@ -127,19 +86,7 @@
 			console.log($scope.postOrder);
 		};
 
-		$scope.newPost = {
-			type: "normal",
-			content: "",
-			tags: [],
-			quest: {
-				worth: {
-					achievement: {}
-				}
-			},
-			poll: [],
-			images: [],
-			usersMentioned: []
-		};
+		//$rootScope.newPost now defined in app-bar-controller
 
 		$scope.upload = function(file) {
 			var endpoint;
@@ -780,24 +727,6 @@
 			}, 300);
 		};
 
-		// $scope.toggleActiveButtons = function() {
-		// 	var scope = this;
-		// 	_(".inner-btn").click(function() {
-		// 		var _this = _(this);
-		// 		console.log(_this.hasClass("active"));
-		// 		_(".inner-btn.active").not(_this).removeClass("active");
-		// 		if (_this.hasClass("active")) {
-		// 			if (_this.hasClass("app-bar-btn")) {
-		// 				_this.removeClass("active");
-		// 			}
-		// 		} else {
-		// 			_this.addClass("active");
-		// 		}
-		// 	});
-		// 	// if (_(".inner-btn").length) {
-		// 	// 	clearInterval(scope.toggleActiveButtons);
-		// 	// }
-		// }();
 
 		$scope.attachImageFromLink = function(link) {
 			var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;

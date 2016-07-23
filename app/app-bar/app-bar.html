@@ -13,8 +13,22 @@
 		<i ng-if="mainMenuIsOpen" class="fa fa-close"></i>
 	</button>
 	
-	<!-- EDIT CIRCLE BUTTON -->
-	<button class="app-bar-btn app-bar-right inner-btn c-accent-hover c-text-focus edit-circle-btn pull-right transition" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('edit-circle')" ng-disabled="!$root.drawersReady"><i class="fa fa-magic"></i></button>
+	<!-- CATEGORIES BUTTON -->
+	<a class="has-tip app-bar-btn app-bar-right inner-btn c-text edit-circle-btn pull-right transition"
+		toggle-class="active"
+		ng-if="circleJoined"
+		ui-sref="categories">
+		<i class="fa fa-th-large"></i>
+		<span class="tip-flyout">Categories</span>
+	</a>
+	<!-- USERS BUTTON -->
+	<a class="has-tip app-bar-btn app-bar-right inner-btn c-text edit-circle-btn pull-right transition"
+		toggle-class="active"
+		ng-if="circleJoined"
+		ui-sref="members">
+		<i class="fa fa-users"></i>
+		<span class="tip-flyout">People</span>
+	</a>
 
 	<!-- NOTIFICATIONS TOGGLE -->
 	<button
@@ -55,12 +69,19 @@
 	 	<h4>Explore</h4>
 		<div class="submenu explore c-bg-secondary">
 			<a class="inner-btn has-icon-left c-bg-primary-hover c-text-dark c-text-hover bold-caps" ui-sref="categories">
-				<i class="fa fa-hashtag"></i>
-				<h5 class="bold-caps" style="display:inline">Categories</h5>
+				<i class="fa fa-th-large"></i>
+				<h5 class="bold-caps" style="display:inline"><strong>#</strong>categories</h5>
 			</a>
 			<a class="inner-btn has-icon-left c-bg-primary-hover c-text-dark c-text-hover bold-caps" ui-sref="members">
-				<i class="fa fa-at"></i>
-				<h5 class="bold-caps" style="display:inline">People</h5>
+				<i class="fa fa-users"></i>
+				<h5 class="bold-caps" style="display:inline"><strong>@</strong>people</h5>
+			</a>
+		</div>
+
+		<div class="submenu customize c-bg-primary">
+			<a class="inner-btn has-icon-left c-bg-primary c-bg-accent-hover c-text bold-caps" ng-click="toggleDrawer('edit-circle')">
+				<i class="fa fa-magic"></i>
+				<h5 class="bold-caps" style="display:inline">Customize this circle</h5>
 			</a>
 		</div>
 	  

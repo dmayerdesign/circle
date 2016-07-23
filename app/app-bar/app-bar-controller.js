@@ -37,6 +37,41 @@
 			$scope.$apply();
 		}, 200);
 
+		$scope.$watch(
+		  // This function returns the value being watched. It is called for each turn of the $digest loop
+		  function() { return $rootScope.$state.current.name; },
+		  // This is the change listener, called when the value returned from the above function changes
+		  function(newValue, oldValue) {
+		  	if (!$rootScope.ignoreScroll) {
+		  		$rootScope.ignoreScroll = {};
+		  	}
+		    if (newValue !== "main") {
+		    	$rootScope.ignoreScroll.addPostBtn = true;
+		    } else {
+	    		$rootScope.ignoreScroll.addPostBtn = false;
+		    }
+		  }
+		);
+
+		if (!$rootScope.ignoreScroll) {
+  		$rootScope.ignoreScroll = {};
+  	}
+
+		if ($rootScope.$state.current.name !== "main") {
+			$rootScope.ignoreScroll.addPostBtn = true;
+		} else {
+			$rootScope.ignoreScroll.addPostBtn = false;
+		}
+
+		setInterval(function() {
+			console.log($rootScope.$state.current.name);
+			console.log($rootScope.ignoreScroll.addPostBtn);
+		}, 1000);
+
+		if (!$rootScope.ignoreScroll)
+			$rootScope.ignoreScroll = {};
+		$rootScope.ignoreScroll.addPostBtn = true;
+
 		$rootScope.user = localStorage['User'] && localStorage['User'] !== "undefined" && JSON.parse(localStorage['User']);
 		$rootScope.currentCircle = localStorage['Current-Circle'] && localStorage['Current-Circle'] !== "undefined" && JSON.parse(localStorage['Current-Circle']);
 		if (!$rootScope.user || !$rootScope.user.email) {
@@ -109,6 +144,21 @@
 			}
 		});
 
+		$rootScope.newPost = {
+			type: "normal",
+			content: "",
+			tags: [],
+			quest: {
+				worth: {
+					achievement: {}
+				}
+			},
+			poll: [],
+			images: [],
+			usersMentioned: []
+		};
+		$rootScope.newPostTypes = ["normal", "event", "poll", "quest"];
+
 
 		$scope.refresh = function() {
 			console.log($rootScope.currentState);
@@ -156,15 +206,13 @@
 			}
 		};
 
-		$scope.toggleDrawer = function(whichDrawer) {
+		$scope.toggleDrawer = function(whichDrawer, type) {
 			var $drawer = _(".bottom-drawer-" + whichDrawer);
 			var $button = whichDrawer == 'add' ? _(".add-post-btn") : _(".edit-circle-btn");
 			var open = $drawer.hasClass("drawer-open");
 			var height = $drawer.outerHeight(true);
 
-			// if ( $scope.mainMenuIsOpen ) {
-			// 	$scope.toggleMainMenu();
-			// }
+			$scope.newPost.type = (typeof type === "undefined" || !type) ? "normal" : type;
 
 			if ( !open && _(".drawer-open").length ) {
 				var drawers = ["add", "edit-circle"];
@@ -290,6 +338,14 @@
 			$state.go("single", {id: post_id, tag: $location.search() && $location.search().tag});
 		};
 
+		$scope.showPeopleBtnTip = false;
+		$scope.showCategoriesBtnTip = false;
+
+		$scope.showTipFlyout = function($event) {
+			var _target = _($event.target);
+			var _tip = _target.closest(".has-tip").next(".tip-flyout");
+		};
+
 
 		/** FUNCTIONS **/
 
@@ -298,11 +354,12 @@
 				$drawers.each(function() {
 					var height = _(this).outerHeight(true);
 					TweenMax.fromTo( _(this), 0.1, {
+						opacity: 0,
 						y: 500 // needs to be jumpstarted for some reason
 					},
 					{
-						y: height,
-						delay: 1
+						opacity: 0,
+						y: height
 					});
 
 					_(this).addClass("animation-initiated");
@@ -396,15 +453,17 @@
 				callback();
 		}
 
-		//_(".floating-bottom").latch(function() {
-		setInterval(switchAddButtons, 1000);
+		setInterval(switchAddButtons, 500);
 		switchAddButtons();
 		function switchAddButtons() {
+			if ($rootScope.$state.current.name !== "main") {
+				return;
+			}
 			_(".main").on("scroll", function() {
-				var _topBtn = _(".floating-btn-container.floating-top");
-				var _bottomBtn = _(".floating-btn-container.floating-bottom");
+				// var _topBtn = _(".primary-btn-container");
+				// var _bottomBtn = _(".floating-btn-container.floating-bottom");
 				console.log(_(".main").scrollTop());
-					if (_(".main").scrollTop() > 200) {
+					if (_(".main").scrollTop() > 100) {
 						$rootScope.scrolled = true;
 					} else {
 						$rootScope.scrolled = false;
@@ -412,8 +471,6 @@
 					$scope.$apply();
 			});
 		}
-
-		//});
 
 
 		/** Click outside of a drawer to close it **/

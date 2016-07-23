@@ -1,7 +1,7 @@
 		<div class="tile">
 			<div class="circle-nav-inner circle-sorting">
 				<div ng-show="$root.currentState === 'main'" class="c-bg-primary clearfix">
-					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('date')"><span><i class="fa fa-clock-o"></i><span>Recent</span></span></button>
+					<button class="inner-btn c-text has-icon c-bg-accent-hover active" sticky-toggle-class="active" ng-click="orderPosts('date')"><span><i class="fa fa-clock-o"></i><span>Recent</span></span></button>
 					<button class="inner-btn c-text has-icon c-bg-accent-hover" sticky-toggle-class="active" ng-click="orderPosts('reactions.like.amount + (reactions.love.amount * 2)')"><span><i class="fa fa-heart"></i><span>Best</span></span></button>
 				</div>
 				<div ng-show="$root.currentState !== 'main'" class="c-bg-primary clearfix">

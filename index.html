@@ -78,7 +78,7 @@
 		<div ng-class="{'visible': $root.archiveTag}" class="background category-bg animate-opacity" style="background-image: url({{$root.archiveTag.image}})"></div>
 	</div>
 
-	<div class="state-{{$root.currentState}}" ui-view role="main"></div>
+	<div class="state-{{$root.$state.current.name}}" ui-view role="main"></div>
 
 <!-- ADD POST -->
 	<section ng-if="$root.currentCircle" ng-include src="'app/add-post.html'" ng-controller="mainController" id="new-post-area" class="bottom-drawer bottom-drawer-add c-bg-content col-md-10 col-md-offset-1" aria-hidden="true"></section>
@@ -87,9 +87,18 @@
 	<section ng-if="$root.currentCircle" ng-include src="'app/edit-circle/edit-circle.html'" ng-controller="editCircleController" class="bottom-drawer bottom-drawer-edit-circle c-bg-content col-md-10 col-md-offset-1" aria-hidden="true"></section>
 
 <!-- ADD POST BUTTON -->
-	<div ng-controller="appBarController" class="floating-btn-container floating-bottom add-post-btn-container pull-right fade" ng-if="$root.scrolled">
-		<button ng-if="$root.currentCircle" class="btn app-bar-btn floating-btn c-bg-primary c-bg-accent-active c-text add-post-btn" toggle-class="active" ng-if="circleJoined" ng-click="toggleDrawer('add')" ng-disabled="!$root.drawersReady">
-			<i class="fa fa-pencil c-text"></i>
+	<div 
+		ng-controller="appBarController"
+		class="floating-btn-container floating-bottom add-post-btn-container pull-right fade"
+		ng-if="ignoreScroll.addPostBtn || scrolled">
+		<button ng-if="$root.currentCircle"
+			ng-repeat="type in newPostTypes track by $index"
+			class="btn app-bar-btn floating-btn floating-btn-{{$index}} c-bg-primary c-bg-accent-active c-text add-post-btn"
+			toggle-class="active"
+			ng-if="circleJoined" 
+			ng-click="toggleDrawer('add', type)" 
+			ng-disabled="!$root.drawersReady">
+			<i class="fa c-text" ng-class="{'fa-pencil': (type == 'normal'), 'fa-calendar-o': (type == 'event'), 'fa-check-square': (type == 'poll'), 'fa-shield': (type == 'quest')}"></i>
 			<i class="fa fa-plus c-text"></i>
 		</button>
 	</div>
