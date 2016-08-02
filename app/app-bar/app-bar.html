@@ -51,7 +51,7 @@
 			<span ng-click="clearNotification(false, notification._id); goToPost(notification.postId)"><strong>{{notification.creator}}</strong> {{notification.action}}</span>
 			<span ng-if="$index === 0 && $root.user.notifications.length > 2" class="recency bold-caps">oldest</span>
 			<span ng-if="$root.user.notifications.length > 2 && $index === $root.user.notifications.length - 1" class="recency bold-caps">newest</span>
-			<button ng-click="clearNotification(false, notification._id)" class="reg-btn mini c-bg-secondary c-text-dark pull-right">{{notification.dismissal}}</button>
+			<button ng-click="clearNotification(false, notification._id)" class="dismiss-notification transparent-btn has-icon-left pull-right"><i class="fa fa-check"></i></button>
 		</li>
 	</ul>
 </div>
@@ -78,12 +78,12 @@
 			</a>
 		</div>
 
-		<div class="submenu customize c-bg-primary">
+		<!-- <div class="submenu customize c-bg-primary">
 			<a class="inner-btn has-icon-left c-bg-primary c-bg-accent-hover c-text bold-caps" ng-click="toggleDrawer('edit-circle')">
 				<i class="fa fa-magic"></i>
 				<h5 class="bold-caps" style="display:inline">Customize this circle</h5>
 			</a>
-		</div>
+		</div> -->
 	  
 	  <h4>Your circles</h4>
 		<div class="submenu your-circles c-bg-secondary">
